@@ -1,0 +1,18 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "packages": {
+    "scikit-learn": "1.9.1",
+    "pandas": "3.0.5",
+    "matplotlib": "3.11.2"
+  },
+  "data_sha256": "c8824302164402eb1e2545f340151dacd7616b511c722335d2ff214eae567b9a",
+  "source_cells": {
+    "python-ml": {
+      "python": "from sklearn.ensemble import RandomForestRegressor\nfrom sklearn.model_selection import cross_val_score\nimport pandas as pd\n\nframe = r.d\nX = pd.get_dummies(frame[[\"temperature\", \"group\"]])\nmodel = RandomForestRegressor(random_state=42)\nscores = cross_val_score(model, X, frame[\"response\"],\n                         cv=5, scoring=\"neg_mean_absolute_error\")\nprint(f\"CV MAE: {-scores.mean():.3f}\")"
+    },
+    "python-plot": {
+      "python": "import matplotlib.pyplot as plt\n\nplt.scatter(frame[\"temperature\"],\n            frame[\"response\"])\nplt.xlabel(\"Temperature\")\nplt.ylabel(\"Response\")"
+    }
+  },
+  "method": "Executed unchanged cell code with r.d bound to the measurements CSV; no model API"
+}

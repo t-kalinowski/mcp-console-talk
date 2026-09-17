@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "[resolved PyPI distribution 'scikit-learn' for Python import 'sklearn']\nCV MAE: 2.015\n"
+    }
+  ],
+  "isError": false
+}

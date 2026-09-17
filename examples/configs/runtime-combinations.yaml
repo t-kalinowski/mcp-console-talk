@@ -1,0 +1,4 @@
+extends: ":read-only"
+sandbox:
+  environment:
+    OMP_NUM_THREADS: "4"

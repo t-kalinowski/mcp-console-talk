@@ -1,92 +1,71 @@
 # MCP Console presentation
 
-69 slides: 61 main slides and 8 development-practice slides. `deck.qmd` is the
-canonical source for both the slides and their speaker notes. Slide content,
-diagrams, order, and existing notes are preserved in this revision.
+81 slides: 73 main slides and 8 development-practice slides. `deck.qmd` is the
+canonical source, including one native Quarto speaker-notes block per slide.
 
-## View slides and speaker notes
-
-From this directory, with Quarto installed:
+## View the deck
 
 ```sh
 quarto preview deck.qmd
 ```
 
-Open the presentation in an external browser. Press **S** to open Quarto / reveal.js
-Speaker View, with the current slide, next slide, timer, and the notes for the
-current slide. Allow browser pop-ups if prompted. Notes remain hidden on the
-audience-facing slides. **N** means next slide in native reveal.js; it is no longer
-the notes-panel shortcut from the previous custom preview.
+Press **S** for native Speaker View. It opens a separate window containing the
+current slide, next slide, timer, and notes. Serve the deck over local HTTP so the
+presentation and speaker window can communicate.
 
-Prefer `quarto preview` rather than opening a downloaded HTML through a `file://`
-URL, so the slides and speaker window use a local HTTP origin. The browser may
-restrict communication between windows opened directly from local files.
+The default preview evaluates the model, coefficients, predictions, and base-R
+plot through knitr. Python references were computed separately. Protocol panels
+and transcript excerpts read the supplied real captures in both modes. Preview
+does not launch Console, install packages, or call a model API.
 
-For a saved HTML presentation:
+To use captured Console outputs and PNGs throughout:
+
+```sh
+quarto preview deck.qmd -P output_source:mcp
+```
+
+For a saved presentation with embedded resources:
 
 ```sh
 quarto render deck.qmd --to revealjs
 ```
 
-This writes `mcp-console.html`, with embedded resources. `python build_preview.py`
-is a convenience wrapper for that same native Quarto render; it no longer builds
-a separate viewer. The previous custom HTML is intentionally not included in
-this source archive. Native Quarto is not installed in the editing environment,
-so an updated Quarto-rendered HTML is not supplied.
+This writes `mcp-console.html`. `python build_preview.py` refreshes the notes and
+runs that same native renderer. The delivered HTML uses the native R mode.
 
-## Edit the speaker notes
+## Edit and regenerate
 
-Notes live directly below each slide in Quarto's native syntax:
-
-````markdown
-## Slide title
-
-Audience-facing slide content.
-
-::: {.notes}
-**Say:** What to say for this slide.
-
-**Show:** What the slide shows and any demonstration cues.
-
-**Sources:** Supporting references and author checks.
-:::
-````
-
-Move the complete `##` section, including its `.notes` block, to reorder a slide.
-Every slide has exactly one notes block. No external notes file or custom notes
-JavaScript is required by Quarto. The `show-notes: false` setting keeps the notes
-off the audience-facing slides; it does not disable Speaker View.
-
-`speaker-notes.md` is an optional generated reading copy. To refresh it after
-editing the QMD, run:
+Keep each slide's notes with its `##` section. `speaker-notes.md` and
+`slide-index.json` are generated reading and navigation copies.
 
 ```sh
+python sync_cells.py
 python export_notes.py
-```
-
-## Diagrams and examples
-
-`styles.css` supplies the shared slide design. The 16 Graphviz diagram sources
-are in `diagrams/*.dot`; the timing diagram is `diagrams/timeout.svg`. With
-Graphviz installed, rebuild these 17 technical diagrams with:
-
-```sh
-python make_diagrams.py
 quarto render deck.qmd --to revealjs
+python validate_source.py
 ```
 
-`examples/`, `author-checklist.md`, and `sources.md` are unchanged.
-The recording plan now points to the native Quarto render commands. Runtime exchanges remain illustrative; no real Codex recording is
-implied. The checked-in YAML test excerpt and synthetic data remain in place.
+`examples/cells.json` owns the captured cells and marked displayed calls. After
+changing a cell, recapture it before rendering a result as an observation. The
+validator checks the calls against the capture manifest and wire exchange.
 
-## Validation
+Technical diagrams are inline SVG in the QMD. Editable Graphviz and SVG sources
+live in `diagrams/`; `python make_diagrams.py` refreshes `assets/` and the embedded
+copies, preserving accessible labels and unique SVG IDs.
 
-The source was parsed as reveal.js slides with Pandoc: 69 slides, exactly one
-native `<aside class="notes">` per slide, and the same slide IDs and note text
-as the previous revision. Slide bodies were checked for unintended changes.
-All local images and include files are present. Native Quarto execution and
-browser Speaker View were not available for validation in this environment;
-`validation.json` records those limits explicitly.
+Code preserves source line breaks. Wider columns and deliberate source line
+breaks keep examples readable without soft wrapping. Raw output notices may wrap.
 
-Native Quarto documentation:
-https://quarto.org/docs/presentations/revealjs/presenting.html#speaker-view
+## Captures and validation
+
+See [examples/README.md](examples/README.md) for capture commands and
+[VALIDATION.md](VALIDATION.md) for the exact build fingerprint, checks, and limits.
+The current deck, notes, and examples occupy their established paths. The
+original delivery and superseded working files are in the
+[handoff archive](../archived/2026-09-17-105015-talk-handoff/README.md).
+`examples/measurements.csv` is unchanged.
+
+The native R render, sandboxed MCP capture, and local macOS policy probes passed.
+The explicit `data.table==1.17.8` example failed its separate package-installation
+rehearsals and remains documented in the notes. Linux, SSH, Docker, Docker Sandbox,
+and model-provider integrations were not exercised.

@@ -1,0 +1,13 @@
+target:
+  workspace: /workspace
+  compute:
+    kind: docker
+    image: my-console:analysis
+    pull: if_missing
+    mounts:
+      - source: .
+        target: /workspace
+        access: read_write
+sandbox:
+  filesystem: {kind: external-sandbox}
+  network: enabled

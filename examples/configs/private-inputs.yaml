@@ -1,0 +1,10 @@
+extends: ":workspace"
+sandbox:
+  filesystem:
+    entries:
+      - path: {type: path, path: ./data}
+        access: read
+      - path: {type: path, path: ./secrets}
+        access: deny
+      - path: {type: path, path: ./.env}
+        access: deny

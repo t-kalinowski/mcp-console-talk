@@ -1,0 +1,11 @@
+extends: ":workspace"
+target:
+  transport:
+    kind: ssh
+    host: analysis-host
+  workspace: /srv/projects/analysis
+sandbox:
+  filesystem:
+    entries:
+      - path: {type: path, path: ./data}
+        access: read

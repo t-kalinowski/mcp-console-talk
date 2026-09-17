@@ -1,0 +1,44 @@
+{
+  "flood-head.txt": {
+    "source": "captures/flood.txt",
+    "first_line": 1,
+    "last_line": 3,
+    "normalization": null
+  },
+  "flood-marker.txt": {
+    "source": "captures/flood.txt",
+    "first_line": 392,
+    "last_line": 392,
+    "normalization": null
+  },
+  "flood-tail.txt": {
+    "source": "captures/flood.txt",
+    "first_line": 781,
+    "last_line": 783,
+    "normalization": null
+  },
+  "markdown.txt": {
+    "source": "captures/session-records/transcript.md",
+    "first_line": 60,
+    "last_line": 72,
+    "normalization": null
+  },
+  "quarto-header.txt": {
+    "source": "captures/session-records/transcript.qmd",
+    "first_line": 1,
+    "last_line": 19,
+    "normalization": null
+  },
+  "quarto-cell.txt": {
+    "source": "captures/session-records/transcript.qmd",
+    "first_line": 25,
+    "last_line": 30,
+    "normalization": null
+  },
+  "recorded-fit.txt": {
+    "source": "captures/session-records/outputs/call-000002.log",
+    "first_line": 1,
+    "last_line": 8,
+    "normalization": null
+  }
+}

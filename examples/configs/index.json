@@ -1,0 +1,78 @@
+{
+  "config.yaml": {
+    "slide": "config",
+    "live_target_required": false
+  },
+  "environment-choice.yaml": {
+    "slide": "environment-choice",
+    "live_target_required": false
+  },
+  "runtime-combinations.yaml": {
+    "slide": "runtime-combinations",
+    "live_target_required": false
+  },
+  "default-sandbox.yaml": {
+    "slide": "default-sandbox",
+    "live_target_required": false
+  },
+  "permission-grants.yaml": {
+    "slide": "permission-grants",
+    "live_target_required": false
+  },
+  "write-output.yaml": {
+    "slide": "write-output",
+    "live_target_required": false
+  },
+  "private-inputs.yaml": {
+    "slide": "private-inputs",
+    "live_target_required": false
+  },
+  "temporary-storage.yaml": {
+    "slide": "temporary-storage",
+    "live_target_required": false
+  },
+  "network-direct.yaml": {
+    "slide": "network-direct",
+    "live_target_required": false
+  },
+  "network-proxy.yaml": {
+    "slide": "network-proxy",
+    "live_target_required": false
+  },
+  "network-listener.yaml": {
+    "slide": "network-listener",
+    "live_target_required": false
+  },
+  "config-overrides.yaml": {
+    "slide": "config-overrides",
+    "live_target_required": false
+  },
+  "enforcement-modes-1.yaml": {
+    "slide": "enforcement-modes",
+    "live_target_required": false
+  },
+  "enforcement-modes-2.yaml": {
+    "slide": "enforcement-modes",
+    "live_target_required": false
+  },
+  "knob-ownership.yaml": {
+    "slide": "knob-ownership",
+    "live_target_required": false
+  },
+  "resolver-boundary.yaml": {
+    "slide": "resolver-boundary",
+    "live_target_required": false
+  },
+  "ssh.yaml": {
+    "slide": "ssh",
+    "live_target_required": true
+  },
+  "docker.yaml": {
+    "slide": "docker",
+    "live_target_required": true
+  },
+  "docker-sandbox.yaml": {
+    "slide": "docker-sandbox",
+    "live_target_required": true
+  }
+}

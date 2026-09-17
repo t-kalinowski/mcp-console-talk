@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "(Intercept) temperature      groupB \n   6.888528    1.007196    1.273078 \n"
+    }
+  ],
+  "isError": false
+}

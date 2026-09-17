@@ -1,0 +1,4 @@
+extends: ":workspace"
+sandbox:
+  provider: native
+  network: restricted

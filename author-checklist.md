@@ -4,11 +4,11 @@ The slide copy uses the intended presentation-day feature set, as requested. The
 
 ## Target-day assumptions
 
-**Slide 30 — automatic DuckDB extension resolution.** Explicit `requirements.duckdb` is implemented. The currently inspected contract says SQL does not trigger package discovery. Keep the “resolve on demand” claim only after that path lands, or change the slide takeaway to explicit preparation followed by loading.
+**`duckdb-requirements` — automatic DuckDB extension resolution.** Explicit `requirements.duckdb` is implemented. The currently inspected contract says SQL does not trigger package discovery. Keep the “resolve on demand” claim only after that path lands, or change the slide takeaway to explicit preparation followed by loading.
 
-**Slide 39 — independent runtime combinations.** Python without an R installation is a future direction in the vision document. The current combined worker still requires R on the execution host. Hiding the R code field is not evidence of an R-independent worker. Verify the actual runtime refactor before presenting this as finished.
+**`runtime-combinations` — independent runtime combinations.** Python without an R installation is a future direction in the vision document. The current combined worker still requires R on the execution host. Hiding the R code field is not evidence of an R-independent worker. Verify the actual runtime refactor before presenting this as finished.
 
-**Slide 57 — `install.packages("mcp.console")`.** This assumes publication to an R repository available in the presenter’s repository configuration. The inspected README currently uses `pak::pak("github::t-kalinowski/mcp-console/r")`. The binary download is triggered by first use when executable resolution needs it, not by `install.packages()` itself.
+**`install-r` — `install.packages("mcp.console")`.** This assumes publication to an R repository available in the presenter’s repository configuration. The inspected README currently uses `pak::pak("github::t-kalinowski/mcp-console/r")`. The binary download is triggered by first use when executable resolution needs it, not by `install.packages()` itself.
 
 Richer named profiles, complete initial environment configuration, and configured SQL defaults remain broader design scope. This deck avoids presenting speculative YAML fields as runnable configuration; its displayed configuration examples use the implemented profile and override paths.
 
@@ -32,6 +32,6 @@ Use “compatible MCP stdio clients,” not an unqualified “works with everyth
 
 Current platform support is macOS and Linux, with documented Linux glibc and sandbox prerequisites; not Windows. A supported native wheel avoids Rust compilation for that installation path, not every source build or dependency build.
 
-## Draft example status
+## Local validation status
 
-The runtime tool exchanges are illustrative. Slide 64 instead reproduces a source excerpt from the checked-in CPU detection YAML snapshot; that test was not rerun here. No real model run, measured speedup, or actual snapshot output is being claimed. Replace the recording slot and any desired response-shape panels with authentic captures before presenting them as observations.
+The submitted analysis, plots, progress, stdin, debugger, bounded-output, and transcript panels now use native R output or actual Console captures. The `yaml-transcripts` slide reproduces a checked-in CPU detection snapshot; that product test was not rerun here. No model API or client-integration recording was run. See [VALIDATION.md](VALIDATION.md) for the executable fingerprint, failed pinned-package rehearsal, sandbox probes, and remaining platform checks.

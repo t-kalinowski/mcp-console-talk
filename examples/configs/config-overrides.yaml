@@ -1,0 +1,6 @@
+extends: ":read-only"
+sandbox:
+  filesystem:
+    entries:
+      - path: {type: path, path: ./output}
+        access: write

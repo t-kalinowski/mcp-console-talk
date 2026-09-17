@@ -1,0 +1,2 @@
+[input requested: "name> "]
+[waiting for stdin]

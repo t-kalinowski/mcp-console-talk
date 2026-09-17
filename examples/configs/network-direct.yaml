@@ -1,0 +1,3 @@
+extends: ":read-only"
+sandbox:
+  network: enabled

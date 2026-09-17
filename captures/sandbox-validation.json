@@ -1,0 +1,324 @@
+[
+  {
+    "config": "config-overrides.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": true,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": true, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "config.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "default-sandbox.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": false,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": false, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed",
+    "network": {
+      "returncode": 6,
+      "stdout": "",
+      "stderr": "curl: (6) Could not resolve host: example.com\n"
+    }
+  },
+  {
+    "config": "docker-sandbox.yaml",
+    "status": "not run",
+    "reason": "Requires its configured remote host, image, or SBX template"
+  },
+  {
+    "config": "docker.yaml",
+    "status": "not run",
+    "reason": "Requires its configured remote host, image, or SBX template"
+  },
+  {
+    "config": "enforcement-modes-1.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "enforcement-modes-2.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "environment-choice.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": false,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true,
+      "analysis_mode": "interactive",
+      "inherited": false
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": false, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true, \"analysis_mode\": \"interactive\", \"inherited\": false}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "knob-ownership.yaml",
+    "returncode": 1,
+    "expected": {
+      "root_write": false,
+      "output_write": false,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "",
+    "stderr": ".agents/console/config.yaml: sandbox preflight failed (exit status: 1): mcp-console-sandbox: linux_backend is supported only on Linux\n",
+    "substitutions": {},
+    "status": "expected platform rejection"
+  },
+  {
+    "config": "network-direct.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": false,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": false, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed",
+    "network": {
+      "returncode": 0,
+      "stdout": "HTTP/2 200 \ndate: Thu, 17 Sep 2026 14:35:17 GMT\ncontent-type: text/html\nserver: cloudflare\nlast-modified: Tue, 15 Sep 2026 23:38:37 GMT\nallow: GET, HEAD\naccept-ranges: bytes\nage: 5602\ncf-cache-status: HIT\ncf-ray: a3c8d62b7e87e251-ORD\n\n",
+      "stderr": ""
+    }
+  },
+  {
+    "config": "network-listener.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {
+      "proxy.domains": {
+        "example.com": "allow",
+        "blocked.example.com": "deny"
+      }
+    },
+    "status": "passed",
+    "network": {
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 OK\ndate: Thu, 17 Sep 2026 14:35:17 GMT\n\nHTTP/2 200 \ndate: Thu, 17 Sep 2026 14:35:18 GMT\ncontent-type: text/html\nserver: cloudflare\nlast-modified: Tue, 15 Sep 2026 23:38:37 GMT\nallow: GET, HEAD\naccept-ranges: bytes\nage: 5603\ncf-cache-status: HIT\ncf-ray: a3c8d62ffd6652a6-ORD\n\n",
+      "stderr": ""
+    },
+    "denied_destination": {
+      "returncode": 22,
+      "stderr": "curl: (22) The requested URL returned error: 403\n"
+    },
+    "local_binding": {
+      "returncode": 0,
+      "stdout": "bound\n",
+      "stderr": ""
+    }
+  },
+  {
+    "config": "network-proxy.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {
+      "proxy.domains": {
+        "example.com": "allow",
+        "blocked.example.com": "deny"
+      }
+    },
+    "status": "passed",
+    "network": {
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 OK\ndate: Thu, 17 Sep 2026 14:35:19 GMT\n\nHTTP/2 200 \ndate: Thu, 17 Sep 2026 14:35:19 GMT\ncontent-type: text/html\nserver: cloudflare\nlast-modified: Tue, 15 Sep 2026 23:41:26 GMT\nallow: GET, HEAD\naccept-ranges: bytes\nage: 13752\ncf-cache-status: HIT\ncf-ray: a3c8d638cb9a43d0-EWR\n\n",
+      "stderr": ""
+    },
+    "denied_destination": {
+      "returncode": 22,
+      "stderr": "curl: (22) The requested URL returned error: 403\n"
+    },
+    "local_binding": {
+      "returncode": 1,
+      "stdout": "",
+      "stderr": "Traceback (most recent call last):\n  File \"<string>\", line 1, in <module>\n    import socket; s=socket.socket(); s.bind(('127.0.0.1',0)); print('bound')\n                                      ~~~~~~^^^^^^^^^^^^^^^^^\nPermissionError: [Errno 1] Operation not permitted\n"
+    }
+  },
+  {
+    "config": "permission-grants.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "private-inputs.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": false,
+      "env_read": false
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": false, \"secret_read\": false, \"env_read\": false}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "resolver-boundary.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": false,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": false, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "runtime-combinations.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": false,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": false, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "ssh.yaml",
+    "status": "not run",
+    "reason": "Requires its configured remote host, image, or SBX template"
+  },
+  {
+    "config": "temporary-storage.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": true,
+      "output_write": true,
+      "data_read": true,
+      "data_write": true,
+      "secret_read": true,
+      "env_read": true,
+      "scratch_write": true
+    },
+    "stdout": "{\"root_write\": true, \"output_write\": true, \"data_read\": true, \"data_write\": true, \"secret_read\": true, \"env_read\": true, \"scratch_write\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  },
+  {
+    "config": "write-output.yaml",
+    "returncode": 0,
+    "expected": {
+      "root_write": false,
+      "output_write": true,
+      "data_read": true,
+      "data_write": false,
+      "secret_read": true,
+      "env_read": true
+    },
+    "stdout": "{\"root_write\": false, \"output_write\": true, \"data_read\": true, \"data_write\": false, \"secret_read\": true, \"env_read\": true}\n",
+    "stderr": "",
+    "substitutions": {},
+    "status": "passed"
+  }
+]

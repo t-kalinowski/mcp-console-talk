@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Called from: inspect_mean(c(1, 2, 3))\n[input requested: \"Browse[1]> \"]\n[waiting for stdin]"
+    }
+  ],
+  "isError": false
+}

@@ -1,0 +1,6 @@
+.agents/console/sessions/
+.playwright-cli/
+.agents/console/capture-backups/
+output/
+deck_files/
+__pycache__/

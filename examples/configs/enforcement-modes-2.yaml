@@ -1,0 +1,4 @@
+sandbox:
+  filesystem:
+    kind: external-sandbox
+  network: restricted

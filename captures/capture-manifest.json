@@ -1,0 +1,92 @@
+{
+  "captured_at_utc": "2026-09-17T14:35:32Z",
+  "command": [
+    "/Users/tomasz/.local/bin/mcp-console",
+    "serve"
+  ],
+  "cwd": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk",
+  "server_initialize": {
+    "protocolVersion": "2025-11-25",
+    "capabilities": {
+      "tools": {}
+    },
+    "serverInfo": {
+      "name": "mcp-console",
+      "version": "0.0.3"
+    }
+  },
+  "executable": "/Users/tomasz/.local/share/uv/tools/mcp-console/bin/mcp-console",
+  "executable_sha256": "b80f9b67a2bbe4f418c1821ff1f41af1479d19533394eead181c7fbb884fbc6f",
+  "source_cells": {
+    "fit": {
+      "r": "d <- read.csv(\"examples/measurements.csv\")\nfit <- lm(response ~ temperature + group,\n          data = d)\nfit"
+    },
+    "predict": {
+      "r": "head(predict(fit, d), 3)"
+    },
+    "coefficients": {
+      "r": "coef(fit)"
+    },
+    "r-plot": {
+      "r": "plot(d$temperature, d$response,\n     xlab = \"Temperature\",\n     ylab = \"Response\")"
+    },
+    "progress": {
+      "r": "for (i in 1:20) {\n  cat(sprintf(\"\\rfit [%s%s] %3d%%\",\n      strrep(\"=\", i), strrep(\" \", 20 - i), i * 5))\n  flush.console()\n  Sys.sleep(0.15)\n}\ncat(\"\\n\")",
+      "timeout_ms": 450
+    },
+    "compact": {
+      "r": "cat(\"download 0%\\rdownload 50%\\rdownload 100%\\n\")"
+    },
+    "error": {
+      "r": "checkpoint <- 42\nstop(\"inspect me\")"
+    },
+    "checkpoint": {
+      "r": "checkpoint"
+    },
+    "prompt": {
+      "r": "name <- readline(\"name> \")\nname"
+    },
+    "prompt-answer": {
+      "stdin": "Ada\n"
+    },
+    "browser-start": {
+      "r": "inspect_mean <- function(x) {\n  browser()\n  mean(x)\n}\n\ninspect_mean(c(1, 2, 3))"
+    },
+    "browser-x": {
+      "stdin": "x\n"
+    },
+    "browser-continue": {
+      "stdin": "c\n"
+    },
+    "python-ml": {
+      "python": "from sklearn.ensemble import RandomForestRegressor\nfrom sklearn.model_selection import cross_val_score\nimport pandas as pd\n\nframe = r.d\nX = pd.get_dummies(frame[[\"temperature\", \"group\"]])\nmodel = RandomForestRegressor(random_state=42)\nscores = cross_val_score(model, X, frame[\"response\"],\n                         cv=5, scoring=\"neg_mean_absolute_error\")\nprint(f\"CV MAE: {-scores.mean():.3f}\")"
+    },
+    "python-plot": {
+      "python": "import matplotlib.pyplot as plt\n\nplt.scatter(frame[\"temperature\"],\n            frame[\"response\"])\nplt.xlabel(\"Temperature\")\nplt.ylabel(\"Response\")"
+    },
+    "sql": {
+      "sql": "SELECT \"group\", COUNT(*) AS n\nFROM d\nGROUP BY \"group\"\nORDER BY \"group\""
+    },
+    "requirements": {
+      "r": "library(data.table)\nlibrary(dtplyr)\npackageVersion(\"data.table\")",
+      "requirements": {
+        "r": [
+          "data.table==1.17.8",
+          "dtplyr"
+        ]
+      }
+    },
+    "flood": {
+      "r": "for (i in seq_len(10000)) {\n  cat(sprintf(\"row %05d\\n\", i))\n}\ncat(\"fit complete\\n\")"
+    },
+    "poll-next": {
+      "timeout_ms": 600
+    },
+    "poll-final": {
+      "timeout_ms": 5000
+    }
+  },
+  "provenance": "Actual MCP stdio responses; no model API used",
+  "full_journal": "session-records/internal/events.jsonl",
+  "requirements_example": "Not installed by this capture; validate separately in a fresh session"
+}

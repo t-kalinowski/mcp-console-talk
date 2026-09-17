@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "[input requested: \"name> \"]\n[waiting for stdin]"
+    }
+  ],
+  "isError": false
+}

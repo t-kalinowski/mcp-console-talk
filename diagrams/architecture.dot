@@ -5,18 +5,18 @@ digraph G {
 
 node [fontsize=23];
 client [label="MCP client"];
-server [label="Server\nsession + records", fillcolor="#d9eee9", color="#167d76"];
-launcher [label="Launcher\nrunner / target"];
-subgraph cluster_boundary {
- label="EXECUTION BOUNDARY"; color="#167d76"; style="rounded"; margin=24;
- relay [label="Relay\nI/O + lifetime"];
+server [label="Rust server\nsession + records", fillcolor="#d9eee9", color="#167d76"];
+runner [label="External native runner\npolicy + supervision"];
+subgraph cluster_sandbox {
+ label="SANDBOXED PROCESSES"; color="#167d76"; style="rounded"; margin=24;
+ relay [label="Relay\ncode / streams"];
  worker [label="Worker\nR · Python · SQL"];
- relay -> worker;
+ relay -> worker [label="sideband\n+ stdio"];
 }
-resolver [label="Resolvers\noutside sandbox"];
-client -> server [label="MCP / stdio"];
-server -> launcher [label="child transport"];
-launcher -> relay;
-server -> resolver [label="requirements", style=dashed];
+resolver [label="ir / uv resolvers\ntrusted host process"];
+client -> server [label="MCP stdio"];
+server -> runner [label="launch"];
+runner -> relay;
+server -> resolver [label="prepare", style=dashed];
 
 }

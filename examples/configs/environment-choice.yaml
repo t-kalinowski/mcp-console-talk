@@ -1,0 +1,7 @@
+extends: ":read-only"
+sandbox:
+  inherit_environment: false
+  environment:
+    ANALYSIS_MODE: interactive
+    OMP_NUM_THREADS: "4"
+    MPLBACKEND: Agg

@@ -1,0 +1,4 @@
+extends: ":read-only"
+sandbox:
+  provider: native
+  linux_backend: bubblewrap

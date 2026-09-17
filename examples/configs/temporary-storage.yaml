@@ -1,0 +1,5 @@
+extends: ":workspace"
+sandbox:
+  workspace_options:
+    exclude_slash_tmp: true
+    exclude_tmpdir_env_var: true

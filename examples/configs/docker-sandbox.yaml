@@ -1,0 +1,14 @@
+target:
+  workspace: /srv/analysis
+  compute:
+    kind: docker_sandbox
+    template: >-
+      registry.example.com/console@sha256:<64-hex-digest>
+    mounts:
+      - source: /srv/analysis
+        target: /srv/analysis
+        access: read_write
+sandbox:
+  provider: compute
+  environment:
+    ANALYSIS_MODE: interactive

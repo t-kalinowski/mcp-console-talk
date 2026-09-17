@@ -1,0 +1,4 @@
+sandbox:
+  filesystem:
+    kind: unrestricted
+  network: restricted

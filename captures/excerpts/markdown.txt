@@ -1,0 +1,13 @@
+## Call 3: R
+
+```r
+coef(fit)
+```
+
+## Result for call 3
+
+```text
+(Intercept) temperature      groupB 
+   6.888528    1.007196    1.273078 
+```
+

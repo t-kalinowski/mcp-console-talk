@@ -1,17 +1,70 @@
 {
-  "slide_count": 69,
-  "main_slides": 61,
+  "date": "2026-09-17",
+  "slide_count": 81,
+  "main_slides": 73,
   "addendum_slides": 8,
-  "native_quarto_notes_blocks": 69,
-  "pandoc_revealjs_notes_asides": 69,
+  "native_quarto_notes_blocks": 81,
   "one_notes_aside_per_slide": true,
-  "all_note_text_matches_original_reading_copy": true,
-  "all_slide_bodies_unchanged": true,
-  "local_asset_references_valid": true,
-  "build_uses_native_quarto": true,
-  "custom_viewer_removed": true,
-  "native_quarto_executed": false,
-  "browser_speaker_view_executed": false,
-  "validation_method": "Pandoc reveal.js writer, HTML structural checks, exact source comparison, reading-copy comparison",
-  "pandoc_version": "pandoc 3.1.11.1"
+  "native_quarto_executed": true,
+  "quarto_version": "1.10.18",
+  "render_modes": [
+    "r",
+    "mcp"
+  ],
+  "render_warnings": false,
+  "browser": "in-app browser",
+  "css_viewport": [
+    1600,
+    900
+  ],
+  "layout_slides_checked": 81,
+  "layout_failures": [],
+  "code_soft_wrap": false,
+  "inline_diagrams": 11,
+  "images_loaded": true,
+  "captured_output_slides_checked": 12,
+  "speaker_view": {
+    "shortcut_exercised": true,
+    "window_opened": "confirmed by presenter",
+    "window_content_inspected": false
+  },
+  "fullscreen_api_verified": false,
+  "mcp_capture": {
+    "sandboxed": true,
+    "model_api_used": false,
+    "captured_at_utc": "2026-09-17T14:35:32Z",
+    "version": "0.0.3",
+    "executable_sha256": "b80f9b67a2bbe4f418c1821ff1f41af1479d19533394eead181c7fbb884fbc6f"
+  },
+  "sandbox": {
+    "expected platform rejection": 1,
+    "not run": 3,
+    "passed": 15
+  },
+  "requirements_example": {
+    "passed": false,
+    "r_4_6": "data.table compilation errors: SETLENGTH, ATTRIB, and related undeclared APIs",
+    "r_4_5": "dependency installation: worker failed to start"
+  },
+  "not_run": [
+    "Linux enforcement",
+    "SSH target",
+    "Docker target",
+    "Docker Sandbox target",
+    "model-provider integrations"
+  ],
+  "html_sha256": {
+    "mcp-console.html": "a944b86234c4d1909a74501eb7e2db431c9767256c81992fb36c7aa1ee28b43d",
+    "../archived/2026-09-17-105015-talk-handoff/mcp-console-captured.html": "f81b3538ccfc63016acb55770818d0443fb601650a2ed07c684f8d4d3f296ac5"
+  },
+  "measurements_unchanged": true,
+  "checks": [
+    "sync_cells.py --check",
+    "validate_source.py",
+    "Python syntax",
+    "diagram CLI regression in temporary project",
+    "public standalone sandbox probes",
+    "native and captured HTML structure/resources"
+  ],
+  "handoff_archive": "../archived/2026-09-17-105015-talk-handoff"
 }
