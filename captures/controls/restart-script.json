@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "[worker stopped: in-memory state lost]\n[starting new worker]\n[input requested: \"Group to summarize: \"]\n   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. \n  16.55   26.50   31.29   31.60   35.47   45.76 \n[done]"
+    }
+  ],
+  "isError": false
+}

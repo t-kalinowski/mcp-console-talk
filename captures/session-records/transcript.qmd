@@ -48,13 +48,12 @@ head(predict(fit, d), 3)
 ```
 
 ```{r}
+  pb <- txtProgressBar(max = 20, style = 3, width = 20)
   for (i in 1:20) {
-    cat(sprintf("\rfit [%s%s] %3d%%",
-        strrep("=", i), strrep(" ", 20 - i), i * 5))
-    flush.console()
     Sys.sleep(0.15)
+    setTxtProgressBar(pb, i)
   }
-  cat("\n")
+  close(pb)
 ```
 
 ```{r}
@@ -101,9 +100,18 @@ checkpoint
   invisible(parallel::mccollect(job))
 ```
 
+```{r}
+  job <- parallel::mcparallel({
+    out <- pipe("cat", "w")
+    cat("hello from fork\n", file = out)
+    close(out)
+  })
+  invisible(parallel::mccollect(job))
+```
+
 ```{python}
 import os
-_ = os.write(1, b"hello directly on fd 1\n")
+os.write(1, b"hello directly on fd 1\n")
 ```
 
 ```{python}

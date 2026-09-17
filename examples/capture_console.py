@@ -275,13 +275,15 @@ def capture_deck(client: StdioMCP, out: Path, cells: dict[str, Any]) -> None:
         raise MCPError("Expected two displayed polls; inspect timing before changing the slides")
     for name in ["compact", "flood", "error", "checkpoint", "prompt", "prompt-answer",
                  "browser-start", "browser-x", "browser-continue",
-                 "r-fork", "python-fd", "python-first", "python-ml", "python-plot", "sql"]:
+                 "r-fork", "r-fork-cat", "python-fd", "python-first", "python-ml", "python-plot", "sql"]:
         print(f"Capturing {name}", flush=True)
         complete(client, out, name, cells[name])
         if name == "r-fork":
             assert (out / "r-fork.txt").read_text() == "native output\n"
+        if name == "r-fork-cat":
+            assert (out / "r-fork-cat.txt").read_text() == "hello from fork\n"
         if name == "python-fd":
-            assert (out / "python-fd.txt").read_text() == "hello directly on fd 1\n"
+            assert (out / "python-fd.txt").read_text() == "hello directly on fd 1\n23\n"
     # Exercise metadata preservation through the public MCP request envelope.
     result = client.request("tools/call", {
         "name": "send", "arguments": {"r": "1 + 1"},

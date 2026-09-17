@@ -9,8 +9,8 @@ This document is an append-only chronological record of MCP Console events.
 ```json
 {
   "session": "default",
-  "run_id": "20260917T152544.739385000Z-0000093055",
-  "started_at": "2026-09-17T15:25:44.739385000Z",
+  "run_id": "20260917T193330.727728000Z-0000046518",
+  "started_at": "2026-09-17T19:33:30.727728000Z",
   "working_directory": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk"
 }
 ```
@@ -122,13 +122,12 @@ head(predict(fit, d), 3)
 ## Call 7: R
 
 ```r
+  pb <- txtProgressBar(max = 20, style = 3, width = 20)
   for (i in 1:20) {
-    cat(sprintf("\rfit [%s%s] %3d%%",
-        strrep("=", i), strrep(" ", 20 - i), i * 5))
-    flush.console()
     Sys.sleep(0.15)
+    setTxtProgressBar(pb, i)
   }
-  cat("\n")
+  close(pb)
 ```
 
 ### Options
@@ -142,7 +141,7 @@ head(predict(fit, d), 3)
 ## Result for call 7
 
 ```text
-fit [===                 ]  15%
+  |==                  |  10%
 [running; poll with an empty send]
 ```
 
@@ -159,7 +158,7 @@ fit [===                 ]  15%
 ## Result for call 8
 
 ```text
-fit [=======             ]  35%
+  |======              |  30%
 [running; poll with an empty send]
 ```
 
@@ -176,7 +175,7 @@ fit [=======             ]  35%
 ## Result for call 9
 
 ```text
-fit [====================] 100%
+  |====================| 100%
 ```
 
 ## Call 10: R
@@ -600,7 +599,7 @@ row 00388
 row 00389
 row 00390
 row 
-[output preview: omitted 92205 rendered UTF-8 bytes; raw cell log: .agents/console/sessions/20260917T152544.739385000Z-0000093055/outputs/call-000011.log (Console server recording workspace; controller for remote targets); 100013 raw bytes retained, 0 raw bytes not retained]
+[output preview: omitted 92205 rendered UTF-8 bytes; raw cell log: .agents/console/sessions/20260917T193330.727728000Z-0000046518/outputs/call-000011.log (Console server recording workspace; controller for remote targets); 100013 raw bytes retained, 0 raw bytes not retained]
 
 row 09612
 row 09613
@@ -1114,32 +1113,50 @@ c
 native output
 ```
 
-## Call 20: Python
+## Call 20: R
 
-```python
-import os
-_ = os.write(1, b"hello directly on fd 1\n")
+```r
+  job <- parallel::mcparallel({
+    out <- pipe("cat", "w")
+    cat("hello from fork\n", file = out)
+    close(out)
+  })
+  invisible(parallel::mccollect(job))
 ```
 
 ## Result for call 20
 
 ```text
-hello directly on fd 1
+hello from fork
 ```
 
 ## Call 21: Python
 
 ```python
-print(len(r.d))
+import os
+os.write(1, b"hello directly on fd 1\n")
 ```
 
 ## Result for call 21
 
 ```text
-240
+hello directly on fd 1
+23
 ```
 
 ## Call 22: Python
+
+```python
+print(len(r.d))
+```
+
+## Result for call 22
+
+```text
+240
+```
+
+## Call 23: Python
 
 ```python
 from sklearn.ensemble import RandomForestRegressor
@@ -1154,14 +1171,14 @@ scores = cross_val_score(model, X, frame["response"],
 print(f"CV MAE: {-scores.mean():.3f}")
 ```
 
-## Result for call 22
+## Result for call 23
 
 ```text
 [resolved PyPI distribution 'scikit-learn' for Python import 'sklearn']
 CV MAE: 2.015
 ```
 
-## Call 23: Python
+## Call 24: Python
 
 ```python
 import matplotlib.pyplot as plt
@@ -1172,19 +1189,19 @@ plt.xlabel("Temperature")
 plt.ylabel("Response")
 ```
 
-## Artifact 2 for call 23
+## Artifact 2 for call 24
 
-[Artifact 2 from call 23](<artifacts/call-000023-image-000002.png>)
+[Artifact 2 from call 24](<artifacts/call-000024-image-000002.png>)
 
-## Result for call 23
+## Result for call 24
 
 ```text
 Text(0, 0.5, 'Response')
 ```
 
-![Artifact 2](<artifacts/call-000023-image-000002.png>)
+![Artifact 2](<artifacts/call-000024-image-000002.png>)
 
-## Call 24: SQL
+## Call 25: SQL
 
 ```sql
 SELECT "group", COUNT(*) AS n
@@ -1193,7 +1210,7 @@ GROUP BY "group"
 ORDER BY "group"
 ```
 
-## Result for call 24
+## Result for call 25
 
 ```text
 # A tibble: 2 × 2
@@ -1203,19 +1220,19 @@ ORDER BY "group"
 2 "B"          120
 ```
 
-## Call 25: R
+## Call 26: R
 
 ```r
 1 + 1
 ```
 
-## Result for call 25
+## Result for call 26
 
 ```text
 [1] 2
 ```
 
-## Call 26: R
+## Call 27: R
 
 ```r
 sessionInfo()
@@ -1229,7 +1246,7 @@ sessionInfo()
 }
 ```
 
-## Result for call 26
+## Result for call 27
 
 ```text
 R version 4.6.1 (2026-06-24)
@@ -1256,7 +1273,7 @@ loaded via a namespace (and not attached):
 [31] withr_3.0.3       bit64_4.8.6       arrow_25.0.1     
 ```
 
-## Call 27: Python
+## Call 28: Python
 
 ```python
 import sys, importlib.metadata as md
@@ -1265,7 +1282,7 @@ for name in ['scikit-learn', 'pandas', 'matplotlib']:
     print(f'{name}=={md.version(name)}')
 ```
 
-## Result for call 27
+## Result for call 28
 
 ```text
 3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]

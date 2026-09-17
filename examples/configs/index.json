@@ -12,7 +12,7 @@
     "live_target_required": false
   },
   "default-sandbox.yaml": {
-    "slide": "default-sandbox",
+    "slide": null,
     "live_target_required": false
   },
   "permission-grants.yaml": {

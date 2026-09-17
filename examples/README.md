@@ -48,3 +48,11 @@ another empty output directory when retrying. Do not change the pin to mask it.
 plot, and provenance. `check_sandbox.py` requires PyYAML and exercises only the
 local YAML in a disposable directory. Its network probes use example.com and
 substitute that domain for the proxy's example allow entry.
+
+`analyze.R` is the interactive script on the combined-control slide. It reads the
+measurements CSV and asks for a group through `readline()`. The displayed call
+restarts the session, queues `A\n`, and sources the script in one request.
+`captures/controls/` retains that separate exchange plus a restart-and-devtools-test
+rehearsal. Its fixture and collector are in
+`../../archived/2026-09-17-controls-review/`; the script and CSV hashes are recorded
+in the capture provenance and checked by `validate_source.py`.

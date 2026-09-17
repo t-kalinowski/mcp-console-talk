@@ -1,0 +1,6 @@
+[worker stopped: in-memory state lost]
+[starting new worker]
+[input requested: "Group to summarize: "]
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+  16.55   26.50   31.29   31.60   35.47   45.76 
+[done]

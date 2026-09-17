@@ -1,7 +1,7 @@
 {
-  "captured_at_utc": "2026-09-17T15:26:19Z",
+  "captured_at_utc": "2026-09-17T19:33:51Z",
   "command": [
-    "mcp-console",
+    "/Users/tomasz/.local/bin/mcp-console",
     "serve"
   ],
   "cwd": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk",
@@ -16,7 +16,7 @@
     }
   },
   "executable": "/Users/tomasz/.local/share/uv/tools/mcp-console/bin/mcp-console",
-  "executable_sha256": "b80f9b67a2bbe4f418c1821ff1f41af1479d19533394eead181c7fbb884fbc6f",
+  "executable_sha256": "44d7bb321a2d590fb9b16d7e91b4d8ca7821cb94fdab306a228232ac54bc0e4a",
   "source_cells": {
     "fit": {
       "r": "  d <- read.csv(\"examples/measurements.csv\")\n  fit <- lm(response ~ temperature + group,\n            data = d)\n  fit"
@@ -31,7 +31,7 @@
       "r": "  plot(d$temperature, d$response,\n       xlab = \"Temperature\",\n       ylab = \"Response\")"
     },
     "progress": {
-      "r": "  for (i in 1:20) {\n    cat(sprintf(\"\\rfit [%s%s] %3d%%\",\n        strrep(\"=\", i), strrep(\" \", 20 - i), i * 5))\n    flush.console()\n    Sys.sleep(0.15)\n  }\n  cat(\"\\n\")",
+      "r": "  pb <- txtProgressBar(max = 20, style = 3, width = 20)\n  for (i in 1:20) {\n    Sys.sleep(0.15)\n    setTxtProgressBar(pb, i)\n  }\n  close(pb)",
       "timeout_ms": 450
     },
     "compact": {
@@ -89,10 +89,13 @@
       "r": "  emit <- inline::cfunction(\n    body = 'write(1, \"native output\\\\n\", 14);\n            return R_NilValue;',\n    includes = \"#include <unistd.h>\"\n  )\n  job <- parallel::mcparallel(emit())\n  invisible(parallel::mccollect(job))"
     },
     "python-fd": {
-      "python": "import os\n_ = os.write(1, b\"hello directly on fd 1\\n\")"
+      "python": "import os\nos.write(1, b\"hello directly on fd 1\\n\")"
     },
     "python-first": {
       "python": "print(len(r.d))"
+    },
+    "r-fork-cat": {
+      "r": "  job <- parallel::mcparallel({\n    out <- pipe(\"cat\", \"w\")\n    cat(\"hello from fork\\n\", file = out)\n    close(out)\n  })\n  invisible(parallel::mccollect(job))"
     }
   },
   "provenance": "Actual MCP stdio responses; no model API used",

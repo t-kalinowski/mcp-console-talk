@@ -1,0 +1,11 @@
+[worker stopped: in-memory state lost]
+[starting new worker]
+ℹ Testing consoleexample
+✔ | F W  S  OK | Context
+
+⠏ |          0 | twice                                                                                                                                                                                  
+✔ |          1 | twice
+
+══ Results ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+[ FAIL 0 | WARN 0 | SKIP 0 | PASS 1 ]
+[done]

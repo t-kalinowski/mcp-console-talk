@@ -4,6 +4,7 @@ from pathlib import Path
 from html.parser import HTMLParser
 import ast
 import base64
+import hashlib
 import json
 import re
 import subprocess
@@ -74,7 +75,7 @@ def main() -> None:
     assert args[i+1:i+3] == [cells['poll-next'], cells['poll-final']]
     for name in ('fit','coefficients','predict','r-plot','compact','flood','error','checkpoint',
                  'prompt','prompt-answer','browser-start','browser-x','browser-continue',
-                 'r-fork','python-fd','python-first','python-ml','python-plot','sql'):
+                 'r-fork','r-fork-cat','python-fd','python-first','python-ml','python-plot','sql'):
         assert cells[name] in args, f'{name} was not submitted'
         result = json.loads((ROOT / f'captures/{name}.json').read_text())
         text = ''.join(b['text'] for b in result['content'] if b['type']=='text')
@@ -90,7 +91,31 @@ def main() -> None:
         ['yq', '-o=json', '.', str(ROOT / 'captures/excerpts/event-yaml.txt')], text=True)
     assert json.loads(yaml_event) == event
     assert (ROOT / 'captures/r-fork.txt').read_text() == 'native output\n'
-    assert (ROOT / 'captures/python-fd.txt').read_text() == 'hello directly on fd 1\n'
+    assert (ROOT / 'captures/r-fork-cat.txt').read_text() == 'hello from fork\n'
+    assert (ROOT / 'captures/python-fd.txt').read_text() == 'hello directly on fd 1\n23\n'
+    controls = ROOT / 'captures/controls'
+    control_cells = json.loads((controls / 'cells.json').read_text())
+    control_provenance = json.loads((controls / 'provenance.json').read_text())
+    assert hashlib.sha256((ROOT / 'examples/analyze.R').read_bytes()).hexdigest() == control_provenance['script_sha256']
+    assert hashlib.sha256((ROOT / 'examples/measurements.csv').read_bytes()).hexdigest() == control_provenance['data_sha256']
+    control_wire = [json.loads(line) for line in (controls / 'wire.jsonl').read_text().splitlines()]
+    control_args = [row['message']['params']['arguments'] for row in control_wire if
+                    row['direction'] == 'client' and row['message'].get('method') == 'tools/call']
+    for name, arguments in control_cells.items():
+        assert arguments in control_args, f'{name} was not submitted'
+        response = json.loads((controls / f'{name}.json').read_text())
+        text = ''.join(block['text'] for block in response['content'] if block['type'] == 'text')
+        assert (controls / f'{name}.txt').read_bytes() == text.encode(), name
+        assert '[worker stopped: in-memory state lost]' in text and text.endswith('[done]'), name
+    assert 'FAIL 0' in (controls / 'restart-test.txt').read_text()
+    assert 'Group to summarize:' in (controls / 'restart-script.txt').read_text()
+    script_slide = next(part for part in parts if '{#restart-input ' in part)
+    assert (ROOT / 'examples/analyze.R').read_text().rstrip() in re.findall(r'```r\n(.*?)\n```', script_slide, re.S)
+    for name, code in re.findall(r'<!-- control-cell:([\w-]+) -->\n```python\n(.*?)\n```', source, re.S):
+        call = ast.parse(code).body[0].value
+        arguments = {kw.arg: ast.literal_eval(kw.value) for kw in call.keywords}
+        arguments = {k: v.strip('\n') if k in ('r', 'python', 'sql') else v for k, v in arguments.items()}
+        assert arguments == control_cells[name], name
     excerpts = json.loads((ROOT / 'captures/excerpts/provenance.json').read_text())
     for name, info in excerpts.items():
         lines = (ROOT / info['source']).read_text().splitlines(keepends=True)

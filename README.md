@@ -1,12 +1,15 @@
 # MCP Console presentation
 
-35 main slides, followed by 8 optional development-practice slides (43 total). `deck.qmd` is the
+40 main slides, an appendix divider, and 8 optional development-practice slides (49 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
-The main narrative starts with R and Python together, shared execution work,
-and the sandbox. A short analysis leads into managed packages, three examples of
-API detail, explicit permissions, and a six-slide local/SSH/Docker sequence.
-The main talk ends at `closing`; the development appendix follows it.
+The main narrative starts with R, Python, and SQL together, shared execution work,
+and the sandbox. A short analysis includes SQL connection selection, then leads
+into process topology, managed packages, examples of API detail, the full send
+interface and session controls, sandbox
+defaults, built-in policies and permissions, and local/SSH/Docker execution.
+An interface overview introduces the client examples.
+The main talk ends at `closing`; an explicit appendix divider follows it.
 
 ## View the deck
 

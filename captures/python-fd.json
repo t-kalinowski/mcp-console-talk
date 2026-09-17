@@ -2,7 +2,7 @@
   "content": [
     {
       "type": "text",
-      "text": "hello directly on fd 1\n"
+      "text": "hello directly on fd 1\n23\n"
     }
   ],
   "isError": false

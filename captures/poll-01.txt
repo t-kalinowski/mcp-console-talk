@@ -1,2 +1,2 @@
-fit [=======             ]  35%
+  |======              |  30%
 [running; poll with an empty send]

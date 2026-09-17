@@ -1,5 +1,1 @@
-# A tibble: 2 × 2
-  group          n
-  <string> <int64>
-1 "A"          120
-2 "B"          120
+Text(0, 0.5, 'Response')

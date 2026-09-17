@@ -1,0 +1,11 @@
+{
+  "restart-test": {
+    "control": "restart",
+    "r": "devtools::test()"
+  },
+  "restart-script": {
+    "control": "restart",
+    "stdin": "A\n",
+    "r": "source(\"examples/analyze.R\")"
+  }
+}

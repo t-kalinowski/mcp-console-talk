@@ -2,7 +2,7 @@
   "content": [
     {
       "type": "text",
-      "text": "fit [=======             ]  35%\n[running; poll with an empty send]"
+      "text": "  |======              |  30%\n[running; poll with an empty send]"
     }
   ],
   "isError": false

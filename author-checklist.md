@@ -8,6 +8,8 @@ The slide copy uses the intended presentation-day feature set, as requested. The
 
 Richer named profiles, complete initial environment configuration, and configured SQL defaults remain broader design scope. This deck avoids presenting speculative YAML fields as runnable configuration; its displayed configuration examples use the implemented profile and override paths.
 
+**`interfaces` — Python adapters.** The overview follows the current source checkout. The PyPI 0.0.3 wheel used for runtime captures does not contain the newer Python clients and extras; use a release or source installation that includes them.
+
 ## Capture checks
 
 Use a tested release or pinned executable. Confirm the actual MCP handshake, selected languages, requirement capability, plotting behavior, and file visibility in the chosen client. Check client startup/read deadlines separately from Console’s evaluation-wait timeout. Cold installation and explicit preparation can have different timing behavior.
@@ -41,8 +43,26 @@ environments may persist on disk. Trusted preparation runs outside the worker
 sandbox on the execution host. The worker uses the result under its own policy.
 Docker uses packages built into the image; it does not dynamically resolve them.
 
-The three detail stories are wait/poll continuity, carriage-return compaction,
-and bounded responses with retained output (including direct descriptor writes).
-The last slide of the main talk is `closing`; the eight following slides are
+The detail examples combine wait/poll continuity with progress compaction, then
+show bounded responses and retained output, including a direct descriptor write and output from a forked R child.
+The last slide of the main talk is `closing`; the appendix divider introduces eight slides of
 optional technical material. The earlier full API walkthrough is preserved in
 presentation commit `ab89d0c`.
+
+The forked R example deliberately sends cat() output through a pipe to the native
+cat command. Plain cat() in the fork completed without visible text in the tested
+build. Do not replace the displayed example with the plain call without a new
+capture. The private resolver exchange uses documented fields and an illustrative
+library path; it is not presented as a literal captured exchange.
+
+The report's `ir.exclude-newer` date is added to an editable copy. Use
+`ir render report.qmd` to consume it. It is a package snapshot cutoff rather than
+a complete environment lock, and was checked in the local ir guide without a
+dated render rehearsal.
+
+Plain `uvx` manages installation and picks up updates as its registry cache expires.
+Do not promise a fresh lookup on every launch. Explicit pins and a compatible
+installed tool can retain an older version.
+
+SQL connection examples were exercised with local RSQLite and Python sqlite3
+connections. Other drivers and remote database access still need their own setup.
