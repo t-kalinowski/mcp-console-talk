@@ -1,10 +1,10 @@
 # Local validation — 2026-09-17
 
-The revised project contains 53 slides (43 main, an appendix divider, and 9 optional appendix slides),
+The revised project contains 54 slides (44 main, an appendix divider, and 9 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the narrative archive](../archived/2026-09-17-language-reveal/mcp-console-captured.html).
+[the render archive](../archived/2026-09-17-rocker-transcripts/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
 
@@ -32,11 +32,13 @@ are native Quarto reveal.js renders with embedded resources. `examples/measureme
 - The Python reference score and plot were recomputed from the unchanged CSV and
   displayed cell definitions. The score is `CV MAE: 2.015`; library versions and
   the data hash are in `examples/python-reference-provenance.json`.
-- All 53 slides were inspected through the in-app browser for code clipping,
+- The preceding 53 slides were inspected through the in-app browser for code clipping,
   vertical overflow, notes presence, image loading, and embedded diagrams.
   All passed. The 13 capture-sensitive slides also passed in the captured-output
   render. Code soft wrapping is disabled; individual layouts and source line
-  breaks provide the required space. All three inline SVGs load.
+  breaks provide the required space. All three inline SVGs load. The revised
+  Docker slide and new Markdown slide passed these checks in both output modes;
+  the other layouts are unchanged.
 - The `S` shortcut opened native Speaker View in a separate app window, confirmed
   by the presenter. Automated access to that app window was unavailable, so
   speaker-window diagram visibility and synchronization were not independently
@@ -113,7 +115,7 @@ product modification was performed.
 ## Review boundaries
 
 The full 77-slide presentation is committed as `ab89d0c`; the previous narrative
-revision is `272ffa3`. The current deck has 43 main slides, a visible appendix
+revision is `272ffa3`. The current deck has 44 main slides, a visible appendix
 divider, and nine optional implementation and development slides.
 The opener explains R, Python, and SQL together, shared execution infrastructure, and
 why sandbox permissions belong in the design. The examples combine wait/poll continuity and progress compaction in two slides,
@@ -268,3 +270,47 @@ were checked against the local source reviewed at
 Dockerfile matches its file, and the CSV is unchanged. Both renders and all
 53 native slide layouts pass, along with the 13 capture-sensitive slides in MCP
 mode. Notes, the slide index, and the saved native preview are regenerated.
+
+
+## Framing comparison with the useR! lightning talk
+
+The comparison used
+`/Users/tomasz/github/t-kalinowski/useR-2026-mcp-repl/mcp-repl-lightning-talk.qmd`.
+The revision adapts three ideas: real work requires multiple turns, capabilities
+live in the runtime behind one compact tool, and sandbox policy applies to the
+runtime and its subprocesses. The opening still leads with comprehensiveness and
+reuse for an audience familiar with AI execution systems. Notes connect the
+ordinary analysis loop to waiting, input, output handling, and enforced access.
+
+The slide count, ordering, code, captures, and configuration examples are
+unchanged. Product-specific claims from the lightning talk, including its default
+policy, platform coverage, output limits, and recovery behavior, were not
+transferred. The process-policy wording was checked against Console's local
+SANDBOX.md and SANDBOX_CONFIGURATION.md.
+
+Both Quarto modes rendered without warnings. The three slides with visible text
+changes passed layout and code-fit checks in both modes; the prior full-deck
+layout checks remain applicable to the unchanged slides. The source validator
+passes, including all 53 notes blocks and existing capture provenance. No runtime
+capture or product test was rerun for this prose-only pass.
+
+## Community Docker image and Markdown transcript
+
+The Docker example now starts from `rocker/r-ver:4.6.1` and uses Rocker's
+`install_python.sh` to prepare Python and reticulate. It adds Console 0.0.4,
+the runtime prerequisites from Console's example image, and analysis packages.
+The versioned image definition and helper were checked against Rocker's upstream
+sources; the Linux wheel was checked on PyPI. The displayed recipe matches
+`examples/Dockerfile`, and its shell commands parse. The local Docker daemon was
+unavailable, so the image build and target remain untested.
+
+A new Markdown slide precedes the Quarto source. It uses the existing literal
+call-and-result excerpt from `captures/session-records/transcript.md`, with
+source-line provenance retained in `captures/excerpts/provenance.json`.
+No captured outputs changed.
+
+Both Quarto modes rendered without warnings. The Docker and Markdown slides
+passed in-app browser checks for layout, code clipping, and native notes in both
+modes. The source validator passes for all 54 slides and their notes. The saved
+preview uses native R output; the captured-output render is in the archive linked
+above. The notes, slide index, and project documentation are refreshed.

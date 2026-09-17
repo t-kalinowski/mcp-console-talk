@@ -1,6 +1,6 @@
 # MCP Console presentation
 
-43 main slides, an appendix divider, and 9 optional implementation and testing slides (53 total). `deck.qmd` is the
+44 main slides, an appendix divider, and 9 optional implementation and testing slides (54 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 The main narrative starts with why: a comprehensive execution system that teams
@@ -12,7 +12,7 @@ the workflow. Waiting, controls, and input precede the full send interface.
 Output handling leads into process topology and the sandbox before
 the policies, concrete access examples, cleanup, and local/SSH/Docker execution.
 An SSH topology diagram shows which processes move to the remote host. Client
-setup leads into session logs and an editable report as the lasting result of the
+setup leads into session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
 work. The resolver protocol is in the appendix.
 The main talk ends at `closing`; an explicit appendix divider follows it.
 

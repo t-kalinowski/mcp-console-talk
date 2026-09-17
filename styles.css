@@ -239,3 +239,9 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 .policy-comparison li { margin-bottom: 16px; }
 .policy-comparison .code-panel { margin-top: auto; }
 .policy-comparison .code-panel pre code { font-size: 25px; }
+
+/* Keep the complete image recipe beside its launch configuration. */
+#docker .left .code-panel pre code { font-size: 21px; line-height: 1.28; }
+#docker .left > p { font-size: 26px; line-height: 1.35; }
+#markdown-transcript .code-panel pre code { font-size: 25px; line-height: 1.28; }
+#markdown-transcript .code-panel { padding-top: 18px; padding-bottom: 18px; }

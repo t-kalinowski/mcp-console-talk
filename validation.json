@@ -1,9 +1,9 @@
 {
   "date": "2026-09-17",
-  "slide_count": 53,
-  "main_slides": 43,
+  "slide_count": 54,
+  "main_slides": 44,
   "addendum_slides": 9,
-  "native_quarto_notes_blocks": 53,
+  "native_quarto_notes_blocks": 54,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -17,12 +17,12 @@
     2488,
     1599
   ],
-  "layout_slides_checked": 53,
+  "layout_slides_checked": 54,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 13,
+  "captured_output_slides_checked": 14,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "5c78856f71f2f8719e92f68b330d19511b88b8f985dfb32bc638a9b95fceb992",
-    "../archived/2026-09-17-language-reveal/mcp-console-captured.html": "0122ba4e885f2022eb6d7b40ff733fbbafc09cbb7eafe2845e69592014143e39"
+    "mcp-console.html": "f25ac1cb3a4f4e24345a4b7ba6a4d00c825ce33bf826923cad32977e410dd1ff",
+    "../archived/2026-09-17-rocker-transcripts/mcp-console-captured.html": "048c4e56b0f574e9cccc439f75a15337625c5e4cf753ff4ea7c8f50831cef412"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,20 +76,17 @@
     1600,
     900
   ],
-  "baseline_commit": "da2af41",
+  "baseline_commit": "ce7086b",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
-    "sandboxed capture of simple Python, Matplotlib, and both R/Python bridge directions",
-    "executable fingerprint verified unchanged before and after focused capture",
     "native and captured Quarto renders without warnings",
-    "53-slide native browser layout, code scrolling, image, and notes check",
-    "13 captured-output slides checked in browser",
-    "Python reveal, Dockerfile, and remote topology visually inspected",
-    "all Python client extras match local pyproject.toml",
-    "displayed shell commands parse with bash -n",
-    "Docker YAML parses and displayed Dockerfile matches source",
+    "Docker and Markdown slides checked in both browser render modes",
+    "Rocker image and Python helper checked against upstream sources",
+    "Console Linux wheel and runtime dependencies reviewed",
+    "displayed Dockerfile matches examples/Dockerfile; RUN shell snippets parse",
+    "Markdown transcript excerpt retains its literal capture provenance",
     "sync_cells.py --check",
     "validate_source.py",
     "source diff whitespace"
@@ -190,5 +187,41 @@
     "dockerfile": "examples/Dockerfile",
     "inline_dockerfile_supported": false,
     "docker_build_run": false
+  },
+  "framing_review": {
+    "source": "/Users/tomasz/github/t-kalinowski/useR-2026-mcp-repl/mcp-repl-lightning-talk.qmd",
+    "archive": "../archived/2026-09-17-lightning-framing",
+    "visible_slides_rechecked": [
+      "shared-problems",
+      "sandbox-motivation",
+      "full-signature"
+    ],
+    "notes_also_updated": [
+      "send-r",
+      "python",
+      "closing"
+    ],
+    "runtime_cells_changed": false,
+    "captures_reused": true,
+    "previous_full_layout_check_slides": 53
+  },
+  "docker_transcript_review": {
+    "archive": "../archived/2026-09-17-rocker-transcripts",
+    "docker_base": "rocker/r-ver:4.6.1",
+    "console_version": "0.0.4",
+    "sources": [
+      "https://rocker-project.org/images/versioned/r-ver.html",
+      "https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_python.sh",
+      "https://pypi.org/project/mcp-console/0.0.4/"
+    ],
+    "docker_build_run": false,
+    "docker_unavailable_reason": "Local Docker daemon unavailable",
+    "visible_slides_rechecked": [
+      "docker",
+      "markdown-transcript"
+    ],
+    "previous_full_layout_check_slides": 53,
+    "markdown_precedes_quarto": true,
+    "captures_reused": true
   }
 }

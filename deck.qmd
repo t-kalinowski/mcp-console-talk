@@ -74,7 +74,7 @@ R, Python, and SQL belong in that shared workbench. The model can choose the lan
 ## One execution system we can reuse {#shared-problems .deck-slide .story-slide}
 ::: {.kicker}
 
-Why Console exists
+Real work requires multiple turns
 
 :::
 
@@ -113,7 +113,9 @@ Build on the shared workbench for the next AI project.
 
 ::: {.notes}
 
-**Say:** This is the scope of the solution. A useful execution tool needs much more than a way to evaluate a string of code. These concerns turn up together, and we have been addressing them in separate, ad hoc implementations.
+**Say:** Real work requires multiple turns. The agent inspects data, fits a model, looks at a plot, and decides what to try next. Each turn should build on the objects and computation already there. The execution session needs continuity just as the conversation does.
+
+That brings these concerns together: state, input, cancellation, output, dependencies, and permissions. We have been addressing them in separate, ad hoc implementations. Console brings them into one execution system we can reuse.
 
 The goal is a common workbench teams can adopt: persistent sessions, interactive control, dependencies, bounded output, records, local or remote compute, and sandboxing. Language-specific adapters still do their own work, while the surrounding infrastructure is shared.
 
@@ -144,7 +146,7 @@ R, Python, and SQL.<br>Libraries and native code.<br>Subprocesses.
 
 **Full safety**
 
-Enforced file and network permissions.<br>Process cleanup.<br>Access you control.
+OS-enforced file and network policy.<br>Subprocesses stay within that policy.<br>Process cleanup.
 
 :::::
 
@@ -160,7 +162,7 @@ Both are requirements of the execution system.
 
 **Say:** We want the model to have the languages’ full capabilities. That includes libraries, native code, and subprocesses. Those capabilities also carry risks: a mistake can change files, read secrets, contact a remote service, or leave work running.
 
-The sandbox constrains what that code can access, and the runner owns its lifecycle. Safety depends on those permissions and on trusted setup. This does not make arbitrary execution risk-free. Package preparation runs outside the worker sandbox, and the default host-read policy needs explicit denials for confidential files.
+The operating system enforces the sandbox policy on the runtime and its subprocesses. That covers file and network access from a package or native library as well as from the submitted code. The runner owns process cleanup. Safety depends on those permissions and on trusted setup. This does not make arbitrary execution risk-free. Package preparation runs outside the worker sandbox, and the default host-read policy needs explicit denials for confidential files.
 
 **Show:** Present two equal requirements: full language capabilities and enforced safety. The sandbox limits access to resources while preserving the languages and their libraries. The later policy examples show how the user sets that access. Full safety is the design goal; do not describe arbitrary code or trusted package installation as risk-free.
 
@@ -329,7 +331,7 @@ Define objects, see printed output, and continue in the same session.
 
 ::: {.notes}
 
-**Say:** The execution system is comprehensive, but the common call stays simple. This is the interaction we optimize for: send a cell, inspect its output, and continue with the objects already in the session. A simple call is enough.
+**Say:** This is the interaction we optimize for: send a cell, inspect its output, and continue with the objects already in the session. The capabilities live in the runtime and its packages. Fitting a model, drawing a plot, and using another library all go through this one tool.
 
 The final expression is fit, so R calls the fitted object’s default print method. The model receives that printed text; the fitted object remains in the R session. The agent receives useful output immediately, not prose that stands in for output. This is a real, persistent R workspace; ordinary cells do not require another object-management API.
 
@@ -972,7 +974,7 @@ console_protocol("python-ml")
 
 **Say:** We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.
 
-**Transition:** The session can now use the libraries the work calls for. Next, follow what happens when a cell runs longer or needs input.
+**Transition:** We have seen the ordinary analysis loop: write code, inspect the result, and continue. A session also has to handle work that takes time, asks for input, or produces more output than the model can use at once. The next examples show how the same tool handles those situations.
 
 **Show:** The meaningful difference is the library being used: RandomForestRegressor and cross_val_score. The result is shown below the call.
 
@@ -1330,7 +1332,7 @@ Launch this example from the examples directory, where ./analyze.R and ./measure
 ## The complete send() interface {#full-signature .deck-slide .signature-slide}
 ::: {.kicker}
 
-Work with the session
+The capabilities live in the runtime
 
 :::
 
@@ -1354,7 +1356,9 @@ Omit code to poll, supply input, control the session, or prepare dependencies.
 
 ::: {.notes}
 
-**Say:** These are the seven top-level fields in the managed session's send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.
+**Say:** The model reaches the languages and their package ecosystems through one tool. A new analysis library can add capabilities without adding tools to the MCP interface. These arguments handle the session around that code: preparation, evaluation, waiting, control, and input.
+
+These are the seven top-level fields in the managed session's send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.
 
 An empty send collects output. stdin answers a prompt or debugger; its text is queued exactly, so a line of input normally needs a trailing newline. Control interrupts or restarts the session. timeout_ms limits how long the call waits for an evaluation, rather than stopping the evaluation when that wait expires. Explicit preparation and control happen before that wait.
 
@@ -2213,7 +2217,7 @@ Docker · Prepare the packages in the image
 :::::: {.two-col}
 ::::: {.left}
 
-Start with a base image containing Console, R, and Python. Add the analysis packages.
+Start with Rocker’s R image, then add Python and Console.
 
 :::: {.code-panel}
 ::: {.panel-label .path-label}
@@ -2223,15 +2227,24 @@ examples/Dockerfile
 :::
 
 ```dockerfile
-FROM my-console:base
-RUN python -m pip install \
-    scikit-learn
+FROM rocker/r-ver:4.6.1
+RUN /rocker_scripts/install_python.sh
+ENV PATH="/opt/venv/bin:${PATH}"
+ENV RETICULATE_PYTHON=/opt/venv/bin/python
+RUN apt-get update && apt-get install -y \
+    --no-install-recommends libcap2 cmake \
+    libssl-dev libcurl4-openssl-dev \
+    && rm -rf /var/lib/apt/lists/*
+RUN LIBARROW_BINARY=true ARROW_DATASET=ON \
+    install2.r --error --skipinstalled \
+    reticulate DBI jsonlite png nanoarrow \
+    duckdb arrow pillar tibble utf8
+RUN pip install mcp-console==0.0.4 \
+    numpy pandas matplotlib duckdb scikit-learn
 WORKDIR /workspace
 ```
 
 ::::
-
-The project mount gives the session access to the workspace.
 
 :::::
 ::::: {.right}
@@ -2265,15 +2278,15 @@ sandbox:
 
 ::: {.notes}
 
-**Say:** The Dockerfile starts from a prepared Console image and adds scikit-learn. The YAML asks Console to build that image during initial setup, then run the session in it with the project mounted at /workspace. Both build paths are relative to the local launch directory. Packages come from the image; this target does not resolve them dynamically during evaluation.
+**Say:** The Dockerfile starts from rocker/r-ver:4.6.1. Rocker supplies R and an installation script that prepares Python and reticulate. We put that Python environment on PATH, select it for the runtime bridge, and install Console plus the R, Python, and SQL dependencies used by the session. The YAML asks Console to build that image during initial setup, then run the session in it with the project mounted at /workspace. Both build paths are relative to the local launch directory. Packages come from the image; this target does not resolve them dynamically during evaluation.
 
 external-sandbox delegates file and network enforcement to the Docker boundary; network: enabled permits ordinary container networking. The writable mount exposes those host files to changes. There are no implicit home, credential, or Docker socket mounts.
 
 **Show:** The Dockerfile and YAML are separate files displayed together. Inline Dockerfile text is not accepted in the current target schema; build.dockerfile names a file. Docker build runs before the analysis worker and uses trusted setup permissions. It is not governed by the worker's network policy.
 
-**Author / capture:** my-console:base is a user-prepared image, not a published image supplied by this talk. It needs a compatible Linux Console installation and companion bundle, R and its SQL/bridge dependencies, and a Python environment on PATH. The repository's full example Dockerfile documents that base. This slide demonstrates an analysis-specific layer. The Docker target and image build were not run locally.
+**Author / capture:** The versioned Rocker Dockerfile and install_python.sh were checked upstream. The helper creates /opt/venv and installs reticulate. The additional R packages follow Console’s documented Docker prerequisites; Arrow Dataset support is requested explicitly. Console is pinned to 0.0.4, so use a compatible controller build. R and Python packages are otherwise resolved at build time. The Docker daemon was unavailable locally; the image build and Docker target were not run.
 
-**Sources:** [Docker execution and base image](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md) · [Full example Dockerfile](https://github.com/t-kalinowski/mcp-console/blob/main/examples/docker/Dockerfile)
+**Sources:** [Rocker R images](https://rocker-project.org/images/versioned/r-ver.html) · [Rocker Python setup](https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_python.sh) · [Docker execution and base image](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md) · [Full example Dockerfile](https://github.com/t-kalinowski/mcp-console/blob/main/examples/docker/Dockerfile)
 
 :::
 
@@ -2592,9 +2605,54 @@ Full logs and a readable presentation of the session.
 
 The structured event journal preserves request metadata supplied by the harness. It is not the entire MCP transport exchange; our capture script records that separately in wire.jsonl. Session records remain on the controller when the worker is remote.
 
+**Transition:** Look first at the Markdown record, then at the Quarto source.
+
 **Show:** Walk down the tree. The comments are explanatory annotations, and the filenames reflect the captured layout.
 
 **Sources:** [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+
+:::
+
+## Read the session as Markdown {#markdown-transcript .deck-slide .literal-slide .code-dense}
+::: {.kicker}
+
+Keep the work useful after the session
+
+:::
+
+:::: {.code-panel}
+::: {.panel-label .path-label}
+
+transcript.md · recorded call and result
+
+:::
+
+```{r}
+#| label: markdown-document
+#| eval: true
+#| echo: false
+#| comment: ""
+#| results: asis
+console_source("markdown", "markdown")
+```
+
+::::
+
+::: {.takeaway}
+
+Code and captured results stay together in the session history.
+
+:::
+
+::: {.notes}
+
+**Say:** This is an excerpt from the generated Markdown transcript. It records the R call and the printed coefficients directly below it. A reader can follow what was submitted and what came back. Plot results link to the session’s captured images; oversized output links to the retained files.
+
+**Show:** The excerpt is copied literally from the captured transcript, including its call number and numeric output. Only this call and result are shown; the complete chronological record remains in captures/session-records/transcript.md. Its source lines are recorded in captures/excerpts/provenance.json.
+
+**Transition:** That gives us a readable history of the session. Console also writes Quarto source that we can copy into an analysis report and edit.
+
+**Sources:** [Session records](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
 
@@ -2678,6 +2736,8 @@ Full language capabilities, with a sandbox that enforces the access you allow.
 **Say:** The reason for Console is to give the model access to R, Python, and SQL together, with a common execution system underneath. That keeps R’s capabilities in reach, reduces duplicated runtime work, and lets us address the difficult parts in one place.
 
 The examples—waiting without losing the run, compacting progress, and retaining output beyond the context window—show the level of detail we want across that system. The sandbox is central to that design: it enforces file and network permissions and cleans up the processes the session starts. We want the model to use the full languages and libraries within the access the user allows. Trusted package setup remains a separate boundary.
+
+A real session gives the work continuity across turns. A compact tool interface gives the model access to the language ecosystems. The sandbox sets the boundary for that execution.
 
 My hope is that the next AI project can build on this workbench, without needing another ad hoc execution tool. Its comprehensiveness is what makes that reuse possible.
 

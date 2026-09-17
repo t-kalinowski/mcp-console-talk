@@ -35,11 +35,11 @@ own `cells.json`, wire exchange, returned PNG, and provenance identify those
 examples. Both render modes use these captures. The source validator checks the
 displayed calls and returned text/images against that record.
 
-`Dockerfile` adds scikit-learn to a user-prepared `my-console:base` image with
-Console, R, Python, and the runtime prerequisites. `configs/docker.yaml` selects
-that Dockerfile through a path; inline Dockerfile text is not supported. The
-Docker build and target were not run. The full upstream Dockerfile linked in the
-slide notes documents how to prepare the base image.
+`Dockerfile` starts from `rocker/r-ver:4.6.1`, uses Rocker's Python installer,
+and adds Console 0.0.4, its runtime prerequisites, and analysis packages.
+`configs/docker.yaml` selects that Dockerfile through a path; inline Dockerfile
+text is not supported. The recipe was checked against the upstream sources,
+but the Docker build and target were not run because the local daemon was unavailable.
 
 ```sh
 python examples/capture_console.py --command /absolute/path/to/mcp-console serve

@@ -56,9 +56,11 @@ capture. The private resolver exchange uses documented fields and an illustrativ
 library path; it is not presented as a literal captured exchange.
 
 The Docker build example uses `examples/Dockerfile` alongside the YAML. The
-configuration accepts a Dockerfile path, not inline Dockerfile text. Prepare
-`my-console:base` with the runtime prerequisites from the upstream example before
-rehearsing it. Neither this image build nor the SSH target was run locally.
+configuration accepts a Dockerfile path, not inline Dockerfile text. The recipe
+starts from Rocker's R 4.6.1 image and adds Python, Console 0.0.4, and the runtime
+and analysis packages. Rehearse the image build with a compatible controller
+before presenting it live. The local Docker daemon was unavailable, and neither
+this image build nor the SSH target was run locally.
 
 The report's `ir.exclude-newer` date is added to an editable copy. Use
 `ir render report.qmd` to consume it. It is a package snapshot cutoff rather than

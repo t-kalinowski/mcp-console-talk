@@ -9,7 +9,7 @@
     "number": 2,
     "title": "One execution system we can reuse",
     "id": "shared-problems",
-    "section": "Why Console exists"
+    "section": "Real work requires multiple turns"
   },
   {
     "number": 3,
@@ -117,7 +117,7 @@
     "number": 20,
     "title": "The complete send() interface",
     "id": "full-signature",
-    "section": "Work with the session"
+    "section": "The capabilities live in the runtime"
   },
   {
     "number": 21,
@@ -247,72 +247,78 @@
   },
   {
     "number": 42,
+    "title": "Read the session as Markdown",
+    "id": "markdown-transcript",
+    "section": "Keep the work useful after the session"
+  },
+  {
+    "number": 43,
     "title": "Turn the session into an editable starting point",
     "id": "quarto-transcript",
     "section": "Keep the work useful after the session"
   },
   {
-    "number": 43,
+    "number": 44,
     "title": "R, Python, and SQL, available for the work",
     "id": "closing",
     "section": "Why Console exists"
   },
   {
-    "number": 44,
+    "number": 45,
     "title": "Appendix",
     "id": "appendix",
     "section": "Backup material"
   },
   {
-    "number": 45,
+    "number": 46,
     "title": "Follow a package-resolution request",
     "id": "resolver-boundary",
     "section": "Private worker protocol \u00b7 illustrative paths"
   },
   {
-    "number": 46,
+    "number": 47,
     "title": "Rust implementation. Python integration tests.",
     "id": "tests-python",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 47,
+    "number": 48,
     "title": "Test the boundaries you intend to preserve",
     "id": "test-boundaries",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 48,
+    "number": 49,
     "title": "YAML is what the reviewer reads",
     "id": "yaml-transcripts",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 49,
+    "number": 50,
     "title": "Normalize noise, not behavior",
     "id": "test-normalization",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 50,
+    "number": 51,
     "title": "Synchronize; do not sleep and hope",
     "id": "test-determinism",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 51,
+    "number": 52,
     "title": "Portable behavior; real capability checks",
     "id": "test-capabilities",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 52,
+    "number": 53,
     "title": "Snapshots are generated evidence",
     "id": "snapshot-review",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 53,
+    "number": 54,
     "title": "Test the installed product",
     "id": "installed-product-tests",
     "section": "Appendix \u00b7 Development practices"
