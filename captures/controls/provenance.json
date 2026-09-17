@@ -1,12 +1,12 @@
 {
-  "captured_at_utc": "2026-09-17T20:56:54.566814+00:00",
+  "captured_at_utc": "2026-09-17T21:18:19.636004+00:00",
   "command": [
     "/Users/tomasz/.local/bin/mcp-console",
     "serve"
   ],
   "executable_sha256": "44d7bb321a2d590fb9b16d7e91b4d8ca7821cb94fdab306a228232ac54bc0e4a",
-  "package_fixture": "archived/2026-09-17-controls-review/package",
-  "script_sha256": "ecf2a2b615c66ef9154f9ce9802de90f0c88903abdd58131ac8a5f6f719be78e",
+  "package_fixture": "archived/2026-09-17-final-slide-review/package",
+  "script_sha256": "19f4f985da9866fab274b2d2f6fb4671a66b05ee03aa407e62242764cd00c0b7",
   "data_sha256": "c8824302164402eb1e2545f340151dacd7616b511c722335d2ff214eae567b9a",
   "sandboxed": true,
   "model_api_used": false

@@ -47,25 +47,124 @@ Why Console exists
 
 ::: {.big-statement}
 
-R, Python, and SQL.<br>Available in one session.
+R, Python, and SQL.<br>One execution system.
 
 :::
 
 ::: {.takeaway}
 
-Let the model choose the language the task needs.
+A shared workbench for the AI systems we build.
 
 :::
 
 ::: {.notes}
 
-**Say:** I want the model to have R, Python, and SQL available in the same session, and choose the language that helps with the task. That keeps R’s packages and methods in reach alongside Python’s ecosystem and SQL database queries.
+**Say:** We know how to let a model execute R code. We have built that more than once within the company. The reason for Console is to give us a comprehensive execution system we can reuse across the AI systems we build.
 
-We also keep solving the same execution problems around each language: waiting, output, dependencies, records, and permissions. Console puts that work into a shared runtime, with the sandbox as part of the design from the beginning.
+Once execution becomes part of a real workflow, we need persistent state, packages, input, cancellation, useful output, records, remote hosts, and a sandbox. My hope is that the next team can use this and spend its effort on the AI system it is building.
 
-**Show:** Start with why. The small tool interface is a consequence of this design, which we will see in a few concrete examples.
+R, Python, and SQL belong in that shared workbench. The model can choose the language for the task, and we can solve the surrounding execution problems together.
+
+**Show:** Lead with reuse and completeness. This audience already builds AI systems; code execution is familiar. The opening establishes why the shared system is worth adopting, and the later examples demonstrate its coverage and care.
 
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+
+:::
+
+## One execution system we can reuse {#shared-problems .deck-slide .story-slide}
+::: {.kicker}
+
+Why Console exists
+
+:::
+
+:::: {.three-col}
+
+::: {.story-card}
+
+**Keep work alive**
+
+Persistent objects.<br>Wait, poll, and interrupt.<br>Interactive input.
+
+:::
+
+::: {.story-card}
+
+**Make results usable**
+
+Text and plots.<br>Compact progress updates.<br>Retained output and records.
+
+:::
+
+::: {.story-card}
+
+**Control execution**
+
+Managed dependencies.<br>Filesystem and network policy.<br>Local and remote hosts.
+
+:::
+
+::::
+::: {.takeaway}
+
+Build on the shared workbench for the next AI project.
+
+:::
+
+::: {.notes}
+
+**Say:** This is the scope of the solution. A useful execution tool needs much more than a way to evaluate a string of code. These concerns turn up together, and we have been addressing them in separate, ad hoc implementations.
+
+The goal is a common workbench teams can adopt: persistent sessions, interactive control, dependencies, bounded output, records, local or remote compute, and sandboxing. Language-specific adapters still do their own work, while the surrounding infrastructure is shared.
+
+I hope we can stop needing a new console implementation for each project. When we find another execution problem, we can solve it in the shared system. The examples later in the talk show a few details that make this breadth usable.
+
+**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+
+:::
+
+## Full capabilities and full safety {#sandbox-motivation .deck-slide .story-slide .capabilities-safety}
+::: {.kicker}
+
+Design for both
+
+:::
+
+:::::: {.two-col}
+
+::::: {.story-card}
+
+**Full capabilities**
+
+R, Python, and SQL.<br>Libraries and native code.<br>Subprocesses.
+
+:::::
+
+::::: {.story-card}
+
+**Full safety**
+
+Enforced file and network permissions.<br>Process cleanup.<br>Access you control.
+
+:::::
+
+::::::
+
+::: {.takeaway}
+
+Both are requirements of the execution system.
+
+:::
+
+::: {.notes}
+
+**Say:** We want the model to have the languages’ full capabilities. That includes libraries, native code, and subprocesses. Those capabilities also carry risks: a mistake can change files, read secrets, contact a remote service, or leave work running.
+
+The sandbox constrains what that code can access, and the runner owns its lifecycle. Safety depends on those permissions and on trusted setup. This does not make arbitrary execution risk-free. Package preparation runs outside the worker sandbox, and the default host-read policy needs explicit denials for confidential files.
+
+**Show:** Present two equal requirements: full language capabilities and enforced safety. The sandbox limits access to resources while preserving the languages and their libraries. The later policy examples show how the user sets that access. Full safety is the design goal; do not describe arbitrary code or trusted package installation as risk-free.
+
+**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 
@@ -121,10 +220,10 @@ Keeping R useful here means making its capabilities easy to reach from the agent
 
 :::
 
-## Solve the execution problems once {#shared-problems .deck-slide .story-slide}
+## Use Console through your existing interface {#interfaces .deck-slide .story-slide}
 ::: {.kicker}
 
-Why Console exists
+One execution system, several ways to connect
 
 :::
 
@@ -132,102 +231,44 @@ Why Console exists
 
 ::: {.story-card}
 
-**Keep work alive**
+**MCP clients**
 
-Persistent objects.<br>Wait, poll, and interrupt.<br>Interactive input.
-
-:::
-
-::: {.story-card}
-
-**Make results usable**
-
-Text and plots.<br>Compact progress updates.<br>Retained output and records.
+Compatible MCP stdio clients, including Codex and Claude Code.
 
 :::
 
 ::: {.story-card}
 
-**Control execution**
+**R**
 
-Managed dependencies.<br>Filesystem and network policy.<br>Local and remote hosts.
-
-:::
-
-::::
-::: {.takeaway}
-
-R, Python, and SQL share this infrastructure.
-
-:::
-
-::: {.notes}
-
-**Say:** These are the problems we often solve piecemeal around a language tool. Duplicating the runtime means solving much of this again for each language. Console shares the execution lifecycle, output handling, recording, and sandbox boundary. Language-specific adapters still do their own work.
-
-The aim is one coherent execution system. I’ll use a few small details later to show what that means in practice.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
-
-:::
-
-## Full language capabilities, with control over risk {#sandbox-motivation .deck-slide .story-slide}
-::: {.kicker}
-
-Why Console exists
-
-:::
-
-:::: {.three-col}
-
-::: {.story-card}
-
-**Use real tools**
-
-The full languages, their libraries, native code, and subprocesses.
+ellmer through mcp.console.
 
 :::
 
 ::: {.story-card}
 
-**Provide real guarantees**
+**Python**
 
-Enforce file and network permissions. Own the worker’s process cleanup.
-
-:::
-
-::: {.story-card}
-
-**Make it configurable**
-
-Choose the files, services, and execution environment the task can use.
+Sync and async clients.<br>chatlas.<br>OpenAI Responses and Agents SDK.<br>Anthropic.<br>Codex thread SDK.
 
 :::
 
 ::::
 
-::: {.takeaway}
-
-Safety belongs in the execution system, alongside the capabilities.
-
-:::
-
 ::: {.notes}
 
-**Say:** We want the model to have the languages’ full capabilities. That includes libraries, native code, and subprocesses. Those capabilities also carry risks: a mistake can change files, read secrets, contact a remote service, or leave work running.
+**Say:** Console is an MCP server, so a compatible MCP client can use it directly. There is an ellmer tool in the R package, and Python offers direct clients and adapters for these frameworks. We will return to registration near the end. First, follow what this shared workbench provides as the task grows.
 
-The sandbox constrains what that code can access, and the runner owns its lifecycle. Safety depends on those permissions and on trusted setup. This does not make arbitrary execution risk-free. Package preparation runs outside the worker sandbox, and the default host-read policy needs explicit denials for confidential files.
+The adapters preserve the live tool schema. Image support and client deadlines vary by interface, so check the chosen path before a demo. These interfaces are documented in the current source checkout; the installed PyPI 0.0.3 wheel used for runtime captures does not include the newer Python clients and extras.
 
-**Show:** Connect full language capabilities to enforced permissions and cleanup, then to the user’s configuration choices. The default policy and cleanup behavior follow after the examples.
-
-**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+**Sources:** [Python integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
 
 :::
 
-## Start with a cell {#send-r .deck-slide .literal-slide}
+## A simple interface to the whole workbench {#send-r .deck-slide .literal-slide}
 ::: {.kicker}
 
-One analysis · R and Python together
+The common case · one simple call
 
 :::
 
@@ -282,13 +323,15 @@ console_text("fit")
 ::::::
 ::: {.takeaway}
 
-Define objects in the session and see their printed output.
+Define objects, see printed output, and continue in the same session.
 
 :::
 
 ::: {.notes}
 
-**Say:** The final expression is fit, so R calls the fitted object’s default print method. The model receives that printed text; the fitted object remains in the R session. The agent receives useful output immediately, not prose that stands in for output. This is a real, persistent R workspace; ordinary cells do not require another object-management API.
+**Say:** The execution system is comprehensive, but the common call stays simple. This is the interaction we optimize for: send a cell, inspect its output, and continue with the objects already in the session. A simple call is enough.
+
+The final expression is fit, so R calls the fitted object’s default print method. The model receives that printed text; the fitted object remains in the R session. The agent receives useful output immediately, not prose that stands in for output. This is a real, persistent R workspace; ordinary cells do not require another object-management API.
 
 **Show:** Show the exact submitted R code beside the printed lm object. The code and renderer both read the same cell definition. The data frame stays available for the following cells.
 
@@ -444,67 +487,6 @@ Supply `r=` or `python=`. Python can read the R data frame through `r.d`.
 
 :::
 
-## Use a Python library on the same data {#python .deck-slide .code-dense}
-::: {.kicker}
-
-One analysis · R and Python together
-
-:::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-LLM client → Console · Python cell
-
-:::
-
-<!-- cells:python-ml -->
-```python
-console.send(python="""
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.model_selection import cross_val_score
-import pandas as pd
-
-frame = r.d
-X = pd.get_dummies(frame[["temperature", "group"]])
-model = RandomForestRegressor(random_state=42)
-scores = cross_val_score(model, X, frame["response"],
-                         cv=5, scoring="neg_mean_absolute_error")
-print(f"CV MAE: {-scores.mean():.3f}")
-""")
-```
-
-::::
-
-
-:::: {.result-panel}
-
-::: {.panel-label}
-
-Captured Python result
-
-:::
-
-```{r}
-#| eval: true
-#| echo: false
-#| comment: ""
-console_protocol("python-ml")
-```
-
-::::
-
-::: {.notes}
-
-**Say:** We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.
-
-**Show:** The meaningful difference is the library being used: RandomForestRegressor and cross_val_score. The result is shown below the call.
-
-**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
-
-:::
-
 ## Query the same data with SQL {#sql .deck-slide .literal-slide}
 ::: {.kicker}
 
@@ -567,7 +549,196 @@ console_protocol("sql")
 
 **Show:** d is the R data frame from the first example. This response comes from the same captured Console session.
 
+**Transition:** The basic loop is the same in all three languages. Now expand what the model can reach through it, starting with the package ecosystems.
+
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+
+:::
+
+## Make CRAN and PyPI available to the session {#package-opportunity .deck-slide .story-slide}
+::: {.kicker}
+
+Use the package ecosystem
+
+:::
+
+::: {.story-lead}
+
+A model may avoid a useful package to avoid changing the user’s environment.
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+::: {.story-card}
+
+**Let the task choose the library**
+
+The model can use a trusted package when the analysis calls for it.
+
+:::
+
+:::::
+
+::::: {.right}
+
+::: {.story-card}
+
+**Manage the environment for the session**
+
+Console retains requirements and prepares compatible package environments.
+
+:::
+
+:::::
+
+::::::
+::: {.takeaway}
+
+Ordinary package use can request the dependency it needs.
+
+:::
+
+::: {.notes}
+
+**Say:** In my experience, models often hesitate to install packages because installation sounds like a change to the user’s global setup. They may settle for a simpler approach using only what is already there. I want using the right library to be an ordinary part of the analysis.
+
+Here the requirement belongs to the Console session and is resolved into a managed environment. That puts the breadth of trusted CRAN and PyPI packages in reach. The session’s retained requirement configuration is temporary; resolver caches and prepared environments may be reused on disk. This does not mean every package installs successfully or that all its installation code is sandboxed.
+
+**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+
+:::
+
+## Use the package; let the runtime prepare it {#r-resolution .deck-slide .story-slide .literal-slide}
+::: {.kicker}
+
+Use the package ecosystem
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+R
+
+:::
+
+```python
+console.send(r="library(data.table)")
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Python
+
+:::
+
+```python
+console.send(python="import polars")
+```
+
+::::
+
+:::::
+
+::::::
+::: {.sequence-strip}
+
+Reach a missing package → resolve → activate → continue
+
+:::
+
+::: {.takeaway}
+
+The live workspace stays available during supported additions.
+
+:::
+
+::: {.notes}
+
+**Say:** The model writes ordinary R or Python. When execution reaches a supported missing-package operation, the runtime requests preparation, activates the result, and continues the original operation. It keeps the live workspace.
+
+For R this uses ir; managed Python uses uv. We react to package use during execution rather than pre-scanning the source or replaying the whole cell. Explicit requirements remain available when the model needs a version pin or a distribution name that cannot be inferred from an import.
+
+**Show:** These are illustrative package-use calls. Availability depends on a working managed resolver and the package’s system prerequisites. Docker’s prepared-image path is different and appears later.
+
+**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+
+:::
+
+## Use a Python library on the same data {#python .deck-slide .code-dense}
+::: {.kicker}
+
+One analysis · R and Python together
+
+:::
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+LLM client → Console · Python cell
+
+:::
+
+<!-- cells:python-ml -->
+```python
+console.send(python="""
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.model_selection import cross_val_score
+import pandas as pd
+
+frame = r.d
+X = pd.get_dummies(frame[["temperature", "group"]])
+model = RandomForestRegressor(random_state=42)
+scores = cross_val_score(model, X, frame["response"],
+                         cv=5, scoring="neg_mean_absolute_error")
+print(f"CV MAE: {-scores.mean():.3f}")
+""")
+```
+
+::::
+
+
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Captured Python result
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("python-ml")
+```
+
+::::
+
+::: {.notes}
+
+**Say:** We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.
+
+**Show:** The meaningful difference is the library being used: RandomForestRegressor and cross_val_score. The result is shown below the call.
+
+**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 
@@ -656,285 +827,46 @@ Restore the managed connection with console_sql_connection(NULL) in R or console
 
 **Show:** Read the R and Python panels as two alternatives, followed by the same SQL call. No model or remote database call is needed for this illustration.
 
+**Transition:** We have expanded the tools available to the session. The complete send interface adds the controls needed when that work runs longer or becomes interactive.
+
 **Sources:** [SQL connection selection](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql)
 
 :::
 
-## Make CRAN and PyPI available to the session {#package-opportunity .deck-slide .story-slide}
+## The complete send() interface {#full-signature .deck-slide .signature-slide}
 ::: {.kicker}
 
-Use the package ecosystem
+Work with the session
 
 :::
 
-::: {.story-lead}
+::: {.full-contract}
 
-A model may avoid a useful package to avoid changing the user’s environment.
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-::: {.story-card}
-
-**Let the task choose the library**
-
-The model can use a trusted package when the analysis calls for it.
-
-:::
-
-:::::
-
-::::: {.right}
-
-::: {.story-card}
-
-**Manage the environment for the session**
-
-Console retains requirements and prepares compatible package environments.
-
-:::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-Ordinary package use can request the dependency it needs.
-
-:::
-
-::: {.notes}
-
-**Say:** In my experience, models often hesitate to install packages because installation sounds like a change to the user’s global setup. They may settle for a simpler approach using only what is already there. I want using the right library to be an ordinary part of the analysis.
-
-Here the requirement belongs to the Console session and is resolved into a managed environment. That puts the breadth of trusted CRAN and PyPI packages in reach. The session’s retained requirement configuration is temporary; resolver caches and prepared environments may be reused on disk. This does not mean every package installs successfully or that all its installation code is sandboxed.
-
-**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
-
-:::
-
-## Separate session control from code execution {#process-topology .deck-slide .story-slide}
-::: {.kicker}
-
-How the processes fit together · local execution
-
-:::
-
-<!-- inline-svg:assets/process-topology.svg -->
-```{=html}
-<div class="embedded-diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 455" role="img" aria-label="The LLM client talks to the Console server. The server uses trusted resolver processes outside the sandbox and exchanges cells and results with the sandboxed relay and worker. The native runner enforces permissions and cleanup.">
-<g font-family="Arial, sans-serif" fill="#18323f">
-<rect x="865" y="8" width="520" height="435" rx="18" fill="#edf5ef" stroke="#167d76" stroke-width="2" stroke-dasharray="8 6"/>
-<text x="1125" y="43" text-anchor="middle" font-size="24" fill="#167d76">Sandboxed processes</text>
-<rect x="10" y="83" width="245" height="100" rx="10" fill="white" stroke="#a9b6b6"/>
-<text x="132" y="142" text-anchor="middle" font-size="29">LLM client</text>
-<rect x="390" y="83" width="305" height="100" rx="10" fill="white" stroke="#a9b6b6"/>
-<text x="542" y="125" text-anchor="middle" font-size="29">Console server</text>
-<text x="542" y="158" text-anchor="middle" font-size="23">Session and records</text>
-<path d="M265 133 H380" fill="none" stroke="#537b79" stroke-width="2"/>
-<text x="320" y="108" text-anchor="middle" font-size="23">MCP</text>
-<rect x="930" y="83" width="390" height="100" rx="10" fill="white" stroke="#a9b6b6"/>
-<text x="1125" y="125" text-anchor="middle" font-size="29">Worker relay</text>
-<text x="1125" y="158" text-anchor="middle" font-size="23">Transport and supervision</text>
-<path d="M705 133 H920" fill="none" stroke="#537b79" stroke-width="2"/>
-<text x="780" y="108" text-anchor="middle" font-size="22">Cells / results</text>
-<rect x="930" y="290" width="390" height="105" rx="10" fill="#d9eee9" stroke="#167d76"/>
-<text x="1125" y="330" text-anchor="middle" font-size="29">Session worker</text>
-<text x="1125" y="367" text-anchor="middle" font-size="25">R · Python · SQL</text>
-<path d="M1125 194 V278" fill="none" stroke="#537b79" stroke-width="2"/>
-<text x="1144" y="239" font-size="23">Cells and I/O</text>
-<rect x="390" y="290" width="305" height="105" rx="10" fill="#fff" stroke="#a9b6b6"/>
-<text x="542" y="330" text-anchor="middle" font-size="29">Trusted resolvers</text>
-<text x="542" y="367" text-anchor="middle" font-size="25">ir · uv</text>
-<path d="M542 194 V278" fill="none" stroke="#537b79" stroke-width="2"/>
-<text x="560" y="239" font-size="23">Prepare packages</text>
-<text x="1125" y="428" text-anchor="middle" font-size="21" fill="#167d76">Native runner: permissions and cleanup</text>
-</g>
-<g fill="#537b79"><path d="M265 133 l10 -5 v10 Z M380 133 l-10 -5 v10 Z M705 133 l10 -5 v10 Z M920 133 l-10 -5 v10 Z M1125 194 l-5 10 h10 Z M1125 278 l-5 -10 h10 Z M542 194 l-5 10 h10 Z M542 278 l-5 -10 h10 Z"/></g>
-</svg>
-</div>
-```
-<!-- /inline-svg -->
-
-::: {.takeaway}
-
-The server manages the session. The worker executes code inside the sandbox.
-
-:::
-
-::: {.notes}
-
-**Say:** The LLM client talks to the Console server over MCP. The server owns the session and its records. A relay carries cells, input, output, and control messages to the worker, where R, Python, and SQL run. The native runner applies the sandbox policy and owns process cleanup.
-
-Package resolvers are separate trusted processes, outside the worker sandbox. That is how the server can prepare a package without giving the worker direct network access. We will follow one of those requests next.
-
-**Show:** This is the simplified local layout. Arrows indicate the labeled two-way exchanges, not a strict parent-process tree. Native setup helpers are omitted. The native runner is a separate executable; the shaded area identifies the processes whose permissions it restricts. Remote targets change placement and transport while retaining the session interface.
-
-**Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-## Use the package; let the runtime prepare it {#r-resolution .deck-slide .story-slide .literal-slide}
-::: {.kicker}
-
-Use the package ecosystem
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-R
-
-:::
-
-```python
-console.send(r="library(data.table)")
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Python
-
-:::
-
-```python
-console.send(python="import polars")
-```
-
-::::
-
-:::::
-
-::::::
-::: {.sequence-strip}
-
-Reach a missing package → resolve → activate → continue
+<pre class="signature-display">console.send(
+  <span class="syntax-accent">r</span>=…, <span class="syntax-accent">python</span>=…, <span class="syntax-accent">sql</span>=…,    <span class="syntax-comment"># at most one language</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
 
 :::
 
 ::: {.takeaway}
 
-The live workspace stays available during supported additions.
+Omit code to poll, supply input, control the session, or prepare dependencies.
 
 :::
 
 ::: {.notes}
 
-**Say:** The model writes ordinary R or Python. When execution reaches a supported missing-package operation, the runtime requests preparation, activates the result, and continues the original operation. It keeps the live workspace.
+**Say:** These are the seven top-level fields in the managed session's send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.
 
-For R this uses ir; managed Python uses uv. We react to package use during execution rather than pre-scanning the source or replaying the whole cell. Explicit requirements remain available when the model needs a version pin or a distribution name that cannot be inferred from an import.
+An empty send collects output. stdin answers a prompt or debugger; its text is queued exactly, so a line of input normally needs a trailing newline. Control interrupts or restarts the session. timeout_ms limits how long the call waits for an evaluation, rather than stopping the evaluation when that wait expires. Explicit preparation and control happen before that wait.
 
-**Show:** These are illustrative package-use calls. Availability depends on a working managed resolver and the package’s system prerequisites. Docker’s prepared-image path is different and appears later.
+**Show:** This is a schematic field overview, not a call that supplies three languages at once. Keep the walkthrough brief. The next examples follow a running job, interrupt or restart it, supply input, and keep its output useful. Code-free standalone preparation cannot carry nonempty stdin. Use stdin alone to answer an already active prompt.
 
-**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
-
-:::
-
-## Follow a package-resolution request {#resolver-boundary .deck-slide .story-slide .literal-slide}
-::: {.kicker}
-
-Private worker protocol · illustrative paths
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-::: {.resolution-steps}
-
-1. R reaches a missing package and the worker requests resolution.
-2. The server prepares a library with `ir`, outside the worker sandbox.
-3. The worker activates the library and continues the original load.
-
-:::
-
-:::::
-
-::::: {.right}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Worker → server
-
-:::
-
-```json
-{"kind": "resolve_r",
- "packages": ["data.table"]}
-```
-
-::::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Server → worker
-
-:::
-
-```json
-{"kind": "r_resolved",
- "library": "/cache/r/library"}
-```
-
-::::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Worker → server
-
-:::
-
-```json
-{"kind": "r_activated",
- "library": "/cache/r/library"}
-```
-
-::::
-
-:::::
-
-::::::
-
-::: {.takeaway}
-
-Trusted preparation can use the network while the worker remains restricted.
-
-:::
-
-::: {.notes}
-
-**Say:** The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.
-
-These are private worker-protocol messages, not MCP tool calls the model has to make. The field names match the documented protocol; /cache/r/library is an illustrative path. Python follows the analogous resolve_python exchange and activates a prepared interpreter environment.
-
-Installation and build code run with the preparation account’s permissions, so requirements and resolver configuration must be trusted. Caches can persist. The worker’s filesystem and network policy continues to apply. On SSH, preparation runs on the remote execution host.
-
-**Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 
@@ -960,7 +892,8 @@ LLM client → Console · running cell
 <!-- cells:progress -->
 ```python
 console.send(r="""
-  pb <- txtProgressBar(max = 20, style = 3, width = 20)
+  pb <- txtProgressBar(
+    max = 20, style = 3, width = 20)
   for (i in 1:20) {
     Sys.sleep(0.15)
     setTxtProgressBar(pb, i)
@@ -1102,10 +1035,190 @@ Poll the same run. Redrawn progress stays one current line per response.
 
 :::
 
-## Keep the response readable; retain the longer output {#bounded-output .deck-slide .literal-slide .code-dense}
+## Interrupt or restart the session {#session-controls .deck-slide .literal-slide}
 ::: {.kicker}
 
-Detail 2 · Preserve evidence beyond the context window
+Work with the session
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Interrupt
+
+:::
+
+```python
+console.send(control="interrupt")
+```
+
+::::
+
+Interrupt a long-running computation. Keep the workspace.
+
+:::::
+
+::::: {.right}
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Restart
+
+:::
+
+```python
+console.send(control="restart")
+```
+
+::::
+
+Replace the worker. Start with fresh in-memory state.
+
+:::::
+
+::::::
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+R package development · use a fresh session
+
+:::
+
+```python
+# Run the package tests in a fresh session
+console.send(control="restart", r="devtools::test()")
+
+# Load the package, then evaluate more code
+console.send(control="restart", r="devtools::load_all(); ...")
+```
+
+::::
+
+::: {.takeaway}
+
+Restart keeps prepared dependencies and starts the supplied cell in the new session.
+
+:::
+
+::: {.notes}
+
+**Say:** Interrupt a long-running computation while keeping the workspace, like pressing Escape in the RStudio console. It requests SIGINT; code can catch or delay it. Changes already made by the computation remain. Restart retires the worker and starts a replacement. R objects, Python state, the managed DuckDB catalog, debugger state, and unread input are discarded; successfully prepared dependencies remain available.
+
+A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session. Launch from the package directory for these examples. The two calls are alternatives. The ellipsis after load_all is a placeholder for the package code the model wants to evaluate next, not literal R code to run.
+
+**Show:** There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.
+
+**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The next slide captures restart plus a sourced script with queued input.
+
+**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
+
+:::
+
+## Run an interactive script in a fresh session {#restart-input .deck-slide .literal-slide}
+::: {.kicker}
+
+Work with the session
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label .path-label}
+
+./analyze.R
+
+:::
+
+```r
+group <- readline("Group to summarize: ")
+d <- read.csv("./measurements.csv")
+values <- d$response[d$group == group]
+print(summary(values))
+```
+
+::::
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+One send call
+
+:::
+
+<!-- control-cell:restart-script -->
+```python
+console.send(
+  control="restart",
+  stdin="A\n",
+  r='source("./analyze.R")'
+)
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+:::: {.result-panel}
+
+::: {.panel-label}
+
+One response · captured from Console
+
+:::
+
+```{r}
+#| label: restart-input-output
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("controls/restart-script")
+```
+
+::::
+
+:::::
+
+::::::
+
+::: {.takeaway}
+
+Replace the worker → queue input → source the script.
+
+:::
+
+::: {.notes}
+
+**Say:** An existing analysis script asks which group to summarize. The model can run it in a fresh session without editing out its interactive prompt. One request restarts the worker, queues A followed by a newline, and sources the script. When readline asks for the group, that input is already available. The server returns lifecycle notices and the script's output in one response.
+
+Launch this example from the examples directory, where ./analyze.R and ./measurements.csv are present. The source path names the real checked-in script. It reads the same measurements CSV used earlier in the talk. source does not automatically print each visible expression, so the script prints its summary explicitly. The newline is explicit because stdin does not add one.
+
+**Show:** Read the script, then the call and response. Only the replacement receives same-call input. This is captured output, including the managed read notice; startup messages and prompt formatting can vary by runtime. The capture separately checks that an object from the old session is gone and the script selected group A. If the answer depends on output not yet seen, run the script first and answer its prompt with a later stdin-only call.
+
+**Sources:** [Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
+
+:::
+
+## Protect the model’s context from oversized output {#bounded-output .deck-slide .literal-slide .code-dense}
+::: {.kicker}
+
+Detail 2 · Bound the response and retain the full output
 
 :::
 
@@ -1284,51 +1397,80 @@ The Python example writes directly to file descriptor 1, bypassing sys.stdout. T
 
 **Show:** Both panels use actual Console responses. Read each call with its own result. The R child → pipe → native cat route is deliberate: ordinary cat() in the fork completed but its text was absent in this installed build. Do not present the plain call as captured successfully. The older C-level fork example remains in the reference captures.
 
+**Transition:** Those details describe what the agent sees. Next, look at the process arrangement that makes dependency preparation and sandbox enforcement possible.
+
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 
-## The complete send() interface {#full-signature .deck-slide .signature-slide}
+## Separate session control from code execution {#process-topology .deck-slide .story-slide}
 ::: {.kicker}
 
-Work with the session
+How the processes fit together · local execution
 
 :::
 
-::: {.full-contract}
-
-<pre class="signature-display">console.send(
-  <span class="syntax-accent">r</span>=…, <span class="syntax-accent">python</span>=…, <span class="syntax-accent">sql</span>=…,  <span class="syntax-comment"># at most one language</span>
-  control=…,               <span class="syntax-comment"># interrupt or restart</span>
-  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
-  requirements={r: …, python: …, duckdb: …},
-  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
-)</pre>
-
-:::
+<!-- inline-svg:assets/process-topology.svg -->
+```{=html}
+<div class="embedded-diagram">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 455" role="img" aria-label="The LLM client talks to the Console server. The server uses trusted resolver processes outside the sandbox and exchanges cells and results with the sandboxed relay and worker. The native runner enforces permissions and cleanup.">
+<g font-family="Arial, sans-serif" fill="#18323f">
+<rect x="865" y="8" width="520" height="435" rx="18" fill="#edf5ef" stroke="#167d76" stroke-width="2" stroke-dasharray="8 6"/>
+<text x="1125" y="43" text-anchor="middle" font-size="24" fill="#167d76">Sandboxed processes</text>
+<rect x="10" y="83" width="245" height="100" rx="10" fill="white" stroke="#a9b6b6"/>
+<text x="132" y="142" text-anchor="middle" font-size="29">LLM client</text>
+<rect x="390" y="83" width="305" height="100" rx="10" fill="white" stroke="#a9b6b6"/>
+<text x="542" y="125" text-anchor="middle" font-size="29">Console server</text>
+<text x="542" y="158" text-anchor="middle" font-size="23">Session and records</text>
+<path d="M265 133 H380" fill="none" stroke="#537b79" stroke-width="2"/>
+<text x="320" y="108" text-anchor="middle" font-size="23">MCP</text>
+<rect x="930" y="83" width="390" height="100" rx="10" fill="white" stroke="#a9b6b6"/>
+<text x="1125" y="125" text-anchor="middle" font-size="29">Worker relay</text>
+<text x="1125" y="158" text-anchor="middle" font-size="23">Transport and supervision</text>
+<path d="M705 133 H920" fill="none" stroke="#537b79" stroke-width="2"/>
+<text x="780" y="108" text-anchor="middle" font-size="22">Cells / results</text>
+<rect x="930" y="290" width="390" height="105" rx="10" fill="#d9eee9" stroke="#167d76"/>
+<text x="1125" y="330" text-anchor="middle" font-size="29">Session worker</text>
+<text x="1125" y="367" text-anchor="middle" font-size="25">R · Python · SQL</text>
+<path d="M1125 194 V278" fill="none" stroke="#537b79" stroke-width="2"/>
+<text x="1144" y="239" font-size="23">Cells and I/O</text>
+<rect x="390" y="290" width="305" height="105" rx="10" fill="#fff" stroke="#a9b6b6"/>
+<text x="542" y="330" text-anchor="middle" font-size="29">Trusted resolvers</text>
+<text x="542" y="367" text-anchor="middle" font-size="25">ir · uv</text>
+<path d="M542 194 V278" fill="none" stroke="#537b79" stroke-width="2"/>
+<text x="560" y="239" font-size="23">Prepare packages</text>
+<text x="1125" y="428" text-anchor="middle" font-size="21" fill="#167d76">Native runner: permissions and cleanup</text>
+</g>
+<g fill="#537b79"><path d="M265 133 l10 -5 v10 Z M380 133 l-10 -5 v10 Z M705 133 l10 -5 v10 Z M920 133 l-10 -5 v10 Z M1125 194 l-5 10 h10 Z M1125 278 l-5 -10 h10 Z M542 194 l-5 10 h10 Z M542 278 l-5 -10 h10 Z"/></g>
+</svg>
+</div>
+```
+<!-- /inline-svg -->
 
 ::: {.takeaway}
 
-Omit code to poll, supply input, control the session, or prepare dependencies.
+The server manages the session. The worker executes code inside the sandbox.
 
 :::
 
 ::: {.notes}
 
-**Say:** These are the seven top-level fields in the managed session's send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.
+**Say:** The LLM client talks to the Console server over MCP. The server owns the session and its records. A relay carries cells, input, output, and control messages to the worker, where R, Python, and SQL run. The native runner applies the sandbox policy and owns process cleanup.
 
-An empty send collects output. stdin answers a prompt or debugger; its text is queued exactly, so a line of input normally needs a trailing newline. Control interrupts or restarts the session. timeout_ms limits how long the call waits for an evaluation, rather than stopping the evaluation when that wait expires. Explicit preparation and control happen before that wait.
+Package resolvers are separate trusted processes, outside the worker sandbox. That is how the server can prepare a package without giving the worker direct network access. We will follow one of those requests next.
 
-**Show:** This is a schematic field overview, not a call that supplies three languages at once. Keep the walkthrough brief; the next slides show control and input together. Code-free standalone preparation cannot carry nonempty stdin. Use stdin alone to answer an already active prompt.
+**Show:** This is the simplified local layout. Arrows indicate the labeled two-way exchanges, not a strict parent-process tree. Native setup helpers are omitted. The native runner is a separate executable; the shaded area identifies the processes whose permissions it restricts. Remote targets change placement and transport while retaining the session interface.
 
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+**Transition:** Keep this arrangement in view for the next slide: a missing package sends a request from the worker to the trusted preparation side.
+
+**Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 
-## Interrupt or restart the session {#session-controls .deck-slide .literal-slide}
+## Follow a package-resolution request {#resolver-boundary .deck-slide .story-slide .literal-slide}
 ::: {.kicker}
 
-Work with the session
+Private worker protocol · illustrative paths
 
 :::
 
@@ -1336,21 +1478,13 @@ Work with the session
 
 ::::: {.left}
 
-:::: {.code-panel}
+::: {.resolution-steps}
 
-::: {.panel-label}
-
-Interrupt
+1. R reaches a missing package and the worker requests resolution.
+2. The server prepares a library with `ir`, outside the worker sandbox.
+3. The worker activates the library and continues the original load.
 
 :::
-
-```python
-console.send(control="interrupt")
-```
-
-::::
-
-Request a cooperative stop. Keep the live workspace.
 
 :::::
 
@@ -1360,81 +1494,13 @@ Request a cooperative stop. Keep the live workspace.
 
 ::: {.panel-label}
 
-Restart
+Worker → server
 
 :::
 
-```python
-console.send(control="restart")
-```
-
-::::
-
-Replace the worker. Start with fresh in-memory state.
-
-:::::
-
-::::::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-R package development · start fresh, then load or test
-
-:::
-
-```python
-console.send(control="restart", r="devtools::load_all()")
-console.send(control="restart", r="devtools::test()")
-```
-
-::::
-
-::: {.takeaway}
-
-Restart keeps prepared dependencies and starts the supplied cell in the new session.
-
-:::
-
-::: {.notes}
-
-**Say:** Interrupt requests SIGINT and preserves the live workspace. Code can catch or delay it, so this is cooperative. Restart retires the worker and starts a replacement. R objects, Python state, the managed DuckDB catalog, debugger state, and unread input are discarded; successfully prepared dependencies remain available.
-
-A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session. Launch from the package directory for these examples. The two calls are alternatives.
-
-**Show:** There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.
-
-**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The next slide captures restart plus a sourced script with queued input.
-
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
-
-:::
-
-## Run an interactive script in a fresh session {#restart-input .deck-slide .literal-slide}
-::: {.kicker}
-
-Work with the session
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label .path-label}
-
-examples/analyze.R
-
-:::
-
-```r
-d <- read.csv("examples/measurements.csv")
-group <- readline("Group to summarize: ")
-values <- d$response[d$group == group]
-print(summary(values))
+```json
+{"kind": "resolve_r",
+ "packages": ["data.table"]}
 ```
 
 ::::
@@ -1443,39 +1509,28 @@ print(summary(values))
 
 ::: {.panel-label}
 
-One send call
+Server → worker
 
 :::
 
-<!-- control-cell:restart-script -->
-```python
-console.send(
-  control="restart",
-  stdin="A\n",
-  r='source("examples/analyze.R")'
-)
+```json
+{"kind": "r_resolved",
+ "library": "/cache/r/library"}
 ```
 
 ::::
 
-:::::
-
-::::: {.right}
-
-:::: {.result-panel}
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-One response · captured from Console
+Worker → server
 
 :::
 
-```{r}
-#| label: restart-input-output
-#| eval: true
-#| echo: false
-#| comment: ""
-console_protocol("controls/restart-script")
+```json
+{"kind": "r_activated",
+ "library": "/cache/r/library"}
 ```
 
 ::::
@@ -1486,19 +1541,19 @@ console_protocol("controls/restart-script")
 
 ::: {.takeaway}
 
-Replace the worker → queue input → source the script.
+Trusted preparation can use the network while the worker remains restricted.
 
 :::
 
 ::: {.notes}
 
-**Say:** An existing analysis script asks which group to summarize. The model can run it in a fresh session without editing out its interactive prompt. One request restarts the worker, queues A followed by a newline, and sources the script. When readline asks for the group, that input is already available. The server returns lifecycle notices and the script's output in one response.
+**Say:** The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.
 
-The source path names a real file in examples/analyze.R. It reads the same measurements CSV used earlier in the talk. source does not automatically print each visible expression, so the script prints its summary explicitly. The newline is explicit because stdin does not add one.
+These are private worker-protocol messages, not MCP tool calls the model has to make. The field names match the documented protocol; /cache/r/library is an illustrative path. Python follows the analogous resolve_python exchange and activates a prepared interpreter environment.
 
-**Show:** Read the script, then the call and response. Only the replacement receives same-call input. This is captured output, including the managed read notice; startup messages and prompt formatting can vary by runtime. The capture separately checks that an object from the old session is gone and the script selected group A. If the answer depends on output not yet seen, run the script first and answer its prompt with a later stdin-only call.
+Installation and build code run with the preparation account’s permissions, so requirements and resolver configuration must be trusted. Caches can persist. The worker’s filesystem and network policy continues to apply. On SSH, preparation runs on the remote execution host.
 
-**Sources:** [Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
+**Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 
@@ -1509,11 +1564,11 @@ Choose the worker’s permissions
 
 :::
 
-- Read host files.
+- Read all host files your account can access.
 - Write only in private temporary storage.
 - Restrict direct network access.
 - Apply the same policy to subprocesses.
-- Retire owned processes and remove private storage on shutdown or restart.
+- Stop the worker and its child processes; remove temporary storage.
 
 ::: {.takeaway}
 
@@ -1529,50 +1584,64 @@ The runner owns worker cleanup on restart and shutdown, removes its private temp
 
 Read access and inherited environment variables can expose secrets, so configure explicit denials and environment controls when needed. Trusted package preparation is outside this worker policy. Session records, package caches, and intentionally written project files persist; temporary cleanup does not remove those.
 
-**Show:** Explain these defaults before introducing a configuration file. Next, select a built-in policy at launch before adding project-specific permissions.
+**Show:** Explain these defaults before introducing a configuration file. Next, compare the built-in policies at launch, then add project-specific permissions.
 
 **Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 
-## Choose a built-in policy at launch {#builtin-policies .deck-slide .literal-slide}
+## Choose between two built-in sandbox policies {#builtin-policies .deck-slide .literal-slide .policy-comparison}
 ::: {.kicker}
 
 Choose the worker’s permissions
 
 :::
 
+:::::: {.two-col}
+
+::::: {.left}
+
+<h3>:read-only</h3>
+
+- Read host files.
+- Write only in private temporary storage.
+- Project files stay protected from writes.
+
 :::: {.code-panel}
 
-::: {.panel-label}
-
-:read-only · read files, write only private scratch
-
-:::
-
 ```bash
-mcp-console serve -c extends=:read-only
+mcp-console serve \
+  -c extends=:read-only
 ```
 
 ::::
 
+:::::
+
+::::: {.right}
+
+<h3>:workspace</h3>
+
+Adds writes in the **workspace**: the directory where you launch Console.
+
+Write access stays denied for `.git`, `.agents`, `.codex`, and `.claude`. These subdirectories remain readable.
+
 :::: {.code-panel}
 
-::: {.panel-label}
-
-:workspace · also allow writes in the project
-
-:::
-
 ```bash
-mcp-console serve -c extends=:workspace
+mcp-console serve \
+  -c extends=:workspace
 ```
 
 ::::
+
+:::::
+
+::::::
 
 ::: {.takeaway}
 
-Both keep network restrictions and cleanup. Workspace mode protects project metadata.
+Both restrict networking and provide private storage and process cleanup.
 
 :::
 
@@ -1603,7 +1672,7 @@ Choose the worker’s permissions
 
 ./data: read-only.
 
-./secrets and ./.env: denied.
+./secrets and ./.env: reads and writes denied.
 
 Other workspace paths: writable, with protected project metadata.
 
@@ -1657,7 +1726,7 @@ Set project permissions in .agents/console/config.yaml.
 
 :::
 
-## Connect to a corporate data warehouse {#network-proxy .deck-slide .config-slide .code-dense}
+## Example: connect to a corporate data warehouse {#network-proxy .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
 Choose the worker’s permissions
@@ -1732,7 +1801,7 @@ The client still supplies its usual database credentials.
 
 :::
 
-## Develop a local Shiny app {#network-listener .deck-slide .config-slide .code-dense}
+## Example: develop a local Shiny app {#network-listener .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
 Choose the worker’s permissions
@@ -1802,7 +1871,43 @@ sandbox:
 
 **Author / capture:** Validate the exact native behavior with the application used for the demo. This slide does not promise a Shiny viewer or automatic port forwarding. Keep all required proxy fields when changing a single flag.
 
+**Transition:** A running app can create child processes. The next slide explains what happens to that process tree when the session restarts or the server shuts down.
+
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+
+:::
+
+## Clean up on restart or server shutdown {#sandbox-cleanup .deck-slide .policy-slide}
+::: {.kicker}
+
+Choose the worker’s permissions
+
+:::
+
+- Ask the worker to exit, with a short grace period.
+- Force termination if it does not exit.
+- Stop its process group and tracked descendants, including children that detach.
+- Confirm process cleanup, then remove private temporary storage.
+
+::: {.takeaway}
+
+The native runner owns process cleanup when the session ends or restarts.
+
+:::
+
+::: {.notes}
+
+**Say:** This sequence runs when an explicit session restart is requested or the Console server shuts down. File and network permissions are only part of the sandbox. Console asks the worker to shut down and gives it a short grace period. The current default is one second. If the worker does not exit, the relay force-stops it. The native runner also cleans up the process tree, so a child that outlives its parent is part of the shutdown contract.
+
+On Linux, the runner waits for the kernel to finish terminating the owned PID namespace. On macOS, it watches fork and exit events, tracks process identity, and stops the original process group and observed descendants, including those that detach. A descendant that detaches and becomes orphaned before observation can fall outside the macOS guarantee. The worker grace period and the runner's separate descendant-cleanup deadline are different limits.
+
+The runner confirms process cleanup before removing private storage. A cleanup failure is reported as an error; if termination cannot be established, it retains the storage. Server or relay loss triggers cleanup while the runner remains alive. The runner's own death does not guarantee temporary-directory deletion or macOS workload termination. Prepared package caches, records, and project files are retained.
+
+**Show:** The sequence applies to the normal native sandbox. It is separate from the cooperative interrupt control. The notes retain platform boundaries; the visible point is that the session owns the child processes it launches.
+
+**Transition:** These responsibilities belong to the execution environment. The worker itself can also live on another host.
+
+**Sources:** [Console runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#limitations) · [Pinned native runner lifecycle](https://github.com/t-kalinowski/codex/blob/2d0ad797210de821c07d1f18e4f1ffdcf06589cb/codex-rs/mcp-console-sandbox/LIFECYCLE.md)
 
 :::
 
@@ -2076,6 +2181,242 @@ Local host &nbsp; / &nbsp; SSH &nbsp; / &nbsp; Docker
 
 :::
 
+## Register Console with your CLI client {#codex .deck-slide .integration}
+::: {.kicker}
+
+Use the client you already work in
+
+:::
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Codex CLI
+
+:::
+
+```bash
+codex mcp add console -- uvx mcp-console serve
+```
+
+::::
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Claude Code CLI · the same Console installation
+
+:::
+
+```bash
+claude mcp add console -- uvx mcp-console serve
+```
+
+::::
+
+::: {.takeaway}
+
+Let `uvx` manage resolution and automatically pick up updates.
+
+:::
+
+::: {.notes}
+
+**Say:** Both clients can launch the same Console server over MCP stdio. Run the registration command for the client you use. Client-side deadlines remain separate from Console’s wait timeout. In the ordinary uvx-managed path, uv resolves requirements using its registry cache and picks up newer versions as that cache expires. It does not promise a new registry lookup on every launch. An explicitly installed compatible tool can be reused instead, and version pins remain intentional. Keep those details in the notes; the visible point is that the launcher manages installation and updates.
+
+**Show:** The launcher and server arguments are identical. The commands were checked against the installed CLI help; no configuration was changed.
+
+**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
+
+:::
+
+## Install the thin R interface {#install-r .deck-slide}
+::: {.kicker}
+
+Installation
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+R package entry point
+
+:::
+
+```r
+install.packages("mcp.console")
+```
+
+:::
+
+::: {.takeaway}
+
+The R package provides the interface. The core binary is resolved from PyPI.
+
+:::
+
+::: {.notes}
+
+**Say:** With the execution model established, show the R installation route before registering the tool in ellmer. For presentation day, assume mcp.console is published to the intended R package repository. The R package is a thin R interface that connects to Console and resolves its core binary from PyPI using reticulate’s uv integration. Executable resolution occurs when the tool is created, not during install.packages. An explicit path or a compatible executable already on PATH can be used instead of a download; an explicit version selects that PyPI release.
+
+**Show:** Show one large line. This is explicitly an intended publication pathway: the currently inspected R README uses a GitHub installation command. Keep the present-day command in the author checklist, not as competing text on this slide.
+
+**Author check before presenting:** Target-day assumption: mcp.console is published to an R repository usable by install.packages(). Current README documents pak::pak("github::t-kalinowski/mcp-console/r").
+
+**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
+
+:::
+
+## ellmer {#ellmer .deck-slide .integration}
+::: {.kicker}
+
+Use the client you already work in
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+R · register one tool
+
+:::
+
+```r
+library(ellmer)
+library(mcp.console)
+
+chat <- chat_openai()
+chat$register_tool(console_tool())
+chat$chat("Analyze measurements.csv with Console.")
+```
+
+:::
+
+::: {.takeaway}
+
+Your chat and provider. A separate persistent Console worker.
+
+:::
+
+::: {.notes}
+
+**Say:** Give ellmer one slide. The R wrapper starts Console, reads its live tool schema, and presents it as an ellmer tool. It does not execute agent code in the R process running the chat. Provider choice remains with ellmer and the application. Keep the tool alive across the conversation so its session persists.
+
+**Show:** Show only the registration example, with the registration line emphasized. The preceding slide installed the thin R interface; this connects it to an ellmer chat. The author notes include the asynchronous sequential-tool caveat from the R README.
+
+**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [R tool wrapper implementation](https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R)
+
+:::
+
+## Python or a standalone MCP launch {#install-python .deck-slide .integration}
+::: {.kicker}
+
+Installation
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Python client
+
+:::
+
+```bash
+pip install "mcp-console[client]"
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+One-shot tool launch
+
+:::
+
+```bash
+uvx mcp-console serve
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Persistent command installation
+
+:::
+
+```bash
+uv tool install mcp-console
+```
+
+:::
+
+::: {.notes}
+
+**Say:** Python users choose the base package or the extra for their integration. MCP clients can launch through uvx, or use a persistent uv tool installation. These are alternative routes into the same distribution, not three installation steps. Framework extras avoid installing every SDK when only the executable is needed.
+
+**Show:** Show three short alternatives with explicit labels. Mention prerequisites only as needed: Python packaging and supported native wheels are not the same thing as the language runtime installed on a selected execution host.
+
+**Sources:** [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
+
+:::
+
+## chatlas {#chatlas .deck-slide .integration}
+::: {.kicker}
+
+Use the client you already work in
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Python · preserve the server-provided schema
+
+:::
+
+```{.python code-line-numbers="2,5-7"}
+from chatlas import ChatOpenAI
+import mcp_console
+
+chat = ChatOpenAI()
+with mcp_console.MCPConsole() as console:
+    tool = mcp_console.chatlas.tool(console)
+    chat.set_tools([*chat.get_tools(), tool])
+    chat.chat("Analyze measurements.csv with Console.")
+```
+
+:::
+
+::: {.takeaway}
+
+The same registration pattern in Python.
+
+:::
+
+::: {.notes}
+
+**Say:** The chatlas adapter adds the same tool to an existing chat. Use the adapter and set_tools so the explicit server schema is preserved rather than inferred from a generic Python function annotation. The application still owns the chat loop and the Console connection lifetime.
+
+**Show:** Keep the visual design identical to the ellmer slide. For a visual demo, verify image preservation on the chosen adapter path; the native MCP registration variant is included in the examples file.
+
+**Transition:** Whichever client you use, the session leaves a record of its work. End with what can be inspected and turned into a report.
+
+**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
+
+:::
+
 ## Keep session logs and readable transcripts {#recording .deck-slide .literal-slide}
 ::: {.kicker}
 
@@ -2148,7 +2489,7 @@ header <- sub("# Generated by MCP Console. Do not edit.\n", "", header, fixed = 
 header <- sub("ir:\n", 'ir:\n  exclude-newer: "2026-09-17"\n', header, fixed = TRUE)
 header <- sub("root.dir: [^\n]+", "root.dir: <project>", header)
 header <- sub("(?s)  packages:.*\n---",
-              "  packages: [tidyverse, reticulate] # list shortened\n---",
+              "  packages: [tidyverse, reticulate]\n---",
               header, perl = TRUE)
 cat("````markdown\n", header, "\n",
     console_capture_text("excerpts/quarto-cell"), "\n````\n", sep = "")
@@ -2172,286 +2513,9 @@ Rendering runs the cells again. It does not replay interactive input, interrupts
 
 **Show:** Read it from top to bottom as one source file. The snapshot date is an author-added setting, not a field emitted by the captured Console build. The root directory is shortened to <project>, the generated-file warning is omitted, and the dependency lists are shortened for display. The full source remains in captures/session-records/transcript.qmd. Dependencies reflect this captured build; they are not a complete record of inferred packages.
 
+**Transition:** This is the result of the whole path: the agent worked interactively, used the needed languages and host, and left an editable analysis behind.
+
 **Sources:** [ir Quarto integration](https://r-lib.github.io/ir/quarto.html) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
-
-:::
-
-## Use Console through your existing interface {#interfaces .deck-slide .story-slide}
-::: {.kicker}
-
-One execution system, several ways to connect
-
-:::
-
-:::: {.three-col}
-
-::: {.story-card}
-
-**MCP clients**
-
-Compatible MCP stdio clients, including Codex and Claude Code.
-
-:::
-
-::: {.story-card}
-
-**R**
-
-ellmer through mcp.console.
-
-:::
-
-::: {.story-card}
-
-**Python**
-
-Sync and async clients.<br>chatlas.<br>OpenAI Responses and Agents SDK.<br>Anthropic.<br>Codex thread SDK.
-
-:::
-
-::::
-
-::: {.notes}
-
-**Say:** Console is an MCP server, so a compatible MCP client can use it directly. There is an ellmer tool in the R package, and Python offers direct clients and adapters for these frameworks. The next slides show a few registration examples.
-
-The adapters preserve the live tool schema. Image support and client deadlines vary by interface, so check the chosen path before a demo. These interfaces are documented in the current source checkout; the installed PyPI 0.0.3 wheel used for runtime captures does not include the newer Python clients and extras.
-
-**Sources:** [Python integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
-
-:::
-
-## ellmer {#ellmer .deck-slide .integration}
-::: {.kicker}
-
-Use the client you already work in
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-R · register one tool
-
-:::
-
-```r
-library(ellmer)
-library(mcp.console)
-
-chat <- chat_openai()
-chat$register_tool(console_tool())
-chat$chat("Analyze measurements.csv with Console.")
-```
-
-:::
-
-::: {.takeaway}
-
-Your chat and provider. A separate persistent Console worker.
-
-:::
-
-::: {.notes}
-
-**Say:** Give ellmer one slide. The R wrapper starts Console, reads its live tool schema, and presents it as an ellmer tool. It does not execute agent code in the R process running the chat. Provider choice remains with ellmer and the application. Keep the tool alive across the conversation so its session persists.
-
-**Show:** Show only the registration example, with the registration line emphasized. No installation explanation here; that is the next section. The author notes include the asynchronous sequential-tool caveat from the R README.
-
-**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [R tool wrapper implementation](https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R)
-
-:::
-
-## chatlas {#chatlas .deck-slide .integration}
-::: {.kicker}
-
-Use the client you already work in
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Python · preserve the server-provided schema
-
-:::
-
-```{.python code-line-numbers="2,5-7"}
-from chatlas import ChatOpenAI
-import mcp_console
-
-chat = ChatOpenAI()
-with mcp_console.MCPConsole() as console:
-    tool = mcp_console.chatlas.tool(console)
-    chat.set_tools([*chat.get_tools(), tool])
-    chat.chat("Analyze measurements.csv with Console.")
-```
-
-:::
-
-::: {.takeaway}
-
-The same registration pattern in Python.
-
-:::
-
-::: {.notes}
-
-**Say:** The chatlas adapter adds the same tool to an existing chat. Use the adapter and set_tools so the explicit server schema is preserved rather than inferred from a generic Python function annotation. The application still owns the chat loop and the Console connection lifetime.
-
-**Show:** Keep the visual design identical to the ellmer slide. For a visual demo, verify image preservation on the chosen adapter path; the native MCP registration variant is included in the examples file.
-
-**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
-
-:::
-
-## Register Console with your CLI client {#codex .deck-slide .integration}
-::: {.kicker}
-
-Use the client you already work in
-
-:::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Codex CLI
-
-:::
-
-```bash
-codex mcp add console -- uvx mcp-console serve
-```
-
-::::
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Claude Code CLI · the same Console installation
-
-:::
-
-```bash
-claude mcp add console -- uvx mcp-console serve
-```
-
-::::
-
-::: {.takeaway}
-
-Let `uvx` manage installation and pick up updates.
-
-:::
-
-::: {.notes}
-
-**Say:** Both clients can launch the same Console server over MCP stdio. Run the registration command for the client you use. Client-side deadlines remain separate from Console’s wait timeout. In the ordinary uvx-managed path, uv resolves requirements using its registry cache and picks up newer versions as that cache expires. It does not promise a new registry lookup on every launch. An explicitly installed compatible tool can be reused instead, and version pins remain intentional. Keep those details in the notes; the visible point is that the launcher manages installation and updates.
-
-**Show:** The launcher and server arguments are identical. The commands were checked against the installed CLI help; no configuration was changed.
-
-**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
-
-:::
-
-## Now, installation from R {#install-r .deck-slide}
-::: {.kicker}
-
-Installation
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-R package entry point
-
-:::
-
-```r
-install.packages("mcp.console")
-```
-
-:::
-
-::: {.takeaway}
-
-Install the R interface. The application is obtained automatically when needed.
-
-:::
-
-::: {.notes}
-
-**Say:** Only after the value and client examples are clear, show the R installation story. For presentation day, assume mcp.console is published to the intended R package repository. Installing the R package gives the interface; creating the tool resolves the Console executable when necessary. Do not say the PyPI download occurs during install.packages itself.
-
-**Show:** Show one large line. This is explicitly an intended publication pathway: the currently inspected R README uses a GitHub installation command. Keep the present-day command in the author checklist, not as competing text on this slide.
-
-**Author check before presenting:** Target-day assumption: mcp.console is published to an R repository usable by install.packages(). Current README documents pak::pak("github::t-kalinowski/mcp-console/r").
-
-**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
-
-:::
-
-## Python or a standalone MCP launch {#install-python .deck-slide .integration}
-::: {.kicker}
-
-Installation
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Python client
-
-:::
-
-```bash
-pip install "mcp-console[client]"
-```
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-One-shot tool launch
-
-:::
-
-```bash
-uvx mcp-console serve
-```
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Persistent command installation
-
-:::
-
-```bash
-uv tool install mcp-console
-```
-
-:::
-
-::: {.notes}
-
-**Say:** Python users choose the base package or the extra for their integration. MCP clients can launch through uvx, or use a persistent uv tool installation. These are alternative routes into the same distribution, not three installation steps. Framework extras avoid installing every SDK when only the executable is needed.
-
-**Show:** Show three short alternatives with explicit labels. Mention prerequisites only as needed: Python packaging and supported native wheels are not the same thing as the language runtime installed on a selected execution host.
-
-**Sources:** [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 :::
 
@@ -2479,6 +2543,8 @@ Shared execution, managed dependencies, explicit permissions, and a record of th
 **Say:** The reason for Console is to give the model access to R, Python, and SQL together, with a common execution system underneath. That keeps R’s capabilities in reach, reduces duplicated runtime work, and lets us address the difficult parts in one place.
 
 The examples—waiting without losing the run, compacting progress, and retaining output beyond the context window—show the level of detail we want across that system. The sandbox and execution target are part of the same design.
+
+My hope is that the next AI project can build on this workbench, without needing another ad hoc execution tool. Its comprehensiveness is what makes that reuse possible.
 
 **Show:** End the main talk here. After the appendix divider, the following eight slides are optional development-practice material for questions.
 

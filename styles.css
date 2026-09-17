@@ -141,7 +141,7 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 
 /* Source lines stay intact; fit the layout to the example. */
 .reveal .deck-slide .code-panel pre code { white-space: pre; overflow-wrap: normal; }
-#wait-timeout .two-col { grid-template-columns: minmax(0,1.65fr) minmax(0,1fr); }
+#wait-timeout .two-col { grid-template-columns: minmax(0,1fr) minmax(0,1fr); }
 #r-plots .result-panel img, #python-plots .result-panel img { max-height: 370px; }
 #r-plots .result-panel .cell-output-display, #python-plots .result-panel .cell-output-display { padding: 0; }
 #debugger .code-panel, #debugger .result-panel { padding: 16px 22px; margin-bottom: 14px; }
@@ -223,3 +223,19 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 
 #restart-input .code-panel pre code { font-size: 23px; line-height: 1.3; }
 #restart-input .result-panel pre code { font-size: 21px; white-space: pre; }
+
+#wait-timeout .result-panel pre code { font-size: 22px; white-space: pre; }
+#session-controls .takeaway { font-size: 26px; margin-top: 16px; }
+#session-controls .code-panel { padding-top: 19px; padding-bottom: 20px; }
+
+/* Narrative comparison slides keep the two choices visually equal. */
+.capabilities-safety .story-card { min-height: 285px; font-size: 32px; line-height: 1.5; }
+.capabilities-safety .story-card strong { font-size: 38px; }
+.policy-comparison .two-col { gap: 52px; }
+.policy-comparison h3 { font-family: var(--mono); font-size: 35px; }
+.policy-comparison .two-col > div { display: flex; flex-direction: column; }
+.policy-comparison .two-col p, .policy-comparison .two-col li { font-size: 28px; line-height: 1.4; }
+.policy-comparison ul { padding-left: 30px; margin: 0 0 24px; }
+.policy-comparison li { margin-bottom: 16px; }
+.policy-comparison .code-panel { margin-top: auto; }
+.policy-comparison .code-panel pre code { font-size: 25px; }

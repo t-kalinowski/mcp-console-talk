@@ -4,7 +4,7 @@ console_cells <- list(
   "predict" = "head(predict(fit, d), 3)",
   "coefficients" = "coef(fit)",
   "r-plot" = "  plot(d$temperature, d$response,\n       xlab = \"Temperature\",\n       ylab = \"Response\")",
-  "progress" = "  pb <- txtProgressBar(max = 20, style = 3, width = 20)\n  for (i in 1:20) {\n    Sys.sleep(0.15)\n    setTxtProgressBar(pb, i)\n  }\n  close(pb)",
+  "progress" = "  pb <- txtProgressBar(\n    max = 20, style = 3, width = 20)\n  for (i in 1:20) {\n    Sys.sleep(0.15)\n    setTxtProgressBar(pb, i)\n  }\n  close(pb)",
   "compact" = "cat(\"download 0%\\rdownload 50%\\rdownload 100%\\n\")",
   "error" = "  checkpoint <- 42\n  stop(\"inspect me\")",
   "checkpoint" = "checkpoint",

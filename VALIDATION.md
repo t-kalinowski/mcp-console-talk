@@ -1,10 +1,10 @@
 # Local validation — 2026-09-17
 
-The revised project contains 49 slides (40 main, an appendix divider, and 8 optional appendix slides),
+The revised project contains 50 slides (41 main, an appendix divider, and 8 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the review archive](../archived/2026-09-17-controls-review/mcp-console-captured.html).
+[the narrative archive](../archived/2026-09-17-narrative-shuffle/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
 
@@ -32,7 +32,7 @@ are native Quarto reveal.js renders with embedded resources. `examples/measureme
 - The Python reference score and plot were recomputed from the unchanged CSV and
   displayed cell definitions. The score is `CV MAE: 2.015`; library versions and
   the data hash are in `examples/python-reference-provenance.json`.
-- All 49 slides were inspected through the in-app browser for code clipping,
+- All 50 slides were inspected through the in-app browser for code clipping,
   vertical overflow, notes presence, image loading, and embedded diagrams.
   All passed. The 11 capture-sensitive slides also passed in the captured-output
   render. Code soft wrapping is disabled; individual layouts and source line
@@ -67,7 +67,7 @@ are native Quarto reveal.js renders with embedded resources. `examples/measureme
 
 ## Executable and source provenance
 
-The final deck capture completed at `2026-09-17T19:33:51Z` using
+The final deck capture completed at `2026-09-17T21:17:43Z` using
 `/Users/tomasz/.local/bin/mcp-console serve`. The binary reports `mcp-console 0.0.3`.
 Its SHA-256 identifies the exact executable used:
 
@@ -113,7 +113,7 @@ product modification was performed.
 ## Review boundaries
 
 The full 77-slide presentation is committed as `ab89d0c`; the previous narrative
-revision is `272ffa3`. The current deck has 40 main slides, a visible appendix
+revision is `272ffa3`. The current deck has 41 main slides, a visible appendix
 divider, and eight optional development slides.
 The opener explains R, Python, and SQL together, shared execution infrastructure, and
 why sandbox permissions belong in the design. The examples combine wait/poll continuity and progress compaction in two slides,
@@ -157,8 +157,8 @@ IP grant matching the target, or its broader local-binding exception. The exampl
 warehouse was not contacted. The Shiny configuration reuses the previously tested
 local-binding policy; a live Shiny app was not launched under that policy.
 
-The local process topology precedes the package examples and marks the worker
-sandbox separately from trusted resolver processes. The resolve_r, r_resolved,
+The local process topology precedes the resolver protocol and sandbox policies,
+and marks the worker sandbox separately from trusted resolver processes. The resolve_r, r_resolved,
 and r_activated messages match WORKER_PROTOCOL.md at the reviewed source revision;
 the library path is illustrative. Configuration YAML consistently appears on the
 right, and the network example names the corporate-warehouse use case. Execution
@@ -189,9 +189,40 @@ uses readline() to select a group from the unchanged measurements CSV.
 
 `captures/controls/` preserves a separate sandboxed MCP exchange using the same
 executable fingerprint above. `devtools::test()` passed the local package fixture's
-test after restart. Restart plus `stdin="A\n"` plus sourcing the script returned
+test after restart. Restart plus `stdin="A\n"` plus sourcing ./analyze.R returned
 the lifecycle notices and group A summary together. A follow-up cell verified that
 an old-session object was absent and the script had selected group A. The fixture,
 collector script, and superseded load_all-input capture are in the controls-review
 archive. Validation checks displayed-call identity, literal response text, and
 the source script and CSV hashes. No model API was called.
+
+The review after checkpoint `30e2079` balances the progress columns, preserves the
+running banner on one line, and aligns the signature comments. It clarifies the
+context guardrail, interruption, and package-development examples; shortens the
+script paths; and strengthens the uvx and thin R interface explanations.
+The sourced script now calls readline() first and runs from the examples directory.
+Both the full runtime capture and the separate controls capture were refreshed.
+
+A new shutdown slide explains the worker grace period, forceful termination,
+process-group/descendant cleanup, and private-storage cleanup. The local source
+at `43706f40460934503eec056a7e6cf57b6582c6ad` defines a one-second worker grace and
+force-stops the child if it does not exit. Native guarantees were reviewed against
+LIFECYCLE.md at runner commit `2d0ad797210de821c07d1f18e4f1ffdcf06589cb`;
+platform-specific lifecycle tests were not rerun for this prose change. The two
+named presets are :read-only and :workspace; external-sandbox is a distinct
+filesystem enforcement mode. Workspace is defined as the launch directory.
+The final-slide-review archive retains the preceding captures and updated fixture.
+
+The latest narrative pass preserves all 50 slides and their IDs. It leads with
+comprehensiveness and reuse for an audience already familiar with AI code
+execution. Capability and safety are two equal requirements. Language and client
+choices precede the everyday call, followed by the analysis workflow, API details,
+architecture, sandbox, execution hosts, and setup. Session logs and the editable
+report close the main story. Notes supply transitions between these sections.
+
+This pass also makes the shutdown triggers explicit and compares the two built-in
+policies in separate columns, defining the workspace within its own policy.
+Both render modes passed; all 50 native slides and 11 capture-sensitive slides
+passed the browser layout, code scrolling, notes, and image checks. No runtime
+cells or captured results changed in this narrative pass. The narrative-shuffle
+archive preserves the preceding source, render, notes, and slide index.

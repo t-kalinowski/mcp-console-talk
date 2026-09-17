@@ -12,7 +12,7 @@
     "r": "  plot(d$temperature, d$response,\n       xlab = \"Temperature\",\n       ylab = \"Response\")"
   },
   "progress": {
-    "r": "  pb <- txtProgressBar(max = 20, style = 3, width = 20)\n  for (i in 1:20) {\n    Sys.sleep(0.15)\n    setTxtProgressBar(pb, i)\n  }\n  close(pb)",
+    "r": "  pb <- txtProgressBar(\n    max = 20, style = 3, width = 20)\n  for (i in 1:20) {\n    Sys.sleep(0.15)\n    setTxtProgressBar(pb, i)\n  }\n  close(pb)",
     "timeout_ms": 450
   },
   "compact": {

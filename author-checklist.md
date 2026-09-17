@@ -66,3 +66,9 @@ installed tool can retain an older version.
 
 SQL connection examples were exercised with local RSQLite and Python sqlite3
 connections. Other drivers and remote database access still need their own setup.
+
+The shutdown slide combines Console's one-second worker grace with the native
+runner's separate descendant cleanup. Keep the platform limits in the notes:
+macOS covers the owned process group and observed detached descendants; Linux
+uses namespace retirement. Do not present the worker grace as the native cleanup
+deadline or promise cleanup after the runner itself is killed.

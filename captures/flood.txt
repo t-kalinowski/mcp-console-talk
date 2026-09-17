@@ -389,7 +389,7 @@ row 00388
 row 00389
 row 00390
 row 
-[output preview: omitted 92205 rendered UTF-8 bytes; raw cell log: .agents/console/sessions/20260917T193330.727728000Z-0000046518/outputs/call-000011.log (Console server recording workspace; controller for remote targets); 100013 raw bytes retained, 0 raw bytes not retained]
+[output preview: omitted 92205 rendered UTF-8 bytes; raw cell log: .agents/console/sessions/20260917T211723.505353000Z-0000093742/outputs/call-000011.log (Console server recording workspace; controller for remote targets); 100013 raw bytes retained, 0 raw bytes not retained]
 
 row 09612
 row 09613

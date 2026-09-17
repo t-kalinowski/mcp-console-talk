@@ -6,6 +6,6 @@
   "restart-script": {
     "control": "restart",
     "stdin": "A\n",
-    "r": "source(\"examples/analyze.R\")"
+    "r": "source(\"./analyze.R\")"
   }
 }

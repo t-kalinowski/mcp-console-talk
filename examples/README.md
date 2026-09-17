@@ -51,8 +51,9 @@ substitute that domain for the proxy's example allow entry.
 
 `analyze.R` is the interactive script on the combined-control slide. It reads the
 measurements CSV and asks for a group through `readline()`. The displayed call
-restarts the session, queues `A\n`, and sources the script in one request.
+restarts the session, queues `A\n`, and sources `./analyze.R` in one request.
+Launch from the examples directory so `./measurements.csv` is beside the script.
 `captures/controls/` retains that separate exchange plus a restart-and-devtools-test
 rehearsal. Its fixture and collector are in
-`../../archived/2026-09-17-controls-review/`; the script and CSV hashes are recorded
+`../../archived/2026-09-17-final-slide-review/`; the script and CSV hashes are recorded
 in the capture provenance and checked by `validate_source.py`.
