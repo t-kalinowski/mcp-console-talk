@@ -1,0 +1,12 @@
+<!-- Native Quarto-only footer enhancement. The offline renderer adds its own footer. -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const slides = [...document.querySelectorAll('.reveal .slides section.deck-slide')];
+  slides.forEach((slide, i) => {
+    const footer = document.createElement('div');
+    footer.className = 'slide-footer';
+    footer.innerHTML = '<span>MCP CONSOLE · INTERACTIVE WORK</span><span>' + String(i+1).padStart(2,'0') + ' / ' + slides.length + '</span>';
+    slide.appendChild(footer);
+  });
+});
+</script>

@@ -1,0 +1,4 @@
+# Add this table to the relevant Codex config; do not replace unrelated settings.
+[mcp_servers.console]
+command = "uvx"
+args = ["mcp-console", "serve"]

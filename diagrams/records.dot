@@ -1,0 +1,18 @@
+digraph G {
+ graph [rankdir=LR, bgcolor="transparent", pad="0.2", nodesep="0.45", ranksep="0.65", fontname="Arial", fontsize=18, fontcolor="#263d46"];
+ node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#a9b6b6", penwidth=1.5, fontname="Arial", fontsize=18, fontcolor="#142d39", margin="0.22,0.18"];
+ edge [color="#78908f", penwidth=1.8, arrowsize=0.75, fontname="Arial", fontsize=14, fontcolor="#536b72"];
+
+call [label="Session activity"];
+events [label="events.jsonl\ninteraction journal"];
+raw [label="outputs/*.log\nemitted cell text"];
+md [label="transcript.md\nreadable history", fillcolor="#d9eee9", color="#167d76"];
+qmd [label="transcript.qmd\ncode + declared requirements"];
+images [label="Image artifacts\noriginal files"];
+call -> events;
+call -> raw;
+call -> images;
+events -> md;
+events -> qmd;
+
+}

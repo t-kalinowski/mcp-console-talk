@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1300 300" role="img" aria-label="A tool wait ends before the evaluation does, and later sends collect output.">
+<style>text{font-family:Arial,sans-serif;fill:#18323f} .label{font-size:25px}.small{font-size:22px}</style>
+<text x="5" y="55" class="label">Tool calls</text><text x="5" y="171" class="label">Evaluation</text>
+<rect x="205" y="13" width="370" height="60" rx="9" fill="#d9eee9" stroke="#167d76"/><text x="390" y="53" text-anchor="middle" class="label">send(…, timeout_ms=…)</text>
+<rect x="690" y="13" width="185" height="60" rx="9" fill="#fff" stroke="#a9b6b6"/><text x="782" y="53" text-anchor="middle" class="label">send()</text>
+<rect x="1045" y="13" width="185" height="60" rx="9" fill="#fff" stroke="#a9b6b6"/><text x="1137" y="53" text-anchor="middle" class="label">send()</text>
+<rect x="205" y="129" width="1025" height="65" rx="9" fill="#d9eee9" stroke="#167d76"/><text x="717" y="171" text-anchor="middle" class="label">One computation keeps running</text>
+<path d="M575 82 V214" stroke="#b56844" stroke-width="2" stroke-dasharray="7 6"/><path d="M1230 82 V214" stroke="#167d76" stroke-width="2" stroke-dasharray="7 6"/>
+<text x="575" y="246" text-anchor="middle" class="small">wait expires</text><text x="575" y="276" text-anchor="middle" class="small">partial output returns</text>
+<text x="1230" y="246" text-anchor="end" class="small">evaluation finishes</text>
+</svg>

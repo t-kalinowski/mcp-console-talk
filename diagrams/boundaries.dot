@@ -1,0 +1,16 @@
+digraph G {
+ graph [rankdir=LR, bgcolor="transparent", pad="0.2", nodesep="0.45", ranksep="0.65", fontname="Arial", fontsize=18, fontcolor="#263d46"];
+ node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#a9b6b6", penwidth=1.5, fontname="Arial", fontsize=18, fontcolor="#142d39", margin="0.22,0.18"];
+ edge [color="#78908f", penwidth=1.8, arrowsize=0.75, fontname="Arial", fontsize=14, fontcolor="#536b72"];
+
+client [label="Test client"];
+server [label="Built server", fillcolor="#d9eee9", color="#167d76"];
+relay [label="Relay"];
+worker [label="Worker"];
+client -> server [label="client_server"];
+server -> relay [label="server_relay"];
+relay -> worker [label="relay_worker"];
+cli [label="CLI test process"];
+cli -> server [label="cli"];
+
+}

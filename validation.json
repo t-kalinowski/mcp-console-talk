@@ -1,0 +1,17 @@
+{
+  "slide_count": 69,
+  "main_slides": 61,
+  "addendum_slides": 8,
+  "native_quarto_notes_blocks": 69,
+  "pandoc_revealjs_notes_asides": 69,
+  "one_notes_aside_per_slide": true,
+  "all_note_text_matches_original_reading_copy": true,
+  "all_slide_bodies_unchanged": true,
+  "local_asset_references_valid": true,
+  "build_uses_native_quarto": true,
+  "custom_viewer_removed": true,
+  "native_quarto_executed": false,
+  "browser_speaker_view_executed": false,
+  "validation_method": "Pandoc reveal.js writer, HTML structural checks, exact source comparison, reading-copy comparison",
+  "pandoc_version": "pandoc 3.1.11.1"
+}

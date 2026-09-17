@@ -1,0 +1,416 @@
+[
+  {
+    "number": 1,
+    "title": "MCP Console",
+    "id": "interactive-work",
+    "section": "The model-facing interface"
+  },
+  {
+    "number": 2,
+    "title": "Small surface. Deep runtime.",
+    "id": "small-surface",
+    "section": "The model-facing interface"
+  },
+  {
+    "number": 3,
+    "title": "Start with a cell",
+    "id": "send-r",
+    "section": "Build the interface"
+  },
+  {
+    "number": 4,
+    "title": "The next call uses the same objects",
+    "id": "live-state",
+    "section": "Build the interface"
+  },
+  {
+    "number": 5,
+    "title": "Plots are results, not another tool",
+    "id": "r-plots",
+    "section": "Build the interface"
+  },
+  {
+    "number": 6,
+    "title": "A wait timeout is not an execution deadline",
+    "id": "wait-timeout",
+    "section": "Build the interface"
+  },
+  {
+    "number": 7,
+    "title": "Polling is just an empty call",
+    "id": "poll",
+    "section": "Build the interface"
+  },
+  {
+    "number": 8,
+    "title": "Interrupt without replacing the runtime",
+    "id": "interrupt",
+    "section": "Build the interface"
+  },
+  {
+    "number": 9,
+    "title": "Restart resets objects, not prepared requirements",
+    "id": "restart",
+    "section": "Build the interface"
+  },
+  {
+    "number": 10,
+    "title": "Errors are outcomes, not transactions",
+    "id": "errors",
+    "section": "Build the interface"
+  },
+  {
+    "number": 11,
+    "title": "Interactive input is a separate channel",
+    "id": "stdin",
+    "section": "Build the interface"
+  },
+  {
+    "number": 12,
+    "title": "The debugger uses the same field",
+    "id": "debugger",
+    "section": "Build the interface"
+  },
+  {
+    "number": 13,
+    "title": "Keep model context bounded",
+    "id": "bounded-output",
+    "section": "Build the interface"
+  },
+  {
+    "number": 14,
+    "title": "Retain more than you put in context",
+    "id": "retained-output",
+    "section": "Build the interface"
+  },
+  {
+    "number": 15,
+    "title": "Package loading is a runtime capability",
+    "id": "r-resolution",
+    "section": "Build the interface"
+  },
+  {
+    "number": 16,
+    "title": "Make the requirements explicit when it matters",
+    "id": "requirements",
+    "section": "Build the interface"
+  },
+  {
+    "number": 17,
+    "title": "Prepare now; keep working in the same session",
+    "id": "live-requirements",
+    "section": "Build the interface"
+  },
+  {
+    "number": 18,
+    "title": "Use the resolver, not another package manager",
+    "id": "ir",
+    "section": "Build the interface"
+  },
+  {
+    "number": 19,
+    "title": "And Python",
+    "id": "python",
+    "section": "Build the interface"
+  },
+  {
+    "number": 20,
+    "title": "And Python plots",
+    "id": "python-plots",
+    "section": "Build the interface"
+  },
+  {
+    "number": 21,
+    "title": "The controls come with it",
+    "id": "python-controls",
+    "section": "Build the interface"
+  },
+  {
+    "number": 22,
+    "title": "Missing imports resolve in place",
+    "id": "python-resolution",
+    "section": "Build the interface"
+  },
+  {
+    "number": 23,
+    "title": "Versions and extras fit the existing field",
+    "id": "python-requirements",
+    "section": "Build the interface"
+  },
+  {
+    "number": 24,
+    "title": "Both languages share one worker process",
+    "id": "shared-process",
+    "section": "Build the interface"
+  },
+  {
+    "number": 25,
+    "title": "Switch languages; reuse the objects",
+    "id": "object-bridge",
+    "section": "Build the interface"
+  },
+  {
+    "number": 26,
+    "title": "And SQL",
+    "id": "sql",
+    "section": "Build the interface"
+  },
+  {
+    "number": 27,
+    "title": "SQL can operate on live R data",
+    "id": "sql-r-data",
+    "section": "Build the interface"
+  },
+  {
+    "number": 28,
+    "title": "Python relations use their connection",
+    "id": "sql-python-data",
+    "section": "Build the interface"
+  },
+  {
+    "number": 29,
+    "title": "Select the database from either language",
+    "id": "sql-connections",
+    "section": "Build the interface"
+  },
+  {
+    "number": 30,
+    "title": "And DuckDB extensions",
+    "id": "duckdb-requirements",
+    "section": "Build the interface"
+  },
+  {
+    "number": 31,
+    "title": "That is the surface",
+    "id": "full-signature",
+    "section": "The complete contract"
+  },
+  {
+    "number": 32,
+    "title": "Capture the model-facing interaction",
+    "id": "demo",
+    "section": "Optional recorded demo"
+  },
+  {
+    "number": 33,
+    "title": "It scales with what the model can use",
+    "id": "model-capability",
+    "section": "The complete contract"
+  },
+  {
+    "number": 34,
+    "title": "Keep the record outside model context",
+    "id": "recording",
+    "section": "Records and artifacts"
+  },
+  {
+    "number": 35,
+    "title": "Markdown for following the work",
+    "id": "markdown-transcript",
+    "section": "Records and artifacts"
+  },
+  {
+    "number": 36,
+    "title": "Quarto for the next iteration",
+    "id": "quarto-transcript",
+    "section": "Records and artifacts"
+  },
+  {
+    "number": 37,
+    "title": "The user chooses the operating conditions",
+    "id": "config",
+    "section": "User control"
+  },
+  {
+    "number": 38,
+    "title": "Existing installations or managed environments",
+    "id": "environment-choice",
+    "section": "User control"
+  },
+  {
+    "number": 39,
+    "title": "Only the runtimes you need",
+    "id": "runtime-combinations",
+    "section": "User control"
+  },
+  {
+    "number": 40,
+    "title": "Sandboxed by default",
+    "id": "default-sandbox",
+    "section": "User control"
+  },
+  {
+    "number": 41,
+    "title": "Grant what the task needs",
+    "id": "permission-grants",
+    "section": "User control"
+  },
+  {
+    "number": 42,
+    "title": "Resolution crosses a different trust boundary",
+    "id": "resolver-boundary",
+    "section": "Architecture"
+  },
+  {
+    "number": 43,
+    "title": "The process topology",
+    "id": "process-topology",
+    "section": "Architecture"
+  },
+  {
+    "number": 44,
+    "title": "State has an owner",
+    "id": "state-ownership",
+    "section": "Architecture"
+  },
+  {
+    "number": 45,
+    "title": "Three worker paths, not prompt scraping",
+    "id": "worker-streams",
+    "section": "Architecture"
+  },
+  {
+    "number": 46,
+    "title": "Move the worker to an SSH host",
+    "id": "ssh",
+    "section": "Execution targets"
+  },
+  {
+    "number": 47,
+    "title": "Or use a Docker image",
+    "id": "docker",
+    "section": "Execution targets"
+  },
+  {
+    "number": 48,
+    "title": "Or a Docker Sandbox microVM",
+    "id": "docker-sandbox",
+    "section": "Execution targets"
+  },
+  {
+    "number": 49,
+    "title": "The call stays the same",
+    "id": "target-invariance",
+    "section": "Execution targets"
+  },
+  {
+    "number": 50,
+    "title": "ellmer",
+    "id": "ellmer",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 51,
+    "title": "chatlas",
+    "id": "chatlas",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 52,
+    "title": "Codex",
+    "id": "codex",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 53,
+    "title": "Anthropic Python SDK",
+    "id": "anthropic",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 54,
+    "title": "The direct Python client",
+    "id": "python-client",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 55,
+    "title": "OpenAI Responses",
+    "id": "openai-responses",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 56,
+    "title": "Other supported entry points",
+    "id": "other-clients",
+    "section": "Use your existing client"
+  },
+  {
+    "number": 57,
+    "title": "Now, installation from R",
+    "id": "install-r",
+    "section": "Installation"
+  },
+  {
+    "number": 58,
+    "title": "The R wrapper obtains the native application",
+    "id": "install-chain",
+    "section": "Installation"
+  },
+  {
+    "number": 59,
+    "title": "Python or a standalone MCP launch",
+    "id": "install-python",
+    "section": "Installation"
+  },
+  {
+    "number": 60,
+    "title": "One distribution; separate execution environments",
+    "id": "native-bundle",
+    "section": "Installation"
+  },
+  {
+    "number": 61,
+    "title": "Interactive work, without a sprawling tool surface",
+    "id": "closing",
+    "section": "Closing"
+  },
+  {
+    "number": 62,
+    "title": "Rust implementation. Python integration tests.",
+    "id": "tests-python",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 63,
+    "title": "Test the boundaries you intend to preserve",
+    "id": "test-boundaries",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 64,
+    "title": "YAML is what the reviewer reads",
+    "id": "yaml-transcripts",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 65,
+    "title": "Normalize noise, not behavior",
+    "id": "test-normalization",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 66,
+    "title": "Synchronize; do not sleep and hope",
+    "id": "test-determinism",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 67,
+    "title": "Portable behavior; real capability checks",
+    "id": "test-capabilities",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 68,
+    "title": "Snapshots are generated evidence",
+    "id": "snapshot-review",
+    "section": "Addendum \u00b7 Development practices"
+  },
+  {
+    "number": 69,
+    "title": "Test the installed product",
+    "id": "installed-product-tests",
+    "section": "Addendum \u00b7 Development practices"
+  }
+]
