@@ -1379,9 +1379,9 @@ display:block!important;
 }</style></aside>
 </section>
 <section id="small-surface" class="slide level2 deck-slide story-slide">
-<h2>Choose the language for the task</h2>
+<h2>Equip the model with R, Python, and SQL</h2>
 <div class="kicker">
-<p>Why Console exists</p>
+<p>Languages available to the model</p>
 </div>
 <div class="three-col">
 <div class="story-card">
@@ -1401,7 +1401,7 @@ display:block!important;
 <p>The model can choose the language and syntax it works best with.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> These are capabilities available to one model. R can fit the model and visualize the results. Python can use the same data with another library. SQL can query a local or remote database, letting its engine optimize filters, joins, and aggregations. The model can choose as the task develops, including the syntax it works best with. Data visualization is available in both R and Python; these cards do not assign exclusive strengths. A selected DBI or Python DB-API connection supplies the SQL backend; remote access needs the relevant driver, credentials, and network permission.</p>
+<p><strong>Say:</strong> These are capabilities available to one model. R can fit the model and visualize the results. Python offers another set of libraries. SQL can query a local or remote database, letting its engine optimize filters, joins, and aggregations. The model can choose as the task develops, including the syntax it works best with. Data visualization is available in both R and Python; these cards do not assign exclusive strengths. A selected DBI or Python DB-API connection supplies the SQL backend; remote access needs the relevant driver, credentials, and network permission.</p>
 <p>Keeping R useful here means making its capabilities easy to reach from the agent’s ordinary workflow. We should not need to choose an R-only or Python-only product before the work begins.</p>
 <p><strong>Show:</strong> Each language has reasons to use it. The examples are illustrative uses, not exclusive assignments of what a language can do.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
@@ -1418,9 +1418,9 @@ display:block!important;
 }</style></aside>
 </section>
 <section id="interfaces" class="slide level2 deck-slide story-slide">
-<h2>Use Console through your existing interface</h2>
+<h2>Connect Console to your agent harness</h2>
 <div class="kicker">
-<p>One execution system, several ways to connect</p>
+<p>Where the calls come from</p>
 </div>
 <div class="three-col">
 <div class="story-card">
@@ -1428,16 +1428,16 @@ display:block!important;
 <p>Compatible MCP stdio clients, including Codex and Claude Code.</p>
 </div>
 <div class="story-card">
-<p><strong>R</strong></p>
+<p><strong>R harnesses</strong></p>
 <p>ellmer through mcp.console.</p>
 </div>
 <div class="story-card">
-<p><strong>Python</strong></p>
+<p><strong>Python harnesses</strong></p>
 <p>Sync and async clients.<br>chatlas.<br>OpenAI Responses and Agents SDK.<br>Anthropic.<br>Codex thread SDK.</p>
 </div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Console is an MCP server, so a compatible MCP client can use it directly. There is an ellmer tool in the R package, and Python offers direct clients and adapters for these frameworks. We will return to registration near the end. First, follow what this shared workbench provides as the task grows.</p>
+<p><strong>Say:</strong> The previous slide showed the languages the model can execute. This slide shows the harness or application making those calls. Console is an MCP server, so a compatible MCP client can use it directly. There is an ellmer tool in the R package, and Python offers direct clients and adapters for these frameworks. We will return to registration near the end. First, follow what this shared workbench provides as the task grows.</p>
 <p>The adapters preserve the live tool schema. Image support and client deadlines vary by interface, so check the chosen path before a demo. These interfaces are documented in the current source checkout; the installed PyPI 0.0.3 wheel used for runtime captures does not include the newer Python clients and extras.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python integrations</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md">R interface</a></p>
 <style type="text/css">
@@ -1453,7 +1453,7 @@ display:block!important;
 }</style></aside>
 </section>
 <section id="send-r" class="slide level2 deck-slide literal-slide">
-<h2>A simple interface to the whole workbench</h2>
+<h2>Send a cell of code</h2>
 <div class="kicker">
 <p>The common case · one simple call</p>
 </div>
@@ -1515,7 +1515,7 @@ display:block!important;
 <section id="r-plots" class="slide level2 deck-slide literal-slide">
 <h2>Return plots</h2>
 <div class="kicker">
-<p>One analysis · R and Python together</p>
+<p>Evaluate code and see the result</p>
 </div>
 <div class="two-col">
 <div class="left">
@@ -1568,10 +1568,10 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
-<section id="python-first" class="slide level2 deck-slide literal-slide">
-<h2>Send Python to the same session</h2>
+<section id="python-simple" class="slide level2 deck-slide literal-slide">
+<h2>Python uses the same call</h2>
 <div class="kicker">
-<p>One analysis · R and Python together</p>
+<p>Send a Python cell</p>
 </div>
 <div class="two-col">
 <div class="left">
@@ -1579,11 +1579,117 @@ display:block!important;
 <div class="panel-label">
 <p>Python cell</p>
 </div>
-<!-- cells:python-first -->
-<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&#39;print(len(r.d))&#39;</span>)</span></code></pre></div>
+<!-- reveal-cell:python-simple -->
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb4-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">values = [2, 3, 5, 7]</span></span>
+<span id="cb4-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">print(sum(values))</span></span>
+<span id="cb4-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
+<div class="result-panel">
+<div class="panel-label">
+<p>Console response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>17</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="takeaway">
+<p>Supply <code>python=</code> to evaluate a Python cell.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> The same send tool also accepts Python. Choose the python argument, define a list, and print its sum. The calling pattern is the same as the R example.</p>
+<p><strong>Show:</strong> Stay with ordinary Python for this slide. The response is captured from Console, and values remains available for the next cell.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="python-plots" class="slide level2 deck-slide literal-slide">
+<h2>Python plots return images too</h2>
+<div class="kicker">
+<p>Evaluate code and see the result</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>Python cell</p>
+</div>
+<!-- reveal-cell:python-simple-plot -->
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb6-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import matplotlib.pyplot as plt</span></span>
+<span id="cb6-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">plt.plot(values, marker=&quot;o&quot;)</span></span>
+<span id="cb6-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">plt.xlabel(&quot;Index&quot;)</span></span>
+<span id="cb6-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">plt.ylabel(&quot;Value&quot;)</span></span>
+<span id="cb6-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div class="right">
+<div class="result-panel">
+<div class="panel-label">
+<p>Matplotlib output</p>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure>
+<p><img role="img" data-src="data:image/png;base64,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" style="width:100.0%"></p>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="takeaway">
+<p>The response carries the image produced by the cell.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> Plotting works here too. Use Matplotlib on the values from the preceding cell and receive the image in the tool response, just as with R graphics.</p>
+<p><strong>Show:</strong> This is the actual returned PNG. The full response also contains Matplotlib’s text representation of its final label object; the slide shows the image block. Both rendering modes use the capture.</p>
+<p><strong>Transition:</strong> So far these look like two familiar language consoles. They are also connected to each other.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="python-first" class="slide level2 deck-slide literal-slide">
+<h2>R and Python share the same process</h2>
+<div class="kicker">
+<p>Use objects from either language</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>Python reads the R data frame</p>
+</div>
+<!-- reveal-cell:python-read-r -->
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&#39;print(len(r.d))&#39;</span>)</span></code></pre></div>
+</div>
 <div class="result-panel">
 <div class="panel-label">
 <p>Console response</p>
@@ -1595,13 +1701,34 @@ display:block!important;
 </div>
 </div>
 </div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label">
+<p>R reads the Python list</p>
+</div>
+<!-- reveal-cell:r-read-python -->
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&#39;length(py$values)&#39;</span>)</span></code></pre></div>
+</div>
+<div class="result-panel">
+<div class="panel-label">
+<p>Console response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 4</code></pre>
+</div>
+</div>
+</div>
+</div>
 </div>
 <div class="takeaway">
-<p>Supply <code>r=</code> or <code>python=</code>. Python can read the R data frame through <code>r.d</code>.</p>
+<p><code>r.d</code> exposes the R object to Python. <code>py$values</code> exposes the Python object to R.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> We have sent R code to load the data, fit a model, and draw a plot. The model can also send Python code through the same tool by choosing the python argument. Python works in the same session. Start with one expression: how many rows are in the R data frame? The r bridge exposes the existing object. Next we can use Python libraries on that data.</p>
-<p><strong>Show:</strong> This is an actual captured Python response.</p>
+<p><strong>Say:</strong> And these are the same process. Python can read d, the data frame we created in R, and R can read values, the list we just created in Python. The model can use the language it needs while continuing the same analysis.</p>
+<p>Reticulate supplies the bridge and converts values between the languages. Sharing the worker does not mean every object has zero-copy or reference-sharing behavior; conversion depends on the type.</p>
+<p><strong>Show:</strong> Each call has its own response directly below it. These calls, the initial R data frame, and the preceding Python cells were captured in one Console session.</p>
+<p><strong>Transition:</strong> SQL can use the R data frame too.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1618,7 +1745,7 @@ display:block!important;
 <section id="sql" class="slide level2 deck-slide literal-slide">
 <h2>Query the same data with SQL</h2>
 <div class="kicker">
-<p>One analysis · R and Python together</p>
+<p>SQL in the same session</p>
 </div>
 <div class="two-col">
 <div class="left">
@@ -1627,12 +1754,12 @@ display:block!important;
 <p>SQL cell</p>
 </div>
 <!-- cells:sql -->
-<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(sql<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb6-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">SELECT &quot;group&quot;, COUNT(*) AS n</span></span>
-<span id="cb6-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">FROM d</span></span>
-<span id="cb6-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY &quot;group&quot;</span></span>
-<span id="cb6-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY &quot;group&quot;</span></span>
-<span id="cb6-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(sql<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb11-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">SELECT &quot;group&quot;, COUNT(*) AS n</span></span>
+<span id="cb11-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">FROM d</span></span>
+<span id="cb11-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">GROUP BY &quot;group&quot;</span></span>
+<span id="cb11-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">ORDER BY &quot;group&quot;</span></span>
+<span id="cb11-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -1655,8 +1782,67 @@ display:block!important;
 <aside class="notes">
 <p><strong>Say:</strong> The same session can also query the live R data frame with DuckDB. The model can choose SQL for a grouped count without exporting the frame first. The connection and catalog persist across calls.</p>
 <p><strong>Show:</strong> d is the R data frame from the first example. This response comes from the same captured Console session.</p>
-<p><strong>Transition:</strong> The basic loop is the same in all three languages. Now expand what the model can reach through it, starting with the package ecosystems.</p>
+<p><strong>Transition:</strong> That is the default DuckDB connection. The model can also select a database connection owned by R or Python.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="sql-connections" class="slide level2 deck-slide literal-slide">
+<h2>SQL uses the connection you choose</h2>
+<div class="kicker">
+<p>One analysis · choose the database connection in R or Python</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>R · a DBI connection</p>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb13-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  con &lt;- DBI::dbConnect(</span></span>
+<span id="cb13-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    RSQLite::SQLite(), &quot;:memory:&quot;)</span></span>
+<span id="cb13-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  console_sql_connection(con)</span></span>
+<span id="cb13-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label">
+<p>Python · a DB-API connection</p>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb14-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import sqlite3</span></span>
+<span id="cb14-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">con = sqlite3.connect(&quot;:memory:&quot;)</span></span>
+<span id="cb14-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">console_sql_connection(con)</span></span>
+<span id="cb14-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="code-panel">
+<div class="panel-label">
+<p>Subsequent SQL cells use the selected connection</p>
+</div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(sql<span class="op">=</span><span class="st">&quot;SELECT CURRENT_TIMESTAMP AS now&quot;</span>)</span></code></pre></div>
+</div>
+<div class="takeaway">
+<p>Use a local database or an existing remote connection through its driver.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> SQL defaults to the session’s DuckDB connection. The model can instead select a valid DBI connection owned by R, or a DB-API connection owned by Python. These SQLite examples are alternatives; a remote database connection follows the same selection pattern. The driver supplies the SQL dialect and transaction state.</p>
+<p>Later sql calls go to the selected connection. The object stays in its owning runtime, with its connection-local state. These are supported database connection interfaces, not arbitrary objects. A selected database sees its own tables and registrations; it does not automatically inherit the default DuckDB connection’s access to R data frames.</p>
+<p>Restore the managed connection with console_sql_connection(NULL) in R or console_sql_connection(None) in Python before closing a custom connection. A remote connection still needs its driver, credentials, and network permissions.</p>
+<p><strong>Show:</strong> Read the R and Python panels as two alternatives, followed by the same SQL call. No model or remote database call is needed for this illustration.</p>
+<p><strong>Transition:</strong> Now that the languages and database connections are in place, we can expand the session with packages from CRAN and PyPI.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql">SQL connection selection</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1721,7 +1907,7 @@ display:block!important;
 <div class="panel-label">
 <p>R</p>
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;library(data.table)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;library(data.table)&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -1729,7 +1915,7 @@ display:block!important;
 <div class="panel-label">
 <p>Python</p>
 </div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;import polars&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;import polars&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -1766,18 +1952,18 @@ display:block!important;
 <p>LLM client → Console · Python cell</p>
 </div>
 <!-- cells:python-ml -->
-<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb10-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.ensemble import RandomForestRegressor</span></span>
-<span id="cb10-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.model_selection import cross_val_score</span></span>
-<span id="cb10-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
-<span id="cb10-5"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">frame = r.d</span></span>
-<span id="cb10-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">X = pd.get_dummies(frame[[&quot;temperature&quot;, &quot;group&quot;]])</span></span>
-<span id="cb10-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">model = RandomForestRegressor(random_state=42)</span></span>
-<span id="cb10-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">scores = cross_val_score(model, X, frame[&quot;response&quot;],</span></span>
-<span id="cb10-10"><a href aria-hidden="true" tabindex="-1"></a><span class="st">                         cv=5, scoring=&quot;neg_mean_absolute_error&quot;)</span></span>
-<span id="cb10-11"><a href aria-hidden="true" tabindex="-1"></a><span class="st">print(f&quot;CV MAE: {-scores.mean():.3f}&quot;)</span></span>
-<span id="cb10-12"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb18-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.ensemble import RandomForestRegressor</span></span>
+<span id="cb18-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.model_selection import cross_val_score</span></span>
+<span id="cb18-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb18-5"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">frame = r.d</span></span>
+<span id="cb18-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">X = pd.get_dummies(frame[[&quot;temperature&quot;, &quot;group&quot;]])</span></span>
+<span id="cb18-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">model = RandomForestRegressor(random_state=42)</span></span>
+<span id="cb18-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">scores = cross_val_score(model, X, frame[&quot;response&quot;],</span></span>
+<span id="cb18-10"><a href aria-hidden="true" tabindex="-1"></a><span class="st">                         cv=5, scoring=&quot;neg_mean_absolute_error&quot;)</span></span>
+<span id="cb18-11"><a href aria-hidden="true" tabindex="-1"></a><span class="st">print(f&quot;CV MAE: {-scores.mean():.3f}&quot;)</span></span>
+<span id="cb18-12"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <div class="result-panel">
 <div class="panel-label">
@@ -1792,101 +1978,9 @@ CV MAE: 2.015</code></pre>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.</p>
+<p><strong>Transition:</strong> The session can now use the libraries the work calls for. Next, follow what happens when a cell runs longer or needs input.</p>
 <p><strong>Show:</strong> The meaningful difference is the library being used: RandomForestRegressor and cross_val_score. The result is shown below the call.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">runtime</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md">requirements</a></p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="sql-connections" class="slide level2 deck-slide literal-slide">
-<h2>SQL uses the connection you choose</h2>
-<div class="kicker">
-<p>One analysis · choose the database connection in R or Python</p>
-</div>
-<div class="two-col">
-<div class="left">
-<div class="code-panel">
-<div class="panel-label">
-<p>R · a DBI connection</p>
-</div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb12-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  con &lt;- DBI::dbConnect(</span></span>
-<span id="cb12-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    RSQLite::SQLite(), &quot;:memory:&quot;)</span></span>
-<span id="cb12-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  console_sql_connection(con)</span></span>
-<span id="cb12-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
-</div>
-</div>
-<div class="right">
-<div class="code-panel">
-<div class="panel-label">
-<p>Python · a DB-API connection</p>
-</div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb13-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import sqlite3</span></span>
-<span id="cb13-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">con = sqlite3.connect(&quot;:memory:&quot;)</span></span>
-<span id="cb13-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">console_sql_connection(con)</span></span>
-<span id="cb13-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
-</div>
-</div>
-</div>
-<div class="code-panel">
-<div class="panel-label">
-<p>Subsequent SQL cells use the selected connection</p>
-</div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(sql<span class="op">=</span><span class="st">&quot;SELECT CURRENT_TIMESTAMP AS now&quot;</span>)</span></code></pre></div>
-</div>
-<div class="takeaway">
-<p>Use a local database or an existing remote connection through its driver.</p>
-</div>
-<aside class="notes">
-<p><strong>Say:</strong> SQL defaults to the session’s DuckDB connection. The model can instead select a valid DBI connection owned by R, or a DB-API connection owned by Python. These SQLite examples are alternatives; a remote database connection follows the same selection pattern. The driver supplies the SQL dialect and transaction state.</p>
-<p>Later sql calls go to the selected connection. The object stays in its owning runtime, with its connection-local state. These are supported database connection interfaces, not arbitrary objects. A selected database sees its own tables and registrations; it does not automatically inherit the default DuckDB connection’s access to R data frames.</p>
-<p>Restore the managed connection with console_sql_connection(NULL) in R or console_sql_connection(None) in Python before closing a custom connection. A remote connection still needs its driver, credentials, and network permissions.</p>
-<p><strong>Show:</strong> Read the R and Python panels as two alternatives, followed by the same SQL call. No model or remote database call is needed for this illustration.</p>
-<p><strong>Transition:</strong> We have expanded the tools available to the session. The complete send interface adds the controls needed when that work runs longer or becomes interactive.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql">SQL connection selection</a></p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="full-signature" class="slide level2 deck-slide signature-slide">
-<h2>The complete send() interface</h2>
-<div class="kicker">
-<p>Work with the session</p>
-</div>
-<div class="full-contract">
-<pre class="signature-display">console.send(
-  <span class="syntax-accent">r</span>=…, <span class="syntax-accent">python</span>=…, <span class="syntax-accent">sql</span>=…,    <span class="syntax-comment"># at most one language</span>
-  control=…,               <span class="syntax-comment"># interrupt or restart</span>
-  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
-  requirements={r: …, python: …, duckdb: …},
-  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
-)</pre>
-</div>
-<div class="takeaway">
-<p>Omit code to poll, supply input, control the session, or prepare dependencies.</p>
-</div>
-<aside class="notes">
-<p><strong>Say:</strong> These are the seven top-level fields in the managed session’s send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.</p>
-<p>An empty send collects output. stdin answers a prompt or debugger; its text is queued exactly, so a line of input normally needs a trailing newline. Control interrupts or restarts the session. timeout_ms limits how long the call waits for an evaluation, rather than stopping the evaluation when that wait expires. Explicit preparation and control happen before that wait.</p>
-<p><strong>Show:</strong> This is a schematic field overview, not a call that supplies three languages at once. Keep the walkthrough brief. The next examples follow a running job, interrupt or restart it, supply input, and keep its output useful. Code-free standalone preparation cannot carry nonempty stdin. Use stdin alone to answer an already active prompt.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -1911,15 +2005,15 @@ display:block!important;
 <p>LLM client → Console · running cell</p>
 </div>
 <!-- cells:progress -->
-<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb15-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  pb &lt;- txtProgressBar(</span></span>
-<span id="cb15-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    max = 20, style = 3, width = 20)</span></span>
-<span id="cb15-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:20) {</span></span>
-<span id="cb15-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    Sys.sleep(0.15)</span></span>
-<span id="cb15-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    setTxtProgressBar(pb, i)</span></span>
-<span id="cb15-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb15-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  close(pb)</span></span>
-<span id="cb15-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>, timeout_ms<span class="op">=</span><span class="dv">450</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb20-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  pb &lt;- txtProgressBar(</span></span>
+<span id="cb20-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    max = 20, style = 3, width = 20)</span></span>
+<span id="cb20-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:20) {</span></span>
+<span id="cb20-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    Sys.sleep(0.15)</span></span>
+<span id="cb20-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    setTxtProgressBar(pb, i)</span></span>
+<span id="cb20-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb20-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  close(pb)</span></span>
+<span id="cb20-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>, timeout_ms<span class="op">=</span><span class="dv">450</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -1968,9 +2062,9 @@ display:block!important;
 <p>LLM client → Console · collect new output</p>
 </div>
 <!-- cells:poll-next,poll-final -->
-<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb17-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">600</span>)</span>
-<span id="cb17-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-3"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">5000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">600</span>)</span>
+<span id="cb22-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-3"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">5000</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2028,7 +2122,7 @@ display:block!important;
 <div class="panel-label">
 <p>Interrupt</p>
 </div>
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;interrupt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;interrupt&quot;</span>)</span></code></pre></div>
 </div>
 <p>Interrupt a long-running computation. Keep the workspace.</p>
 </div>
@@ -2037,27 +2131,28 @@ display:block!important;
 <div class="panel-label">
 <p>Restart</p>
 </div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>)</span></code></pre></div>
 </div>
 <p>Replace the worker. Start with fresh in-memory state.</p>
 </div>
 </div>
+<p>Combine a control and a code cell in one call.</p>
 <div class="code-panel">
 <div class="panel-label">
-<p>R package development · use a fresh session</p>
+<p>R package development</p>
 </div>
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Run the package tests in a fresh session</span></span>
-<span id="cb22-2"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::test()&quot;</span>)</span>
-<span id="cb22-3"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package, then evaluate more code</span></span>
-<span id="cb22-5"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::load_all(); ...&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Run the package tests in a fresh session</span></span>
+<span id="cb27-2"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::test()&quot;</span>)</span>
+<span id="cb27-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package, then evaluate more code</span></span>
+<span id="cb27-5"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::load_all(); ...&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Restart keeps prepared dependencies and starts the supplied cell in the new session.</p>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Interrupt a long-running computation while keeping the workspace, like pressing Escape in the RStudio console. It requests SIGINT; code can catch or delay it. Changes already made by the computation remain. Restart retires the worker and starts a replacement. R objects, Python state, the managed DuckDB catalog, debugger state, and unread input are discarded; successfully prepared dependencies remain available.</p>
-<p>A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session. Launch from the package directory for these examples. The two calls are alternatives. The ellipsis after load_all is a placeholder for the package code the model wants to evaluate next, not literal R code to run.</p>
+<p>A control and a code cell can be combined in one send call. A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session. Launch from the package directory for these examples. The two calls are alternatives. The ellipsis after load_all is a placeholder for the package code the model wants to evaluate next, not literal R code to run.</p>
 <p><strong>Show:</strong> There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.</p>
 <p><strong>Author / capture:</strong> The restart-plus-test call was exercised against the local package fixture in the controls capture. The next slide captures restart plus a sourced script with queued input.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption">Interruption and restart</a></p>
@@ -2084,21 +2179,21 @@ display:block!important;
 <div class="panel-label path-label">
 <p>./analyze.R</p>
 </div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">readline</span>(<span class="st">&quot;Group to summarize: &quot;</span>)</span>
-<span id="cb23-2"><a href aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./measurements.csv&quot;</span>)</span>
-<span id="cb23-3"><a href aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> d<span class="sc">$</span>response[d<span class="sc">$</span>group <span class="sc">==</span> group]</span>
-<span id="cb23-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(values))</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">readline</span>(<span class="st">&quot;Group to summarize: &quot;</span>)</span>
+<span id="cb28-2"><a href aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./measurements.csv&quot;</span>)</span>
+<span id="cb28-3"><a href aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> d<span class="sc">$</span>response[d<span class="sc">$</span>group <span class="sc">==</span> group]</span>
+<span id="cb28-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(values))</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>One send call</p>
 </div>
 <!-- control-cell:restart-script -->
-<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
-<span id="cb24-2"><a href aria-hidden="true" tabindex="-1"></a>  control<span class="op">=</span><span class="st">&quot;restart&quot;</span>,</span>
-<span id="cb24-3"><a href aria-hidden="true" tabindex="-1"></a>  stdin<span class="op">=</span><span class="st">&quot;A</span><span class="ch">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb24-4"><a href aria-hidden="true" tabindex="-1"></a>  r<span class="op">=</span><span class="st">&#39;source(&quot;./analyze.R&quot;)&#39;</span></span>
-<span id="cb24-5"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
+<span id="cb29-2"><a href aria-hidden="true" tabindex="-1"></a>  control<span class="op">=</span><span class="st">&quot;restart&quot;</span>,</span>
+<span id="cb29-3"><a href aria-hidden="true" tabindex="-1"></a>  stdin<span class="op">=</span><span class="st">&quot;A</span><span class="ch">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb29-4"><a href aria-hidden="true" tabindex="-1"></a>  r<span class="op">=</span><span class="st">&#39;source(&quot;./analyze.R&quot;)&#39;</span></span>
+<span id="cb29-5"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2139,6 +2234,40 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
+<section id="full-signature" class="slide level2 deck-slide signature-slide">
+<h2>The complete send() interface</h2>
+<div class="kicker">
+<p>Work with the session</p>
+</div>
+<div class="full-contract">
+<pre class="signature-display">console.send(
+  <span class="syntax-accent">r</span>=…, <span class="syntax-accent">python</span>=…, <span class="syntax-accent">sql</span>=…,    <span class="syntax-comment"># at most one language</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+</div>
+<div class="takeaway">
+<p>Omit code to poll, supply input, control the session, or prepare dependencies.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> These are the seven top-level fields in the managed session’s send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.</p>
+<p>An empty send collects output. stdin answers a prompt or debugger; its text is queued exactly, so a line of input normally needs a trailing newline. Control interrupts or restarts the session. timeout_ms limits how long the call waits for an evaluation, rather than stopping the evaluation when that wait expires. Explicit preparation and control happen before that wait.</p>
+<p><strong>Show:</strong> This is a schematic field overview, not a call that supplies three languages at once. Keep the walkthrough brief. The preceding examples introduced evaluation, waiting, polling, interruption, restart, and input. This slide brings those arguments together. Requirements can also prepare an environment explicitly before a cell runs. Code-free standalone preparation cannot carry nonempty stdin. Use stdin alone to answer an already active prompt.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
 <section id="bounded-output" class="slide level2 deck-slide literal-slide code-dense">
 <h2>Protect the model’s context from oversized output</h2>
 <div class="kicker">
@@ -2151,12 +2280,12 @@ display:block!important;
 <p>Call</p>
 </div>
 <!-- cells:flood -->
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
-<span id="cb26-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  for </span><span class="kw">(</span><span class="vs">i in seq_len</span><span class="kw">(</span><span class="vs">10000</span><span class="kw">))</span><span class="vs"> {</span></span>
-<span id="cb26-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">sprintf</span><span class="kw">(</span><span class="vs">&quot;row %05d</span><span class="ch">\n</span><span class="vs">&quot;, i</span><span class="kw">))</span></span>
-<span id="cb26-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
-<span id="cb26-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  cat</span><span class="kw">(</span><span class="vs">&quot;fit complete</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
-<span id="cb26-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
+<span id="cb31-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  for </span><span class="kw">(</span><span class="vs">i in seq_len</span><span class="kw">(</span><span class="vs">10000</span><span class="kw">))</span><span class="vs"> {</span></span>
+<span id="cb31-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">sprintf</span><span class="kw">(</span><span class="vs">&quot;row %05d</span><span class="ch">\n</span><span class="vs">&quot;, i</span><span class="kw">))</span></span>
+<span id="cb31-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
+<span id="cb31-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  cat</span><span class="kw">(</span><span class="vs">&quot;fit complete</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
+<span id="cb31-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2207,14 +2336,14 @@ display:block!important;
 <p>R · forked child writes through a pipe</p>
 </div>
 <!-- cells:r-fork-cat -->
-<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
-<span id="cb28-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  job &lt;- parallel::mcparallel</span><span class="kw">(</span><span class="vs">{</span></span>
-<span id="cb28-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    out &lt;- pipe</span><span class="kw">(</span><span class="vs">&quot;cat&quot;, &quot;w&quot;</span><span class="kw">)</span></span>
-<span id="cb28-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">&quot;hello from fork</span><span class="ch">\n</span><span class="vs">&quot;, file = out</span><span class="kw">)</span></span>
-<span id="cb28-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    close</span><span class="kw">(</span><span class="vs">out</span><span class="kw">)</span></span>
-<span id="cb28-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span><span class="kw">)</span></span>
-<span id="cb28-7"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  invisible</span><span class="kw">(</span><span class="vs">parallel::mccollect</span><span class="kw">(</span><span class="vs">job</span><span class="kw">))</span></span>
-<span id="cb28-8"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
+<span id="cb33-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  job &lt;- parallel::mcparallel</span><span class="kw">(</span><span class="vs">{</span></span>
+<span id="cb33-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    out &lt;- pipe</span><span class="kw">(</span><span class="vs">&quot;cat&quot;, &quot;w&quot;</span><span class="kw">)</span></span>
+<span id="cb33-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">&quot;hello from fork</span><span class="ch">\n</span><span class="vs">&quot;, file = out</span><span class="kw">)</span></span>
+<span id="cb33-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    close</span><span class="kw">(</span><span class="vs">out</span><span class="kw">)</span></span>
+<span id="cb33-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span><span class="kw">)</span></span>
+<span id="cb33-7"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  invisible</span><span class="kw">(</span><span class="vs">parallel::mccollect</span><span class="kw">(</span><span class="vs">job</span><span class="kw">))</span></span>
+<span id="cb33-8"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <div class="result-panel">
 <div class="panel-label">
@@ -2233,10 +2362,10 @@ display:block!important;
 <p>Python · write directly to stdout</p>
 </div>
 <!-- cells:python-fd -->
-<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
-<span id="cb30-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">import os</span></span>
-<span id="cb30-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">os</span><span class="dv">.</span><span class="vs">write</span><span class="kw">(</span><span class="vs">1, b&quot;hello directly on fd 1</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
-<span id="cb30-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
+<span id="cb35-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">import os</span></span>
+<span id="cb35-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">os</span><span class="dv">.</span><span class="vs">write</span><span class="kw">(</span><span class="vs">1, b&quot;hello directly on fd 1</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
+<span id="cb35-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <div class="result-panel">
 <div class="panel-label">
@@ -2279,7 +2408,7 @@ display:block!important;
 </div>
 <!-- inline-svg:assets/process-topology.svg -->
 <div class="embedded-diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1400 455" role="img" aria-label="The LLM client talks to the Console server. The server uses trusted resolver processes outside the sandbox and exchanges cells and results with the sandboxed relay and worker. The native runner enforces permissions and cleanup.">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1400 455" role="img" aria-label="The LLM client talks to the Console server. The server uses trusted resolver processes outside the sandbox and exchanges cells and results with the sandboxed relay and worker. The sandbox enforces permissions and cleanup.">
 <g font-family="Arial, sans-serif" fill="#18323f">
 <rect x="865" y="8" width="520" height="435" rx="18" fill="#edf5ef" stroke="#167d76" stroke-width="2" stroke-dasharray="8 6" />
 <text x="1125" y="43" text-anchor="middle" font-size="24" fill="#167d76">Sandboxed processes</text>
@@ -2305,7 +2434,7 @@ display:block!important;
 <text x="542" y="367" text-anchor="middle" font-size="25">ir · uv</text>
 <path d="M542 194 V278" fill="none" stroke="#537b79" stroke-width="2" />
 <text x="560" y="239" font-size="23">Prepare packages</text>
-<text x="1125" y="428" text-anchor="middle" font-size="21" fill="#167d76">Native runner: permissions and cleanup</text>
+<text x="1125" y="428" text-anchor="middle" font-size="21" fill="#167d76">Sandbox: permissions and cleanup</text>
 </g>
 <g fill="#537b79"><path d="M265 133 l10 -5 v10 Z M380 133 l-10 -5 v10 Z M705 133 l10 -5 v10 Z M920 133 l-10 -5 v10 Z M1125 194 l-5 10 h10 Z M1125 278 l-5 -10 h10 Z M542 194 l-5 10 h10 Z M542 278 l-5 -10 h10 Z" /></g>
 </svg>
@@ -2315,70 +2444,11 @@ display:block!important;
 <p>The server manages the session. The worker executes code inside the sandbox.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The LLM client talks to the Console server over MCP. The server owns the session and its records. A relay carries cells, input, output, and control messages to the worker, where R, Python, and SQL run. The native runner applies the sandbox policy and owns process cleanup.</p>
-<p>Package resolvers are separate trusted processes, outside the worker sandbox. That is how the server can prepare a package without giving the worker direct network access. We will follow one of those requests next.</p>
+<p><strong>Say:</strong> The LLM client talks to the Console server over MCP. The server owns the session and its records. A relay carries cells, input, output, and control messages to the worker, where R, Python, and SQL run. The sandbox enforces permissions and owns process cleanup.</p>
+<p>Package resolvers are separate trusted processes, outside the worker sandbox. That is how the server can prepare a package without giving the worker direct network access. A protocol-level example of that exchange is in the appendix.</p>
 <p><strong>Show:</strong> This is the simplified local layout. Arrows indicate the labeled two-way exchanges, not a strict parent-process tree. Native setup helpers are omitted. The native runner is a separate executable; the shaded area identifies the processes whose permissions it restricts. Remote targets change placement and transport while retaining the session interface.</p>
-<p><strong>Transition:</strong> Keep this arrangement in view for the next slide: a missing package sends a request from the worker to the trusted preparation side.</p>
+<p><strong>Transition:</strong> The shaded boundary marks where the evaluated code runs. Next, look at the permissions it gets by default.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Implemented architecture</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="resolver-boundary" class="slide level2 deck-slide story-slide literal-slide">
-<h2>Follow a package-resolution request</h2>
-<div class="kicker">
-<p>Private worker protocol · illustrative paths</p>
-</div>
-<div class="two-col">
-<div class="left">
-<div class="resolution-steps">
-<ol type="1">
-<li>R reaches a missing package and the worker requests resolution.</li>
-<li>The server prepares a library with <code>ir</code>, outside the worker sandbox.</li>
-<li>The worker activates the library and continues the original load.</li>
-</ol>
-</div>
-</div>
-<div class="right">
-<div class="code-panel">
-<div class="panel-label">
-<p>Worker → server</p>
-</div>
-<div class="sourceCode" id="cb32"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb32-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
-<span id="cb32-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
-</div>
-<div class="code-panel">
-<div class="panel-label">
-<p>Server → worker</p>
-</div>
-<div class="sourceCode" id="cb33"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb33-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
-<span id="cb33-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
-</div>
-<div class="code-panel">
-<div class="panel-label">
-<p>Worker → server</p>
-</div>
-<div class="sourceCode" id="cb34"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb34-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
-<span id="cb34-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
-</div>
-</div>
-</div>
-<div class="takeaway">
-<p>Trusted preparation can use the network while the worker remains restricted.</p>
-</div>
-<aside class="notes">
-<p><strong>Say:</strong> The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.</p>
-<p>These are private worker-protocol messages, not MCP tool calls the model has to make. The field names match the documented protocol; /cache/r/library is an illustrative path. Python follows the analogous resolve_python exchange and activates a prepared interpreter environment.</p>
-<p>Installation and build code run with the preparation account’s permissions, so requirements and resolver configuration must be trusted. Caches can persist. The worker’s filesystem and network policy continues to apply. On SSH, preparation runs on the remote execution host.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution">Worker protocol</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md">Requirements and trust</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2440,8 +2510,8 @@ display:block!important;
 <li>Project files stay protected from writes.</li>
 </ul>
 <div class="code-panel">
-<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
-<span id="cb35-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:read-only</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
+<span id="cb37-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:read-only</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2451,8 +2521,8 @@ display:block!important;
 <p>Adds writes in the <strong>workspace</strong>: the directory where you launch Console.</p>
 <p>Write access stays denied for <code>.git</code>, <code>.agents</code>, <code>.codex</code>, and <code>.claude</code>. These subdirectories remain readable.</p>
 <div class="code-panel">
-<div class="sourceCode" id="cb36"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb36-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
-<span id="cb36-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:workspace</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
+<span id="cb38-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:workspace</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2494,16 +2564,16 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb37"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb37-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb37-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb37-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
-<span id="cb37-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
-<span id="cb37-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
-<span id="cb37-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span>
-<span id="cb37-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./secrets</span><span class="kw">}</span></span>
-<span id="cb37-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span>
-<span id="cb37-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./.env</span><span class="kw">}</span></span>
-<span id="cb37-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb39-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb39-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb39-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
+<span id="cb39-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
+<span id="cb39-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
+<span id="cb39-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span>
+<span id="cb39-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./secrets</span><span class="kw">}</span></span>
+<span id="cb39-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span>
+<span id="cb39-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./.env</span><span class="kw">}</span></span>
+<span id="cb39-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2545,20 +2615,20 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb38"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb38-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb38-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb38-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
-<span id="cb38-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
-<span id="cb38-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb38-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb38-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb38-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb38-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb38-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb38-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
-<span id="cb38-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
-<span id="cb38-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">warehouse.example.com</span><span class="kw">:</span><span class="at"> allow</span></span>
-<span id="cb38-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">blocked.example.com</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb40-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb40-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb40-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
+<span id="cb40-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
+<span id="cb40-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb40-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb40-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb40-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb40-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb40-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb40-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
+<span id="cb40-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
+<span id="cb40-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">warehouse.example.com</span><span class="kw">:</span><span class="at"> allow</span></span>
+<span id="cb40-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">blocked.example.com</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2601,19 +2671,19 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb39-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb39-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb39-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
-<span id="cb39-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
-<span id="cb39-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb39-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb39-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb39-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb39-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb39-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb39-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
-<span id="cb39-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
-<span id="cb39-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">api.example.com</span><span class="kw">:</span><span class="at"> allow</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb41-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb41-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb41-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
+<span id="cb41-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
+<span id="cb41-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb41-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb41-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb41-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb41-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb41-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb41-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
+<span id="cb41-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
+<span id="cb41-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">api.example.com</span><span class="kw">:</span><span class="at"> allow</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2651,10 +2721,10 @@ display:block!important;
 <li>Confirm process cleanup, then remove private temporary storage.</li>
 </ul>
 <div class="takeaway">
-<p>The native runner owns process cleanup when the session ends or restarts.</p>
+<p>The sandbox cleans up the process tree when the session ends or restarts.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This sequence runs when an explicit session restart is requested or the Console server shuts down. File and network permissions are only part of the sandbox. Console asks the worker to shut down and gives it a short grace period. The current default is one second. If the worker does not exit, the relay force-stops it. The native runner also cleans up the process tree, so a child that outlives its parent is part of the shutdown contract.</p>
+<p><strong>Say:</strong> This sequence runs when an explicit session restart is requested or the Console server shuts down. File and network permissions are only part of the sandbox. Console asks the worker to shut down and gives it a short grace period. The current default is one second. If the worker does not exit, the relay force-stops it. The sandbox also cleans up the process tree, so a child that outlives its parent is part of the shutdown contract.</p>
 <p>On Linux, the runner waits for the kernel to finish terminating the owned PID namespace. On macOS, it watches fork and exit events, tracks process identity, and stops the original process group and observed descendants, including those that detach. A descendant that detaches and becomes orphaned before observation can fall outside the macOS guarantee. The worker grace period and the runner’s separate descendant-cleanup deadline are different limits.</p>
 <p>The runner confirms process cleanup before removing private storage. A cleanup failure is reported as an error; if termination cannot be established, it retains the storage. Server or relay loss triggers cleanup while the runner remains alive. The runner’s own death does not guarantee temporary-directory deletion or macOS workload termination. Prepared package caches, records, and project files are retained.</p>
 <p><strong>Show:</strong> The sequence applies to the normal native sandbox. It is separate from the cooperative interrupt control. The notes retain platform boundaries; the visible point is that the session owns the child processes it launches.</p>
@@ -2698,6 +2768,72 @@ display:block!important;
 <p><strong>Say:</strong> The architecture separates session control from its execution target, so target adapters can support different environments. These cards show local, SSH, and Docker examples supported today. The session worker does not have to run beside the client. It can run locally, on an SSH host, or in Docker. The user selects the target at session launch, and the model still chooses R, Python, or SQL. Additional targets need an implementation of the relevant transport, environment, and lifecycle contracts; arbitrary environments do not work just by naming them.</p>
 <p>Local and SSH targets support managed package preparation on the execution host. Docker uses the packages prepared in its image. The current implementation treats SSH and Docker as separate target modes.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md">SSH execution</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md">Docker execution</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="remote-topology" class="slide level2 deck-slide story-slide">
+<h2>Move execution to the remote host</h2>
+<div class="kicker">
+<p>The same architecture over SSH</p>
+</div>
+<!-- inline-svg:assets/remote-topology.svg -->
+<div class="embedded-diagram">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1400 600" role="img" aria-label="The LLM client and Console server stay on the local host. SSH carries cells and results to the relay and session worker inside the remote sandbox. A separate SSH connection reaches trusted package resolvers on the remote host outside that sandbox.">
+<g font-family="Arial, sans-serif" fill="#18323f">
+<rect x="8" y="8" width="727" height="580" rx="18" fill="#fff" stroke="#a9b6b6" stroke-width="2" />
+<text x="371" y="45" text-anchor="middle" font-size="27">Your machine</text>
+<rect x="865" y="8" width="527" height="580" rx="18" fill="#f5e7dc" stroke="#b56844" stroke-width="2" />
+<text x="1128" y="45" text-anchor="middle" font-size="27">Remote host</text>
+<rect x="880" y="66" width="497" height="367" rx="14" fill="#edf5ef" stroke="#167d76" stroke-width="2" stroke-dasharray="8 6" />
+<text x="1128" y="99" text-anchor="middle" font-size="23" fill="#167d76">Sandboxed processes</text>
+<rect x="30" y="125" width="230" height="100" rx="10" fill="#fff" stroke="#a9b6b6" />
+<text x="145" y="184" text-anchor="middle" font-size="28">LLM client</text>
+<rect x="390" y="125" width="310" height="100" rx="10" fill="#fff" stroke="#a9b6b6" />
+<text x="545" y="167" text-anchor="middle" font-size="28">Console server</text>
+<text x="545" y="200" text-anchor="middle" font-size="23">Session and records</text>
+<path d="M270 175 H380" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="325" y="150" text-anchor="middle" font-size="23">MCP</text>
+<rect x="930" y="125" width="397" height="100" rx="10" fill="#fff" stroke="#a9b6b6" />
+<text x="1128" y="167" text-anchor="middle" font-size="28">Worker relay</text>
+<text x="1128" y="200" text-anchor="middle" font-size="23">Transport and supervision</text>
+<path d="M710 175 H920" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="802" y="145" text-anchor="middle" font-size="23">SSH</text>
+<text x="802" y="260" text-anchor="middle" font-size="20">Cells / results</text>
+<rect x="930" y="305" width="397" height="92" rx="10" fill="#d9eee9" stroke="#167d76" />
+<text x="1128" y="343" text-anchor="middle" font-size="28">Session worker</text>
+<text x="1128" y="377" text-anchor="middle" font-size="25">R · Python · SQL</text>
+<path d="M1128 236 V293" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="1145" y="272" font-size="22">Cells and I/O</text>
+<text x="1128" y="424" text-anchor="middle" font-size="20" fill="#167d76">Sandbox: permissions and cleanup</text>
+<rect x="930" y="470" width="397" height="92" rx="10" fill="#fff" stroke="#a9b6b6" />
+<text x="1128" y="508" text-anchor="middle" font-size="28">Trusted resolvers</text>
+<text x="1128" y="542" text-anchor="middle" font-size="24">ir · uv · remote package caches</text>
+<path d="M545 236 V516 H920" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="525" y="438" text-anchor="end" font-size="23">Package preparation</text>
+<text x="525" y="469" text-anchor="end" font-size="23">Separate SSH connection</text>
+</g>
+<g fill="#537b79"><path d="M270 175 l10 -5 v10 Z M380 175 l-10 -5 v10 Z M710 175 l10 -5 v10 Z M920 175 l-10 -5 v10 Z M1128 236 l-5 10 h10 Z M1128 293 l-5 -10 h10 Z M545 236 l-5 10 h10 Z M920 516 l-10 -5 v10 Z" /></g>
+</svg>
+</div>
+<!-- /inline-svg -->
+<div class="takeaway">
+<p>Code runs beside the remote data. The client and session records stay local.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> This is the earlier process diagram with execution moved to another host. The LLM client and Console server stay on your machine. SSH carries cells, input, controls, and results between the server and the remote relay. R, Python, and SQL run in the remote worker under that host’s sandbox policy.</p>
+<p>Package preparation moves too. A separate SSH connection reaches the trusted preparation processes on the remote host, outside the worker sandbox. Prepared packages and their caches belong there. Session logs, returned images, and output records remain with the local Console server.</p>
+<p><strong>Show:</strong> Compare the same client, server, relay, worker, and resolver boxes with the local diagram. The warm outer box is the remote host; the green dashed box is its sandbox. Arrows show communication, not parent-process relationships. SSH helpers and setup processes are omitted. The existing remote workspace and runtime prerequisites must already be present.</p>
+<p><strong>Transition:</strong> With this placement, the worker can use data already on that host.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md">SSH execution</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2764,17 +2900,17 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb40-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb40-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
-<span id="cb40-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transport</span><span class="kw">:</span></span>
-<span id="cb40-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> ssh</span></span>
-<span id="cb40-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">host</span><span class="kw">:</span><span class="at"> analysis-host</span></span>
-<span id="cb40-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /srv/projects/analysis</span></span>
-<span id="cb40-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb40-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
-<span id="cb40-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
-<span id="cb40-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
-<span id="cb40-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb42-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb42-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
+<span id="cb42-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transport</span><span class="kw">:</span></span>
+<span id="cb42-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> ssh</span></span>
+<span id="cb42-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">host</span><span class="kw">:</span><span class="at"> analysis-host</span></span>
+<span id="cb42-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /srv/projects/analysis</span></span>
+<span id="cb42-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb42-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
+<span id="cb42-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
+<span id="cb42-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
+<span id="cb42-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2796,44 +2932,52 @@ display:block!important;
 }</style></aside>
 </section>
 <section id="docker" class="slide level2 deck-slide config-slide code-dense">
-<h2>Run the session in a Docker container</h2>
+<h2>Build the session’s Docker image at launch</h2>
 <div class="kicker">
-<p>Docker · One image and explicit mounts</p>
+<p>Docker · Prepare the packages in the image</p>
 </div>
 <div class="two-col">
 <div class="left">
-<div class="ownership-card">
-<p>Image supplies runtimes and packages.</p>
-<p>Project bind is explicitly writable.</p>
-<p>Outer Docker boundary owns enforcement.</p>
+<p>Start with a base image containing Console, R, and Python. Add the analysis packages.</p>
+<div class="code-panel">
+<div class="panel-label path-label">
+<p>examples/Dockerfile</p>
 </div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb43-1"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> my-console:base</span>
+<span id="cb43-2"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">python</span> <span class="at">-m</span> pip install <span class="dt">\</span></span>
+<span id="cb43-3"><a href aria-hidden="true" tabindex="-1"></a>    scikit-learn</span>
+<span id="cb43-4"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /workspace</span></code></pre></div>
+</div>
+<p>The project mount gives the session access to the workspace.</p>
 </div>
 <div class="right">
 <div class="code-panel">
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb41-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
-<span id="cb41-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /workspace</span></span>
-<span id="cb41-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compute</span><span class="kw">:</span></span>
-<span id="cb41-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> docker</span></span>
-<span id="cb41-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">image</span><span class="kw">:</span><span class="at"> my-console:analysis</span></span>
-<span id="cb41-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">pull</span><span class="kw">:</span><span class="at"> if_missing</span></span>
-<span id="cb41-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mounts</span><span class="kw">:</span></span>
-<span id="cb41-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">source</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb41-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at"> /workspace</span></span>
-<span id="cb41-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read_write</span></span>
-<span id="cb41-11"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb41-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">kind</span><span class="kw">:</span><span class="at"> external-sandbox</span><span class="kw">}</span></span>
-<span id="cb41-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> enabled</span></span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb44-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
+<span id="cb44-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /workspace</span></span>
+<span id="cb44-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compute</span><span class="kw">:</span></span>
+<span id="cb44-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> docker</span></span>
+<span id="cb44-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span></span>
+<span id="cb44-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">context</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb44-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dockerfile</span><span class="kw">:</span><span class="at"> ./examples/Dockerfile</span></span>
+<span id="cb44-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mounts</span><span class="kw">:</span></span>
+<span id="cb44-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">source</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb44-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at"> /workspace</span></span>
+<span id="cb44-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read_write</span></span>
+<span id="cb44-12"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb44-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">kind</span><span class="kw">:</span><span class="at"> external-sandbox</span><span class="kw">}</span></span>
+<span id="cb44-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> enabled</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This example selects a prepared image and binds the project into /workspace. external-sandbox delegates enforcement to the existing Docker boundary; the enabled network setting permits ordinary container networking. The writable bind is deliberate and exposes those host files to changes. Use the permissions the task needs. The next slide returns to what the model sees.</p>
-<p><strong>Show:</strong> Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.</p>
-<p><strong>Author / capture:</strong> Build my-console:analysis first. Source paths are interpreted by the selected Docker daemon. Native sandboxing inside Docker is a separate supported selection where host capabilities permit it; no privileged-mode fallback is implied.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md">docker</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">sandbox</a></p>
+<p><strong>Say:</strong> The Dockerfile starts from a prepared Console image and adds scikit-learn. The YAML asks Console to build that image during initial setup, then run the session in it with the project mounted at /workspace. Both build paths are relative to the local launch directory. Packages come from the image; this target does not resolve them dynamically during evaluation.</p>
+<p>external-sandbox delegates file and network enforcement to the Docker boundary; network: enabled permits ordinary container networking. The writable mount exposes those host files to changes. There are no implicit home, credential, or Docker socket mounts.</p>
+<p><strong>Show:</strong> The Dockerfile and YAML are separate files displayed together. Inline Dockerfile text is not accepted in the current target schema; build.dockerfile names a file. Docker build runs before the analysis worker and uses trusted setup permissions. It is not governed by the worker’s network policy.</p>
+<p><strong>Author / capture:</strong> my-console:base is a user-prepared image, not a published image supplied by this talk. It needs a compatible Linux Console installation and companion bundle, R and its SQL/bridge dependencies, and a Python environment on PATH. The repository’s full example Dockerfile documents that base. This slide demonstrates an analysis-specific layer. The Docker target and image build were not run locally.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md">Docker execution and base image</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/examples/docker/Dockerfile">Full example Dockerfile</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2855,7 +2999,7 @@ display:block!important;
 <div class="panel-label">
 <p>send</p>
 </div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;coef(fit)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;coef(fit)&quot;</span>)</span></code></pre></div>
 </div>
 <div class="target-line">
 <p>Local host   /   SSH   /   Docker</p>
@@ -2885,13 +3029,13 @@ display:block!important;
 <div class="panel-label">
 <p>Codex CLI</p>
 </div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb43-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Claude Code CLI · the same Console installation</p>
 </div>
-<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Let <code>uvx</code> manage resolution and automatically pick up updates.</p>
@@ -2913,7 +3057,7 @@ display:block!important;
 }</style></aside>
 </section>
 <section id="install-r" class="slide level2 deck-slide">
-<h2>Install the thin R interface</h2>
+<h2>Install the R package</h2>
 <div class="kicker">
 <p>Installation</p>
 </div>
@@ -2921,13 +3065,13 @@ display:block!important;
 <div class="panel-label">
 <p>R package entry point</p>
 </div>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
-<p>The R package provides the interface. The core binary is resolved from PyPI.</p>
+<p>Use Console from R and register it as a tool in ellmer.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> With the execution model established, show the R installation route before registering the tool in ellmer. For presentation day, assume mcp.console is published to the intended R package repository. The R package is a thin R interface that connects to Console and resolves its core binary from PyPI using reticulate’s uv integration. Executable resolution occurs when the tool is created, not during install.packages. An explicit path or a compatible executable already on PATH can be used instead of a download; an explicit version selects that PyPI release.</p>
+<p><strong>Say:</strong> With the execution model established, show the R installation route before registering the tool in ellmer. For presentation day, assume mcp.console is published to the intended R package repository. The R package connects R applications to Console, handles the tool schema and results, and resolves the core binary from PyPI using reticulate’s uv integration. Executable resolution occurs when the tool is created, not during install.packages. An explicit path or a compatible executable already on PATH can be used instead of a download; an explicit version selects that PyPI release.</p>
 <p><strong>Show:</strong> Show one large line. This is explicitly an intended publication pathway: the currently inspected R README uses a GitHub installation command. Keep the present-day command in the author checklist, not as competing text on this slide.</p>
 <p><strong>Author check before presenting:</strong> Target-day assumption: mcp.console is published to an R repository usable by install.packages(). Current README documents pak::pak(“github::t-kalinowski/mcp-console/r”).</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md">R package interface</a></p>
@@ -2952,19 +3096,19 @@ display:block!important;
 <div class="panel-label">
 <p>R · register one tool</p>
 </div>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
-<span id="cb46-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
-<span id="cb46-3"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb46-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
-<span id="cb46-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
-<span id="cb46-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb49-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
+<span id="cb49-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb49-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
+<span id="cb49-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
+<span id="cb49-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Your chat and provider. A separate persistent Console worker.</p>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Give ellmer one slide. The R wrapper starts Console, reads its live tool schema, and presents it as an ellmer tool. It does not execute agent code in the R process running the chat. Provider choice remains with ellmer and the application. Keep the tool alive across the conversation so its session persists.</p>
-<p><strong>Show:</strong> Show only the registration example, with the registration line emphasized. The preceding slide installed the thin R interface; this connects it to an ellmer chat. The author notes include the asynchronous sequential-tool caveat from the R README.</p>
+<p><strong>Show:</strong> Show only the registration example, with the registration line emphasized. The preceding slide installed the R package; this connects it to an ellmer chat. The author notes include the asynchronous sequential-tool caveat from the R README.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md">R package interface</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R">R tool wrapper implementation</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2985,25 +3129,25 @@ display:block!important;
 </div>
 <div class="code-panel">
 <div class="panel-label">
-<p>Python client</p>
+<p>Python clients and integrations</p>
 </div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&quot;mcp-console[client]&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>One-shot tool launch</p>
 </div>
-<div class="sourceCode" id="cb48"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb48-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console serve</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Persistent command installation</p>
 </div>
-<div class="sourceCode" id="cb49"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb49-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Python users choose the base package or the extra for their integration. MCP clients can launch through uvx, or use a persistent uv tool installation. These are alternative routes into the same distribution, not three installation steps. Framework extras avoid installing every SDK when only the executable is needed.</p>
-<p><strong>Show:</strong> Show three short alternatives with explicit labels. Mention prerequisites only as needed: Python packaging and supported native wheels are not the same thing as the language runtime installed on a selected execution host.</p>
+<p><strong>Say:</strong> This first command includes every supported Python client extra. Use only the extras your harness needs. MCP clients can launch through uvx, or use a persistent uv tool installation. These are alternative routes into the same distribution, not three installation steps. Framework extras avoid installing every SDK when only the executable is needed.</p>
+<p><strong>Show:</strong> The comma-separated extras name the supported integrations directly. The three panels are alternative installation routes with explicit labels. Mention prerequisites only as needed: Python packaging and supported native wheels are not the same thing as the language runtime installed on a selected execution host.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/README.md">Project README</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python clients and integrations</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3026,14 +3170,14 @@ display:block!important;
 <div class="panel-label">
 <p>Python · preserve the server-provided schema</p>
 </div>
-<div class="sourceCode" id="cb50" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb50-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
-<span id="cb50-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
-<span id="cb50-3"><a href aria-label="3"></a></span>
-<span id="cb50-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
-<span id="cb50-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
-<span id="cb50-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
-<span id="cb50-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
-<span id="cb50-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb53-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
+<span id="cb53-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
+<span id="cb53-3"><a href aria-label="3"></a></span>
+<span id="cb53-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
+<span id="cb53-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
+<span id="cb53-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
+<span id="cb53-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
+<span id="cb53-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>The same registration pattern in Python.</p>
@@ -3103,23 +3247,23 @@ display:block!important;
 <div class="panel-label path-label">
 <p>report.qmd · edited copy of the session transcript</p>
 </div>
-<div class="sourceCode" id="cb52"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb52-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb52-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
-<span id="cb52-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb52-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
-<span id="cb52-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
-<span id="cb52-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
-<span id="cb52-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
-<span id="cb52-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
-<span id="cb52-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
-<span id="cb52-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb52-11"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb52-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb52-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
-<span id="cb52-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
-<span id="cb52-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
-<span id="cb52-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
-<span id="cb52-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb55-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb55-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
+<span id="cb55-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb55-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
+<span id="cb55-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
+<span id="cb55-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
+<span id="cb55-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
+<span id="cb55-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
+<span id="cb55-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
+<span id="cb55-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb55-11"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb55-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb55-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
+<span id="cb55-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
+<span id="cb55-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
+<span id="cb55-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
+<span id="cb55-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p><code>ir render report.qmd</code> uses the recorded package snapshot date.</p>
@@ -3152,13 +3296,13 @@ display:block!important;
 <p>Let the model choose the language.<br>You choose the execution host.<br>Give the agent an interactive workbench.</p>
 </div>
 <div class="takeaway">
-<p>Shared execution, managed dependencies, explicit permissions, and a record of the analysis.</p>
+<p>Full language capabilities, with a sandbox that enforces the access you allow.</p>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> The reason for Console is to give the model access to R, Python, and SQL together, with a common execution system underneath. That keeps R’s capabilities in reach, reduces duplicated runtime work, and lets us address the difficult parts in one place.</p>
-<p>The examples—waiting without losing the run, compacting progress, and retaining output beyond the context window—show the level of detail we want across that system. The sandbox and execution target are part of the same design.</p>
+<p>The examples—waiting without losing the run, compacting progress, and retaining output beyond the context window—show the level of detail we want across that system. The sandbox is central to that design: it enforces file and network permissions and cleans up the processes the session starts. We want the model to use the full languages and libraries within the access the user allows. Trusted package setup remains a separate boundary.</p>
 <p>My hope is that the next AI project can build on this workbench, without needing another ad hoc execution tool. Its comprehensiveness is what makes that reuse possible.</p>
-<p><strong>Show:</strong> End the main talk here. After the appendix divider, the following eight slides are optional development-practice material for questions.</p>
+<p><strong>Show:</strong> End the main talk here. After the appendix divider, the remaining slides cover the resolver protocol and development practices for questions.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3178,14 +3322,73 @@ display:block!important;
 <p>Backup material</p>
 </div>
 <div class="big-statement">
-<p>How we test the execution system.</p>
+<p>Implementation details and tests.</p>
 </div>
 <div class="takeaway">
-<p>Integration tests, snapshots, process boundaries, and installed products.</p>
+<p>Package resolution, integration tests, snapshots, and process boundaries.</p>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> The main talk ends here. These slides are available for questions about the implementation and how its behavior is checked.</p>
 <p><strong>Show:</strong> Pause at this divider before entering the development material.</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="resolver-boundary" class="slide level2 deck-slide story-slide literal-slide">
+<h2>Follow a package-resolution request</h2>
+<div class="kicker">
+<p>Private worker protocol · illustrative paths</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="resolution-steps">
+<ol type="1">
+<li>R reaches a missing package and the worker requests resolution.</li>
+<li>The server prepares a library with <code>ir</code>, outside the worker sandbox.</li>
+<li>The worker activates the library and continues the original load.</li>
+</ol>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label">
+<p>Worker → server</p>
+</div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb56-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
+<span id="cb56-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+</div>
+<div class="code-panel">
+<div class="panel-label">
+<p>Server → worker</p>
+</div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb57-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
+<span id="cb57-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+</div>
+<div class="code-panel">
+<div class="panel-label">
+<p>Worker → server</p>
+</div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
+<span id="cb58-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="takeaway">
+<p>Trusted preparation can use the network while the worker remains restricted.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.</p>
+<p>These are private worker-protocol messages, not MCP tool calls the model has to make. The field names match the documented protocol; /cache/r/library is an illustrative path. Python follows the analogous resolve_python exchange and activates a prepared interpreter environment.</p>
+<p>Installation and build code run with the preparation account’s permissions, so requirements and resolver configuration must be trusted. Caches can persist. The worker’s filesystem and network policy continues to apply. On SSH, preparation runs on the remote execution host.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution">Worker protocol</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md">Requirements and trust</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -3333,15 +3536,15 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · request</p>
 </div>
-<div class="sourceCode" id="cb53"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb53-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
-<span id="cb53-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb53-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
-<span id="cb53-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
-<span id="cb53-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
-<span id="cb53-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
-<span id="cb53-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
-<span id="cb53-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb53-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
+<span id="cb59-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb59-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
+<span id="cb59-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
+<span id="cb59-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
+<span id="cb59-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
+<span id="cb59-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
+<span id="cb59-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb59-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -3349,12 +3552,12 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · result</p>
 </div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb54-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
-<span id="cb54-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
-<span id="cb54-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
-<span id="cb54-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb54-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
-<span id="cb54-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
+<span id="cb60-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
+<span id="cb60-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
+<span id="cb60-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb60-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
+<span id="cb60-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3498,9 +3701,9 @@ display:block!important;
 <div class="panel-label">
 <p>Run, regenerate, review</p>
 </div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb57-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
-<span id="cb57-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb57-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
+<span id="cb63-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.</p>

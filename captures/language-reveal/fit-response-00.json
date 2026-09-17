@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "\nCall:\nlm(formula = response ~ temperature + group, data = d)\n\nCoefficients:\n(Intercept)  temperature       groupB  \n      6.889        1.007        1.273  \n\n"
+    }
+  ],
+  "isError": false
+}

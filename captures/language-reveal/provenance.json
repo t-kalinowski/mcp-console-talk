@@ -1,0 +1,40 @@
+{
+  "captured_at_utc": "2026-09-17T22:43:39Z",
+  "command": [
+    "/Users/tomasz/.local/bin/mcp-console",
+    "serve"
+  ],
+  "cwd": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk",
+  "initialize": {
+    "protocolVersion": "2025-11-25",
+    "capabilities": {
+      "tools": {}
+    },
+    "serverInfo": {
+      "name": "mcp-console",
+      "version": "0.0.4"
+    }
+  },
+  "executable_sha256": "ea006d9e93ea2c3c23128afbbce8b44ed289598b803f21aa661c577c223fb864",
+  "executable_unchanged_during_capture": true,
+  "data_sha256": "c8824302164402eb1e2545f340151dacd7616b511c722335d2ff214eae567b9a",
+  "source_cells": {
+    "python-simple": {
+      "python": "values = [2, 3, 5, 7]\nprint(sum(values))"
+    },
+    "python-simple-plot": {
+      "python": "import matplotlib.pyplot as plt\n\nplt.plot(values, marker=\"o\")\nplt.xlabel(\"Index\")\nplt.ylabel(\"Value\")"
+    },
+    "python-read-r": {
+      "python": "print(len(r.d))"
+    },
+    "r-read-python": {
+      "r": "length(py$values)"
+    }
+  },
+  "setup_cell": {
+    "r": "  d <- read.csv(\"examples/measurements.csv\")\n  fit <- lm(response ~ temperature + group,\n            data = d)\n  fit"
+  },
+  "sandboxed": true,
+  "model_api_used": false
+}

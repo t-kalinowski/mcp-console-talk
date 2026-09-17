@@ -19,19 +19,19 @@
   },
   {
     "number": 4,
-    "title": "Choose the language for the task",
+    "title": "Equip the model with R, Python, and SQL",
     "id": "small-surface",
-    "section": "Why Console exists"
+    "section": "Languages available to the model"
   },
   {
     "number": 5,
-    "title": "Use Console through your existing interface",
+    "title": "Connect Console to your agent harness",
     "id": "interfaces",
-    "section": "One execution system, several ways to connect"
+    "section": "Where the calls come from"
   },
   {
     "number": 6,
-    "title": "A simple interface to the whole workbench",
+    "title": "Send a cell of code",
     "id": "send-r",
     "section": "The common case \u00b7 one simple call"
   },
@@ -39,262 +39,280 @@
     "number": 7,
     "title": "Return plots",
     "id": "r-plots",
-    "section": "One analysis \u00b7 R and Python together"
+    "section": "Evaluate code and see the result"
   },
   {
     "number": 8,
-    "title": "Send Python to the same session",
-    "id": "python-first",
-    "section": "One analysis \u00b7 R and Python together"
+    "title": "Python uses the same call",
+    "id": "python-simple",
+    "section": "Send a Python cell"
   },
   {
     "number": 9,
-    "title": "Query the same data with SQL",
-    "id": "sql",
-    "section": "One analysis \u00b7 R and Python together"
+    "title": "Python plots return images too",
+    "id": "python-plots",
+    "section": "Evaluate code and see the result"
   },
   {
     "number": 10,
-    "title": "Make CRAN and PyPI available to the session",
-    "id": "package-opportunity",
-    "section": "Use the package ecosystem"
+    "title": "R and Python share the same process",
+    "id": "python-first",
+    "section": "Use objects from either language"
   },
   {
     "number": 11,
-    "title": "Use the package; let the runtime prepare it",
-    "id": "r-resolution",
-    "section": "Use the package ecosystem"
+    "title": "Query the same data with SQL",
+    "id": "sql",
+    "section": "SQL in the same session"
   },
   {
     "number": 12,
-    "title": "Use a Python library on the same data",
-    "id": "python",
-    "section": "One analysis \u00b7 R and Python together"
-  },
-  {
-    "number": 13,
     "title": "SQL uses the connection you choose",
     "id": "sql-connections",
     "section": "One analysis \u00b7 choose the database connection in R or Python"
   },
   {
+    "number": 13,
+    "title": "Make CRAN and PyPI available to the session",
+    "id": "package-opportunity",
+    "section": "Use the package ecosystem"
+  },
+  {
     "number": 14,
-    "title": "The complete send() interface",
-    "id": "full-signature",
-    "section": "Work with the session"
+    "title": "Use the package; let the runtime prepare it",
+    "id": "r-resolution",
+    "section": "Use the package ecosystem"
   },
   {
     "number": 15,
+    "title": "Use a Python library on the same data",
+    "id": "python",
+    "section": "One analysis \u00b7 R and Python together"
+  },
+  {
+    "number": 16,
     "title": "Collect progress while the code keeps running",
     "id": "wait-timeout",
     "section": "Detail 1 \u00b7 Waiting preserves the computation"
   },
   {
-    "number": 16,
+    "number": 17,
     "title": "Pick up the next output from the same run",
     "id": "poll",
     "section": "Detail 1 \u00b7 Waiting and readable progress"
   },
   {
-    "number": 17,
+    "number": 18,
     "title": "Interrupt or restart the session",
     "id": "session-controls",
     "section": "Work with the session"
   },
   {
-    "number": 18,
+    "number": 19,
     "title": "Run an interactive script in a fresh session",
     "id": "restart-input",
     "section": "Work with the session"
   },
   {
-    "number": 19,
+    "number": 20,
+    "title": "The complete send() interface",
+    "id": "full-signature",
+    "section": "Work with the session"
+  },
+  {
+    "number": 21,
     "title": "Protect the model\u2019s context from oversized output",
     "id": "bounded-output",
     "section": "Detail 2 \u00b7 Bound the response and retain the full output"
   },
   {
-    "number": 20,
+    "number": 22,
     "title": "Capture output below the language hooks",
     "id": "retained-output",
     "section": "Detail 2 \u00b7 Native output belongs in the result"
   },
   {
-    "number": 21,
+    "number": 23,
     "title": "Separate session control from code execution",
     "id": "process-topology",
     "section": "How the processes fit together \u00b7 local execution"
   },
   {
-    "number": 22,
-    "title": "Follow a package-resolution request",
-    "id": "resolver-boundary",
-    "section": "Private worker protocol \u00b7 illustrative paths"
-  },
-  {
-    "number": 23,
+    "number": 24,
     "title": "Default policy: read-only",
     "id": "default-sandbox",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 24,
+    "number": 25,
     "title": "Choose between two built-in sandbox policies",
     "id": "builtin-policies",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 25,
+    "number": 26,
     "title": "Extend a built-in policy for the project",
     "id": "private-inputs",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 26,
+    "number": 27,
     "title": "Example: connect to a corporate data warehouse",
     "id": "network-proxy",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 27,
+    "number": 28,
     "title": "Example: develop a local Shiny app",
     "id": "network-listener",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 28,
+    "number": 29,
     "title": "Clean up on restart or server shutdown",
     "id": "sandbox-cleanup",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 29,
+    "number": 30,
     "title": "Configure where the session runs",
     "id": "execution-choice",
     "section": "Choose the execution host"
   },
   {
-    "number": 30,
+    "number": 31,
+    "title": "Move execution to the remote host",
+    "id": "remote-topology",
+    "section": "The same architecture over SSH"
+  },
+  {
+    "number": 32,
     "title": "Send code to the remote host; receive results",
     "id": "ssh-workflow",
     "section": "SSH \u00b7 Keep computation beside the existing data"
   },
   {
-    "number": 31,
+    "number": 33,
     "title": "Point Console at the remote workspace",
     "id": "ssh",
     "section": "SSH \u00b7 Use an existing analysis host"
   },
   {
-    "number": 32,
-    "title": "Run the session in a Docker container",
+    "number": 34,
+    "title": "Build the session's Docker image at launch",
     "id": "docker",
-    "section": "Docker \u00b7 One image and explicit mounts"
+    "section": "Docker \u00b7 Prepare the packages in the image"
   },
   {
-    "number": 33,
+    "number": 35,
     "title": "The agent uses the same interface on every host",
     "id": "target-invariance",
     "section": "Local \u00b7 SSH \u00b7 Docker"
   },
   {
-    "number": 34,
+    "number": 36,
     "title": "Register Console with your CLI client",
     "id": "codex",
     "section": "Use the client you already work in"
   },
   {
-    "number": 35,
-    "title": "Install the thin R interface",
+    "number": 37,
+    "title": "Install the R package",
     "id": "install-r",
     "section": "Installation"
   },
   {
-    "number": 36,
+    "number": 38,
     "title": "ellmer",
     "id": "ellmer",
     "section": "Use the client you already work in"
   },
   {
-    "number": 37,
+    "number": 39,
     "title": "Python or a standalone MCP launch",
     "id": "install-python",
     "section": "Installation"
   },
   {
-    "number": 38,
+    "number": 40,
     "title": "chatlas",
     "id": "chatlas",
     "section": "Use the client you already work in"
   },
   {
-    "number": 39,
+    "number": 41,
     "title": "Keep session logs and readable transcripts",
     "id": "recording",
     "section": "Keep the work useful after the session"
   },
   {
-    "number": 40,
+    "number": 42,
     "title": "Turn the session into an editable starting point",
     "id": "quarto-transcript",
     "section": "Keep the work useful after the session"
   },
   {
-    "number": 41,
+    "number": 43,
     "title": "R, Python, and SQL, available for the work",
     "id": "closing",
     "section": "Why Console exists"
   },
   {
-    "number": 42,
+    "number": 44,
     "title": "Appendix",
     "id": "appendix",
     "section": "Backup material"
   },
   {
-    "number": 43,
+    "number": 45,
+    "title": "Follow a package-resolution request",
+    "id": "resolver-boundary",
+    "section": "Private worker protocol \u00b7 illustrative paths"
+  },
+  {
+    "number": 46,
     "title": "Rust implementation. Python integration tests.",
     "id": "tests-python",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 44,
+    "number": 47,
     "title": "Test the boundaries you intend to preserve",
     "id": "test-boundaries",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 45,
+    "number": 48,
     "title": "YAML is what the reviewer reads",
     "id": "yaml-transcripts",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 46,
+    "number": 49,
     "title": "Normalize noise, not behavior",
     "id": "test-normalization",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 47,
+    "number": 50,
     "title": "Synchronize; do not sleep and hope",
     "id": "test-determinism",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 48,
+    "number": 51,
     "title": "Portable behavior; real capability checks",
     "id": "test-capabilities",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 49,
+    "number": 52,
     "title": "Snapshots are generated evidence",
     "id": "snapshot-review",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 50,
+    "number": 53,
     "title": "Test the installed product",
     "id": "installed-product-tests",
     "section": "Appendix \u00b7 Development practices"

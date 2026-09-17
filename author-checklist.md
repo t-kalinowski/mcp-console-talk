@@ -45,7 +45,7 @@ Docker uses packages built into the image; it does not dynamically resolve them.
 
 The detail examples combine wait/poll continuity with progress compaction, then
 show bounded responses and retained output, including a direct descriptor write and output from a forked R child.
-The last slide of the main talk is `closing`; the appendix divider introduces eight slides of
+The last slide of the main talk is `closing`; the appendix divider introduces nine slides of
 optional technical material. The earlier full API walkthrough is preserved in
 presentation commit `ab89d0c`.
 
@@ -54,6 +54,11 @@ cat command. Plain cat() in the fork completed without visible text in the teste
 build. Do not replace the displayed example with the plain call without a new
 capture. The private resolver exchange uses documented fields and an illustrative
 library path; it is not presented as a literal captured exchange.
+
+The Docker build example uses `examples/Dockerfile` alongside the YAML. The
+configuration accepts a Dockerfile path, not inline Dockerfile text. Prepare
+`my-console:base` with the runtime prerequisites from the upstream example before
+rehearsing it. Neither this image build nor the SSH target was run locally.
 
 The report's `ir.exclude-newer` date is added to an editable copy. Use
 `ir render report.qmd` to consume it. It is a package snapshot cutoff rather than

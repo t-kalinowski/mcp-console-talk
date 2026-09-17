@@ -2,8 +2,9 @@ target:
   workspace: /workspace
   compute:
     kind: docker
-    image: my-console:analysis
-    pull: if_missing
+    build:
+      context: .
+      dockerfile: ./examples/Dockerfile
     mounts:
       - source: .
         target: /workspace

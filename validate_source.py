@@ -109,6 +109,24 @@ def main() -> None:
         assert '[worker stopped: in-memory state lost]' in text and text.endswith('[done]'), name
     assert 'FAIL 0' in (controls / 'restart-test.txt').read_text()
     assert 'Group to summarize:' in (controls / 'restart-script.txt').read_text()
+    reveal = ROOT / 'captures/language-reveal'
+    reveal_cells = json.loads((reveal / 'cells.json').read_text())
+    assert json.loads((reveal / 'provenance.json').read_text())['source_cells'] == reveal_cells
+    reveal_wire = [json.loads(line) for line in (reveal / 'wire.jsonl').read_text().splitlines()]
+    reveal_args = [row['message']['params']['arguments'] for row in reveal_wire if
+                   row['direction'] == 'client' and row['message'].get('method') == 'tools/call']
+    for name, arguments in reveal_cells.items():
+        assert arguments in reveal_args, f'{name} was not submitted'
+        result = json.loads((reveal / f'{name}.json').read_text())
+        text = ''.join(block['text'] for block in result['content'] if block['type'] == 'text')
+        assert (reveal / f'{name}.txt').read_bytes() == text.encode(), name
+        images = [block for block in result['content'] if block['type'] == 'image']
+        for i, image in enumerate(images, 1):
+            assert (reveal / f'{name}-{i:02d}.png').read_bytes() == base64.b64decode(image['data'])
+    for name, code in re.findall(r'<!-- reveal-cell:([\w-]+) -->\n```python\n(.*?)\n```', source, re.S):
+        call = ast.parse(code).body[0].value
+        arguments = {kw.arg: ast.literal_eval(kw.value).strip('\n') for kw in call.keywords}
+        assert arguments == reveal_cells[name], name
     script_slide = next(part for part in parts if '{#restart-input ' in part)
     assert (ROOT / 'examples/analyze.R').read_text().rstrip() in re.findall(r'```r\n(.*?)\n```', script_slide, re.S)
     for name, code in re.findall(r'<!-- control-cell:([\w-]+) -->\n```python\n(.*?)\n```', source, re.S):

@@ -1,10 +1,10 @@
 # Local validation — 2026-09-17
 
-The revised project contains 50 slides (41 main, an appendix divider, and 8 optional appendix slides),
+The revised project contains 53 slides (43 main, an appendix divider, and 9 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the narrative archive](../archived/2026-09-17-narrative-shuffle/mcp-console-captured.html).
+[the narrative archive](../archived/2026-09-17-language-reveal/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
 
@@ -32,11 +32,11 @@ are native Quarto reveal.js renders with embedded resources. `examples/measureme
 - The Python reference score and plot were recomputed from the unchanged CSV and
   displayed cell definitions. The score is `CV MAE: 2.015`; library versions and
   the data hash are in `examples/python-reference-provenance.json`.
-- All 50 slides were inspected through the in-app browser for code clipping,
+- All 53 slides were inspected through the in-app browser for code clipping,
   vertical overflow, notes presence, image loading, and embedded diagrams.
-  All passed. The 11 capture-sensitive slides also passed in the captured-output
+  All passed. The 13 capture-sensitive slides also passed in the captured-output
   render. Code soft wrapping is disabled; individual layouts and source line
-  breaks provide the required space. Both inline SVGs load.
+  breaks provide the required space. All three inline SVGs load.
 - The `S` shortcut opened native Speaker View in a separate app window, confirmed
   by the presenter. Automated access to that app window was unavailable, so
   speaker-window diagram visibility and synchronization were not independently
@@ -113,8 +113,8 @@ product modification was performed.
 ## Review boundaries
 
 The full 77-slide presentation is committed as `ab89d0c`; the previous narrative
-revision is `272ffa3`. The current deck has 41 main slides, a visible appendix
-divider, and eight optional development slides.
+revision is `272ffa3`. The current deck has 43 main slides, a visible appendix
+divider, and nine optional implementation and development slides.
 The opener explains R, Python, and SQL together, shared execution infrastructure, and
 why sandbox permissions belong in the design. The examples combine wait/poll continuity and progress compaction in two slides,
 followed by retained output, a Python descriptor write, and a forked R child. The progress
@@ -213,7 +213,7 @@ named presets are :read-only and :workspace; external-sandbox is a distinct
 filesystem enforcement mode. Workspace is defined as the launch directory.
 The final-slide-review archive retains the preceding captures and updated fixture.
 
-The latest narrative pass preserves all 50 slides and their IDs. It leads with
+The narrative pass committed as `da2af41` preserved all 50 slides and their IDs. It leads with
 comprehensiveness and reuse for an audience already familiar with AI code
 execution. Capability and safety are two equal requirements. Language and client
 choices precede the everyday call, followed by the analysis workflow, API details,
@@ -226,3 +226,45 @@ Both render modes passed; all 50 native slides and 11 capture-sensitive slides
 passed the browser layout, code scrolling, notes, and image checks. No runtime
 cells or captured results changed in this narrative pass. The narrative-shuffle
 archive preserves the preceding source, render, notes, and slide index.
+
+
+## Language reveal and host placement revision
+
+The language overview now names what the model can execute, and the following
+slide names the harness that calls Console. A simple Python cell and a returned
+Matplotlib image precede the R/Python shared-process reveal, which demonstrates
+both directions of object access. SQL and connection selection stay together.
+Control and input examples precede the complete send signature; the control slide
+explicitly combines a control and a cell. The private resolver protocol is in the
+appendix, while local topology stays in the main talk.
+
+A new SSH diagram keeps the client, server, and records local while placing the
+relay, worker, sandbox, and trusted preparation on the remote host. The Docker
+slide displays an actual Dockerfile beside YAML that selects it with
+`build.dockerfile`; the current schema does not support inline Dockerfile text.
+The build uses a user-prepared base image. Docker builds and SSH execution were
+not run. Python installation lists all six supported extras, checked against the
+local pyproject.toml. The R installation slide describes the package without
+calling it thin. The closing explicitly names full language capabilities and
+enforced sandbox permissions.
+
+The new examples were captured together through sandboxed MCP stdio at
+`2026-09-17T22:43:39Z`, using the installed Console 0.0.4. Its executable SHA-256,
+verified unchanged before and after capture, is:
+
+```text
+ea006d9e93ea2c3c23128afbbce8b44ed289598b803f21aa661c577c223fb864
+```
+
+`captures/language-reveal/` keeps the requests, literal responses, returned PNG,
+wire exchange, generated session records, and data hash. No model API was used.
+The earlier 0.0.3 captures remain unchanged. The source validator checks this new
+capture separately, including both displayed bridge calls. It first rejected the
+missing provenance record, then passed with the complete capture.
+
+The Docker schema, remote preparation placement, Python extras, and R wrapper
+were checked against the local source reviewed at
+`6cd4cfd4f61ec5df723cc0e25b8f35a90ba8377e`. Shell snippets parse, the displayed
+Dockerfile matches its file, and the CSV is unchanged. Both renders and all
+53 native slide layouts pass, along with the 13 capture-sensitive slides in MCP
+mode. Notes, the slide index, and the saved native preview are regenerated.

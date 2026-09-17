@@ -29,6 +29,18 @@ is converted to YAML and checked by converting it back to JSON.
 Configurations whose `slide` is null in `configs/index.json` remain as reference
 examples after the shorter sandbox sequence was adopted.
 
+`../captures/language-reveal/` contains a separate sandboxed session for the simple
+Python call, Matplotlib plot, and both directions of R/Python object access. Its
+own `cells.json`, wire exchange, returned PNG, and provenance identify those
+examples. Both render modes use these captures. The source validator checks the
+displayed calls and returned text/images against that record.
+
+`Dockerfile` adds scikit-learn to a user-prepared `my-console:base` image with
+Console, R, Python, and the runtime prerequisites. `configs/docker.yaml` selects
+that Dockerfile through a path; inline Dockerfile text is not supported. The
+Docker build and target were not run. The full upstream Dockerfile linked in the
+slide notes documents how to prepare the base image.
+
 ```sh
 python examples/capture_console.py --command /absolute/path/to/mcp-console serve
 python examples/refresh_capture_excerpts.py

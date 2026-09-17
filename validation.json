@@ -1,9 +1,9 @@
 {
   "date": "2026-09-17",
-  "slide_count": 50,
-  "main_slides": 41,
-  "addendum_slides": 8,
-  "native_quarto_notes_blocks": 50,
+  "slide_count": 53,
+  "main_slides": 43,
+  "addendum_slides": 9,
+  "native_quarto_notes_blocks": 53,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -17,12 +17,12 @@
     2488,
     1599
   ],
-  "layout_slides_checked": 50,
+  "layout_slides_checked": 53,
   "layout_failures": [],
   "code_soft_wrap": false,
-  "inline_diagrams": 2,
+  "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 11,
+  "captured_output_slides_checked": 13,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -35,7 +35,7 @@
     "captured_at_utc": "2026-09-17T21:17:43Z",
     "version": "0.0.3",
     "executable_sha256": "44d7bb321a2d590fb9b16d7e91b4d8ca7821cb94fdab306a228232ac54bc0e4a",
-    "reused_without_modification": false
+    "reused_without_modification": true
   },
   "sandbox": {
     "expected platform rejection": 1,
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "9697e6c37a61fbefa554b486e6aefe556589825b44d6dbe8ba68e6133f26905b",
-    "../archived/2026-09-17-narrative-shuffle/mcp-console-captured.html": "4f39841b6f45c1239a1445437fe3f910e56a524bfc774972a1e41c13b19c17be"
+    "mcp-console.html": "5c78856f71f2f8719e92f68b330d19511b88b8f985dfb32bc638a9b95fceb992",
+    "../archived/2026-09-17-language-reveal/mcp-console-captured.html": "0122ba4e885f2022eb6d7b40ff733fbbafc09cbb7eafe2845e69592014143e39"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,18 +76,20 @@
     1600,
     900
   ],
-  "baseline_commit": "30e2079",
+  "baseline_commit": "da2af41",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
-    "why-first narrative and speaker-note transitions reviewed",
-    "all 50 slide IDs retained with unchanged appendix order",
+    "sandboxed capture of simple Python, Matplotlib, and both R/Python bridge directions",
+    "executable fingerprint verified unchanged before and after focused capture",
     "native and captured Quarto renders without warnings",
-    "50-slide native browser layout, code scrolling, image, and notes check",
-    "11 captured-output slides checked in browser",
-    "opening and built-in policy layouts visually inspected",
+    "53-slide native browser layout, code scrolling, image, and notes check",
+    "13 captured-output slides checked in browser",
+    "Python reveal, Dockerfile, and remote topology visually inspected",
+    "all Python client extras match local pyproject.toml",
     "displayed shell commands parse with bash -n",
+    "Docker YAML parses and displayed Dockerfile matches source",
     "sync_cells.py --check",
     "validate_source.py",
     "source diff whitespace"
@@ -137,5 +139,56 @@
     "runtime_cells_changed": false,
     "existing_captures_reused": true,
     "slide_ids_preserved": true
+  },
+  "language_reveal_review": {
+    "archive": "../archived/2026-09-17-language-reveal",
+    "capture": "captures/language-reveal",
+    "provenance": {
+      "captured_at_utc": "2026-09-17T22:43:39Z",
+      "command": [
+        "/Users/tomasz/.local/bin/mcp-console",
+        "serve"
+      ],
+      "cwd": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk",
+      "initialize": {
+        "protocolVersion": "2025-11-25",
+        "capabilities": {
+          "tools": {}
+        },
+        "serverInfo": {
+          "name": "mcp-console",
+          "version": "0.0.4"
+        }
+      },
+      "executable_sha256": "ea006d9e93ea2c3c23128afbbce8b44ed289598b803f21aa661c577c223fb864",
+      "executable_unchanged_during_capture": true,
+      "data_sha256": "c8824302164402eb1e2545f340151dacd7616b511c722335d2ff214eae567b9a",
+      "source_cells": {
+        "python-simple": {
+          "python": "values = [2, 3, 5, 7]\nprint(sum(values))"
+        },
+        "python-simple-plot": {
+          "python": "import matplotlib.pyplot as plt\n\nplt.plot(values, marker=\"o\")\nplt.xlabel(\"Index\")\nplt.ylabel(\"Value\")"
+        },
+        "python-read-r": {
+          "python": "print(len(r.d))"
+        },
+        "r-read-python": {
+          "r": "length(py$values)"
+        }
+      },
+      "setup_cell": {
+        "r": "  d <- read.csv(\"examples/measurements.csv\")\n  fit <- lm(response ~ temperature + group,\n            data = d)\n  fit"
+      },
+      "sandboxed": true,
+      "model_api_used": false
+    },
+    "source_review": "6cd4cfd4f61ec5df723cc0e25b8f35a90ba8377e",
+    "resolver_protocol_in_appendix": true,
+    "signature_follows_control_and_stdin": true,
+    "remote_topology_diagram_added": true,
+    "dockerfile": "examples/Dockerfile",
+    "inline_dockerfile_supported": false,
+    "docker_build_run": false
   }
 }
