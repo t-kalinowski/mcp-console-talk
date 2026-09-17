@@ -1,9 +1,9 @@
 {
   "date": "2026-09-17",
-  "slide_count": 81,
-  "main_slides": 73,
+  "slide_count": 77,
+  "main_slides": 69,
   "addendum_slides": 8,
-  "native_quarto_notes_blocks": 81,
+  "native_quarto_notes_blocks": 77,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -14,15 +14,15 @@
   "render_warnings": false,
   "browser": "in-app browser",
   "css_viewport": [
-    1600,
-    900
+    1422,
+    800
   ],
-  "layout_slides_checked": 81,
+  "layout_slides_checked": 77,
   "layout_failures": [],
   "code_soft_wrap": false,
-  "inline_diagrams": 11,
+  "inline_diagrams": 7,
   "images_loaded": true,
-  "captured_output_slides_checked": 12,
+  "captured_output_slides_checked": 15,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -32,7 +32,7 @@
   "mcp_capture": {
     "sandboxed": true,
     "model_api_used": false,
-    "captured_at_utc": "2026-09-17T14:35:32Z",
+    "captured_at_utc": "2026-09-17T15:26:19Z",
     "version": "0.0.3",
     "executable_sha256": "b80f9b67a2bbe4f418c1821ff1f41af1479d19533394eead181c7fbb884fbc6f"
   },
@@ -54,8 +54,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "a944b86234c4d1909a74501eb7e2db431c9767256c81992fb36c7aa1ee28b43d",
-    "../archived/2026-09-17-105015-talk-handoff/mcp-console-captured.html": "f81b3538ccfc63016acb55770818d0443fb601650a2ed07c684f8d4d3f296ac5"
+    "mcp-console.html": "28bdde2d9fe5a1ef6d6c587b2ad3049c34b9142bdbb3b19e9afb79c2ce32aff2",
+    "../archived/2026-09-17-presentation-review/mcp-console-captured.html": "c2c1543d32087d52e844702ac8cec353d920d61d41b4316da74872543d4e14fc"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -64,7 +64,20 @@
     "Python syntax",
     "diagram CLI regression in temporary project",
     "public standalone sandbox probes",
-    "native and captured HTML structure/resources"
+    "native and captured HTML structure/resources",
+    "source generator CLI red/green regression",
+    "displayed Python cell syntax",
+    "metadata event YAML round trip",
+    "R fork C-level output and Python descriptor output"
   ],
-  "handoff_archive": "../archived/2026-09-17-105015-talk-handoff"
+  "handoff_archive": "../archived/2026-09-17-105015-talk-handoff",
+  "slide_coordinates": [
+    1600,
+    900
+  ],
+  "baseline_commit": "2322c47",
+  "deferred": [
+    "slide 2 arrow/diagram redesign"
+  ],
+  "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md"
 }

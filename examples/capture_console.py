@@ -250,6 +250,8 @@ def main() -> int:
 def capture_deck(client: StdioMCP, out: Path, cells: dict[str, Any]) -> None:
     # Warm the runtime before the displayed calls. Keep that exchange on wire.
     complete(client, out, "warmup", {"r": "invisible(NULL)", "timeout_ms": 30000})
+    complete(client, out, "inline-prepare", {"r": 'invisible(loadNamespace("inline"))',
+                                          "timeout_ms": 30000})
     for name in ["fit", "coefficients", "predict", "r-plot"]:
         print(f"Capturing {name}", flush=True)
         complete(client, out, name, cells[name])
@@ -273,9 +275,21 @@ def capture_deck(client: StdioMCP, out: Path, cells: dict[str, Any]) -> None:
         raise MCPError("Expected two displayed polls; inspect timing before changing the slides")
     for name in ["compact", "flood", "error", "checkpoint", "prompt", "prompt-answer",
                  "browser-start", "browser-x", "browser-continue",
-                 "python-ml", "python-plot", "sql"]:
+                 "r-fork", "python-fd", "python-first", "python-ml", "python-plot", "sql"]:
         print(f"Capturing {name}", flush=True)
         complete(client, out, name, cells[name])
+        if name == "r-fork":
+            assert (out / "r-fork.txt").read_text() == "native output\n"
+        if name == "python-fd":
+            assert (out / "python-fd.txt").read_text() == "hello directly on fd 1\n"
+    # Exercise metadata preservation through the public MCP request envelope.
+    result = client.request("tools/call", {
+        "name": "send", "arguments": {"r": "1 + 1"},
+        "_meta": {"progressToken": "recording-example", "example.com/harness": {
+            "turn": 7, "label": "presentation capture"}},
+    })
+    assert not result.get("isError"), result
+    save_result(out, "metadata", result)
     complete(client, out, "versions", {"r": "sessionInfo()",
              "timeout_ms": 30000})
     complete(client, out, "python-versions", {"python":

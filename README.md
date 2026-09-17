@@ -1,6 +1,6 @@
 # MCP Console presentation
 
-81 slides: 73 main slides and 8 development-practice slides. `deck.qmd` is the
+77 slides: 69 main slides and 8 development-practice slides. `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 ## View the deck
@@ -69,3 +69,6 @@ The native R render, sandboxed MCP capture, and local macOS policy probes passed
 The explicit `data.table==1.17.8` example failed its separate package-installation
 rehearsals and remains documented in the notes. Linux, SSH, Docker, Docker Sandbox,
 and model-provider integrations were not exercised.
+
+The separate [Shiny Chat investigation](../shinychat-investigation-2026-09-17/FINDINGS.md)
+contains replay prototypes and the limits of static Quarto embedding.

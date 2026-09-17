@@ -10,5 +10,5 @@ sandbox:
     allowLocalBinding: false
     mode: full
     domains:
-      api.example.com: allow
+      warehouse.example.com: allow
       blocked.example.com: deny

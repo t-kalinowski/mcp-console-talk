@@ -23,10 +23,14 @@ invisible(NULL)
 ```
 
 ```{r}
-d <- read.csv("examples/measurements.csv")
-fit <- lm(response ~ temperature + group,
-          data = d)
-fit
+invisible(loadNamespace("inline"))
+```
+
+```{r}
+  d <- read.csv("examples/measurements.csv")
+  fit <- lm(response ~ temperature + group,
+            data = d)
+  fit
 ```
 
 ```{r}
@@ -38,19 +42,19 @@ head(predict(fit, d), 3)
 ```
 
 ```{r}
-plot(d$temperature, d$response,
-     xlab = "Temperature",
-     ylab = "Response")
+  plot(d$temperature, d$response,
+       xlab = "Temperature",
+       ylab = "Response")
 ```
 
 ```{r}
-for (i in 1:20) {
-  cat(sprintf("\rfit [%s%s] %3d%%",
-      strrep("=", i), strrep(" ", 20 - i), i * 5))
-  flush.console()
-  Sys.sleep(0.15)
-}
-cat("\n")
+  for (i in 1:20) {
+    cat(sprintf("\rfit [%s%s] %3d%%",
+        strrep("=", i), strrep(" ", 20 - i), i * 5))
+    flush.console()
+    Sys.sleep(0.15)
+  }
+  cat("\n")
 ```
 
 ```{r}
@@ -58,15 +62,15 @@ cat("download 0%\rdownload 50%\rdownload 100%\n")
 ```
 
 ```{r}
-for (i in seq_len(10000)) {
-  cat(sprintf("row %05d\n", i))
-}
-cat("fit complete\n")
+  for (i in seq_len(10000)) {
+    cat(sprintf("row %05d\n", i))
+  }
+  cat("fit complete\n")
 ```
 
 ```{r}
-checkpoint <- 42
-stop("inspect me")
+  checkpoint <- 42
+  stop("inspect me")
 ```
 
 ```{r}
@@ -74,17 +78,36 @@ checkpoint
 ```
 
 ```{r}
-name <- readline("name> ")
-name
+  name <- readline("name> ")
+  name
 ```
 
 ```{r}
-inspect_mean <- function(x) {
-  browser()
-  mean(x)
-}
+  inspect_mean <- function(x) {
+    browser()
+    mean(x)
+  }
 
-inspect_mean(c(1, 2, 3))
+  inspect_mean(c(1, 2, 3))
+```
+
+```{r}
+  emit <- inline::cfunction(
+    body = 'write(1, "native output\\n", 14);
+            return R_NilValue;',
+    includes = "#include <unistd.h>"
+  )
+  job <- parallel::mcparallel(emit())
+  invisible(parallel::mccollect(job))
+```
+
+```{python}
+import os
+_ = os.write(1, b"hello directly on fd 1\n")
+```
+
+```{python}
+print(len(r.d))
 ```
 
 ```{python}
@@ -114,6 +137,10 @@ SELECT "group", COUNT(*) AS n
 FROM d
 GROUP BY "group"
 ORDER BY "group"
+```
+
+```{r}
+1 + 1
 ```
 
 ```{r}

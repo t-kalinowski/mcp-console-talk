@@ -141,7 +141,7 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 
 /* Source lines stay intact; fit the layout to the example. */
 .reveal .deck-slide .code-panel pre code { white-space: pre; overflow-wrap: normal; }
-#wait-timeout .two-col { grid-template-columns: minmax(0,1.35fr) minmax(0,1fr); }
+#wait-timeout .two-col { grid-template-columns: minmax(0,1.42fr) minmax(0,1fr); }
 #r-plots .result-panel img, #python-plots .result-panel img { max-height: 370px; }
 #r-plots .result-panel .cell-output-display, #python-plots .result-panel .cell-output-display { padding: 0; }
 #debugger .code-panel, #debugger .result-panel { padding: 16px 22px; margin-bottom: 14px; }
@@ -161,4 +161,23 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 #quarto-transcript .code-panel { padding-top: 18px; padding-bottom: 18px; }
 #quarto-transcript .takeaway { font-size: 27px; margin-top: 16px; padding-top: 12px; }
 #docker-sandbox .two-col { grid-template-columns: minmax(0,1.55fr) minmax(0,1fr); }
-#send-r .two-col { grid-template-columns: minmax(0,1.15fr) minmax(0,1fr); }
+#send-r .two-col { grid-template-columns: minmax(0,1.22fr) minmax(0,1fr); }
+
+/* Literal paths and paired call/result rows preserve their meaning. */
+.panel-label.path-label { text-transform: none; letter-spacing: .3px; }
+#live-state .two-col, #errors .two-col { grid-template-columns: minmax(0,1.12fr) minmax(0,1fr); }
+#live-state .code-panel, #live-state .result-panel { min-height: 175px; }
+#errors .code-panel:first-child, #errors .result-panel:first-child { min-height: 235px; }
+#errors .code-panel:last-child, #errors .result-panel:last-child { min-height: 155px; }
+#bounded-output .two-col { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+#bounded-output .result-panel pre code { white-space: pre; font-size: 23px; }
+#retained-output .code-panel { min-height: 315px; }
+#retained-output .result-panel pre code { font-size: 23px; }
+#python-resolution .two-col { grid-template-columns: minmax(0,1.1fr) minmax(0,1fr); }
+.resolution-steps { font-size: 28px; line-height: 1.4; }
+.resolution-steps ol { margin: 12px 0 0; padding-left: 35px; }
+.resolution-steps li { margin-bottom: 19px; }
+#recording-event .code-panel pre code { font-size: 23px; line-height: 1.25; }
+.integration pre code .code-line-highlight { background: #254653; }
+
+#retained-output .code-panel pre code { font-size: 22px; }

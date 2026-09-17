@@ -1,10 +1,10 @@
-## Call 3: R
+## Call 4: R
 
 ```r
 coef(fit)
 ```
 
-## Result for call 3
+## Result for call 4
 
 ```text
 (Intercept) temperature      groupB 

@@ -55,13 +55,13 @@
   },
   {
     "number": 10,
-    "title": "Restart resets objects, not prepared requirements",
+    "title": "Restart gives you a fresh workspace",
     "id": "restart",
     "section": "Build the interface"
   },
   {
     "number": 11,
-    "title": "Errors are outcomes, not transactions",
+    "title": "Inspect state after an error",
     "id": "errors",
     "section": "Build the interface"
   },
@@ -85,7 +85,7 @@
   },
   {
     "number": 15,
-    "title": "Retain more than you put in context",
+    "title": "Capture output beyond language hooks",
     "id": "retained-output",
     "section": "Build the interface"
   },
@@ -115,97 +115,97 @@
   },
   {
     "number": 20,
+    "title": "Python can read the R workspace",
+    "id": "python-first",
+    "section": "Build the interface"
+  },
+  {
+    "number": 21,
     "title": "Use Python\u2019s ML libraries on the same data",
     "id": "python",
     "section": "Build the interface"
   },
   {
-    "number": 21,
+    "number": 22,
     "title": "The Python cell returns a numerical result",
     "id": "python-ml-result",
     "section": "Build the interface"
   },
   {
-    "number": 22,
+    "number": 23,
     "title": "Python plotting has the same return contract",
     "id": "python-plots",
     "section": "Build the interface"
   },
   {
-    "number": 23,
+    "number": 24,
     "title": "The controls come with it",
     "id": "python-controls",
     "section": "Build the interface"
   },
   {
-    "number": 24,
+    "number": 25,
     "title": "Missing imports resolve in place",
     "id": "python-resolution",
     "section": "Build the interface"
   },
   {
-    "number": 25,
+    "number": 26,
     "title": "Versions and extras fit the existing field",
     "id": "python-requirements",
     "section": "Build the interface"
   },
   {
-    "number": 26,
+    "number": 27,
     "title": "Both languages share one worker process",
     "id": "shared-process",
     "section": "Build the interface"
   },
   {
-    "number": 27,
+    "number": 28,
     "title": "Switch languages; reuse the objects",
     "id": "object-bridge",
     "section": "Build the interface"
   },
   {
-    "number": 28,
+    "number": 29,
     "title": "And SQL",
     "id": "sql",
     "section": "Build the interface"
   },
   {
-    "number": 29,
+    "number": 30,
     "title": "SQL can operate on live R data",
     "id": "sql-r-data",
     "section": "Build the interface"
   },
   {
-    "number": 30,
+    "number": 31,
     "title": "Python relations use their connection",
     "id": "sql-python-data",
     "section": "Build the interface"
   },
   {
-    "number": 31,
+    "number": 32,
     "title": "Select the database from either language",
     "id": "sql-connections",
     "section": "Build the interface"
   },
   {
-    "number": 32,
+    "number": 33,
     "title": "And DuckDB extensions",
     "id": "duckdb-requirements",
     "section": "Build the interface"
   },
   {
-    "number": 33,
+    "number": 34,
     "title": "That is the surface",
     "id": "full-signature",
     "section": "The complete contract"
   },
   {
-    "number": 34,
-    "title": "Capture the model-facing interaction",
-    "id": "demo",
-    "section": "Optional recorded demo"
-  },
-  {
     "number": 35,
-    "title": "It scales with what the model can use",
+    "title": "Start simply; opt into more control",
     "id": "model-capability",
     "section": "The complete contract"
   },
@@ -217,38 +217,38 @@
   },
   {
     "number": 37,
+    "title": "Preserve the request and its metadata",
+    "id": "recording-event",
+    "section": "Records and artifacts"
+  },
+  {
+    "number": 38,
     "title": "The Markdown contains code and results",
     "id": "markdown-transcript",
     "section": "Records and artifacts"
   },
   {
-    "number": 38,
+    "number": 39,
     "title": "The Quarto source is editable and executable",
     "id": "quarto-transcript",
     "section": "Records and artifacts"
   },
   {
-    "number": 39,
+    "number": 40,
     "title": "The user configures the boundary",
     "id": "config",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
-    "number": 40,
-    "title": "The sandbox runner is a separate executable",
+    "number": 41,
+    "title": "Keep the sandbox behind a replaceable boundary",
     "id": "external-runner",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
-    "number": 41,
+    "number": 42,
     "title": "Control the workload\u2019s environment",
     "id": "environment-choice",
-    "section": "Sandbox \u00b7 configure the boundary"
-  },
-  {
-    "number": 42,
-    "title": "Choose a concrete runtime before launch",
-    "id": "runtime-combinations",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
@@ -277,51 +277,51 @@
   },
   {
     "number": 47,
-    "title": "Keep scratch private, not shared",
-    "id": "temporary-storage",
-    "section": "Sandbox \u00b7 configure the boundary"
-  },
-  {
-    "number": 48,
     "title": "Enable direct networking explicitly",
     "id": "network-direct",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
-    "number": 49,
+    "number": 48,
     "title": "Allow selected destinations through a proxy",
     "id": "network-proxy",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
-    "number": 50,
-    "title": "Permit a local listener when the task needs one",
+    "number": 49,
+    "title": "Develop a local Shiny app",
     "id": "network-listener",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
+    "number": 50,
+    "title": "Resolution crosses a different trust boundary",
+    "id": "resolver-boundary",
+    "section": "Sandbox \u00b7 configure the boundary"
+  },
+  {
     "number": 51,
-    "title": "Override one launch; do not mutate live policy",
-    "id": "config-overrides",
+    "title": "SSH: the same policy, materialized remotely",
+    "id": "ssh",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
     "number": 52,
-    "title": "Native restrictions and external enforcement differ",
-    "id": "enforcement-modes",
+    "title": "Docker: explicit image, workspace, and binds",
+    "id": "docker",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
     "number": 53,
-    "title": "Expose the knobs without inventing a second policy engine",
-    "id": "knob-ownership",
+    "title": "Docker Sandbox uses the compute provider",
+    "id": "docker-sandbox",
     "section": "Sandbox \u00b7 configure the boundary"
   },
   {
     "number": 54,
-    "title": "Resolution crosses a different trust boundary",
-    "id": "resolver-boundary",
-    "section": "Sandbox \u00b7 configure the boundary"
+    "title": "The call stays the same",
+    "id": "target-invariance",
+    "section": "Execution targets"
   },
   {
     "number": 55,
@@ -343,144 +343,120 @@
   },
   {
     "number": 58,
-    "title": "SSH: the same policy, materialized remotely",
-    "id": "ssh",
-    "section": "Sandbox \u00b7 configure the boundary"
-  },
-  {
-    "number": 59,
-    "title": "Docker: explicit image, workspace, and binds",
-    "id": "docker",
-    "section": "Sandbox \u00b7 configure the boundary"
-  },
-  {
-    "number": 60,
-    "title": "Docker Sandbox uses the compute provider",
-    "id": "docker-sandbox",
-    "section": "Sandbox \u00b7 configure the boundary"
-  },
-  {
-    "number": 61,
-    "title": "The call stays the same",
-    "id": "target-invariance",
-    "section": "Execution targets"
-  },
-  {
-    "number": 62,
     "title": "ellmer",
     "id": "ellmer",
     "section": "Use your existing client"
   },
   {
-    "number": 63,
+    "number": 59,
     "title": "chatlas",
     "id": "chatlas",
     "section": "Use your existing client"
   },
   {
-    "number": 64,
-    "title": "Codex",
+    "number": 60,
+    "title": "Register Console with your CLI client",
     "id": "codex",
     "section": "Use your existing client"
   },
   {
-    "number": 65,
+    "number": 61,
     "title": "Anthropic Python SDK",
     "id": "anthropic",
     "section": "Use your existing client"
   },
   {
-    "number": 66,
+    "number": 62,
     "title": "The direct Python client",
     "id": "python-client",
     "section": "Use your existing client"
   },
   {
-    "number": 67,
+    "number": 63,
     "title": "OpenAI Responses",
     "id": "openai-responses",
     "section": "Use your existing client"
   },
   {
-    "number": 68,
+    "number": 64,
     "title": "Other supported entry points",
     "id": "other-clients",
     "section": "Use your existing client"
   },
   {
-    "number": 69,
+    "number": 65,
     "title": "Now, installation from R",
     "id": "install-r",
     "section": "Installation"
   },
   {
-    "number": 70,
+    "number": 66,
     "title": "The R wrapper obtains the native application",
     "id": "install-chain",
     "section": "Installation"
   },
   {
-    "number": 71,
+    "number": 67,
     "title": "Python or a standalone MCP launch",
     "id": "install-python",
     "section": "Installation"
   },
   {
-    "number": 72,
+    "number": 68,
     "title": "One distribution; separate execution environments",
     "id": "native-bundle",
     "section": "Installation"
   },
   {
-    "number": 73,
+    "number": 69,
     "title": "Interactive work, without a sprawling tool surface",
     "id": "closing",
     "section": "Closing"
   },
   {
-    "number": 74,
+    "number": 70,
     "title": "Rust implementation. Python integration tests.",
     "id": "tests-python",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 75,
+    "number": 71,
     "title": "Test the boundaries you intend to preserve",
     "id": "test-boundaries",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 76,
+    "number": 72,
     "title": "YAML is what the reviewer reads",
     "id": "yaml-transcripts",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 77,
+    "number": 73,
     "title": "Normalize noise, not behavior",
     "id": "test-normalization",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 78,
+    "number": 74,
     "title": "Synchronize; do not sleep and hope",
     "id": "test-determinism",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 79,
+    "number": 75,
     "title": "Portable behavior; real capability checks",
     "id": "test-capabilities",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 80,
+    "number": 76,
     "title": "Snapshots are generated evidence",
     "id": "snapshot-review",
     "section": "Addendum \u00b7 Development practices"
   },
   {
-    "number": 81,
+    "number": 77,
     "title": "Test the installed product",
     "id": "installed-product-tests",
     "section": "Addendum \u00b7 Development practices"

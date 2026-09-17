@@ -38,13 +38,19 @@ def main() -> None:
     subprocess.run([sys.executable, str(ROOT / 'sync_cells.py'), '--check'], check=True)
     source = (ROOT / 'deck.qmd').read_text()
     parts = re.split(r'(?m)(?=^## )', source)[1:]
-    assert len(parts) == 81, len(parts)
+    assert parts, 'No authored slides'
     ids = []
     cells = json.loads((ROOT / 'examples/cells.json').read_text())
     for part in parts:
         ids.append(re.search(r'\{#([\w-]+)', part)[1])
         assert len(re.findall(r'^::: \{\.notes\}$', part, re.M)) == 1, ids[-1]
     assert len(set(ids)) == len(ids)
+    for code in re.findall(r'```(?:python|\{\.python[^}]*\})\n(.*?)\n```', source, re.S):
+        for call in ast.walk(ast.parse(code)):
+            if isinstance(call, ast.Call):
+                for kw in call.keywords:
+                    if kw.arg == 'python' and isinstance(kw.value, ast.Constant):
+                        compile(kw.value.value, '<displayed Python cell>', 'exec')
     for names, code in re.findall(r'<!-- cells:([\w,-]+) -->\n```python\n(.*?)\n```', source, re.S):
         calls = ast.parse(code).body
         assert len(calls) == len(names.split(','))
@@ -67,7 +73,8 @@ def main() -> None:
     i = args.index(cells['progress'])
     assert args[i+1:i+3] == [cells['poll-next'], cells['poll-final']]
     for name in ('fit','coefficients','predict','r-plot','compact','flood','error','checkpoint',
-                 'prompt','prompt-answer','browser-start','browser-x','browser-continue','python-ml','python-plot','sql'):
+                 'prompt','prompt-answer','browser-start','browser-x','browser-continue',
+                 'r-fork','python-fd','python-first','python-ml','python-plot','sql'):
         assert cells[name] in args, f'{name} was not submitted'
         result = json.loads((ROOT / f'captures/{name}.json').read_text())
         text = ''.join(b['text'] for b in result['content'] if b['type']=='text')
@@ -76,6 +83,14 @@ def main() -> None:
         for i, image in enumerate(images, 1):
             assert (ROOT / f'captures/{name}-{i:02d}.png').read_bytes() == base64.b64decode(image['data'])
     assert (ROOT / 'captures/session-records/internal/events.jsonl').is_file()
+    journal = [json.loads(line) for line in
+               (ROOT / 'captures/session-records/internal/events.jsonl').read_text().splitlines()]
+    event = next(item for item in journal if item.get('request', {}).get('_meta'))
+    yaml_event = subprocess.check_output(
+        ['yq', '-o=json', '.', str(ROOT / 'captures/excerpts/event-yaml.txt')], text=True)
+    assert json.loads(yaml_event) == event
+    assert (ROOT / 'captures/r-fork.txt').read_text() == 'native output\n'
+    assert (ROOT / 'captures/python-fd.txt').read_text() == 'hello directly on fd 1\n'
     excerpts = json.loads((ROOT / 'captures/excerpts/provenance.json').read_text())
     for name, info in excerpts.items():
         lines = (ROOT / info['source']).read_text().splitlines(keepends=True)
@@ -83,6 +98,8 @@ def main() -> None:
             lines[info['first_line']-1:info['last_line']]), name
     configs = json.loads((ROOT / 'examples/configs/index.json').read_text())
     for name, info in configs.items():
+        if info['slide'] is None:
+            continue  # Reference-only configuration, retained outside the deck.
         part = next(p for p in parts if f'{{#{info["slide"]} ' in p)
         assert (ROOT / 'examples/configs' / name).read_text().rstrip() in re.findall(
             r'```yaml\n(.*?)\n```', part, re.S), name

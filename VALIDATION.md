@@ -1,10 +1,9 @@
 # Local validation — 2026-09-17
 
-The revised project contains 81 slides with one native notes block each.
-`mcp-console.html` is the current native R render. The alternate Console-capture
-render used for validation is preserved in the
-[handoff archive](../archived/2026-09-17-105015-talk-handoff/README.md), alongside the original
-agent delivery and superseded working files. Both HTML files are native Quarto
+The revised project contains 77 slides with one native notes block each.
+`mcp-console.html` is the current native R render. The current Console-capture render used for validation is preserved in
+[the review archive](../archived/2026-09-17-presentation-review/mcp-console-captured.html).
+The original agent delivery remains in the separate handoff archive. Both HTML files are native Quarto
 reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
 
 ## Completed
@@ -14,26 +13,30 @@ reveal.js renders with embedded resources. `examples/measurements.csv` is unchan
 - The MCP stdio collector ran against the sandboxed installed Console without a
   model API or `--no-sandbox`. It captured fitted-model output, coefficients,
   predictions, R and Python PNGs, progress/polls, redraw compaction, bounded
-  output, an R error and surviving state, stdin, debugger interaction, and SQL.
+  output, an R error and surviving state, stdin, debugger interaction, and SQL. The review capture also includes a C-level stdout write from a forked
+  R child, Python `os.write()`, Python reading `r.d`, and a request with harness
+  metadata.
 - The displayed 600 ms and 5000 ms polls match their actual wire requests.
   Captured progress fractions remain observations of this run, not guarantees.
 - Transcript and raw-log excerpts are literal slices of the generated records.
   `captures/excerpts/provenance.json` records their source lines. The displayed
   Quarto front matter alone replaces the absolute `root.dir` with `<project>`;
   this normalization is disclosed in the slide notes. Original files are intact.
+  The bounded-output slide deliberately uses one shortened, stylized response;
+  its notes identify the changes, and captures/flood.txt retains the full response.
 - The Python reference score and plot were recomputed from the unchanged CSV and
   displayed cell definitions. The score is `CV MAE: 2.015`; library versions and
   the data hash are in `examples/python-reference-provenance.json`.
-- All 81 slides were inspected through the in-app browser for code clipping,
+- All 77 slides were inspected through the in-app browser for code clipping,
   vertical overflow, notes presence, image loading, and embedded diagrams.
-  All passed. The 12 capture-sensitive slides also passed in the captured-output
+  All passed. The 15 capture-sensitive slides also passed in the captured-output
   render. Code soft wrapping is disabled; individual layouts and source line
-  breaks provide the required space. All 11 inline diagrams load.
+  breaks provide the required space. All 7 inline diagrams load.
 - The `S` shortcut opened native Speaker View in a separate app window, confirmed
   by the presenter. Automated access to that app window was unavailable, so
   speaker-window diagram visibility and synchronization were not independently
   inspected. Browser fullscreen activation was not established; slide layout
-  was checked at the intended 1600 × 900 CSS viewport.
+  was checked in the fixed 1600 × 900 slide coordinates at the current browser viewport.
 - Fifteen local YAML examples passed public `mcp-console sandbox` probes on
   macOS: file grants, read-only data, denied synthetic paths, environment
   inheritance, private scratch writes, direct networking, proxy allow/deny rules,
@@ -45,12 +48,14 @@ reveal.js renders with embedded resources. `examples/measurements.csv` is unchan
   diagram CLI regression passed. The diagram check edited a source in a temporary
   project and verified that rebuilding updated the embedded QMD. The source
   validator checks capture text/PNG identity, displayed calls, excerpt bytes,
-  YAML copies, slide IDs, notes, and SVG IDs. Source diff whitespace checks pass;
+  YAML copies, slide IDs, notes, and SVG IDs. The source-generator CLI regression
+  failed before the formatting change and passed afterward. Embedded Python
+  cells compile, and the YAML journal event round-trips to the original JSON. Source diff whitespace checks pass;
   literal R output retains its original trailing spaces in generated HTML.
 
 ## Executable and source provenance
 
-The final deck capture completed at `2026-09-17T14:35:32Z` using
+The final deck capture completed at `2026-09-17T15:26:19Z` using
 `/Users/tomasz/.local/bin/mcp-console serve`. The binary reports `mcp-console 0.0.3`.
 Its SHA-256 identifies the exact executable used:
 
@@ -83,6 +88,29 @@ It needs a successful rehearsal in a compatible runtime before a live demo.
 
 Linux enforcement and SSH, Docker, and Docker Sandbox targets were not run.
 Their displayed YAML was checked against the local documentation and parsed;
-no target execution is implied. Model-provider integrations and the recording
-slot were not exercised. No model API, publication, pull request, or MCP Console
+no target execution is implied. Model-provider integrations were not exercised. The unused recording slot was removed. No model API, publication, pull request, or MCP Console
 product modification was performed.
+
+## Review boundaries
+
+The pre-review presentation is committed as `2322c47`. The smaller pass changes
+Model to LLM client on slide 2; the broader arrow/diagram redesign is deferred.
+Five detailed sandbox slides and the recording placeholder were cut. SSH now
+precedes the process architecture slides. Native output and Python use real new
+captures; provider integrations remain illustrative and were only syntax-checked.
+
+An exploratory `cat()` call inside an R fork produced no visible text in this
+installed runtime. The displayed example instead uses an actual C-level descriptor
+write, which passed. The deck does not claim every R output hook is fork-safe.
+No Console product code was changed during this investigation.
+
+`internal/events.jsonl` is a structured journal of Console calls, results and
+recording events. It preserves request `_meta`, as the new YAML example shows.
+The collector's separate `wire.jsonl` includes the complete MCP transport exchange.
+The transcript files are siblings of `outputs/`, matching the actual directory.
+
+The corporate database example needs an HTTPS API or SOCKS-aware connection.
+For private-address destinations, the pinned proxy requires an explicit literal
+IP grant matching the target, or its broader local-binding exception. The example
+warehouse was not contacted. The Shiny configuration reuses the previously tested
+local-binding policy; a live Shiny app was not launched under that policy.

@@ -3,6 +3,7 @@
 from pathlib import Path
 import json
 import re
+import subprocess
 
 ROOT = Path(__file__).resolve().parents[1]
 CAPTURES = ROOT / 'captures'
@@ -37,14 +38,24 @@ def main() -> None:
     qmd = CAPTURES / 'session-records/transcript.qmd'
     text = qmd.read_text()
     excerpt('quarto-header.txt', qmd, 0, text[:text.index('\n---',3)+4].count('\n')+1)
-    start_offset = text.index('```{r}\nd <- read.csv(')
+    start_offset = re.search(r'```\{r\}\n\s*d <- read.csv\(', text).start()
     end_offset = text.index('\n```', start_offset+4)+4
     excerpt('quarto-cell.txt', qmd, text[:start_offset].count('\n'), text[:end_offset].count('\n')+1)
     lines = md.read_text().splitlines()
-    call = re.search(r'(?m)^## Call (\d+): R\n\n```r\nd <- read.csv', md.read_text())[1]
+    call = re.search(r'(?m)^## Call (\d+): R\n\n```r\n\s*d <- read.csv', md.read_text())[1]
     raw = CAPTURES / f'session-records/outputs/call-{int(call):06d}.log'
     excerpt('recorded-fit.txt', raw, 0, len(raw.read_text().splitlines()))
     (out / 'provenance.json').write_text(json.dumps(provenance, indent=2)+'\n')
+    journal = CAPTURES / 'session-records/internal/events.jsonl'
+    event = next(json.loads(line) for line in journal.read_text().splitlines()
+                 if json.loads(line).get('request', {}).get('_meta'))
+    # YAML changes serialization only; preserve every recorded field.
+    converted = subprocess.run(['yq', '-P', '-p=json', '.'], input=json.dumps(event),
+                               text=True, capture_output=True, check=True).stdout
+    (out / 'event-yaml.txt').write_text(converted)
+    restored = subprocess.run(['yq', '-o=json', '.'], input=converted,
+                             text=True, capture_output=True, check=True).stdout
+    assert json.loads(restored) == event
     print(f'Extracted {len(provenance)} literal excerpts without normalization.')
 
 

@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "hello directly on fd 1\n"
+    }
+  ],
+  "isError": false
+}

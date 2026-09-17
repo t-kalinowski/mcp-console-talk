@@ -20,6 +20,15 @@ The Responses slide displays a registration excerpt; `openai_responses.py` inclu
 responses, the wire exchange, and generated session files. It never calls a model.
 Options precede `--command`; choose an empty output directory for each run.
 
+The native-output example prepares `inline`, compiles a C function, and writes
+to stdout from a forked R child. It requires a C/C++ compiler and a Unix R runtime.
+Its output and Python's `os.write()` output are asserted during capture.
+`refresh_capture_excerpts.py` also requires Mike Farah's `yq`; the metadata event
+is converted to YAML and checked by converting it back to JSON.
+
+Configurations whose `slide` is null in `configs/index.json` remain as reference
+examples after the shorter sandbox sequence was adopted.
+
 ```sh
 python examples/capture_console.py --command /absolute/path/to/mcp-console serve
 python examples/refresh_capture_excerpts.py

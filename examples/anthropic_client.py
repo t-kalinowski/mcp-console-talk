@@ -5,7 +5,7 @@ from pathlib import Path
 import asyncio
 import os
 from anthropic import AsyncAnthropic
-from mcp_console import anthropic as console_anthropic
+import mcp_console
 
 
 async def main() -> None:
@@ -15,7 +15,7 @@ async def main() -> None:
     os.chdir(Path(__file__).resolve().parent)
     prompt = "Use Console to analyze measurements.csv, inspect a plot, and compare groups. The data are synthetic."
     async with AsyncAnthropic() as client:
-        async with console_anthropic.tools() as tools:
+        async with mcp_console.anthropic.tools() as tools:
             runner = client.beta.messages.tool_runner(
                 model=model_id,
                 max_tokens=4096,

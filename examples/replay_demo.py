@@ -4,7 +4,7 @@ Output text is printed here; actual images are retained by Console's recording l
 """
 from pathlib import Path
 import os
-from mcp_console import MCPConsole
+import mcp_console
 
 ROOT = Path(__file__).resolve().parent
 PENDING = ("[running; poll with an empty send]", "[worker starting]")
@@ -27,7 +27,7 @@ def collect(console: MCPConsole, **kwargs: object) -> str:
 
 def main() -> None:
     os.chdir(ROOT)
-    with MCPConsole() as console:
+    with mcp_console.MCPConsole() as console:
         collect(console, r='d <- read.csv("measurements.csv"); fit <- lm(response ~ temperature + group, d)', timeout_ms=200)
         collect(console, r="coef(fit)")
         collect(console, r='plot(d$temperature, d$response, xlab="Temperature", ylab="Response")')

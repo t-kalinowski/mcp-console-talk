@@ -1,6 +1,6 @@
 ```{r}
-d <- read.csv("examples/measurements.csv")
-fit <- lm(response ~ temperature + group,
-          data = d)
-fit
+  d <- read.csv("examples/measurements.csv")
+  fit <- lm(response ~ temperature + group,
+            data = d)
+  fit
 ```

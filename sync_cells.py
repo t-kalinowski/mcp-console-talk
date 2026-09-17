@@ -17,7 +17,8 @@ def display_call(arguments: dict) -> str:
         else:
             rendered = repr(value)
         fields.append(f'{name}={rendered}')
-    return 'send(' + ', '.join(fields) + ')'
+    separator = ',\n    ' if 'requirements' in arguments else ', '
+    return 'console.send(' + separator.join(fields) + ')'
 
 
 def main() -> None:

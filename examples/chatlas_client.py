@@ -2,7 +2,7 @@
 from pathlib import Path
 import os
 from chatlas import ChatOpenAI
-from mcp_console import MCPConsole, chatlas
+import mcp_console
 
 
 def main() -> None:
@@ -11,8 +11,8 @@ def main() -> None:
         raise SystemExit("Set MODEL_ID to a model available in your account; configure the provider credential as usual.")
     os.chdir(Path(__file__).resolve().parent)
     chat = ChatOpenAI(model=model)
-    with MCPConsole() as console:
-        chat.set_tools([*chat.get_tools(), chatlas.tool(console)])
+    with mcp_console.MCPConsole() as console:
+        chat.set_tools([*chat.get_tools(), mcp_console.chatlas.tool(console)])
         chat.chat("Use Console to summarize measurements.csv and compare groups. The data are synthetic.")
 
 

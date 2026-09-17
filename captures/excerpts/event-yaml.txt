@@ -1,0 +1,16 @@
+event: tool_call
+call_id: 25
+request_id: 27
+request:
+  _meta:
+    progressToken: recording-example
+    example.com/harness:
+      turn: 7
+      label: presentation capture
+  name: send
+  arguments:
+    r: 1 + 1
+schema_version: 1
+run_id: 20260917T152544.739385000Z-0000093055
+sequence: 71
+at: "2026-09-17T15:26:19.553658000Z"

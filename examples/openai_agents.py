@@ -2,7 +2,7 @@
 from pathlib import Path
 import os
 from agents import Agent, Runner
-from mcp_console import MCPConsole, openai as console_openai
+import mcp_console
 
 
 def main() -> None:
@@ -10,11 +10,11 @@ def main() -> None:
     if not model_id:
         raise SystemExit("Set MODEL_ID and OPENAI_API_KEY before running this example.")
     os.chdir(Path(__file__).resolve().parent)
-    with MCPConsole() as console:
+    with mcp_console.MCPConsole() as console:
         agent = Agent(
             name="Data analyst",
             model=model_id,
-            tools=[console_openai.agents_tool(console)],
+            tools=[mcp_console.openai.agents_tool(console)],
         )
         result = Runner.run_sync(
             agent,

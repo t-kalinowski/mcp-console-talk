@@ -2,17 +2,17 @@
 These examples create separate sessions; they do not share state with each other.
 """
 import asyncio
-from mcp_console import AsyncMCPConsole, MCPConsole
+import mcp_console
 
 
 def synchronous() -> None:
-    with MCPConsole() as console:
+    with mcp_console.MCPConsole() as console:
         print(console.send(r="x <- 40 + 2; x"))
         print(console.send(r="x + 1"))
 
 
 async def asynchronous() -> None:
-    async with AsyncMCPConsole() as console:
+    async with mcp_console.AsyncMCPConsole() as console:
         print(await console.send(python="x = 40 + 2; x"))
         print(await console.send(python="x + 1"))
 

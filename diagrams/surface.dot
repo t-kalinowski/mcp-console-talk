@@ -3,8 +3,8 @@ digraph G {
  node [shape=box, style="rounded,filled", fillcolor="#ffffff", color="#a9b6b6", penwidth=1.5, fontname="Arial", fontsize=18, fontcolor="#142d39", margin="0.22,0.18"];
  edge [color="#78908f", penwidth=1.8, arrowsize=0.75, fontname="Arial", fontsize=14, fontcolor="#536b72"];
 
-model [label="Model"];
-send [label="send()", fillcolor="#d9eee9", color="#167d76"];
+model [label="LLM client"];
+send [label="console.send()", fillcolor="#d9eee9", color="#167d76"];
 runtime [label="Runtime capabilities\nobjects · packages · DB connections"];
 model -> send -> runtime;
 

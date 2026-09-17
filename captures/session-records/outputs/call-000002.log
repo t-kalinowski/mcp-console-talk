@@ -1,8 +1,0 @@
-
-Call:
-lm(formula = response ~ temperature + group, data = d)
-
-Coefficients:
-(Intercept)  temperature       groupB  
-      6.889        1.007        1.273  
-

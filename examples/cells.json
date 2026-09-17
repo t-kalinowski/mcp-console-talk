@@ -1,6 +1,6 @@
 {
   "fit": {
-    "r": "d <- read.csv(\"examples/measurements.csv\")\nfit <- lm(response ~ temperature + group,\n          data = d)\nfit"
+    "r": "  d <- read.csv(\"examples/measurements.csv\")\n  fit <- lm(response ~ temperature + group,\n            data = d)\n  fit"
   },
   "predict": {
     "r": "head(predict(fit, d), 3)"
@@ -9,29 +9,29 @@
     "r": "coef(fit)"
   },
   "r-plot": {
-    "r": "plot(d$temperature, d$response,\n     xlab = \"Temperature\",\n     ylab = \"Response\")"
+    "r": "  plot(d$temperature, d$response,\n       xlab = \"Temperature\",\n       ylab = \"Response\")"
   },
   "progress": {
-    "r": "for (i in 1:20) {\n  cat(sprintf(\"\\rfit [%s%s] %3d%%\",\n      strrep(\"=\", i), strrep(\" \", 20 - i), i * 5))\n  flush.console()\n  Sys.sleep(0.15)\n}\ncat(\"\\n\")",
+    "r": "  for (i in 1:20) {\n    cat(sprintf(\"\\rfit [%s%s] %3d%%\",\n        strrep(\"=\", i), strrep(\" \", 20 - i), i * 5))\n    flush.console()\n    Sys.sleep(0.15)\n  }\n  cat(\"\\n\")",
     "timeout_ms": 450
   },
   "compact": {
     "r": "cat(\"download 0%\\rdownload 50%\\rdownload 100%\\n\")"
   },
   "error": {
-    "r": "checkpoint <- 42\nstop(\"inspect me\")"
+    "r": "  checkpoint <- 42\n  stop(\"inspect me\")"
   },
   "checkpoint": {
     "r": "checkpoint"
   },
   "prompt": {
-    "r": "name <- readline(\"name> \")\nname"
+    "r": "  name <- readline(\"name> \")\n  name"
   },
   "prompt-answer": {
     "stdin": "Ada\n"
   },
   "browser-start": {
-    "r": "inspect_mean <- function(x) {\n  browser()\n  mean(x)\n}\n\ninspect_mean(c(1, 2, 3))"
+    "r": "  inspect_mean <- function(x) {\n    browser()\n    mean(x)\n  }\n\n  inspect_mean(c(1, 2, 3))"
   },
   "browser-x": {
     "stdin": "x\n"
@@ -49,7 +49,7 @@
     "sql": "SELECT \"group\", COUNT(*) AS n\nFROM d\nGROUP BY \"group\"\nORDER BY \"group\""
   },
   "requirements": {
-    "r": "library(data.table)\nlibrary(dtplyr)\npackageVersion(\"data.table\")",
+    "r": "  library(data.table)\n  library(dtplyr)\n  packageVersion(\"data.table\")",
     "requirements": {
       "r": [
         "data.table==1.17.8",
@@ -58,12 +58,21 @@
     }
   },
   "flood": {
-    "r": "for (i in seq_len(10000)) {\n  cat(sprintf(\"row %05d\\n\", i))\n}\ncat(\"fit complete\\n\")"
+    "r": "  for (i in seq_len(10000)) {\n    cat(sprintf(\"row %05d\\n\", i))\n  }\n  cat(\"fit complete\\n\")"
   },
   "poll-next": {
     "timeout_ms": 600
   },
   "poll-final": {
     "timeout_ms": 5000
+  },
+  "r-fork": {
+    "r": "  emit <- inline::cfunction(\n    body = 'write(1, \"native output\\\\n\", 14);\n            return R_NilValue;',\n    includes = \"#include <unistd.h>\"\n  )\n  job <- parallel::mcparallel(emit())\n  invisible(parallel::mccollect(job))"
+  },
+  "python-fd": {
+    "python": "import os\n_ = os.write(1, b\"hello directly on fd 1\\n\")"
+  },
+  "python-first": {
+    "python": "print(len(r.d))"
   }
 }

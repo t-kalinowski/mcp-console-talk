@@ -85,40 +85,40 @@ The model-facing interface
 <!-- inline-svg:assets/surface.svg -->
 ```{=html}
 <div class="embedded-diagram">
-<svg role="img" aria-label="One send tool connects the model to capabilities in the runtime." width="609pt" height="95pt"
- viewBox="0.00 0.00 608.80 94.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="diagram-1-graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 80.4)">
+<svg role="img" aria-label="The LLM client calls Console to use runtime capabilities." width="705pt" height="97pt"
+ viewBox="0.00 0.00 705.00 97.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="diagram-1-graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 82.32)">
 <title>G</title>
 <!-- model -->
 <g id="diagram-1-node1" class="node">
 <title>model</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M69,-56C69,-56 12,-56 12,-56 6,-56 0,-50 0,-44 0,-44 0,-22 0,-22 0,-16 6,-10 12,-10 12,-10 69,-10 69,-10 75,-10 81,-16 81,-22 81,-22 81,-44 81,-44 81,-50 75,-56 69,-56"/>
-<text text-anchor="middle" x="40.5" y="-28.6" font-family="Arial" font-size="18.00" fill="#142d39">Model</text>
+<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M100.68,-57.42C100.68,-57.42 12,-57.42 12,-57.42 6,-57.42 0,-51.42 0,-45.42 0,-45.42 0,-22.5 0,-22.5 0,-16.5 6,-10.5 12,-10.5 12,-10.5 100.68,-10.5 100.68,-10.5 106.68,-10.5 112.68,-16.5 112.68,-22.5 112.68,-22.5 112.68,-45.42 112.68,-45.42 112.68,-51.42 106.68,-57.42 100.68,-57.42"/>
+<text xml:space="preserve" text-anchor="middle" x="56.34" y="-27.36" font-family="Arial" font-size="18.00" fill="#142d39">LLM client</text>
 </g>
 <!-- send -->
 <g id="diagram-1-node2" class="node">
 <title>send</title>
-<path fill="#d9eee9" stroke="#167d76" stroke-width="1.5" d="M199,-56C199,-56 140,-56 140,-56 134,-56 128,-50 128,-44 128,-44 128,-22 128,-22 128,-16 134,-10 140,-10 140,-10 199,-10 199,-10 205,-10 211,-16 211,-22 211,-22 211,-44 211,-44 211,-50 205,-56 199,-56"/>
-<text text-anchor="middle" x="169.5" y="-28.6" font-family="Arial" font-size="18.00" fill="#142d39">send()</text>
+<path fill="#d9eee9" stroke="#167d76" stroke-width="1.5" d="M295.61,-57.42C295.61,-57.42 171.68,-57.42 171.68,-57.42 165.68,-57.42 159.68,-51.42 159.68,-45.42 159.68,-45.42 159.68,-22.5 159.68,-22.5 159.68,-16.5 165.68,-10.5 171.68,-10.5 171.68,-10.5 295.61,-10.5 295.61,-10.5 301.61,-10.5 307.61,-16.5 307.61,-22.5 307.61,-22.5 307.61,-45.42 307.61,-45.42 307.61,-51.42 301.61,-57.42 295.61,-57.42"/>
+<text xml:space="preserve" text-anchor="middle" x="233.65" y="-27.36" font-family="Arial" font-size="18.00" fill="#142d39">console.send()</text>
 </g>
 <!-- model&#45;&gt;send -->
 <g id="diagram-1-edge1" class="edge">
 <title>model&#45;&gt;send</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M81.34,-33C93.62,-33 107.29,-33 120.09,-33"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="120.43,-35.63 127.93,-33 120.43,-30.38 120.43,-35.63"/>
+<path fill="none" stroke="#78908f" stroke-width="1.8" d="M113.29,-33.96C124.64,-33.96 136.81,-33.96 148.88,-33.96"/>
+<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="148.76,-36.59 156.26,-33.96 148.76,-31.34 148.76,-36.59"/>
 </g>
 <!-- runtime -->
 <g id="diagram-1-node3" class="node">
 <title>runtime</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M568,-66C568,-66 270,-66 270,-66 264,-66 258,-60 258,-54 258,-54 258,-12 258,-12 258,-6 264,0 270,0 270,0 568,0 568,0 574,0 580,-6 580,-12 580,-12 580,-54 580,-54 580,-60 574,-66 568,-66"/>
-<text text-anchor="middle" x="419" y="-38.6" font-family="Arial" font-size="18.00" fill="#142d39">Runtime capabilities</text>
-<text text-anchor="middle" x="419" y="-18.6" font-family="Arial" font-size="18.00" fill="#142d39">objects · packages · DB connections</text>
+<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M663.79,-67.92C663.79,-67.92 366.61,-67.92 366.61,-67.92 360.61,-67.92 354.61,-61.92 354.61,-55.92 354.61,-55.92 354.61,-12 354.61,-12 354.61,-6 360.61,0 366.61,0 366.61,0 663.79,0 663.79,0 669.79,0 675.79,-6 675.79,-12 675.79,-12 675.79,-55.92 675.79,-55.92 675.79,-61.92 669.79,-67.92 663.79,-67.92"/>
+<text xml:space="preserve" text-anchor="middle" x="515.2" y="-37.86" font-family="Arial" font-size="18.00" fill="#142d39">Runtime capabilities</text>
+<text xml:space="preserve" text-anchor="middle" x="515.2" y="-16.86" font-family="Arial" font-size="18.00" fill="#142d39">objects · packages · DB connections</text>
 </g>
 <!-- send&#45;&gt;runtime -->
 <g id="diagram-1-edge2" class="edge">
 <title>send&#45;&gt;runtime</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M211.09,-33C222.65,-33 236.02,-33 250.28,-33"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="250.31,-35.63 257.81,-33 250.31,-30.38 250.31,-35.63"/>
+<path fill="none" stroke="#78908f" stroke-width="1.8" d="M308.09,-33.96C319.46,-33.96 331.58,-33.96 344.04,-33.96"/>
+<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="343.87,-36.59 351.37,-33.96 343.87,-31.34 343.87,-36.59"/>
 </g>
 </g>
 </svg>
@@ -175,7 +175,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg new-arg">r</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg new-arg">r</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -184,17 +184,17 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send
+LLM client → Console
 
 :::
 
 <!-- cells:fit -->
 ```python
-send(r="""
-d <- read.csv("examples/measurements.csv")
-fit <- lm(response ~ temperature + group,
-          data = d)
-fit
+console.send(r="""
+  d <- read.csv("examples/measurements.csv")
+  fit <- lm(response ~ temperature + group,
+            data = d)
+  fit
 """)
 ```
 
@@ -251,7 +251,8 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="sig-name">)</span></div>
+
 :::::: {.two-col}
 
 ::::: {.left}
@@ -260,15 +261,27 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send
+Call 1 · coefficients
 
 :::
 
-<!-- cells:coefficients,predict -->
+<!-- cells:coefficients -->
 ```python
-send(r='coef(fit)')
+console.send(r='coef(fit)')
+```
 
-send(r='head(predict(fit, d), 3)')
+::::
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Call 2 · predictions
+
+:::
+
+<!-- cells:predict -->
+```python
+console.send(r='head(predict(fit, d), 3)')
 ```
 
 ::::
@@ -281,17 +294,30 @@ send(r='head(predict(fit, d), 3)')
 
 ::: {.panel-label}
 
-R output · coefficients, then predictions
+Response 1
 
 :::
 
 ```{r}
-#| label: reuse-fit-output
 #| eval: true
 #| echo: false
 #| comment: ""
 console_text("coefficients")
-cat("\n")
+```
+
+::::
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Response 2
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
 console_text("predict")
 ```
 
@@ -300,11 +326,6 @@ console_text("predict")
 :::::
 
 ::::::
-::: {.takeaway}
-
-No reload. No refit. Those are the actual returned values.
-
-:::
 
 ::: {.notes}
 
@@ -316,7 +337,6 @@ No reload. No refit. Those are the actual returned values.
 
 :::
 
-
 ## Plots are results, not another tool {#r-plots .deck-slide .literal-slide}
 ::: {.kicker}
 
@@ -324,7 +344,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -333,16 +353,16 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send
+LLM client → Console
 
 :::
 
 <!-- cells:r-plot -->
 ```python
-send(r="""
-plot(d$temperature, d$response,
-     xlab = "Temperature",
-     ylab = "Response")
+console.send(r="""
+  plot(d$temperature, d$response,
+       xlab = "Temperature",
+       ylab = "Response")
 """)
 ```
 
@@ -404,7 +424,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg new-arg">timeout_ms</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg new-arg">timeout_ms</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -413,20 +433,20 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send · running cell
+LLM client → Console · running cell
 
 :::
 
 <!-- cells:progress -->
 ```python
-send(r=r"""
-for (i in 1:20) {
-  cat(sprintf("\rfit [%s%s] %3d%%",
-      strrep("=", i), strrep(" ", 20 - i), i * 5))
-  flush.console()
-  Sys.sleep(0.15)
-}
-cat("\n")
+console.send(r=r"""
+  for (i in 1:20) {
+    cat(sprintf("\rfit [%s%s] %3d%%",
+        strrep("=", i), strrep(" ", 20 - i), i * 5))
+    flush.console()
+    Sys.sleep(0.15)
+  }
+  cat("\n")
 """, timeout_ms=450)
 ```
 
@@ -483,7 +503,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -492,15 +512,15 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send · collect new output
+LLM client → Console · collect new output
 
 :::
 
 <!-- cells:poll-next,poll-final -->
 ```python
-send(timeout_ms=600)
+console.send(timeout_ms=600)
 
-send(timeout_ms=5000)
+console.send(timeout_ms=5000)
 ```
 
 ::::
@@ -573,18 +593,18 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="sig-name">)</span></div>
 :::: {.code-panel}
 
 ::: {.panel-label}
 
-Model → send
+LLM client → Console
 
 :::
 
 <!-- cells:compact -->
 ```python
-send(r='cat("download 0%\\rdownload 50%\\rdownload 100%\\n")')
+console.send(r='cat("download 0%\\rdownload 50%\\rdownload 100%\\n")')
 ```
 
 ::::
@@ -655,7 +675,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg new-arg">control</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg new-arg">control</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -666,7 +686,7 @@ send
 :::
 
 ```python
-send(control="interrupt")
+console.send(control="interrupt")
 ```
 
 :::
@@ -695,158 +715,155 @@ Cooperative interrupt; restart is the stronger operation.
 
 
 
-## Restart resets objects, not prepared requirements {#restart .deck-slide}
+## Restart gives you a fresh workspace {#restart .deck-slide}
 ::: {.kicker}
 
 Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="sig-name">)</span></div>
 
-::: {.code-panel}
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-send
+Restart the worker
 
 :::
 
 ```python
-send(control="restart")
+console.send(control="restart")
 ```
+
+::::
+:::::: {.two-col}
+
+::::: {.left}
+
+::: {.ownership-card}
+
+Starts fresh
+
+R and Python objects
+
+In-memory SQL state
+
+Debugger and pending input
 
 :::
 
-<!-- inline-svg:assets/restart.svg -->
-```{=html}
-<div class="embedded-diagram">
-<svg role="img" aria-label="The server retains requirements and recordings while replacing the live worker." width="773pt" height="148pt"
- viewBox="0.00 0.00 772.80 147.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="diagram-2-graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 133.4)">
-<title>G</title>
-<!-- server -->
-<g id="diagram-2-node1" class="node">
-<title>server</title>
-<path fill="#d9eee9" stroke="#167d76" stroke-width="1.5" d="M228,-66C228,-66 12,-66 12,-66 6,-66 0,-60 0,-54 0,-54 0,-12 0,-12 0,-6 6,0 12,0 12,0 228,0 228,0 234,0 240,-6 240,-12 240,-12 240,-54 240,-54 240,-60 234,-66 228,-66"/>
-<text text-anchor="middle" x="120" y="-38.6" font-family="Arial" font-size="18.00" fill="#142d39">Server retains</text>
-<text text-anchor="middle" x="120" y="-18.6" font-family="Arial" font-size="18.00" fill="#142d39">requirements + recordings</text>
-</g>
-<!-- old -->
-<g id="diagram-2-node2" class="node">
-<title>old</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M435,-119C435,-119 339,-119 339,-119 333,-119 327,-113 327,-107 327,-107 327,-65 327,-65 327,-59 333,-53 339,-53 339,-53 435,-53 435,-53 441,-53 447,-59 447,-65 447,-65 447,-107 447,-107 447,-113 441,-119 435,-119"/>
-<text text-anchor="middle" x="387" y="-91.6" font-family="Arial" font-size="18.00" fill="#142d39">Worker A</text>
-<text text-anchor="middle" x="387" y="-71.6" font-family="Arial" font-size="18.00" fill="#142d39">live objects</text>
-</g>
-<!-- server&#45;&gt;old -->
-<g id="diagram-2-edge1" class="edge">
-<title>server&#45;&gt;old</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M240.32,-56.86C267.35,-62.27 295.11,-67.82 319.05,-72.61"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="318.82,-75.24 326.69,-74.14 319.85,-70.09 318.82,-75.24"/>
-<text text-anchor="middle" x="283.5" y="-71.8" font-family="Arial" font-size="14.00" fill="#536b72">before</text>
-</g>
-<!-- new -->
-<g id="diagram-2-node3" class="node">
-<title>new</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M732,-66C732,-66 619,-66 619,-66 613,-66 607,-60 607,-54 607,-54 607,-12 607,-12 607,-6 613,0 619,0 619,0 732,0 732,0 738,0 744,-6 744,-12 744,-12 744,-54 744,-54 744,-60 738,-66 732,-66"/>
-<text text-anchor="middle" x="675.5" y="-38.6" font-family="Arial" font-size="18.00" fill="#142d39">Worker B</text>
-<text text-anchor="middle" x="675.5" y="-18.6" font-family="Arial" font-size="18.00" fill="#142d39">fresh runtime</text>
-</g>
-<!-- server&#45;&gt;new -->
-<g id="diagram-2-edge2" class="edge">
-<title>server&#45;&gt;new</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M240.24,-25.55C268.66,-24.07 298.9,-22.75 327,-22 420.88,-19.5 529,-24.1 599.37,-28.09"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="599.27,-30.72 606.91,-28.53 599.58,-25.48 599.27,-30.72"/>
-<text text-anchor="middle" x="387" y="-25.8" font-family="Arial" font-size="14.00" fill="#536b72">after restart</text>
-</g>
-<!-- old&#45;&gt;new -->
-<g id="diagram-2-edge3" class="edge">
-<title>old&#45;&gt;new</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" stroke-dasharray="5,2" d="M447.02,-75.08C491.1,-66.93 551.68,-55.72 599.25,-46.92"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="599.87,-49.48 606.76,-45.53 598.91,-44.31 599.87,-49.48"/>
-<text text-anchor="middle" x="527" y="-73.8" font-family="Arial" font-size="14.00" fill="#536b72">replace, not replay</text>
-</g>
-</g>
-</svg>
-</div>
-```
-<!-- /inline-svg -->
+:::::
+
+::::: {.right}
+
+::: {.ownership-card}
+
+Stays available
+
+Prepared requirements
+
+Session recordings
+
+:::
+
+:::::
+
+::::::
 
 ::: {.notes}
 
-**Say:** The other control value is restart. This replaces the worker and discards R objects, Python objects, the in-memory DuckDB catalog, debugger state, and unread input. The server retains successfully prepared requirements and recordings. This is a deliberate fresh runtime, not continuation disguised as recovery.
+**Say:** Restart replaces the worker. Objects, the in-memory DuckDB catalog, debugger state, and unread input are cleared. The server retains successfully prepared requirements and recordings. A later call starts fresh.
 
-**Show:** Use the before/after worker diagram. The server box stays in place; the worker changes. Avoid suggesting that the interrupted or failed cell is replayed automatically.
-
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+**Sources:** [Send operations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
 
-
-
-## Errors are outcomes, not transactions {#errors .deck-slide}
+## Inspect state after an error {#errors .deck-slide .literal-slide}
 ::: {.kicker}
 
 Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="sig-name">)</span></div>
 
-::::: {.two-col}
+:::::: {.two-col}
 
-:::: {.left}
+::::: {.left}
 
-::: {.code-panel}
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-send
+Call 1
 
 :::
 
-<!-- cells:error,checkpoint -->
+<!-- cells:error -->
 ```python
-send(r="""
-checkpoint <- 42
-stop("inspect me")
+console.send(r="""
+  checkpoint <- 42
+  stop("inspect me")
 """)
-
-send(r='checkpoint')
 ```
-
-:::
 
 ::::
-
-:::: {.right}
-
-::: {.result-panel}
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-R output · two separate cells
+Call 2
 
 :::
 
-```text
-Error: inspect me
-
-[1] 42
+<!-- cells:checkpoint -->
+```python
+console.send(r='checkpoint')
 ```
-
-:::
 
 ::::
 
 :::::
 
-::: {.takeaway}
+::::: {.right}
 
-An ordinary language error does not erase earlier state.
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Response 1
 
 :::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("error")
+```
+
+::::
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Response 2
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("checkpoint")
+```
+
+::::
+
+:::::
+
+::::::
 
 ::: {.notes}
 
@@ -858,8 +875,6 @@ An ordinary language error does not erase earlier state.
 
 :::
 
-
-
 ## Interactive input is a separate channel {#stdin .deck-slide .literal-slide}
 ::: {.kicker}
 
@@ -867,7 +882,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg new-arg">stdin</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg new-arg">stdin</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -876,18 +891,18 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send · start a read
+LLM client → Console · start a read
 
 :::
 
 <!-- cells:prompt,prompt-answer -->
 ```python
-send(r="""
-name <- readline("name> ")
-name
+console.send(r="""
+  name <- readline("name> ")
+  name
 """)
 
-send(stdin='Ada\n')
+console.send(stdin='Ada\n')
 ```
 
 ::::
@@ -958,7 +973,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -967,19 +982,19 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send · enter a live function
+LLM client → Console · enter a live function
 
 :::
 
 <!-- cells:browser-start -->
 ```python
-send(r="""
-inspect_mean <- function(x) {
-  browser()
-  mean(x)
-}
+console.send(r="""
+  inspect_mean <- function(x) {
+    browser()
+    mean(x)
+  }
 
-inspect_mean(c(1, 2, 3))
+  inspect_mean(c(1, 2, 3))
 """)
 ```
 
@@ -1018,9 +1033,9 @@ Model → stdin · inspect, then continue
 
 <!-- cells:browser-x,browser-continue -->
 ```python
-send(stdin='x\n')
+console.send(stdin='x\n')
 
-send(stdin='c\n')
+console.send(stdin='c\n')
 ```
 
 ::::
@@ -1088,7 +1103,8 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
+
 :::::: {.two-col}
 
 ::::: {.left}
@@ -1097,17 +1113,17 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send
+Call
 
 :::
 
 <!-- cells:flood -->
 ```python
-send(r=r"""
-for (i in seq_len(10000)) {
-  cat(sprintf("row %05d\n", i))
-}
-cat("fit complete\n")
+console.send(r=r"""
+  for (i in seq_len(10000)) {
+    cat(sprintf("row %05d\n", i))
+  }
+  cat("fit complete\n")
 """)
 ```
 
@@ -1121,151 +1137,144 @@ cat("fit complete\n")
 
 ::: {.panel-label}
 
-Console → text · opening 3 lines
+One tool response · shortened for display
 
 :::
 
-```{r}
-#| label: flood-head
-#| eval: true
-#| echo: false
-#| comment: ""
-console_protocol("excerpts/flood-head")
+```text
+row 00001
+row 00002
+row 00003
+
+[output preview: middle omitted;
+ raw output retained at
+ .agents/console/sessions/<run>/
+ outputs/call-000008.log]
+
+row 09999
+row 10000
+fit complete
 ```
 
 ::::
 
-:::: {.result-panel}
-
-::: {.panel-label}
-
-Console → text · last 3 lines
-
-:::
-
-```{r}
-#| label: flood-tail
-#| eval: true
-#| echo: false
-#| comment: ""
-console_protocol("excerpts/flood-tail")
-```
-
-::::
 :::::
 
 ::::::
 
-:::: {.result-panel .retention-marker}
-
-::: {.panel-label}
-
-Console → text · complete omission notice
-
-:::
-
-```{r}
-#| label: flood-marker
-#| eval: true
-#| echo: false
-#| comment: ""
-console_protocol("excerpts/flood-marker")
-```
-
-::::
-::: {.takeaway}
-
-8 KiB text budget per result. Images have an independent allowance.
-
-:::
-
 ::: {.notes}
 
-**Say:** The output is deliberately larger than the tool-result budget. Console keeps a bounded beginning and recent tail and reports omission and retention details. The beginning and tail are cropped to three lines each; the omission notice is shown in full.
+**Say:** One call returns one response. The text keeps a beginning and a recent tail, with an omission notice and a path to retained output between them. The text budget is 8 KiB per result; images have a separate allowance.
 
-**Show:** Show the actual kind of lines being printed, not useful opening output or latest diagnostic as if those words came from the runtime. The middle notice is copied unchanged from this capture, including the actual byte counts and raw-log path.
+**Show:** This is one stylized response. The middle notice and path are shortened, and most preview lines are omitted to fit the slide. The complete literal response is in captures/flood.txt.
 
-**Author / capture:** All panels are literal slices of captures/flood.txt. The full result, wire exchange, and raw log remain in captures. No identifiers or paths were normalized; captures/excerpts/provenance.json records the selected line ranges.
-
-**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 
-
-## Retain more than you put in context {#retained-output .deck-slide}
+## Capture output beyond language hooks {#retained-output .deck-slide .literal-slide .code-dense}
 ::: {.kicker}
 
 Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
 
-<!-- inline-svg:assets/output.svg -->
-```{=html}
-<div class="embedded-diagram">
-<svg role="img" aria-label="Emitted output feeds a bounded model preview and a separately limited per-cell log file." width="645pt" height="193pt"
- viewBox="0.00 0.00 644.80 192.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="diagram-3-graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 178.4)">
-<title>G</title>
-<!-- stream -->
-<g id="diagram-3-node1" class="node">
-<title>stream</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M218,-115C218,-115 12,-115 12,-115 6,-115 0,-109 0,-103 0,-103 0,-61 0,-61 0,-55 6,-49 12,-49 12,-49 218,-49 218,-49 224,-49 230,-55 230,-61 230,-61 230,-103 230,-103 230,-109 224,-115 218,-115"/>
-<text text-anchor="middle" x="115" y="-87.6" font-family="Arial" font-size="18.00" fill="#142d39">Emitted output</text>
-<text text-anchor="middle" x="115" y="-67.6" font-family="Arial" font-size="18.00" fill="#142d39">console + stdout + stderr</text>
-</g>
-<!-- preview -->
-<g id="diagram-3-node2" class="node">
-<title>preview</title>
-<path fill="#d9eee9" stroke="#167d76" stroke-width="1.5" d="M604,-164C604,-164 428,-164 428,-164 422,-164 416,-158 416,-152 416,-152 416,-110 416,-110 416,-104 422,-98 428,-98 428,-98 604,-98 604,-98 610,-98 616,-104 616,-110 616,-110 616,-152 616,-152 616,-158 610,-164 604,-164"/>
-<text text-anchor="middle" x="516" y="-136.6" font-family="Arial" font-size="18.00" fill="#142d39">Model context</text>
-<text text-anchor="middle" x="516" y="-116.6" font-family="Arial" font-size="18.00" fill="#142d39">beginning + latest tail</text>
-</g>
-<!-- stream&#45;&gt;preview -->
-<g id="diagram-3-edge1" class="edge">
-<title>stream&#45;&gt;preview</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M230.07,-96.01C286.05,-102.88 353.1,-111.12 408.08,-117.87"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="408,-120.5 415.76,-118.81 408.64,-115.29 408,-120.5"/>
-<text text-anchor="middle" x="323" y="-118.8" font-family="Arial" font-size="14.00" fill="#536b72">bounded response</text>
-</g>
-<!-- log -->
-<g id="diagram-3-node3" class="node">
-<title>log</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M600,-66C600,-66 432,-66 432,-66 426,-66 420,-60 420,-54 420,-54 420,-12 420,-12 420,-6 426,0 432,0 432,0 600,0 600,0 606,0 612,-6 612,-12 612,-12 612,-54 612,-54 612,-60 606,-66 600,-66"/>
-<text text-anchor="middle" x="516" y="-38.6" font-family="Arial" font-size="18.00" fill="#142d39">Retained raw output</text>
-<text text-anchor="middle" x="516" y="-18.6" font-family="Arial" font-size="18.00" fill="#142d39">per&#45;cell log file</text>
-</g>
-<!-- stream&#45;&gt;log -->
-<g id="diagram-3-edge2" class="edge">
-<title>stream&#45;&gt;log</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M230.07,-67.99C287.37,-60.95 356.26,-52.49 411.95,-45.65"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="412.6,-48.22 419.72,-44.7 411.96,-43.01 412.6,-48.22"/>
-<text text-anchor="middle" x="323" y="-67.8" font-family="Arial" font-size="14.00" fill="#536b72">separate retention limit</text>
-</g>
-</g>
-</svg>
-</div>
-```
-<!-- /inline-svg -->
+:::::: {.two-col}
 
-::: {.takeaway}
+::::: {.left}
 
-Native code and subprocess output participate too.
+:::: {.code-panel}
+
+::: {.panel-label}
+
+R · output from a forked child
 
 :::
 
+<!-- cells:r-fork -->
+```python
+console.send(r=r"""
+  emit <- inline::cfunction(
+    body = 'write(1, "native output\\n", 14);
+            return R_NilValue;',
+    includes = "#include <unistd.h>"
+  )
+  job <- parallel::mcparallel(emit())
+  invisible(parallel::mccollect(job))
+""")
+```
+
+::::
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Console response
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("r-fork")
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Python · write directly to stdout
+
+:::
+
+<!-- cells:python-fd -->
+```python
+console.send(python=r"""
+import os
+_ = os.write(1, b"hello directly on fd 1\n")
+""")
+```
+
+::::
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Console response
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("python-fd")
+```
+
+::::
+
+:::::
+
+::::::
+
 ::: {.notes}
 
-**Say:** Console captures console output and raw stdout/stderr, including native and subprocess output. Longer emitted cell text is retained separately in per-cell files up to a 1 GiB cap; previews continue even if retention is partial. Retrieval requires a filesystem tool that can access the controller recording directory. The records are not unlimited or a lossless event chronology across independent streams.
+**Say:** inline compiles a small C function that writes directly to file descriptor 1. The R call invokes it in a forked child and waits for that child to finish. The inline namespace was prepared before the displayed call; its compiler setup is preserved in the capture. The Python call writes bytes directly to file descriptor 1, bypassing Python’s sys.stdout object. Console captures both through the session’s output streams. Both examples bypass the ordinary language output hooks. The R fork example was captured on macOS and uses the Unix-only parallel::mcparallel API.
 
-**Show:** Split one output stream into two destinations: model context and a log file. Put the retention-limit caveat in speech rather than shrinking the diagram with implementation numbers. For remote execution, the log path is on the controller, not necessarily on the worker’s filesystem.
+**Show:** Each example has its own actual captured response. Longer text is retained in per-cell logs, up to the retention limit, with a bounded preview returned to the client. The examples finish their children before returning.
 
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
-
 
 ## Package loading is a runtime capability {#r-resolution .deck-slide}
 ::: {.kicker}
@@ -1274,7 +1283,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -1285,10 +1294,10 @@ send
 :::
 
 ```python
-send(r="""
- library(janitor)
- as.data.table(d)[, .(n = .N), by = group]
- """)
+console.send(r="""
+  library(data.table)
+  as.data.table(d)[, .(n = .N), by = group]
+""")
 ```
 
 :::
@@ -1299,11 +1308,7 @@ Missing package → prepare → resume the original operation.
 
 :::
 
-::: {.small-note}
 
-No source pre-scan. No whole-cell replay. No new argument.
-
-:::
 
 ::: {.notes}
 
@@ -1324,22 +1329,23 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg new-arg">requirements</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg new-arg">requirements</span><span class="sig-name">)</span></div>
 :::: {.code-panel}
 
 ::: {.panel-label}
 
-Model → send
+LLM client → Console
 
 :::
 
 <!-- cells:requirements -->
 ```python
-send(r="""
-library(data.table)
-library(dtplyr)
-packageVersion("data.table")
-""", requirements={'r': ['data.table==1.17.8', 'dtplyr']})
+console.send(r="""
+  library(data.table)
+  library(dtplyr)
+  packageVersion("data.table")
+""",
+    requirements={'r': ['data.table==1.17.8', 'dtplyr']})
 ```
 
 ::::
@@ -1391,7 +1397,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="sig-name">)</span></div>
 
 ::::: {.two-col}
 
@@ -1406,11 +1412,11 @@ send
 :::
 
 ```python
-send(requirements={
+console.send(requirements={
     "r": ["data.table"],
 })
 
-send(r="coef(fit)")
+console.send(r="coef(fit)")
 ```
 
 :::
@@ -1454,7 +1460,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="sig-name">)</span></div>
 
 ::: {.big-statement}
 
@@ -1486,6 +1492,75 @@ Installation and trust boundaries come later.
 
 
 
+## Python can read the R workspace {#python-first .deck-slide .literal-slide}
+::: {.kicker}
+
+Build the interface
+
+:::
+
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg new-arg">python</span><span class="sig-name">)</span></div>
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Python cell
+
+:::
+
+<!-- cells:python-first -->
+```python
+console.send(python='print(len(r.d))')
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Console response
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("python-first")
+```
+
+::::
+
+:::::
+
+::::::
+
+::: {.takeaway}
+
+`r.d` accesses the data frame already loaded in R.
+
+:::
+
+::: {.notes}
+
+**Say:** Python works in the same session. Start with one expression: how many rows are in the R data frame? The r bridge exposes the existing object. Next we can use Python libraries on that data.
+
+**Show:** This is an actual captured Python response.
+
+**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+
+:::
+
 ## Use Python’s ML libraries on the same data {#python .deck-slide .code-dense}
 ::: {.kicker}
 
@@ -1493,18 +1568,18 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg new-arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 :::: {.code-panel}
 
 ::: {.panel-label}
 
-Model → send · Python cell
+LLM client → Console · Python cell
 
 :::
 
 <!-- cells:python-ml -->
 ```python
-send(python="""
+console.send(python="""
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import cross_val_score
 import pandas as pd
@@ -1543,7 +1618,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 :::: {.result-panel}
 
 ::: {.panel-label}
@@ -1592,11 +1667,7 @@ Another library
 :::::
 
 ::::::
-::: {.takeaway}
 
-Choose the language for the next operation, not a second workspace.
-
-:::
 
 ::: {.notes}
 
@@ -1618,7 +1689,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 :::::: {.two-col}
 
 ::::: {.left}
@@ -1627,13 +1698,13 @@ Build the interface
 
 ::: {.panel-label}
 
-Model → send · optional Python plot
+LLM client → Console · optional Python plot
 
 :::
 
 <!-- cells:python-plot -->
 ```python
-send(python="""
+console.send(python="""
 import matplotlib.pyplot as plt
 
 plt.scatter(frame["temperature"],
@@ -1695,7 +1766,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -1706,11 +1777,11 @@ Independent call shapes
 :::
 
 ```python
-send(python="run_experiment()", timeout_ms=200)
-send()
-send(control="interrupt")
-send(stdin="continue\n")
-send(control="restart")
+console.send(python="run_experiment()", timeout_ms=200)
+console.send()
+console.send(control="interrupt")
+console.send(stdin="continue\n")
+console.send(control="restart")
 ```
 
 :::
@@ -1733,49 +1804,64 @@ Waits. Polls. Interrupts. Input. Debuggers. Restart.
 
 
 
-## Missing imports resolve in place {#python-resolution .deck-slide}
+## Missing imports resolve in place {#python-resolution .deck-slide .literal-slide .code-dense}
 ::: {.kicker}
 
 Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 
-::: {.code-panel}
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-send
+An ordinary import
 
 :::
 
 ```python
-send(python="""
- import polars as pl
- pl.from_pandas(r.d).group_by("group").len()
- """)
+console.send(python="""
+import polars as pl
+pl.from_pandas(r.d).group_by("group").len()
+""")
 ```
 
+::::
+
+:::::
+
+::::: {.right}
+
+::: {.resolution-steps}
+
+1. Python tries the import.
+2. Normal lookup finds no module.
+3. Console requests resolution.
+4. `uv` prepares the environment.
+5. The worker activates the result.
+6. Python loads the module.
+
 :::
 
-::: {.takeaway}
+:::::
 
-`uv` prepares the managed environment; the original import continues.
-
-:::
+::::::
 
 ::: {.notes}
 
-**Say:** Managed Python resolves a missing import when normal import machinery cannot satisfy it. A curated mapping handles known import/distribution name differences, with conservative inference otherwise. It does not scan the cell in advance or replay the cell. Explicitly selected Python environments use their preinstalled packages instead of this managed path.
+**Say:** The final import finder runs after normal lookup cannot find the module, before a missing-module error escapes to the cell. It maps the import name to a distribution and calls the resolver. The server prepares the managed environment with uv; the worker activates the result, invalidates import caches, and continues loading the requested module. The rest of the cell then runs.
 
-**Show:** Show an ordinary import and useful work. Do not promise that every arbitrary import name maps to the right distribution; that is what the explicit path on the next slide addresses.
+**Show:** Walk through the six steps in order. This managed path applies to supported missing imports; an explicitly selected Python environment uses its installed packages.
 
-**Sources:** [Requirements and environments](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+**Sources:** [Python import finder](https://github.com/t-kalinowski/mcp-console/blob/main/src/python/runtime.py) · [Requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
-
 
 ## Versions and extras fit the existing field {#python-requirements .deck-slide}
 ::: {.kicker}
@@ -1784,7 +1870,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -1795,7 +1881,7 @@ send
 :::
 
 ```python
-send(
+console.send(
     python="import polars as pl; pl.__version__",
     requirements={"python": ["polars>=1,<2"]},
 )
@@ -1828,7 +1914,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 
 <!-- inline-svg:assets/shared.svg -->
 ```{=html}
@@ -1921,7 +2007,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -1932,21 +2018,17 @@ send
 :::
 
 ```python
-send(python="""
- frame = r.d
- group_counts = frame.groupby("group").size()
- """)
+console.send(python="""
+frame = r.d
+group_counts = frame.groupby("group").size()
+""")
 
-send(r="py$group_counts")
+console.send(r="py$group_counts")
 ```
 
 :::
 
-::: {.takeaway}
 
-Choose the language for the step, not for the whole session.
-
-:::
 
 ::: {.notes}
 
@@ -1967,7 +2049,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg new-arg">sql</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg new-arg">sql</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -1978,11 +2060,11 @@ send
 :::
 
 ```python
-send(sql="""
- SELECT "group", COUNT(*) AS n
- FROM d
- GROUP BY "group"
- """)
+console.send(sql="""
+SELECT "group", COUNT(*) AS n
+FROM d
+GROUP BY "group"
+""")
 ```
 
 :::
@@ -2012,7 +2094,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -2023,22 +2105,18 @@ send
 :::
 
 ```python
-send(r="d$.residual <- residuals(fit)")
+console.send(r="d$.residual <- residuals(fit)")
 
-send(sql="""
- SELECT "group", AVG(ABS(".residual")) AS error
- FROM d
- GROUP BY "group"
- """)
+console.send(sql="""
+SELECT "group", AVG(ABS(".residual")) AS error
+FROM d
+GROUP BY "group"
+""")
 ```
 
 :::
 
-::: {.takeaway}
 
-No staging database. No CSV round trip.
-
-:::
 
 ::: {.notes}
 
@@ -2059,7 +2137,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -2070,14 +2148,14 @@ send
 :::
 
 ```python
-send(python="""
- import duckdb
- con = duckdb.connect()
- con.register("measurements", r.d)
- console_sql_connection(con)
- """)
+console.send(python="""
+import duckdb
+con = duckdb.connect()
+con.register("measurements", r.d)
+console_sql_connection(con)
+""")
 
-send(sql="SELECT COUNT(*) FROM measurements")
+console.send(sql="SELECT COUNT(*) FROM measurements")
 ```
 
 :::
@@ -2107,7 +2185,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
 
 ::::: {.two-col}
 
@@ -2181,7 +2259,7 @@ Build the interface
 
 :::
 
-<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
+<div class="signature" aria-label="Fields introduced so far"><span class="sig-name">console.send(</span><span class="arg">r</span><span class="arg">timeout_ms</span><span class="arg">control</span><span class="arg">stdin</span><span class="arg">requirements</span><span class="arg">python</span><span class="arg">sql</span><span class="sig-name">)</span></div>
 
 ::: {.code-panel}
 
@@ -2192,7 +2270,7 @@ send
 :::
 
 ```python
-send(
+console.send(
     sql="LOAD spatial; SELECT ST_Point(1, 2)",
     requirements={"duckdb": ["spatial"]},
 )
@@ -2229,7 +2307,7 @@ The complete contract
 
 ::: {.full-contract}
 
-<pre class="signature-display">send(
+<pre class="signature-display">console.send(
   <span class="syntax-accent">r</span>=…, <span class="syntax-accent">python</span>=…, <span class="syntax-accent">sql</span>=…,   <span class="syntax-comment"># at most one code field</span>
   timeout_ms=…,
   control=…,
@@ -2263,126 +2341,56 @@ Poll, input, control, and prepare-only calls omit code.
 
 
 
-## Capture the model-facing interaction {#demo .deck-slide .demo-slide}
-::: {.kicker}
-
-Optional recorded demo
-
-:::
-
-::: {.recording-label}
-
-RECORDING SLOT · NOT A CAPTURED RUN
-
-:::
-
-::: {.prompt-card}
-
-Use `measurements.csv` to investigate the temperature effect. Check whether it differs by group, inspect the residuals, and summarize the evidence. Use Console as your workbench.
-
-:::
-
-::: {.takeaway}
-
-Expanded tool calls → wait / poll → plot → language handoff → transcript
-
-:::
-
-::: {.notes}
-
-**Say:** Record one real session in the client you actually use. Prefer the Codex TUI for legible expanded tool arguments; use the desktop client if it better exposes returned plots in the capture. The audience does not need a tour of the surrounding application. Crop tightly around tool requests and results and annotate the particular contract being exercised. Installation appears later.
-
-**Show:** This is a designed recording slot, not a fabricated Codex screenshot. The package includes the synthetic data, a capture prompt, a fallback sequence, and a video replacement location. Once a real recording exists, replace this body with the video or a short sequence of authentic cropped stills. Do not narrate synthetic draft examples as recorded model behavior.
-
-**Sources:** [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Official Codex MCP documentation](https://developers.openai.com/codex/mcp/)
-
-:::
-
-
-
-## It scales with what the model can use {#model-capability .deck-slide}
+## Start simply; opt into more control {#model-capability .deck-slide}
 ::: {.kicker}
 
 The complete contract
 
 :::
 
-<!-- inline-svg:assets/capabilities.svg -->
-```{=html}
-<div class="embedded-diagram">
-<svg role="img" aria-label="Ordinary code, explicit requirements, and runtime control all use one tool." width="508pt" height="291pt"
- viewBox="0.00 0.00 507.80 290.80" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="diagram-5-graph0" class="graph" transform="scale(1 1) rotate(0) translate(14.4 276.4)">
-<title>G</title>
-<!-- code -->
-<g id="diagram-5-node1" class="node">
-<title>code</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M211.5,-262C211.5,-262 31.5,-262 31.5,-262 25.5,-262 19.5,-256 19.5,-250 19.5,-250 19.5,-208 19.5,-208 19.5,-202 25.5,-196 31.5,-196 31.5,-196 211.5,-196 211.5,-196 217.5,-196 223.5,-202 223.5,-208 223.5,-208 223.5,-250 223.5,-250 223.5,-256 217.5,-262 211.5,-262"/>
-<text text-anchor="middle" x="121.5" y="-234.6" font-family="Arial" font-size="18.00" fill="#142d39">Ordinary code</text>
-<text text-anchor="middle" x="121.5" y="-214.6" font-family="Arial" font-size="18.00" fill="#142d39">automatic preparation</text>
-</g>
-<!-- one -->
-<g id="diagram-5-node4" class="node">
-<title>one</title>
-<path fill="#d9eee9" stroke="#167d76" stroke-width="1.5" d="M467,-164C467,-164 302,-164 302,-164 296,-164 290,-158 290,-152 290,-152 290,-110 290,-110 290,-104 296,-98 302,-98 302,-98 467,-98 467,-98 473,-98 479,-104 479,-110 479,-110 479,-152 479,-152 479,-158 473,-164 467,-164"/>
-<text text-anchor="middle" x="384.5" y="-136.6" font-family="Arial" font-size="18.00" fill="#142d39">One tool</text>
-<text text-anchor="middle" x="384.5" y="-116.6" font-family="Arial" font-size="18.00" fill="#142d39">no second workflow</text>
-</g>
-<!-- code&#45;&gt;one -->
-<g id="diagram-5-edge1" class="edge">
-<title>code&#45;&gt;one</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M210.5,-195.96C235.52,-186.56 262.89,-176.29 288.32,-166.74"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="289.34,-169.16 295.44,-164.06 287.5,-164.24 289.34,-169.16"/>
-</g>
-<!-- precise -->
-<g id="diagram-5-node2" class="node">
-<title>precise</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M231,-164C231,-164 12,-164 12,-164 6,-164 0,-158 0,-152 0,-152 0,-110 0,-110 0,-104 6,-98 12,-98 12,-98 231,-98 231,-98 237,-98 243,-104 243,-110 243,-110 243,-152 243,-152 243,-158 237,-164 231,-164"/>
-<text text-anchor="middle" x="121.5" y="-136.6" font-family="Arial" font-size="18.00" fill="#142d39">Explicit requirements</text>
-<text text-anchor="middle" x="121.5" y="-116.6" font-family="Arial" font-size="18.00" fill="#142d39">versions · extras · sources</text>
-</g>
-<!-- precise&#45;&gt;one -->
-<g id="diagram-5-edge2" class="edge">
-<title>precise&#45;&gt;one</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M243.07,-131C256.01,-131 269.08,-131 281.77,-131"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="282.12,-133.63 289.62,-131 282.12,-128.38 282.12,-133.63"/>
-</g>
-<!-- control -->
-<g id="diagram-5-node3" class="node">
-<title>control</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M219.5,-66C219.5,-66 23.5,-66 23.5,-66 17.5,-66 11.5,-60 11.5,-54 11.5,-54 11.5,-12 11.5,-12 11.5,-6 17.5,0 23.5,0 23.5,0 219.5,0 219.5,0 225.5,0 231.5,-6 231.5,-12 231.5,-12 231.5,-54 231.5,-54 231.5,-60 225.5,-66 219.5,-66"/>
-<text text-anchor="middle" x="121.5" y="-38.6" font-family="Arial" font-size="18.00" fill="#142d39">Runtime control</text>
-<text text-anchor="middle" x="121.5" y="-18.6" font-family="Arial" font-size="18.00" fill="#142d39">input · interrupt · restart</text>
-</g>
-<!-- control&#45;&gt;one -->
-<g id="diagram-5-edge3" class="edge">
-<title>control&#45;&gt;one</title>
-<path fill="none" stroke="#78908f" stroke-width="1.8" d="M210.5,-66.04C235.52,-75.44 262.89,-85.71 288.32,-95.26"/>
-<polygon fill="#78908f" stroke="#78908f" stroke-width="1.8" points="287.5,-97.76 295.44,-97.94 289.34,-92.84 287.5,-97.76"/>
-</g>
-</g>
-</svg>
-</div>
-```
-<!-- /inline-svg -->
+:::::: {.two-col}
 
-::: {.takeaway}
+::::: {.left}
 
-A simple model can write code. A deliberate model can plan the environment and control execution.
+::: {.ownership-card}
+
+Start with ordinary code
+
+`library(package)`
+
+`import package`
+
+Console prepares missing dependencies.
 
 :::
+
+:::::
+
+::::: {.right}
+
+::: {.ownership-card}
+
+Discover more as needed
+
+Version pins and environments
+
+Polling and interruption
+
+Debugging and language bridges
+
+:::
+
+:::::
+
+::::::
 
 ::: {.notes}
 
-**Say:** Summarize the design claim without a benchmark claim. Models that only write ordinary code benefit from native behavior and automatic resolution. Models that understand requirements, runtime state, and controls can be more deliberate. Both use the same interface. The benefit should be demonstrated in the interaction, not asserted as universal better results for every model.
+**Say:** Models can hesitate to install packages, and simpler models may stay with basic code. We support that path: ordinary package use can ask the runtime to prepare what is missing. As a model becomes more capable, it can discover and use the longer tail of controls—requirements, polling, debugging, and language bridges—through the same tool. This is a design motivation, rather than a measured comparison of model performance.
 
-**Show:** Use the converging three-path diagram. This closes the capability crescendo before switching from what the model can do to what the user configures and what the implementation owns.
-
-**Sources:** [Requirements and environments](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Vision / intended design](https://github.com/t-kalinowski/mcp-console/blob/main/design-sketches/VISION.md)
+**Sources:** [Requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
-
 
 ## An interaction journal, and the actual output {#recording .deck-slide .literal-slide}
 ::: {.kicker}
@@ -2404,11 +2412,15 @@ Files under one session directory
 :::
 
 ```text
-internal/events.jsonl
-outputs/
-transcript.md
-transcript.qmd
-artifacts/
+session/
+├── internal/
+│   └── events.jsonl
+├── outputs/
+│   └── call-000003.log
+├── artifacts/
+│   └── *.png
+├── transcript.md
+└── transcript.qmd
 ```
 
 ::::
@@ -2421,12 +2433,11 @@ artifacts/
 
 ::: {.panel-label}
 
-Raw cell log · fit output excerpt
+Raw cell log · fit output
 
 :::
 
 ```{r}
-#| label: recorded-fit-example
 #| eval: true
 #| echo: false
 #| comment: ""
@@ -2438,24 +2449,50 @@ console_protocol("excerpts/recorded-fit")
 :::::
 
 ::::::
-::: {.takeaway}
-
-Bounded tool responses and retained raw output are different records.
-
-:::
 
 ::: {.notes}
 
-**Say:** The journal records calls and assembled results; each cell can also have a raw emitted-text log. The right-hand excerpt is the same printed fit seen earlier. Markdown and Quarto are projections with different purposes, not alternative names for the raw log.
+**Say:** The indentation shows the actual layout. Raw cell logs live in outputs, PNGs in artifacts, and the two transcripts are siblings of those directories. The internal journal preserves Console requests—including harness metadata—and assembled results, plus recording lifecycle events.
 
-**Show:** Show the concrete directory names and actual R text. Do not invent an internal JSONL schema merely to fill the slide. The collector copies the real internal/events.jsonl for inspection and later exact excerpts.
+**Show:** The right panel reads the captured fit log. The next slide shows a journal event with request metadata. Full transport traffic, including initialization, is separately captured by our collector in captures/wire.jsonl.
 
-**Author / capture:** The right panel reads the actual fit cell raw log, copied under captures/session-records/outputs. The excerpt provenance names the source file. The complete journal and both transcripts remain in captures/session-records; no paths or identifiers were normalized.
-
-**Sources:** [architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+**Sources:** [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
 
+## Preserve the request and its metadata {#recording-event .deck-slide .literal-slide .code-dense}
+::: {.kicker}
+
+Records and artifacts
+
+:::
+
+:::: {.code-panel}
+
+::: {.panel-label .path-label}
+
+internal/events.jsonl · actual event rendered as YAML
+
+:::
+
+```{r}
+#| eval: true
+#| echo: false
+#| results: asis
+console_source("event-yaml", "yaml")
+```
+
+::::
+
+::: {.notes}
+
+**Say:** This is a complete tool_call journal event from the capture, converted from JSON to YAML. The harness supplied progressToken and an example namespaced metadata object; both survived in request._meta. These are demonstration metadata, not a claim that every harness uses these keys. The event also records the request ID and Console sequence.
+
+**Show:** Call arguments and metadata stay together. The journal records send calls and results; our separate wire.jsonl contains the full JSON-RPC exchange.
+
+**Sources:** [Recorder](https://github.com/t-kalinowski/mcp-console/blob/main/src/transcript.rs)
+
+:::
 
 ## The Markdown contains code and results {#markdown-transcript .deck-slide .literal-slide .transcript-slide}
 ::: {.kicker}
@@ -2551,11 +2588,7 @@ console_source("quarto-cell", "markdown")
 
 ::::::
 
-::: {.takeaway}
 
-A reproducible starting point, not a memory checkpoint or control replay.
-
-:::
 
 ::: {.notes}
 
@@ -2583,7 +2616,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -2632,124 +2665,60 @@ Trusted launch input. One captured configuration per server session.
 :::
 
 
-## The sandbox runner is a separate executable {#external-runner .deck-slide}
+## Keep the sandbox behind a replaceable boundary {#external-runner .deck-slide}
 ::: {.kicker}
 
 Sandbox · configure the boundary
 
 :::
 
-<!-- inline-svg:assets/runner-policy.svg -->
-```{=html}
-<div class="embedded-diagram">
-<svg role="img" aria-label="The server captures YAML policy and launches a separately pinned native sandbox runner before relay and worker start." width="1420pt" height="257pt"
- viewBox="0.00 0.00 1420.00 257.00" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<g id="diagram-6-graph0" class="graph" transform="scale(1 1) rotate(0) translate(18 239)">
-<title>G</title>
-<g id="diagram-6-clust1" class="cluster">
-<title>cluster_sandbox</title>
-<path fill="transparent" stroke="#167d76" d="M1045,-96C1045,-96 1372,-96 1372,-96 1378,-96 1384,-102 1384,-108 1384,-108 1384,-201 1384,-201 1384,-207 1378,-213 1372,-213 1372,-213 1045,-213 1045,-213 1039,-213 1033,-207 1033,-201 1033,-201 1033,-108 1033,-108 1033,-102 1039,-96 1045,-96"/>
-<text text-anchor="middle" x="1208.5" y="-193.8" font-family="Arial" font-size="19.00" fill="#263d46">ENFORCED WORKLOAD BOUNDARY</text>
-</g>
-<!-- yaml -->
-<g id="diagram-6-node1" class="node">
-<title>yaml</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M166,-99C166,-99 12,-99 12,-99 6,-99 0,-93 0,-87 0,-87 0,-39 0,-39 0,-33 6,-27 12,-27 12,-27 166,-27 166,-27 172,-27 178,-33 178,-39 178,-39 178,-87 178,-87 178,-93 172,-99 166,-99"/>
-<text text-anchor="middle" x="89" y="-69.4" font-family="Arial" font-size="22.00" fill="#142d39">Project YAML</text>
-<text text-anchor="middle" x="89" y="-45.4" font-family="Arial" font-size="22.00" fill="#142d39">+ CLI overrides</text>
-</g>
-<!-- server -->
-<g id="diagram-6-node2" class="node">
-<title>server</title>
-<path fill="#d9eee9" stroke="#167d76" stroke-width="1.5" d="M461,-99C461,-99 322,-99 322,-99 316,-99 310,-93 310,-87 310,-87 310,-39 310,-39 310,-33 316,-27 322,-27 322,-27 461,-27 461,-27 467,-27 473,-33 473,-39 473,-39 473,-87 473,-87 473,-93 467,-99 461,-99"/>
-<text text-anchor="middle" x="391.5" y="-69.4" font-family="Arial" font-size="22.00" fill="#142d39">mcp&#45;console</text>
-<text text-anchor="middle" x="391.5" y="-45.4" font-family="Arial" font-size="22.00" fill="#142d39">trusted server</text>
-</g>
-<!-- yaml&#45;&gt;server -->
-<g id="diagram-6-edge2" class="edge">
-<title>yaml&#45;&gt;server</title>
-<path fill="none" stroke="#4c7571" stroke-width="1.7" d="M178.13,-63C217.34,-63 263.4,-63 302.58,-63"/>
-<polygon fill="#4c7571" stroke="#4c7571" stroke-width="1.7" points="302.82,-65.45 309.82,-63 302.82,-60.55 302.82,-65.45"/>
-<text text-anchor="middle" x="244" y="-68" font-family="Arial" font-size="15.00" fill="#445b64">capture once</text>
-</g>
-<!-- runner -->
-<g id="diagram-6-node3" class="node">
-<title>runner</title>
-<path fill="#f5e7dc" stroke="#b56844" stroke-width="1.5" d="M860,-176C860,-176 641,-176 641,-176 635,-176 629,-170 629,-164 629,-164 629,-116 629,-116 629,-110 635,-104 641,-104 641,-104 860,-104 860,-104 866,-104 872,-110 872,-116 872,-116 872,-164 872,-164 872,-170 866,-176 860,-176"/>
-<text text-anchor="middle" x="750.5" y="-146.4" font-family="Arial" font-size="22.00" fill="#142d39">mcp&#45;console&#45;sandbox</text>
-<text text-anchor="middle" x="750.5" y="-122.4" font-family="Arial" font-size="22.00" fill="#142d39">external native runner</text>
-</g>
-<!-- server&#45;&gt;runner -->
-<g id="diagram-6-edge3" class="edge">
-<title>server&#45;&gt;runner</title>
-<path fill="none" stroke="#4c7571" stroke-width="1.7" d="M473.06,-80.38C516.96,-89.84 572.31,-101.78 621.92,-112.48"/>
-<polygon fill="#4c7571" stroke="#4c7571" stroke-width="1.7" points="621.52,-114.9 628.88,-113.98 622.56,-110.11 621.52,-114.9"/>
-<text text-anchor="middle" x="551" y="-130" font-family="Arial" font-size="15.00" fill="#445b64">launch +</text>
-<text text-anchor="middle" x="551" y="-113" font-family="Arial" font-size="15.00" fill="#445b64">immutable policy</text>
-</g>
-<!-- resolvers -->
-<g id="diagram-6-node6" class="node">
-<title>resolvers</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M844.5,-72C844.5,-72 656.5,-72 656.5,-72 650.5,-72 644.5,-66 644.5,-60 644.5,-60 644.5,-12 644.5,-12 644.5,-6 650.5,0 656.5,0 656.5,0 844.5,0 844.5,0 850.5,0 856.5,-6 856.5,-12 856.5,-12 856.5,-60 856.5,-60 856.5,-66 850.5,-72 844.5,-72"/>
-<text text-anchor="middle" x="750.5" y="-42.4" font-family="Arial" font-size="22.00" fill="#142d39">ir / uv</text>
-<text text-anchor="middle" x="750.5" y="-18.4" font-family="Arial" font-size="22.00" fill="#142d39">trusted preparation</text>
-</g>
-<!-- server&#45;&gt;resolvers -->
-<g id="diagram-6-edge5" class="edge">
-<title>server&#45;&gt;resolvers</title>
-<path fill="none" stroke="#4c7571" stroke-width="1.7" stroke-dasharray="5,2" d="M473.06,-56.91C521.58,-53.24 584.07,-48.51 637.36,-44.48"/>
-<polygon fill="#4c7571" stroke="#4c7571" stroke-width="1.7" points="637.69,-46.91 644.49,-43.94 637.32,-42.03 637.69,-46.91"/>
-<text text-anchor="middle" x="551" y="-60" font-family="Arial" font-size="15.00" fill="#445b64">outside sandbox</text>
-</g>
-<!-- relay -->
-<g id="diagram-6-node4" class="node">
-<title>relay</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M1116,-164C1116,-164 1063,-164 1063,-164 1057,-164 1051,-158 1051,-152 1051,-152 1051,-128 1051,-128 1051,-122 1057,-116 1063,-116 1063,-116 1116,-116 1116,-116 1122,-116 1128,-122 1128,-128 1128,-128 1128,-152 1128,-152 1128,-158 1122,-164 1116,-164"/>
-<text text-anchor="middle" x="1089.5" y="-134.4" font-family="Arial" font-size="22.00" fill="#142d39">relay</text>
-</g>
-<!-- runner&#45;&gt;relay -->
-<g id="diagram-6-edge4" class="edge">
-<title>runner&#45;&gt;relay</title>
-<path fill="none" stroke="#4c7571" stroke-width="1.7" d="M872.21,-140C931.79,-140 1000.05,-140 1043.69,-140"/>
-<polygon fill="#4c7571" stroke="#4c7571" stroke-width="1.7" points="1043.74,-142.45 1050.74,-140 1043.74,-137.55 1043.74,-142.45"/>
-<text text-anchor="middle" x="956.5" y="-145" font-family="Arial" font-size="15.00" fill="#445b64">enforce, then exec</text>
-</g>
-<!-- worker -->
-<g id="diagram-6-node5" class="node">
-<title>worker</title>
-<path fill="#ffffff" stroke="#a9b6b6" stroke-width="1.5" d="M1354,-176C1354,-176 1185,-176 1185,-176 1179,-176 1173,-170 1173,-164 1173,-164 1173,-116 1173,-116 1173,-110 1179,-104 1185,-104 1185,-104 1354,-104 1354,-104 1360,-104 1366,-110 1366,-116 1366,-116 1366,-164 1366,-164 1366,-170 1360,-176 1354,-176"/>
-<text text-anchor="middle" x="1269.5" y="-146.4" font-family="Arial" font-size="22.00" fill="#142d39">worker</text>
-<text text-anchor="middle" x="1269.5" y="-122.4" font-family="Arial" font-size="22.00" fill="#142d39">R / Python / SQL</text>
-</g>
-<!-- relay&#45;&gt;worker -->
-<g id="diagram-6-edge1" class="edge">
-<title>relay&#45;&gt;worker</title>
-<path fill="none" stroke="#4c7571" stroke-width="1.7" d="M1128.25,-140C1139.55,-140 1152.52,-140 1165.9,-140"/>
-<polygon fill="#4c7571" stroke="#4c7571" stroke-width="1.7" points="1165.94,-142.45 1172.94,-140 1165.94,-137.55 1165.94,-142.45"/>
-</g>
-</g>
-</svg>
-</div>
-```
-<!-- /inline-svg -->
+:::::: {.two-col}
+
+::::: {.left}
+
+::: {.ownership-card}
+
+Console
+
+Reads the project configuration.
+
+Starts and communicates with the worker.
+
+:::
+
+:::::
+
+::::: {.right}
+
+::: {.ownership-card}
+
+Sandbox implementation
+
+The native runner is a standalone binary.
+
+It applies the OS restrictions and launches the workload.
+
+:::
+
+:::::
+
+::::::
+
 ::: {.takeaway}
 
-Console owns session policy input; the runner owns native validation and enforcement.
+The execution boundary can change while the Console interface stays the same.
 
 :::
 
 ::: {.notes}
 
-**Say:** This is an external runner, not sandbox code duplicated inside each language adapter. Console ships a separately compiled, pinned executable based on the Codex sandbox code. The launcher verifies its bundled identity and gives it immutable launch settings; it does not download sandbox code when a cell runs.
+**Say:** Native means the standalone mcp-console-sandbox executable that applies the platform’s restrictions. Console supplies policy and launches the workload through that boundary. Keeping it separate allows the sandbox implementation to evolve independently. The implemented alternative is the compute provider used by Docker Sandbox, shown later. A different native executable must implement the runner protocol; this is not a promise that an arbitrary command is a drop-in replacement.
 
-**Show:** Show the physical executable boundary and the policy path into it. Keep the resolver outside the worker sandbox. The native runner is distinct from Docker Sandbox’s compute provider.
+The native external-sandbox filesystem mode means an existing outer environment supplies enforcement. It does not create that environment. This detail belongs in configuration reference material rather than a separate slide.
 
-**Author / capture:** Inspected runner manifest: t-kalinowski/codex, rust-v0.154.0, commit 2d0ad797210de821c07d1f18e4f1ffdcf06589cb, protocol 2. Check the manifest on the local presentation revision.
-
-**Sources:** [runner](https://github.com/t-kalinowski/mcp-console/blob/main/sandbox-runner.json) · [architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Runner protocol](https://github.com/t-kalinowski/codex/blob/2d0ad797210de821c07d1f18e4f1ffdcf06589cb/codex-rs/mcp-console-sandbox/PROTOCOL.md)
 
 :::
-
 
 ## Control the workload’s environment {#environment-choice .deck-slide .config-slide .code-dense}
 ::: {.kicker}
@@ -2764,7 +2733,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -2799,11 +2768,7 @@ Selected runtime bindings remain Console-owned.
 :::::
 
 ::::::
-::: {.takeaway}
 
-Workload environment ≠ resolver environment.
-
-:::
 
 ::: {.notes}
 
@@ -2814,77 +2779,6 @@ Workload environment ≠ resolver environment.
 **Author / capture:** This limits inherited variables, not filesystem access to secrets. Local resolver settings come from the trusted server launch environment; SSH runtime exceptions are documented separately.
 
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## Choose a concrete runtime before launch {#runtime-combinations .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Trusted launcher environment · local execution
-
-:::
-
-```sh
-R_HOME=/opt/R/4.5/lib/R \
-R_LIBS_USER=/srv/r-library \
-RETICULATE_PYTHON=/srv/venv/bin/python \
-  mcp-console serve
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-extends: ":read-only"
-sandbox:
-  environment:
-    OMP_NUM_THREADS: "4"
-```
-
-::::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-Keep runtime selection separate from ordinary worker environment overrides.
-
-:::
-
-::: {.notes}
-
-**Say:** A concrete installation and managed package preparation are different choices. Select the local runtime in trusted launch configuration. An explicitly selected Python environment disables managed Python additions; absence of a resolver bootstrap gives a bare runtime. This is not a new YAML environments schema.
-
-**Show:** Show actual launch variables beside ordinary workload YAML. The paths are placeholders to replace locally, not portable R distribution paths.
-
-**Author / capture:** Python-without-R remains an intended presentation-day capability. Do not invent a languages or environments YAML key: the inspected Project struct accepts extends, sandbox, target only. A local agent can add a real language selector example once implemented.
-
-**Sources:** [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 
@@ -2902,7 +2796,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -2931,11 +2825,7 @@ Direct worker network: restricted.
 :::::
 
 ::::::
-::: {.takeaway}
 
-Read-only is not a confidentiality policy.
-
-:::
 
 ::: {.notes}
 
@@ -2961,7 +2851,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -2990,11 +2880,7 @@ Network: still restricted.
 :::::
 
 ::::::
-::: {.takeaway}
 
-Default protections are not immutable deny ceilings.
-
-:::
 
 ::: {.notes}
 
@@ -3020,7 +2906,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -3086,7 +2972,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -3143,71 +3029,6 @@ Different access modes express different capabilities.
 :::
 
 
-## Keep scratch private, not shared {#temporary-storage .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-extends: ":workspace"
-sandbox:
-  workspace_options:
-    exclude_slash_tmp: true
-    exclude_tmpdir_env_var: true
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-::: {.ownership-card}
-
-No shared /tmp write grant.
-
-No inherited TMPDIR write grant.
-
-Runner-owned private scratch remains writable.
-
-:::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-Scratch space and persistent output have separate lifetimes.
-
-:::
-
-::: {.notes}
-
-**Say:** These are real native workspace options. Console defaults both to true for the workspace profile. Private temporary storage is still available for plots, caches, and ordinary runtime work, then retired with the owned sandbox.
-
-**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
-
-**Author / capture:** Do not confuse exclude_tmpdir_env_var with removing TMPDIR entirely. Console selects its private scratch location. Explicit null workspace_options chooses native defaults and has different behavior.
-
-**Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
 ## Enable direct networking explicitly {#network-direct .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
@@ -3221,7 +3042,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -3282,7 +3103,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -3301,7 +3122,7 @@ sandbox:
     allowLocalBinding: false
     mode: full
     domains:
-      api.example.com: allow
+      warehouse.example.com: allow
       blocked.example.com: deny
 ```
 
@@ -3315,9 +3136,9 @@ sandbox:
 
 Route worker traffic through the managed proxy.
 
-Allow api.example.com.
+Allow the corporate warehouse host.
 
-Explicitly deny blocked.example.com.
+Use its HTTPS database API, or a SOCKS-aware database connection.
 
 :::
 
@@ -3326,13 +3147,15 @@ Explicitly deny blocked.example.com.
 ::::::
 ::: {.takeaway}
 
-Package installation does not need this worker allowlist.
+The client still supplies its usual database credentials.
 
 :::
 
 ::: {.notes}
 
-**Say:** This complete proxy configuration shows both the allowlist and the surrounding controls. The runner owns proxy routing, host normalization, and enforcement. A proxy object must include the required scalar fields; Console does not materialize omitted defaults for it.
+**Say:** For example, a corporate warehouse can expose an HTTPS query endpoint at the allowed host. A database using another TCP protocol needs a SOCKS-aware client or an explicitly configured SOCKS tunnel; a domain allowlist does not rewrite arbitrary database drivers. Network reachability and database authentication remain separate. For a database on a private IP, the pinned proxy requires a literal allowed IP matching the destination (or the broader local-binding exception); a hostname allowlist alone does not grant private-address access. The placeholder host is illustrative and was not contacted.
+
+ This complete proxy configuration shows both the allowlist and the surrounding controls. The runner owns proxy routing, host normalization, and enforcement. A proxy object must include the required scalar fields; Console does not materialize omitted defaults for it.
 
 **Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
 
@@ -3343,7 +3166,7 @@ Package installation does not need this worker allowlist.
 :::
 
 
-## Permit a local listener when the task needs one {#network-listener .deck-slide .config-slide .code-dense}
+## Develop a local Shiny app {#network-listener .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
 Sandbox · configure the boundary
@@ -3356,7 +3179,7 @@ Sandbox · configure the boundary
 
 :::: {.code-panel}
 
-::: {.panel-label}
+::: {.panel-label .path-label}
 
 .agents/console/config.yaml
 
@@ -3388,9 +3211,9 @@ sandbox:
 
 allowLocalBinding: true
 
-A deliberate native networking exception.
+Run Shiny on the loopback interface.
 
-Not automatic tunnel setup or published access.
+Open `http://127.0.0.1:8000` in your browser.
 
 :::
 
@@ -3399,210 +3222,21 @@ Not automatic tunnel setup or published access.
 ::::::
 ::: {.takeaway}
 
-Local binding is an explicit capability, not a default.
+`shiny::runApp("app", host = "127.0.0.1", port = 8000)`
 
 :::
 
 ::: {.notes}
 
-**Say:** An interactive local server can need a binding exception. The policy exposes that choice separately from the domain allowlist. Do not conflate permission to bind with permission to publish a remote service, create a tunnel, or expose every Unix socket.
+**Say:** This configuration supports local Shiny development: the worker can bind the loopback port while outbound requests use the managed proxy. Start an app at app/ with shiny::runApp and open its URL locally. A long-running app uses the wait, poll, and interrupt contract introduced earlier.
+
+ An interactive local server can need a binding exception. The policy exposes that choice separately from the domain allowlist. Do not conflate permission to bind with permission to publish a remote service, create a tunnel, or expose every Unix socket.
 
 **Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
 
 **Author / capture:** Validate the exact native behavior with the application used for the demo. This slide does not promise a Shiny viewer or automatic port forwarding. Keep all required proxy fields when changing a single flag.
 
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## Override one launch; do not mutate live policy {#config-overrides .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-extends: ":read-only"
-sandbox:
-  filesystem:
-    entries:
-      - path: {type: path, path: ./output}
-        access: write
-```
-
-::::
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Trusted launcher · one-run overrides
-
-:::
-
-```sh
-mcp-console serve -c extends=:workspace \
-  -c sandbox.environment.OMP_NUM_THREADS='"2"'
-```
-
-::::
-::: {.takeaway}
-
-Mappings merge. Lists replace. Restart reuses the captured policy.
-
-:::
-
-::: {.notes}
-
-**Say:** The file is the starting point. Repeated -c overrides merge in command-line order, and the final configuration is validated. The worker cannot change accepted launch policy by editing a file or printing configuration-shaped text. A new server session is required to read changed settings.
-
-**Show:** Read the override as a launcher operation, not a tool call. Point out the shell quoting needed to preserve a string for OMP_NUM_THREADS. This example changes the profile deliberately without editing the file.
-
-**Sources:** [config](https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## Native restrictions and external enforcement differ {#enforcement-modes .deck-slide .config-slide}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Native full filesystem · restricted network
-
-:::
-
-```yaml
-sandbox:
-  filesystem:
-    kind: unrestricted
-  network: restricted
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Delegate enforcement · does not create a sandbox
-
-:::
-
-```yaml
-sandbox:
-  filesystem:
-    kind: external-sandbox
-  network: restricted
-```
-
-::::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-external-sandbox does not mean “native sandbox, only looser.”
-
-:::
-
-::: {.notes}
-
-**Say:** unrestricted and external-sandbox are different filesystem kinds. Unrestricted keeps the native network selection but removes filesystem restrictions and metadata protections. Without a proxy, external-sandbox delegates both filesystem and network enforcement to an outer boundary; network: restricted does not add a native block there.
-
-**Show:** Contrast the two valid configurations. The right-hand file is not safe merely because restricted appears in it. Use it only where a real outer boundary is provided; the runner does not verify one exists.
-
-**Author / capture:** Full filesystem access can undermine other restrictions indirectly and lies outside the restricted-policy isolation guarantee. Never use this slide to imply hostile workloads are contained in unrestricted mode.
-
-**Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## Expose the knobs without inventing a second policy engine {#knob-ownership .deck-slide .config-slide}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Native runner selection · Linux only
-
-:::
-
-```yaml
-extends: ":read-only"
-sandbox:
-  provider: native
-  linux_backend: bubblewrap
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-::: {.ownership-card}
-
-Native policy validation: runner.
-
-Session lifecycle settings: Console.
-
-Compute-provider policy: provider.
-
-:::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-A rejected policy fails startup; it does not silently weaken the boundary.
-
-:::
-
-::: {.notes}
-
-**Say:** Console forwards native policy values rather than maintaining a second allowlist of all native fields. Some settings, such as lifecycle ownership, are reserved for the launcher. Linux backend selection is explicit; a namespace failure is not permission to silently fall back to unsandboxed execution.
-
-**Show:** Use the ordinary supervised Linux backend as the concrete example. Keep special standalone complete-policy and Landlock details in notes rather than suggesting they are interchangeable serve modes.
-
-**Author / capture:** Current standalone runner also exposes explicit Landlock without process supervision; it rejects cleanup/private-temp/proxy combinations needed by ordinary serve. Do not present linux_backend: landlock as an equivalent working server configuration. macOS rejects linux_backend.
-
-**Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [settings](https://github.com/t-kalinowski/mcp-console/blob/main/src/settings.rs)
 
 :::
 
@@ -3647,7 +3281,7 @@ Model requests a dependency
 :::
 
 ```python
-send(
+console.send(
     r="library(dtplyr)",
     requirements={"r": ["dtplyr"]},
 )
@@ -3734,6 +3368,257 @@ send(
 **Sources:** [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md) · [architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
+
+
+## SSH: the same policy, materialized remotely {#ssh .deck-slide .config-slide .code-dense}
+::: {.kicker}
+
+Sandbox · configure the boundary
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label .path-label}
+
+.agents/console/config.yaml
+
+:::
+
+```yaml
+extends: ":workspace"
+target:
+  transport:
+    kind: ssh
+    host: analysis-host
+  workspace: /srv/projects/analysis
+sandbox:
+  filesystem:
+    entries:
+      - path: {type: path, path: ./data}
+        access: read
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+::: {.ownership-card}
+
+Remote workspace and relative paths.
+
+Remote runner and resolver.
+
+Local MCP server and recordings.
+
+:::
+
+:::::
+
+::::::
+
+
+::: {.notes}
+
+**Say:** The target selects where execution happens; it does not grant permissions. Console reads YAML locally, captures it, and materializes the native policy on the SSH host. Dependencies are prepared there, while the controller retains the session record.
+
+**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
+
+**Author / capture:** analysis-host must be a configured OpenSSH destination; /srv/projects/analysis and data must already exist. SSH+Docker composition is not supported in this revision.
+
+**Sources:** [ssh](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+
+:::
+
+
+## Docker: explicit image, workspace, and binds {#docker .deck-slide .config-slide .code-dense}
+::: {.kicker}
+
+Sandbox · configure the boundary
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label .path-label}
+
+.agents/console/config.yaml
+
+:::
+
+```yaml
+target:
+  workspace: /workspace
+  compute:
+    kind: docker
+    image: my-console:analysis
+    pull: if_missing
+    mounts:
+      - source: .
+        target: /workspace
+        access: read_write
+sandbox:
+  filesystem: {kind: external-sandbox}
+  network: enabled
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+::: {.ownership-card}
+
+Image supplies runtimes and packages.
+
+Project bind is explicitly writable.
+
+Outer Docker boundary owns enforcement.
+
+:::
+
+:::::
+
+::::::
+::: {.takeaway}
+
+A writable bind may expose controller records to worker writes.
+
+:::
+
+::: {.notes}
+
+**Say:** An ordinary Docker image is a prepared execution environment. Dynamic preparation is disabled. This example deliberately delegates to the container boundary; it does not retain native metadata protection inside a writable project bind.
+
+**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
+
+**Author / capture:** Build my-console:analysis first. Source paths are interpreted by the selected Docker daemon. Native sandboxing inside Docker is a separate supported selection where host capabilities permit it; no privileged-mode fallback is implied.
+
+**Sources:** [docker](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+
+:::
+
+
+## Docker Sandbox uses the compute provider {#docker-sandbox .deck-slide .config-slide .code-dense}
+::: {.kicker}
+
+Sandbox · configure the boundary
+
+:::
+
+:::::: {.two-col}
+
+::::: {.left}
+
+:::: {.code-panel}
+
+::: {.panel-label .path-label}
+
+.agents/console/config.yaml
+
+:::
+
+```yaml
+target:
+  workspace: /srv/analysis
+  compute:
+    kind: docker_sandbox
+    template: >-
+      registry.example.com/console@sha256:<64-hex-digest>
+    mounts:
+      - source: /srv/analysis
+        target: /srv/analysis
+        access: read_write
+sandbox:
+  provider: compute
+  environment:
+    ANALYSIS_MODE: interactive
+```
+
+::::
+
+:::::
+
+::::: {.right}
+
+::: {.ownership-card}
+
+sbx creates an owned microVM.
+
+Digest-qualified prepared template.
+
+Provider policy, not native-runner YAML.
+
+:::
+
+:::::
+
+::::::
+
+
+::: {.notes}
+
+**Say:** Docker Sandbox is not ordinary Docker. The compute provider owns its boundary and accepts only environment and inheritance controls under sandbox. The native runner is not invoked on this path, and native filesystem, proxy, or extends settings are rejected.
+
+**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
+
+**Author / capture:** Replace <64-hex-digest> and paths with actual values. Prepare/import the template and provider policy separately. The tested SBX version requires the first shared path to be read/write. No dynamic dependency preparation in the template-backed worker.
+
+**Sources:** [sbx](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER_SANDBOX.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+
+:::
+
+
+## The call stays the same {#target-invariance .deck-slide}
+::: {.kicker}
+
+Execution targets
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+send
+
+:::
+
+```python
+console.send(r="coef(fit)")
+```
+
+:::
+
+::: {.target-line}
+
+Local host &nbsp; / &nbsp; SSH &nbsp; / &nbsp; Docker &nbsp; / &nbsp; Docker Sandbox
+
+:::
+
+
+
+::: {.notes}
+
+**Say:** Across targets, the model still submits cells, receives bounded results, and uses the same controls. Available environments and preparation capabilities can differ and the live schema reflects that. The claim is a stable interaction model, not identical permissions or package-management behavior everywhere.
+
+**Show:** Return to one familiar call with four destinations beneath it. This is the bridge into client integrations: both the client above and execution target below can vary without changing the central idea.
+
+**Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
+
+:::
+
 
 
 ## The process topology {#process-topology .deck-slide}
@@ -3896,11 +3781,7 @@ Language evaluation
 
 :::::
 
-::: {.takeaway}
 
-Restart replaces computation, not the entire session coordinator.
-
-:::
 
 ::: {.notes}
 
@@ -3983,11 +3864,7 @@ Architecture
 ```
 <!-- /inline-svg -->
 
-::: {.takeaway}
 
-Runtime state is explicit; a printed prompt is not the protocol.
-
-:::
 
 ::: {.notes}
 
@@ -3996,269 +3873,6 @@ Runtime state is explicit; a printed prompt is not the protocol.
 **Show:** Use the stream diagram. It should make the distinction introduced by stdin visually concrete. This is not a deep dive into JSONL framing or file-descriptor bootstrap details.
 
 **Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Vision / intended design](https://github.com/t-kalinowski/mcp-console/blob/main/design-sketches/VISION.md)
-
-:::
-
-
-
-## SSH: the same policy, materialized remotely {#ssh .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-extends: ":workspace"
-target:
-  transport:
-    kind: ssh
-    host: analysis-host
-  workspace: /srv/projects/analysis
-sandbox:
-  filesystem:
-    entries:
-      - path: {type: path, path: ./data}
-        access: read
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-::: {.ownership-card}
-
-Remote workspace and relative paths.
-
-Remote runner and resolver.
-
-Local MCP server and recordings.
-
-:::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-An SSH destination is not a file synchronization service.
-
-:::
-
-::: {.notes}
-
-**Say:** The target selects where execution happens; it does not grant permissions. Console reads YAML locally, captures it, and materializes the native policy on the SSH host. Dependencies are prepared there, while the controller retains the session record.
-
-**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
-
-**Author / capture:** analysis-host must be a configured OpenSSH destination; /srv/projects/analysis and data must already exist. SSH+Docker composition is not supported in this revision.
-
-**Sources:** [ssh](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## Docker: explicit image, workspace, and binds {#docker .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-target:
-  workspace: /workspace
-  compute:
-    kind: docker
-    image: my-console:analysis
-    pull: if_missing
-    mounts:
-      - source: .
-        target: /workspace
-        access: read_write
-sandbox:
-  filesystem: {kind: external-sandbox}
-  network: enabled
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-::: {.ownership-card}
-
-Image supplies runtimes and packages.
-
-Project bind is explicitly writable.
-
-Outer Docker boundary owns enforcement.
-
-:::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-A writable bind may expose controller records to worker writes.
-
-:::
-
-::: {.notes}
-
-**Say:** An ordinary Docker image is a prepared execution environment. Dynamic preparation is disabled. This example deliberately delegates to the container boundary; it does not retain native metadata protection inside a writable project bind.
-
-**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
-
-**Author / capture:** Build my-console:analysis first. Source paths are interpreted by the selected Docker daemon. Native sandboxing inside Docker is a separate supported selection where host capabilities permit it; no privileged-mode fallback is implied.
-
-**Sources:** [docker](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## Docker Sandbox uses the compute provider {#docker-sandbox .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Sandbox · configure the boundary
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-target:
-  workspace: /srv/analysis
-  compute:
-    kind: docker_sandbox
-    template: >-
-      registry.example.com/console@sha256:<64-hex-digest>
-    mounts:
-      - source: /srv/analysis
-        target: /srv/analysis
-        access: read_write
-sandbox:
-  provider: compute
-  environment:
-    ANALYSIS_MODE: interactive
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-::: {.ownership-card}
-
-sbx creates an owned microVM.
-
-Digest-qualified prepared template.
-
-Provider policy, not native-runner YAML.
-
-:::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-Host and guest share paths match; they are not remapped.
-
-:::
-
-::: {.notes}
-
-**Say:** Docker Sandbox is not ordinary Docker. The compute provider owns its boundary and accepts only environment and inheritance controls under sandbox. The native runner is not invoked on this path, and native filesystem, proxy, or extends settings are rejected.
-
-**Show:** Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.
-
-**Author / capture:** Replace <64-hex-digest> and paths with actual values. Prepare/import the template and provider policy separately. The tested SBX version requires the first shared path to be read/write. No dynamic dependency preparation in the template-backed worker.
-
-**Sources:** [sbx](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER_SANDBOX.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
-
-## The call stays the same {#target-invariance .deck-slide}
-::: {.kicker}
-
-Execution targets
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-send
-
-:::
-
-```python
-send(r="coef(fit)")
-```
-
-:::
-
-::: {.target-line}
-
-Local host &nbsp; / &nbsp; SSH &nbsp; / &nbsp; Docker &nbsp; / &nbsp; Docker Sandbox
-
-:::
-
-::: {.takeaway}
-
-Execution policy changes. The model-facing operation does not.
-
-:::
-
-::: {.notes}
-
-**Say:** Across targets, the model still submits cells, receives bounded results, and uses the same controls. Available environments and preparation capabilities can differ and the live schema reflects that. The claim is a stable interaction model, not identical permissions or package-management behavior everywhere.
-
-**Show:** Return to one familiar call with four destinations beneath it. This is the bridge into client integrations: both the client above and execution target below can vary without changing the central idea.
-
-**Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 :::
 
@@ -4323,13 +3937,14 @@ Python · preserve the server-provided schema
 
 :::
 
-```python
+```{.python code-line-numbers="2,5-7"}
 from chatlas import ChatOpenAI
-from mcp_console import MCPConsole, chatlas
+import mcp_console
 
 chat = ChatOpenAI()
-with MCPConsole() as console:
-    chat.set_tools([*chat.get_tools(), chatlas.tool(console)])
+with mcp_console.MCPConsole() as console:
+    tool = mcp_console.chatlas.tool(console)
+    chat.set_tools([*chat.get_tools(), tool])
     chat.chat("Analyze measurements.csv with Console.")
 ```
 
@@ -4353,18 +3968,18 @@ The same registration pattern in Python.
 
 
 
-## Codex {#codex .deck-slide .integration}
+## Register Console with your CLI client {#codex .deck-slide .integration}
 ::: {.kicker}
 
 Use your existing client
 
 :::
 
-::: {.code-panel}
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-CLI registration
+Codex CLI
 
 :::
 
@@ -4372,41 +3987,30 @@ CLI registration
 codex mcp add console -- uvx mcp-console serve
 ```
 
-:::
-
-::: {.code-panel}
+::::
+:::: {.code-panel}
 
 ::: {.panel-label}
 
-Equivalent stdio configuration
+Claude Code CLI · the same Console installation
 
 :::
 
-```toml
-[mcp_servers.console]
-command = "uvx"
-args = ["mcp-console", "serve"]
+```bash
+claude mcp add console -- uvx mcp-console serve
 ```
 
-:::
-
-::: {.takeaway}
-
-Use a real expanded tool exchange in the recording, not a UI tour.
-
-:::
+::::
 
 ::: {.notes}
 
-**Say:** Codex can launch Console through its MCP stdio configuration. The CLI command and configuration table are two alternatives, not two required steps. In the recording use the client surface you normally use, but make the model’s arguments and tool results legible rather than focusing on the application chrome. Client-side timeouts are separate from Console’s wait contract.
+**Say:** Both clients can launch the same Console server over MCP stdio. Run the registration command for the client you use. Client-side deadlines remain separate from Console’s wait timeout.
 
-**Show:** Show the registration line and its equivalent configuration. Do not fabricate a Codex screenshot or imply that this local stdio configuration automatically applies to unrelated hosted web clients. Verify image visibility and client deadlines when capturing the final run.
+**Show:** The launcher and server arguments are identical. The commands were checked against the installed CLI help; no configuration was changed.
 
-**Sources:** [Official Codex MCP documentation](https://developers.openai.com/codex/mcp/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
+**Sources:** [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
 
 :::
-
-
 
 ## Anthropic Python SDK {#anthropic .deck-slide .integration .code-dense}
 ::: {.kicker}
@@ -4423,12 +4027,12 @@ Native MCP tools · inside your async application
 
 :::
 
-```python
+```{.python code-line-numbers="2,5"}
 from anthropic import AsyncAnthropic
-from mcp_console import anthropic as console_anthropic
+import mcp_console
 
 client = AsyncAnthropic()
-async with console_anthropic.tools() as tools:
+async with mcp_console.anthropic.tools() as tools:
     runner = client.beta.messages.tool_runner(
         model=model_id,
         max_tokens=4096,
@@ -4474,10 +4078,10 @@ Synchronous client
 
 :::
 
-```python
-from mcp_console import MCPConsole
+```{.python code-line-numbers="1,3-4,7"}
+import mcp_console
 
-with MCPConsole() as console:
+with mcp_console.MCPConsole() as console:
     result = console.send(r="sum(1:10)")
     print(result)
 
@@ -4487,11 +4091,7 @@ with MCPConsole() as console:
 
 :::
 
-::: {.takeaway}
 
-No model is required to drive the same console contract.
-
-:::
 
 ::: {.notes}
 
@@ -4520,13 +4120,13 @@ Registration excerpt · the application owns the tool loop
 
 :::
 
-```python
+```{.python code-line-numbers="2,5-6"}
 from openai import OpenAI
-from mcp_console import MCPConsole, openai as console_openai
+import mcp_console
 
 client = OpenAI()
-with MCPConsole() as console:
-    tool = console_openai.responses_tool(console)
+with mcp_console.MCPConsole() as console:
+    tool = mcp_console.openai.responses_tool(console)
     response = client.responses.create(
         model=model_id,
         input=prompt,
@@ -4843,7 +4443,7 @@ Closing
 
 ::: {.big-statement}
 
-One `send()`.<br>A full interactive runtime.
+One `console.send()`.<br>A full interactive runtime.
 
 :::
 
@@ -4902,11 +4502,7 @@ Exercise from Python
 
 :::::
 
-::: {.takeaway}
 
-The main acceptance surface is the built process, not its private modules.
-
-:::
 
 ::: {.notes}
 
@@ -5271,11 +4867,7 @@ git diff -- tests/snapshots/
 
 :::
 
-::: {.takeaway}
 
-A changed expectation requires review; regeneration is not approval.
-
-:::
 
 ::: {.notes}
 

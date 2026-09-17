@@ -4,7 +4,7 @@ Supply MODEL_ID and OPENAI_API_KEY. This performs real provider calls when run.
 from pathlib import Path
 import os
 from openai import OpenAI
-from mcp_console import MCPConsole, openai as console_openai
+import mcp_console
 
 
 def main() -> None:
@@ -13,8 +13,8 @@ def main() -> None:
         raise SystemExit("Set MODEL_ID to a model available in your OpenAI account.")
     os.chdir(Path(__file__).resolve().parent)
     prompt = "Use Console to analyze measurements.csv, compare groups, and inspect a plot. The data are synthetic."
-    with OpenAI() as client, MCPConsole() as console:
-        tool = console_openai.responses_tool(console)
+    with OpenAI() as client, mcp_console.MCPConsole() as console:
+        tool = mcp_console.openai.responses_tool(console)
         response = client.responses.create(
             model=model_id, input=prompt, tools=[tool.definition]
         )

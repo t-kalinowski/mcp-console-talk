@@ -8,7 +8,7 @@
     "live_target_required": false
   },
   "runtime-combinations.yaml": {
-    "slide": "runtime-combinations",
+    "slide": null,
     "live_target_required": false
   },
   "default-sandbox.yaml": {
@@ -28,7 +28,7 @@
     "live_target_required": false
   },
   "temporary-storage.yaml": {
-    "slide": "temporary-storage",
+    "slide": null,
     "live_target_required": false
   },
   "network-direct.yaml": {
@@ -44,19 +44,19 @@
     "live_target_required": false
   },
   "config-overrides.yaml": {
-    "slide": "config-overrides",
+    "slide": null,
     "live_target_required": false
   },
   "enforcement-modes-1.yaml": {
-    "slide": "enforcement-modes",
+    "slide": null,
     "live_target_required": false
   },
   "enforcement-modes-2.yaml": {
-    "slide": "enforcement-modes",
+    "slide": null,
     "live_target_required": false
   },
   "knob-ownership.yaml": {
-    "slide": "knob-ownership",
+    "slide": null,
     "live_target_required": false
   },
   "resolver-boundary.yaml": {

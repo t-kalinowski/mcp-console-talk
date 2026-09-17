@@ -9,8 +9,8 @@ This document is an append-only chronological record of MCP Console events.
 ```json
 {
   "session": "default",
-  "run_id": "20260917T143513.748522000Z-0000018214",
-  "started_at": "2026-09-17T14:35:13.748522000Z",
+  "run_id": "20260917T152544.739385000Z-0000093055",
+  "started_at": "2026-09-17T15:25:44.739385000Z",
   "working_directory": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk"
 }
 ```
@@ -38,13 +38,33 @@ invisible(NULL)
 ## Call 2: R
 
 ```r
-d <- read.csv("examples/measurements.csv")
-fit <- lm(response ~ temperature + group,
-          data = d)
-fit
+invisible(loadNamespace("inline"))
+```
+
+### Options
+
+```json
+{
+  "timeout_ms": 30000
+}
 ```
 
 ## Result for call 2
+
+```text
+[done]
+```
+
+## Call 3: R
+
+```r
+  d <- read.csv("examples/measurements.csv")
+  fit <- lm(response ~ temperature + group,
+            data = d)
+  fit
+```
+
+## Result for call 3
 
 ```text
 
@@ -57,58 +77,58 @@ Coefficients:
 
 ```
 
-## Call 3: R
+## Call 4: R
 
 ```r
 coef(fit)
 ```
 
-## Result for call 3
+## Result for call 4
 
 ```text
 (Intercept) temperature      groupB 
    6.888528    1.007196    1.273078 
 ```
 
-## Call 4: R
+## Call 5: R
 
 ```r
 head(predict(fit, d), 3)
 ```
 
-## Result for call 4
+## Result for call 5
 
 ```text
        1        2        3 
 33.41605 31.94653 23.89100 
 ```
 
-## Call 5: R
-
-```r
-plot(d$temperature, d$response,
-     xlab = "Temperature",
-     ylab = "Response")
-```
-
-## Artifact 1 for call 5
-
-[Artifact 1 from call 5](<artifacts/call-000005-image-000001.png>)
-
-## Result for call 5
-
-![Artifact 1](<artifacts/call-000005-image-000001.png>)
-
 ## Call 6: R
 
 ```r
-for (i in 1:20) {
-  cat(sprintf("\rfit [%s%s] %3d%%",
-      strrep("=", i), strrep(" ", 20 - i), i * 5))
-  flush.console()
-  Sys.sleep(0.15)
-}
-cat("\n")
+  plot(d$temperature, d$response,
+       xlab = "Temperature",
+       ylab = "Response")
+```
+
+## Artifact 1 for call 6
+
+[Artifact 1 from call 6](<artifacts/call-000006-image-000001.png>)
+
+## Result for call 6
+
+![Artifact 1](<artifacts/call-000006-image-000001.png>)
+
+## Call 7: R
+
+```r
+  for (i in 1:20) {
+    cat(sprintf("\rfit [%s%s] %3d%%",
+        strrep("=", i), strrep(" ", 20 - i), i * 5))
+    flush.console()
+    Sys.sleep(0.15)
+  }
+  cat("\n")
 ```
 
 ### Options
@@ -119,27 +139,10 @@ cat("\n")
 }
 ```
 
-## Result for call 6
-
-```text
-fit [===                 ]  15%
-[running; poll with an empty send]
-```
-
-## Call 7: Poll
-
-### Options
-
-```json
-{
-  "timeout_ms": 600
-}
-```
-
 ## Result for call 7
 
 ```text
-fit [=======             ]  35%
+fit [===                 ]  15%
 [running; poll with an empty send]
 ```
 
@@ -149,44 +152,61 @@ fit [=======             ]  35%
 
 ```json
 {
-  "timeout_ms": 5000
+  "timeout_ms": 600
 }
 ```
 
 ## Result for call 8
 
 ```text
-fit [====================] 100%
+fit [=======             ]  35%
+[running; poll with an empty send]
 ```
 
-## Call 9: R
+## Call 9: Poll
 
-```r
-cat("download 0%\rdownload 50%\rdownload 100%\n")
+### Options
+
+```json
+{
+  "timeout_ms": 5000
+}
 ```
 
 ## Result for call 9
 
 ```text
-download 100%
+fit [====================] 100%
 ```
 
 ## Call 10: R
 
 ```r
-for (i in seq_len(10000)) {
-  cat(sprintf("row %05d\n", i))
-}
-cat("fit complete\n")
+cat("download 0%\rdownload 50%\rdownload 100%\n")
 ```
 
-## Retained output for call 10
+## Result for call 10
 
-[Retained text output for call 10](<outputs/call-000010.log>)
+```text
+download 100%
+```
+
+## Call 11: R
+
+```r
+  for (i in seq_len(10000)) {
+    cat(sprintf("row %05d\n", i))
+  }
+  cat("fit complete\n")
+```
+
+## Retained output for call 11
+
+[Retained text output for call 11](<outputs/call-000011.log>)
 
 100013 raw bytes retained; 92205 rendered UTF-8 bytes omitted from inline responses; 0 raw bytes not retained in this file.
 
-## Result for call 10
+## Result for call 11
 
 ```text
 row 00001
@@ -580,7 +600,7 @@ row 00388
 row 00389
 row 00390
 row 
-[output preview: omitted 92205 rendered UTF-8 bytes; raw cell log: .agents/console/sessions/20260917T143513.748522000Z-0000018214/outputs/call-000010.log (Console server recording workspace; controller for remote targets); 100013 raw bytes retained, 0 raw bytes not retained]
+[output preview: omitted 92205 rendered UTF-8 bytes; raw cell log: .agents/console/sessions/20260917T152544.739385000Z-0000093055/outputs/call-000011.log (Console server recording workspace; controller for remote targets); 100013 raw bytes retained, 0 raw bytes not retained]
 
 row 09612
 row 09613
@@ -974,46 +994,46 @@ row 10000
 fit complete
 ```
 
-## Call 11: R
-
-```r
-checkpoint <- 42
-stop("inspect me")
-```
-
-## Result for call 11
-
-```text
-Error: inspect me
-```
-
 ## Call 12: R
 
 ```r
-checkpoint
+  checkpoint <- 42
+  stop("inspect me")
 ```
 
 ## Result for call 12
 
 ```text
-[1] 42
+Error: inspect me
 ```
 
 ## Call 13: R
 
 ```r
-name <- readline("name> ")
-name
+checkpoint
 ```
 
 ## Result for call 13
+
+```text
+[1] 42
+```
+
+## Call 14: R
+
+```r
+  name <- readline("name> ")
+  name
+```
+
+## Result for call 14
 
 ```text
 [input requested: "name> "]
 [waiting for stdin]
 ```
 
-## Call 14: Stdin
+## Call 15: Stdin
 
 ### Submitted stdin
 
@@ -1021,43 +1041,27 @@ name
 Ada
 ```
 
-## Result for call 14
+## Result for call 15
 
 ```text
 [1] "Ada"
 ```
 
-## Call 15: R
+## Call 16: R
 
 ```r
-inspect_mean <- function(x) {
-  browser()
-  mean(x)
-}
+  inspect_mean <- function(x) {
+    browser()
+    mean(x)
+  }
 
-inspect_mean(c(1, 2, 3))
-```
-
-## Result for call 15
-
-```text
-Called from: inspect_mean(c(1, 2, 3))
-[input requested: "Browse[1]> "]
-[waiting for stdin]
-```
-
-## Call 16: Stdin
-
-### Submitted stdin
-
-```text
-x
+  inspect_mean(c(1, 2, 3))
 ```
 
 ## Result for call 16
 
 ```text
-[1] 1 2 3
+Called from: inspect_mean(c(1, 2, 3))
 [input requested: "Browse[1]> "]
 [waiting for stdin]
 ```
@@ -1067,16 +1071,75 @@ x
 ### Submitted stdin
 
 ```text
-c
+x
 ```
 
 ## Result for call 17
 
 ```text
+[1] 1 2 3
+[input requested: "Browse[1]> "]
+[waiting for stdin]
+```
+
+## Call 18: Stdin
+
+### Submitted stdin
+
+```text
+c
+```
+
+## Result for call 18
+
+```text
 [1] 2
 ```
 
-## Call 18: Python
+## Call 19: R
+
+```r
+  emit <- inline::cfunction(
+    body = 'write(1, "native output\\n", 14);
+            return R_NilValue;',
+    includes = "#include <unistd.h>"
+  )
+  job <- parallel::mcparallel(emit())
+  invisible(parallel::mccollect(job))
+```
+
+## Result for call 19
+
+```text
+native output
+```
+
+## Call 20: Python
+
+```python
+import os
+_ = os.write(1, b"hello directly on fd 1\n")
+```
+
+## Result for call 20
+
+```text
+hello directly on fd 1
+```
+
+## Call 21: Python
+
+```python
+print(len(r.d))
+```
+
+## Result for call 21
+
+```text
+240
+```
+
+## Call 22: Python
 
 ```python
 from sklearn.ensemble import RandomForestRegressor
@@ -1091,14 +1154,14 @@ scores = cross_val_score(model, X, frame["response"],
 print(f"CV MAE: {-scores.mean():.3f}")
 ```
 
-## Result for call 18
+## Result for call 22
 
 ```text
 [resolved PyPI distribution 'scikit-learn' for Python import 'sklearn']
 CV MAE: 2.015
 ```
 
-## Call 19: Python
+## Call 23: Python
 
 ```python
 import matplotlib.pyplot as plt
@@ -1109,19 +1172,19 @@ plt.xlabel("Temperature")
 plt.ylabel("Response")
 ```
 
-## Artifact 2 for call 19
+## Artifact 2 for call 23
 
-[Artifact 2 from call 19](<artifacts/call-000019-image-000002.png>)
+[Artifact 2 from call 23](<artifacts/call-000023-image-000002.png>)
 
-## Result for call 19
+## Result for call 23
 
 ```text
 Text(0, 0.5, 'Response')
 ```
 
-![Artifact 2](<artifacts/call-000019-image-000002.png>)
+![Artifact 2](<artifacts/call-000023-image-000002.png>)
 
-## Call 20: SQL
+## Call 24: SQL
 
 ```sql
 SELECT "group", COUNT(*) AS n
@@ -1130,7 +1193,7 @@ GROUP BY "group"
 ORDER BY "group"
 ```
 
-## Result for call 20
+## Result for call 24
 
 ```text
 # A tibble: 2 × 2
@@ -1140,7 +1203,19 @@ ORDER BY "group"
 2 "B"          120
 ```
 
-## Call 21: R
+## Call 25: R
+
+```r
+1 + 1
+```
+
+## Result for call 25
+
+```text
+[1] 2
+```
+
+## Call 26: R
 
 ```r
 sessionInfo()
@@ -1154,7 +1229,7 @@ sessionInfo()
 }
 ```
 
-## Result for call 21
+## Result for call 26
 
 ```text
 R version 4.6.1 (2026-06-24)
@@ -1176,12 +1251,12 @@ attached base packages:
 
 loaded via a namespace (and not attached):
  [1] vctrs_0.7.3       cli_3.6.6         rlang_1.3.0       otel_0.2.0        DBI_1.3.0         purrr_1.2.2       png_0.1-9         assertthat_0.2.1  jsonlite_2.0.0    glue_1.8.1       
-[11] bit_4.6.0         grid_4.6.1        tibble_3.3.1      lifecycle_1.0.5   duckdb_1.5.5      compiler_4.6.1    nanoarrow_0.9.0   Rcpp_1.1.2        pkgconfig_2.0.3   lattice_0.23-1   
-[21] R6_2.6.1          reticulate_1.47.0 tidyselect_1.2.1  utf8_1.2.6        pillar_1.11.1     magrittr_2.0.5    Matrix_1.7-6      tools_4.6.1       withr_3.0.3       bit64_4.8.6      
-[31] arrow_25.0.1     
+[11] bit_4.6.0         grid_4.6.1        tibble_3.3.1      lifecycle_1.0.5   inline_0.3.21     duckdb_1.5.5      compiler_4.6.1    nanoarrow_0.9.0   pkgconfig_2.0.3   Rcpp_1.1.2       
+[21] lattice_0.23-1    R6_2.6.1          utf8_1.2.6        reticulate_1.47.0 tidyselect_1.2.1  pillar_1.11.1     parallel_4.6.1    magrittr_2.0.5    Matrix_1.7-6      tools_4.6.1      
+[31] withr_3.0.3       bit64_4.8.6       arrow_25.0.1     
 ```
 
-## Call 22: Python
+## Call 27: Python
 
 ```python
 import sys, importlib.metadata as md
@@ -1190,7 +1265,7 @@ for name in ['scikit-learn', 'pandas', 'matplotlib']:
     print(f'{name}=={md.version(name)}')
 ```
 
-## Result for call 22
+## Result for call 27
 
 ```text
 3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]
