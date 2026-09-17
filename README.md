@@ -1,7 +1,12 @@
 # MCP Console presentation
 
-77 slides: 69 main slides and 8 development-practice slides. `deck.qmd` is the
+35 main slides, followed by 8 optional development-practice slides (43 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
+
+The main narrative starts with R and Python together, shared execution work,
+and the sandbox. A short analysis leads into managed packages, three examples of
+API detail, explicit permissions, and a six-slide local/SSH/Docker sequence.
+The main talk ends at `closing`; the development appendix follows it.
 
 ## View the deck
 
@@ -13,8 +18,8 @@ Press **S** for native Speaker View. It opens a separate window containing the
 current slide, next slide, timer, and notes. Serve the deck over local HTTP so the
 presentation and speaker window can communicate.
 
-The default preview evaluates the model, coefficients, predictions, and base-R
-plot through knitr. Python references were computed separately. Protocol panels
+The default preview evaluates the fitted model and base-R plot through knitr.
+Python and SQL results use the supplied Console captures. Protocol panels
 and transcript excerpts read the supplied real captures in both modes. Preview
 does not launch Console, install packages, or call a model API.
 
@@ -67,7 +72,7 @@ original delivery and superseded working files are in the
 
 The native R render, sandboxed MCP capture, and local macOS policy probes passed.
 The explicit `data.table==1.17.8` example failed its separate package-installation
-rehearsals and remains documented in the notes. Linux, SSH, Docker, Docker Sandbox,
+rehearsals; its reference capture remains documented in VALIDATION.md. Linux, SSH, Docker, Docker Sandbox,
 and model-provider integrations were not exercised.
 
 The separate [Shiny Chat investigation](../shinychat-investigation-2026-09-17/FINDINGS.md)

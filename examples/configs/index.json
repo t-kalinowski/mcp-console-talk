@@ -1,10 +1,10 @@
 {
   "config.yaml": {
-    "slide": "config",
+    "slide": null,
     "live_target_required": false
   },
   "environment-choice.yaml": {
-    "slide": "environment-choice",
+    "slide": null,
     "live_target_required": false
   },
   "runtime-combinations.yaml": {
@@ -16,11 +16,11 @@
     "live_target_required": false
   },
   "permission-grants.yaml": {
-    "slide": "permission-grants",
+    "slide": null,
     "live_target_required": false
   },
   "write-output.yaml": {
-    "slide": "write-output",
+    "slide": null,
     "live_target_required": false
   },
   "private-inputs.yaml": {
@@ -32,7 +32,7 @@
     "live_target_required": false
   },
   "network-direct.yaml": {
-    "slide": "network-direct",
+    "slide": null,
     "live_target_required": false
   },
   "network-proxy.yaml": {
@@ -60,7 +60,7 @@
     "live_target_required": false
   },
   "resolver-boundary.yaml": {
-    "slide": "resolver-boundary",
+    "slide": null,
     "live_target_required": false
   },
   "ssh.yaml": {
@@ -72,7 +72,7 @@
     "live_target_required": true
   },
   "docker-sandbox.yaml": {
-    "slide": "docker-sandbox",
+    "slide": null,
     "live_target_required": true
   }
 }

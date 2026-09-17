@@ -181,3 +181,23 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 .integration pre code .code-line-highlight { background: #254653; }
 
 #retained-output .code-panel pre code { font-size: 22px; }
+
+/* The main narrative groups capabilities around the task and its boundaries. */
+.three-col { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.story-card { padding: 30px; border: 1px solid var(--line); border-top: 4px solid var(--accent);
+  border-radius: 10px; background: white; font-size: 30px; line-height: 1.45; }
+.story-card strong { color: var(--accent); font-weight: 650; }
+.story-card p:last-child { margin-bottom: 0; }
+.story-slide .two-col .story-card { height: 100%; }
+.story-slide .takeaway { margin-top: 32px; }
+.sequence-strip { margin: 32px 0; padding: 26px 30px; border-radius: 10px;
+  background: var(--accent-soft); color: #164f50; font-size: 29px; }
+.sequence-strip p { margin: 0; }
+.story-slide table { width: 100%; margin: 20px 0 32px; font-size: 28px; line-height: 1.4; }
+.story-slide table th, .story-slide table td { padding: 22px 20px; border-bottom: 1px solid var(--line); }
+.story-slide table th { color: var(--accent); }
+#python .result-panel { min-height: 0; padding: 16px 28px; }
+#python .result-panel .panel-label { margin-bottom: 10px; padding-bottom: 10px; }
+#python .result-panel pre code { font-size: 25px; }
+#r-plots .result-panel img { max-height: 440px; }
+#closing .big-statement { font-size: 76px; }

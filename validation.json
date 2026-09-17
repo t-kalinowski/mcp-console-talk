@@ -1,9 +1,9 @@
 {
   "date": "2026-09-17",
-  "slide_count": 77,
-  "main_slides": 69,
+  "slide_count": 43,
+  "main_slides": 35,
   "addendum_slides": 8,
-  "native_quarto_notes_blocks": 77,
+  "native_quarto_notes_blocks": 43,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -17,12 +17,12 @@
     1422,
     800
   ],
-  "layout_slides_checked": 77,
+  "layout_slides_checked": 43,
   "layout_failures": [],
   "code_soft_wrap": false,
-  "inline_diagrams": 7,
+  "inline_diagrams": 1,
   "images_loaded": true,
-  "captured_output_slides_checked": 15,
+  "captured_output_slides_checked": 12,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -34,7 +34,8 @@
     "model_api_used": false,
     "captured_at_utc": "2026-09-17T15:26:19Z",
     "version": "0.0.3",
-    "executable_sha256": "b80f9b67a2bbe4f418c1821ff1f41af1479d19533394eead181c7fbb884fbc6f"
+    "executable_sha256": "b80f9b67a2bbe4f418c1821ff1f41af1479d19533394eead181c7fbb884fbc6f",
+    "reused_without_modification": true
   },
   "sandbox": {
     "expected platform rejection": 1,
@@ -54,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "28bdde2d9fe5a1ef6d6c587b2ad3049c34b9142bdbb3b19e9afb79c2ce32aff2",
-    "../archived/2026-09-17-presentation-review/mcp-console-captured.html": "c2c1543d32087d52e844702ac8cec353d920d61d41b4316da74872543d4e14fc"
+    "mcp-console.html": "bc588d4bd0e737ef1e5add7464b719d633d5425ab3f9f19e3f747298f1d7d505",
+    "../archived/2026-09-17-narrative-revision/mcp-console-captured.html": "331f516db9e2b4101c67858c842ab43ecee9cb8df7b4120636902c5dcd8e6258"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -75,9 +76,16 @@
     1600,
     900
   ],
-  "baseline_commit": "2322c47",
-  "deferred": [
-    "slide 2 arrow/diagram redesign"
-  ],
-  "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md"
+  "baseline_commit": "ab89d0c",
+  "deferred": [],
+  "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
+  "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
+  "checks_this_revision": [
+    "native and captured Quarto renders",
+    "43-slide browser layout and notes check",
+    "12 captured-output slide browser checks",
+    "sync_cells.py --check",
+    "validate_source.py",
+    "source diff whitespace"
+  ]
 }
