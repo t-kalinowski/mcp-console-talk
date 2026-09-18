@@ -1,0 +1,12 @@
+{
+  "restart-script": {
+    "control": "restart",
+    "requirements": {
+      "r": [
+        "readr"
+      ]
+    },
+    "stdin": "A\n",
+    "r": "source(\"./summarize.R\")"
+  }
+}

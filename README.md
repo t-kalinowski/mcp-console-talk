@@ -10,12 +10,13 @@ establish the scope before the simple
 R, Python, and SQL workflow. A Python call and plot lead into the shared-process
 reveal; SQL and database connection selection follow together. Packages expand
 the workflow, with the process topology showing where resolution happens.
-Waiting, output handling, controls, and debugger input lead into a combined call
+Waiting, output handling, controls, readline input, and debugger interaction lead
+into a call combining restart, requirements, input, and code
 and the complete send interface. Sandbox defaults and built-in policies precede
 concrete access examples and a complete proxy configuration. Then the talk moves
 to local/SSH/Docker execution.
-An SSH topology diagram shows which processes move to the remote host. Client
-setup leads into session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
+An SSH topology diagram shows which processes move to the remote host. One installation overview leads into CLI and SDK integration examples,
+then session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
 work. The resolver protocol is in the appendix.
 The main talk ends at `closing`; an explicit appendix divider follows it.
 

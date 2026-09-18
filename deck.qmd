@@ -1498,9 +1498,110 @@ A control and a code cell can be combined in one send call. A common package-dev
 
 **Show:** There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.
 
-**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The next slide captures restart plus a sourced script with queued input.
+**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The following examples introduce stdin, use it with the debugger, and combine restart, requirements, input, and a sourced script.
 
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
+
+:::
+
+## Send input to an R prompt {#stdin .deck-slide .literal-slide}
+::: {.kicker}
+
+Work with the session
+
+:::
+
+:::::: {.two-col}
+::::: {.left}
+
+:::: {.code-panel}
+::: {.panel-label}
+
+Run code that asks for input
+
+:::
+
+<!-- cells:prompt -->
+```python
+console.send(r="""
+  name <- readline("name> ")
+  name
+""")
+```
+
+::::
+
+:::: {.result-panel}
+::: {.panel-label}
+
+Response · waiting for input
+
+:::
+
+```{r}
+#| label: stdin-prompt
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("prompt")
+```
+
+::::
+
+:::::
+::::: {.right}
+
+:::: {.code-panel}
+::: {.panel-label}
+
+Supply a line of standard input
+
+:::
+
+<!-- cells:prompt-answer -->
+```python
+console.send(stdin='Ada\n')
+```
+
+::::
+
+:::: {.result-panel}
+::: {.panel-label}
+
+Response · the same cell resumes
+
+:::
+
+```{r}
+#| label: stdin-prompt-answer
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("prompt-answer")
+```
+
+::::
+
+:::::
+::::::
+
+::: {.takeaway}
+
+Send the answer through `stdin`, including the newline.
+
+:::
+
+::: {.notes}
+
+**Say:** Some R code needs to consume standard input. Here readline asks for a name, and the cell pauses while it waits for an answer. Console returns the prompt and tells the model that the runtime is waiting for input.
+
+The model sends Ada followed by a newline through the stdin argument. That supplies the bytes to the running session. The same cell resumes, assigns the answer to name, and prints it. We don't need to submit the R code again.
+
+That is the input mechanism for an ordinary interactive prompt. It also lets the model drive a debugger, which is the next example.
+
+**Author / capture:** The two calls and responses are literal captures from the existing sandboxed session. stdin does not add a newline automatically. Quarto reads the captured output instead of running an interactive prompt during rendering.
+
+**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
 
@@ -1622,11 +1723,11 @@ console_protocol("browser-continue")
 
 ::: {.notes}
 
-**Say:** The model can also send standard input. Here's a familiar R example: a function calls browser(), and execution pauses at the debugger prompt.
+**Say:** The same stdin argument also lets the model drive a debugger. Here a function calls browser(), and execution pauses at the debugger prompt.
 
 The model sends x and a newline through stdin to inspect the argument. It gets the value back, along with another prompt. Then it sends c and a newline to continue, and the function returns its result.
 
-The same input field works for readline or other interactive prompts. The session stays alive while it waits for the model's response.
+This uses the same input mechanism as readline. The session stays alive while the model inspects values and decides how to continue.
 
 **Author / capture:** Each call is paired with its literal Console response. All three calls were captured in the same sandboxed session. Quarto reads the saved output; it does not enter an interactive debugger during rendering. stdin does not add a newline automatically.
 
@@ -1649,13 +1750,14 @@ Work with the session
 
 ::: {.panel-label .path-label}
 
-./analyze.R
+./summarize.R
 
 :::
 
 ```r
 group <- readline("Group to summarize: ")
-d <- read.csv("./measurements.csv")
+d <- readr::read_csv("./measurements.csv",
+                     show_col_types = FALSE)
 values <- d$response[d$group == group]
 print(summary(values))
 ```
@@ -1666,16 +1768,17 @@ print(summary(values))
 
 ::: {.panel-label}
 
-One send call
+Four arguments · one send call
 
 :::
 
-<!-- control-cell:restart-script -->
+<!-- combined-cell:restart-script -->
 ```python
 console.send(
   control="restart",
+  requirements={"r": ["readr"]},
   stdin="A\n",
-  r='source("./analyze.R")'
+  r='source("./summarize.R")'
 )
 ```
 
@@ -1698,7 +1801,7 @@ One response · captured from Console
 #| eval: true
 #| echo: false
 #| comment: ""
-console_protocol("controls/restart-script")
+console_protocol("combined-input/restart-script")
 ```
 
 ::::
@@ -1709,17 +1812,19 @@ console_protocol("controls/restart-script")
 
 ::: {.takeaway}
 
-Replace the worker → queue input → source the script.
+Prepare readr → restart → queue input → source the script.
 
 :::
 
 ::: {.notes}
 
-**Say:** Once we've introduced control and input separately, we can put them together. This script asks which group to summarize with readline. The model can run it in a fresh session and supply the answer in the same call.
+**Say:** Now we can combine four things in one call: a restart, package requirements, standard input, and an R cell. This script asks which group to summarize, reads the data with readr, and prints a summary.
 
-First we restart the worker. Then we queue A and a newline. Then we source the script. When readline asks for input, the answer is already there. The lifecycle notices and the script's output come back in one response.
+Console prepares the declared dependency first, then replaces the worker. Once the fresh session is ready, it queues A and a newline and sources the script. When readline asks for the group, the answer is already there. The replacement notices and the script's output come back in one response.
 
-**Reference (not spoken):** Run from examples/ so the displayed relative paths exist. stdin is queued exactly; the newline is explicit. source() does not automatically print every visible expression, so the script prints its summary. If an answer depends on output not yet seen, supply it in a later stdin-only call.
+**Reference (not spoken):** Run from examples/ so ./summarize.R and ./measurements.csv exist. Requirements are prepared before worker retirement; a resolution failure at that stage leaves the old worker available. Only the replacement receives the queued input. Preparation makes readr available; the script calls readr::read_csv explicitly. source() does not automatically print each visible expression, so the script prints its summary. An answer that depends on unseen output should be supplied in a later stdin-only call.
+
+**Author / capture:** The four-argument request and its single literal response were captured in captures/combined-input. A subsequent assertion verified that the old session's sentinel was gone, readr returned a tibble, and group A was selected. The earlier three-argument example and its base-R script remain in captures/controls and examples/analyze.R.
 
 **Sources:** [Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
 
@@ -2480,6 +2585,75 @@ The user configures the execution environment, and the model can keep working th
 
 :::
 
+## Launch or install Console {#install-python .deck-slide .integration .code-dense}
+::: {.kicker}
+
+Installation
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Recommended · launch an MCP server
+
+:::
+
+```bash
+uvx mcp-console serve
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Persistent Python installation · choose the integrations you need
+
+:::
+
+```bash
+uv pip install "mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]"
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+R package · planned CRAN installation
+
+:::
+
+```r
+install.packages("mcp.console")
+```
+
+:::
+
+::: {.takeaway}
+
+Let `uvx` manage resolution and automatically pick up updates.
+
+:::
+
+::: {.notes}
+
+**Say:** The most common way to launch Console will be uvx mcp-console serve. uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
+
+If you want a persistent installation in your Python environment, use uv pip install. The base package gives you the executable, and the optional extras add the Python integrations. This command lists all the supported extras; pick the ones you need.
+
+For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub. The R package provides the interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI.
+
+**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. uv pip install targets an existing Python environment. The current R source command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal.
+
+**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
+
+:::
+
 ## Register Console with your CLI client {#codex .deck-slide .integration}
 ::: {.kicker}
 
@@ -2504,7 +2678,7 @@ codex mcp add console -- uvx mcp-console serve
 
 ::: {.panel-label}
 
-Claude Code CLI · the same Console installation
+Claude Code CLI
 
 :::
 
@@ -2516,58 +2690,17 @@ claude mcp add console -- uvx mcp-console serve
 
 ::: {.takeaway}
 
-Let `uvx` manage resolution and automatically pick up updates.
+Register the launch command; your client starts Console.
 
 :::
 
 ::: {.notes}
 
-**Say:** If you want to use Console with your agent of choice, I recommend uvx mcp-console serve. Register that command with Codex or Claude, and the client launches the server.
+**Say:** To use Console with Codex or Claude, register that launch command with the client. When the client needs Console, it starts the server through uvx.
 
-uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
-
-**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. Client-side deadlines remain separate from Console evaluation waits.
+**Reference (not spoken):** Client-side deadlines remain separate from Console evaluation waits.
 
 **Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
-
-:::
-
-## Install the R package {#install-r .deck-slide}
-::: {.kicker}
-
-Installation
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Planned CRAN installation
-
-:::
-
-```r
-install.packages("mcp.console")
-```
-
-:::
-
-::: {.takeaway}
-
-Use Console from R and register it as a tool in ellmer.
-
-:::
-
-::: {.notes}
-
-**Say:** For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub.
-
-The package provides the R interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI. I expect that separation to make the CRAN submission more straightforward.
-
-**Reference (not spoken):** The current documented command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal.
-
-**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
 
 :::
 
@@ -2610,65 +2743,6 @@ Your chat and provider. A separate persistent Console worker.
 The R package handles the connection and the tool interface. The model's code still runs in the Console worker, separate from the R process running ellmer.
 
 **Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [R tool wrapper implementation](https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R)
-
-:::
-
-## Python or a standalone MCP launch {#install-python .deck-slide .integration}
-::: {.kicker}
-
-Installation
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Python clients and integrations
-
-:::
-
-```bash
-pip install "mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]"
-```
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-One-shot tool launch
-
-:::
-
-```bash
-uvx mcp-console serve
-```
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Persistent command installation
-
-:::
-
-```bash
-uv tool install mcp-console
-```
-
-:::
-
-::: {.notes}
-
-**Say:** You can also install the distribution with pip. The base package gives you the executable, and the optional extras add the Python integrations for the client you want to use.
-
-This first command lists the supported integrations. Pick the extras you need. Or, if you're using an MCP client, use the uvx launch we just saw. These are alternative ways to use the same package.
-
-**Sources:** [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 :::
 

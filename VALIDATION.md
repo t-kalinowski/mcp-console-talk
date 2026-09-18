@@ -4,9 +4,44 @@ The revised project contains 55 slides (45 main, an appendix divider, and 9 opti
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-18-second-runthrough/mcp-console-captured.html).
+[the render archive](../archived/2026-09-18-installation/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Consolidated installation — 2026-09-18
+
+- Combined the R and Python installation slides into one overview before the
+  client registration examples. It leads with `uvx mcp-console serve`, followed
+  by `uv pip install` with the supported extras and the planned CRAN command.
+- Preserved the current GitHub R installation route and package-resolution
+  details in the notes. Checked Python extras and uv installation syntax against
+  their local source repositories. No packages were installed for this edit.
+- Regenerated the notes and index. Both Quarto modes render without warnings and
+  pass source validation for 55 slides. The installation and CLI registration
+  slides fit without wrapping or overflow in the in-app browser at a
+  2723 × 1738 CSS viewport in both modes. Captures and measurements are unchanged.
+
+## Standard input and four-argument call — 2026-09-18
+
+- Added a readline introduction before the debugger, reusing the literal prompt
+  and answer captures. Updated the transitions into the combined-call example.
+- The combined request now supplies control, requirements, stdin, and an R cell.
+  examples/summarize.R uses the declared readr package to read the unchanged CSV.
+  A fresh sandboxed capture against Console 0.0.4 returned one complete response.
+  Follow-up assertions checked that the old workspace sentinel was absent, readr
+  created a tibble, and the queued input selected group A. No model API was used.
+- captures/combined-input records the wire exchange, literal response, checks,
+  source/data hashes, and executable fingerprint. The collector and generated
+  session directory are archived. The older three-argument capture and base-R
+  script remain intact.
+- The source check failed against the old displayed script before the slide was
+  updated, then passed. It now verifies the four arguments and single wire result,
+  as well as the displayed script and retained response bytes.
+- Both Quarto modes rendered without warnings. The source validator passes for
+  all 56 slides. The input, debugger, and combined-call slides pass browser checks
+  in both modes with no code wrapping, clipping, or vertical overflow. A targeted
+  reduction in combined-panel padding accommodates the extra argument and script
+  line without reducing the code font size. Speaker View was not retested.
 
 ## Second run-through — 2026-09-18
 

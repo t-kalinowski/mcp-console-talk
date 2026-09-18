@@ -237,36 +237,51 @@ A control and a code cell can be combined in one send call. A common package-dev
 
 **Show:** There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.
 
-**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The next slide captures restart plus a sourced script with queued input.
+**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The following examples introduce stdin, use it with the debugger, and combine restart, requirements, input, and a sourced script.
 
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
 
 
-## 22. Send input to a paused debugger
+## 22. Send input to an R prompt
 
-**Say:** The model can also send standard input. Here's a familiar R example: a function calls browser(), and execution pauses at the debugger prompt.
+**Say:** Some R code needs to consume standard input. Here readline asks for a name, and the cell pauses while it waits for an answer. Console returns the prompt and tells the model that the runtime is waiting for input.
+
+The model sends Ada followed by a newline through the stdin argument. That supplies the bytes to the running session. The same cell resumes, assigns the answer to name, and prints it. We don't need to submit the R code again.
+
+That is the input mechanism for an ordinary interactive prompt. It also lets the model drive a debugger, which is the next example.
+
+**Author / capture:** The two calls and responses are literal captures from the existing sandboxed session. stdin does not add a newline automatically. Quarto reads the captured output instead of running an interactive prompt during rendering.
+
+**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
+
+
+## 23. Send input to a paused debugger
+
+**Say:** The same stdin argument also lets the model drive a debugger. Here a function calls browser(), and execution pauses at the debugger prompt.
 
 The model sends x and a newline through stdin to inspect the argument. It gets the value back, along with another prompt. Then it sends c and a newline to continue, and the function returns its result.
 
-The same input field works for readline or other interactive prompts. The session stays alive while it waits for the model's response.
+This uses the same input mechanism as readline. The session stays alive while the model inspects values and decides how to continue.
 
 **Author / capture:** Each call is paired with its literal Console response. All three calls were captured in the same sandboxed session. Quarto reads the saved output; it does not enter an interactive debugger during rendering. stdin does not add a newline automatically.
 
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 
-## 23. Run an interactive script in a fresh session
+## 24. Run an interactive script in a fresh session
 
-**Say:** Once we've introduced control and input separately, we can put them together. This script asks which group to summarize with readline. The model can run it in a fresh session and supply the answer in the same call.
+**Say:** Now we can combine four things in one call: a restart, package requirements, standard input, and an R cell. This script asks which group to summarize, reads the data with readr, and prints a summary.
 
-First we restart the worker. Then we queue A and a newline. Then we source the script. When readline asks for input, the answer is already there. The lifecycle notices and the script's output come back in one response.
+Console prepares the declared dependency first, then replaces the worker. Once the fresh session is ready, it queues A and a newline and sources the script. When readline asks for the group, the answer is already there. The replacement notices and the script's output come back in one response.
 
-**Reference (not spoken):** Run from examples/ so the displayed relative paths exist. stdin is queued exactly; the newline is explicit. source() does not automatically print every visible expression, so the script prints its summary. If an answer depends on output not yet seen, supply it in a later stdin-only call.
+**Reference (not spoken):** Run from examples/ so ./summarize.R and ./measurements.csv exist. Requirements are prepared before worker retirement; a resolution failure at that stage leaves the old worker available. Only the replacement receives the queued input. Preparation makes readr available; the script calls readr::read_csv explicitly. source() does not automatically print each visible expression, so the script prints its summary. An answer that depends on unseen output should be supplied in a later stdin-only call.
+
+**Author / capture:** The four-argument request and its single literal response were captured in captures/combined-input. A subsequent assertion verified that the old session's sentinel was gone, readr returned a tibble, and group A was selected. The earlier three-argument example and its base-R script remain in captures/controls and examples/analyze.R.
 
 **Sources:** [Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
 
 
-## 24. The complete send() interface
+## 25. The complete send() interface
 
 **Say:** That's the model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.
 
@@ -279,7 +294,7 @@ And we can leave out the code: poll for more output, answer a prompt, interrupt 
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 
-## 25. Default policy: read-only
+## 26. Default policy: read-only
 
 **Say:** Now let's look more closely at the sandbox. The default policy is called read-only. The model has read access to the host files available to the account, but it can write only in its own private temporary storage. Direct network access is restricted.
 
@@ -292,7 +307,7 @@ That's the default. If there are sensitive files the model shouldn't read, the u
 **Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 
-## 26. Choose between two built-in sandbox policies
+## 27. Choose between two built-in sandbox policies
 
 **Say:** There are two built-in policies. Read-only is the default. Workspace adds write access under the working directory where Console is launched.
 
@@ -303,7 +318,7 @@ It still protects the .git, .agents, .codex, and .claude directories from writes
 **Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Configuration layering](https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md)
 
 
-## 27. Extend a built-in policy for the project
+## 28. Extend a built-in policy for the project
 
 **Say:** If the user wants to customize a built-in policy, Console also reads .agents/console/config.yaml from the launch directory.
 
@@ -314,7 +329,7 @@ Here we start with workspace and adjust the filesystem permissions: keep the dat
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 
-## 28. Example: connect to a corporate data warehouse
+## 29. Example: connect to a corporate data warehouse
 
 **Say:** The same configuration lets us make a specific exception to the network restrictions. For example, suppose we want the model to query a corporate data warehouse through an HTTPS API.
 
@@ -329,7 +344,7 @@ This excerpt shows the part of the policy that selects the destination. I'll sho
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 
-## 29. Example: develop a local Shiny app
+## 30. Example: develop a local Shiny app
 
 **Say:** Here's another example: local Shiny development. We can enable local binding so the model can launch the app on a loopback port, and then open it in a browser.
 
@@ -342,7 +357,7 @@ The app can keep running while the model polls for output, and the model can int
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 
-## 30. The complete proxy configuration
+## 31. The complete proxy configuration
 
 **Say:** Here is the complete proxy configuration behind those two examples. Enabling the proxy is an explicit choice; it isn't part of the default read-only policy.
 
@@ -353,7 +368,7 @@ These are all the fields on the proxy object. We can set destination rules, choo
 **Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 
-## 31. Configure where the session runs
+## 32. Configure where the session runs
 
 **Say:** Finally, the session doesn't have to run locally. Local is the default: the worker runs on the same host as the Console server.
 
@@ -364,7 +379,7 @@ We can also configure an SSH host or a Docker container. The architecture separa
 **Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
 
 
-## 32. Move execution to the remote host
+## 33. Move execution to the remote host
 
 **Say:** This is the earlier diagram with execution moved to a remote host. On your machine, the LLM client talks to the Console server over MCP stdio. The server launches a worker relay on the SSH host, and the worker runs there.
 
@@ -373,7 +388,7 @@ The trusted package resolvers run on that host too, outside the worker sandbox. 
 **Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md)
 
 
-## 33. Send code to the remote host; receive results
+## 34. Send code to the remote host; receive results
 
 **Say:** With that separation, the Console server keeps the session records local, while the computation and sandbox live on the remote host. The worker uses the files available there, and sends results back.
 
@@ -382,7 +397,7 @@ So if the project and data already live on that machine, we can work with them t
 **Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md)
 
 
-## 34. Point Console at the remote workspace
+## 35. Point Console at the remote workspace
 
 **Say:** To configure an SSH host, the user names the host and the working directory where the worker should start. That directory and the runtime prerequisites need to exist on the remote machine.
 
@@ -393,7 +408,7 @@ Then we can layer sandbox permissions on top. Here, the workspace policy and the
 **Sources:** [ssh](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 
-## 35. Build the session's Docker image at launch
+## 36. Build the session's Docker image at launch
 
 **Say:** Besides SSH hosts, users can configure a Docker container. Here we start from rocker/tidyverse and add uv, rig, and ir. We give Console the Dockerfile path, specify the project mount, and launch it with uvx inside the container.
 
@@ -404,7 +419,7 @@ The interaction between the native sandbox and Docker's networking controls isn'
 **Sources:** [Rocker analysis images](https://rocker-project.org/images/versioned/rstudio.html) · [Install uv](https://docs.astral.sh/uv/getting-started/installation/) · [Install rig](https://rig.r-lib.org/install.html) · [Install ir](https://github.com/r-lib/ir#install) · [Current Docker behavior](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
 
 
-## 36. The agent uses the same interface on every host
+## 37. The agent uses the same interface on every host
 
 **Say:** Regardless of where the worker runs, the model gets the same interface. It sends a cell, receives results, and uses the same input, wait, and control operations.
 
@@ -413,44 +428,35 @@ The user configures the execution environment, and the model can keep working th
 **Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 
-## 37. Register Console with your CLI client
+## 38. Launch or install Console
 
-**Say:** If you want to use Console with your agent of choice, I recommend uvx mcp-console serve. Register that command with Codex or Claude, and the client launches the server.
+**Say:** The most common way to launch Console will be uvx mcp-console serve. uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
 
-uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
+If you want a persistent installation in your Python environment, use uv pip install. The base package gives you the executable, and the optional extras add the Python integrations. This command lists all the supported extras; pick the ones you need.
 
-**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. Client-side deadlines remain separate from Console evaluation waits.
+For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub. The R package provides the interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI.
+
+**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. uv pip install targets an existing Python environment. The current R source command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal.
+
+**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
+
+
+## 39. Register Console with your CLI client
+
+**Say:** To use Console with Codex or Claude, register that launch command with the client. When the client needs Console, it starts the server through uvx.
+
+**Reference (not spoken):** Client-side deadlines remain separate from Console evaluation waits.
 
 **Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
 
 
-## 38. Install the R package
-
-**Say:** For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub.
-
-The package provides the R interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI. I expect that separation to make the CRAN submission more straightforward.
-
-**Reference (not spoken):** The current documented command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal.
-
-**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
-
-
-## 39. ellmer
+## 40. ellmer
 
 **Say:** Once the package is installed, create your ellmer chat object as usual and register console_tool as another tool. Then the model can use the same persistent session through that chat.
 
 The R package handles the connection and the tool interface. The model's code still runs in the Console worker, separate from the R process running ellmer.
 
 **Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [R tool wrapper implementation](https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R)
-
-
-## 40. Python or a standalone MCP launch
-
-**Say:** You can also install the distribution with pip. The base package gives you the executable, and the optional extras add the Python integrations for the client you want to use.
-
-This first command lists the supported integrations. Pick the extras you need. Or, if you're using an MCP client, use the uvx launch we just saw. These are alternative ways to use the same package.
-
-**Sources:** [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 
 ## 41. chatlas

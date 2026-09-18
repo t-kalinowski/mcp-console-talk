@@ -128,7 +128,28 @@ def main() -> None:
         arguments = {kw.arg: ast.literal_eval(kw.value).strip('\n') for kw in call.keywords}
         assert arguments == reveal_cells[name], name
     script_slide = next(part for part in parts if '{#restart-input ' in part)
-    assert (ROOT / 'examples/analyze.R').read_text().rstrip() in re.findall(r'```r\n(.*?)\n```', script_slide, re.S)
+    assert (ROOT / 'examples/summarize.R').read_text().rstrip() in re.findall(r'```r\n(.*?)\n```', script_slide, re.S)
+    combined = ROOT / 'captures/combined-input'
+    combined_cells = json.loads((combined / 'cells.json').read_text())
+    provenance = json.loads((combined / 'provenance.json').read_text())
+    assert hashlib.sha256((ROOT / provenance['script']).read_bytes()).hexdigest() == provenance['script_sha256']
+    assert hashlib.sha256((ROOT / 'examples/measurements.csv').read_bytes()).hexdigest() == provenance['data_sha256']
+    combined_wire = [json.loads(line) for line in (combined / 'wire.jsonl').read_text().splitlines()]
+    for name, code in re.findall(r'<!-- combined-cell:([\w-]+) -->\n```python\n(.*?)\n```', source, re.S):
+        call = ast.parse(code).body[0].value
+        arguments = {kw.arg: ast.literal_eval(kw.value) for kw in call.keywords}
+        assert arguments == combined_cells[name], name
+        requests = [row['message'] for row in combined_wire if row['direction'] == 'client'
+                    and row['message'].get('method') == 'tools/call'
+                    and row['message']['params']['arguments'] == arguments]
+        assert len(requests) == 1, name
+        responses = [row['message']['result'] for row in combined_wire if row['direction'] == 'server'
+                     and row['message'].get('id') == requests[0]['id']]
+        response = json.loads((combined / f'{name}.json').read_text())
+        assert responses == [response], name
+        text = ''.join(block['text'] for block in response['content'] if block['type'] == 'text')
+        assert (combined / f'{name}.txt').read_bytes() == text.encode(), name
+        assert '[worker stopped: in-memory state lost]' in text and text.endswith('[done]'), name
     for name, code in re.findall(r'<!-- control-cell:([\w-]+) -->\n```python\n(.*?)\n```', source, re.S):
         call = ast.parse(code).body[0].value
         arguments = {kw.arg: ast.literal_eval(kw.value) for kw in call.keywords}

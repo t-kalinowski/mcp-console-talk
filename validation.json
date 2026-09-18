@@ -17,12 +17,12 @@
     2723,
     1738
   ],
-  "layout_slides_checked": 3,
+  "layout_slides_checked": 2,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 0,
+  "captured_output_slides_checked": 2,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "149a1a65f5b3779e41d9e77a390e2cc1b8f7878d2832f574fe45e786cca14b4a",
-    "../archived/2026-09-18-second-runthrough/mcp-console-captured.html": "1ad51186a5470b704145f95a06b4f9eaba414439ebfe4a6870fa67f07a647302"
+    "mcp-console.html": "7ba0e6525c9a9cf5d01231735e772fe2c19f06677766ef5f7c571e4637c7b0b3",
+    "../archived/2026-09-18-installation/mcp-console-captured.html": "6dbeb00f48d471232450e1b64d9d4ac5eed2e0dca516e7fda7533319bc9d1c74"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,14 +76,15 @@
     1600,
     900
   ],
-  "baseline_commit": "3be5d82",
+  "baseline_commit": "4fbd4a9",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
     "native and captured Quarto renders without warnings",
-    "three revised or reordered slides inspected in both output modes",
-    "runtime-state, recording, artifact, and transcript claims checked against local product documentation",
+    "installation and CLI registration slides fit in both output modes",
+    "Python extras and uv pip syntax checked against local source repositories",
+    "notes and index regenerated",
     "sync_cells.py --check",
     "validate_source.py in both output modes",
     "source diff whitespace"
@@ -314,5 +315,80 @@
     "captures_reused": true,
     "speaker_window_retested": false,
     "product_source": "62e4f3cf4e73625ecefd19ce8162fcba22480875"
+  },
+  "stdin_requirements_review": {
+    "archive": "../archived/2026-09-18-stdin-requirements",
+    "slide_sequence": [
+      "stdin",
+      "debugger",
+      "restart-input",
+      "full-signature"
+    ],
+    "provenance": {
+      "captured_at_utc": "2026-09-18T15:03:15.793227+00:00",
+      "command": [
+        "/Users/tomasz/.local/bin/mcp-console",
+        "serve"
+      ],
+      "cwd": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk/examples",
+      "initialize": {
+        "protocolVersion": "2025-11-25",
+        "capabilities": {
+          "tools": {}
+        },
+        "serverInfo": {
+          "name": "mcp-console",
+          "version": "0.0.4"
+        }
+      },
+      "executable_sha256": "bff723d8427ebe284cd4b8c6dec532c0bdc522269f06f61b4238826dff38f7dc",
+      "script": "examples/summarize.R",
+      "script_sha256": "5192e456069bcdfacafc46c3e09f67f44278b5b6e9c6bfe5d83360d0a57ac129",
+      "data_sha256": "c8824302164402eb1e2545f340151dacd7616b511c722335d2ff214eae567b9a",
+      "single_response": true,
+      "sandboxed": true,
+      "model_api_used": false
+    },
+    "call_fields": [
+      "control",
+      "requirements",
+      "stdin",
+      "r"
+    ],
+    "runtime_assertions_passed": true,
+    "literal_single_response": true,
+    "new_slide": "stdin",
+    "script": "examples/summarize.R",
+    "old_control_captures_preserved": true,
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "layout_failures": [],
+    "speaker_window_retested": false
+  },
+  "installation_review": {
+    "archive": "../archived/2026-09-18-installation",
+    "consolidated_slide": "install-python",
+    "removed_slide": "install-r",
+    "slide_sequence": [
+      "install-python",
+      "codex",
+      "ellmer",
+      "chatlas"
+    ],
+    "browser_slides_checked": [
+      "install-python",
+      "codex"
+    ],
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "layout_failures": [],
+    "runtime_cells_changed": false,
+    "captures_reused": true,
+    "packages_installed": false,
+    "speaker_window_retested": false
   }
 }

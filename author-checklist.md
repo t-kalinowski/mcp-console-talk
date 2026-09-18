@@ -4,7 +4,7 @@ The slide copy uses the intended presentation-day feature set, as requested. The
 
 ## Target-day assumptions
 
-**`install-r` — `install.packages("mcp.console")`.** The slide labels this as the planned CRAN installation, and the spoken notes say the package is not on CRAN yet. The current source command is `pak::pak("github::t-kalinowski/mcp-console/r")`. Binary download happens when executable resolution needs it, not during `install.packages()` itself. The richer S7 configuration surface mentioned in the rehearsal is not present in the inspected R wrapper.
+**`install-python` — `install.packages("mcp.console")`.** The slide labels this as the planned CRAN installation, and the spoken notes say the package is not on CRAN yet. The current source command is `pak::pak("github::t-kalinowski/mcp-console/r")`. Binary download happens when executable resolution needs it, not during `install.packages()` itself. The richer S7 configuration surface mentioned in the rehearsal is not present in the inspected R wrapper.
 
 Richer named profiles, complete initial environment configuration, and configured SQL defaults remain broader design scope. This deck avoids presenting speculative YAML fields as runnable configuration; its displayed configuration examples use the implemented profile and override paths.
 
@@ -118,3 +118,14 @@ grant the worker a general-purpose export directory. The QMD front matter holds
 managed defaults and explicit declarations, not every dynamically inferred
 package or a lockfile. These boundaries were checked in the current local
 architecture and worker-protocol documentation.
+
+
+## Input and combined calls
+
+Introduce stdin with a two-call readline example before the debugger. Both reuse
+literal captures. The following combined request has four arguments: control,
+requirements, stdin, and an R cell sourcing examples/summarize.R. Its readr
+requirement is used by the script, and its response was captured in a fresh
+sandboxed rehearsal. The order is preparation, worker replacement, input enqueue,
+and script evaluation. The response is one actual tool result, not concatenated
+polls. The three-argument base-R capture remains available as historical evidence.

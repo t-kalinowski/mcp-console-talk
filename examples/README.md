@@ -67,11 +67,17 @@ plot, and provenance. `check_sandbox.py` requires PyYAML and exercises only the
 local YAML in a disposable directory. Its network probes use example.com and
 substitute that domain for the proxy's example allow entry.
 
-`analyze.R` is the interactive script on the combined-control slide. It reads the
-measurements CSV and asks for a group through `readline()`. The displayed call
-restarts the session, queues `A\n`, and sources `./analyze.R` in one request.
-Launch from the examples directory so `./measurements.csv` is beside the script.
-`captures/controls/` retains that separate exchange plus a restart-and-devtools-test
-rehearsal. Its fixture and collector are in
-`../../archived/2026-09-17-final-slide-review/`; the script and CSV hashes are recorded
-in the capture provenance and checked by `validate_source.py`.
+`summarize.R` is the interactive script on the combined-call slide. It asks for a
+group through `readline()`, reads the measurements CSV with `readr`, and prints a
+summary. The displayed request combines restart, a `readr` requirement, `A\n` on
+stdin, and `source("./summarize.R")`. Launch from this examples directory.
+`captures/combined-input/` holds the exact request and its single response, plus
+checks that the old workspace was replaced and group A was selected. Its collector
+and generated session records are in `../../archived/2026-09-18-stdin-requirements/`.
+The source validator checks the displayed call, literal result, and script/data
+hashes against this recording.
+
+The earlier base-R script remains in `analyze.R`. `captures/controls/` preserves
+its three-argument request and the restart-and-devtools-test rehearsal. Their
+fixture and collector remain in `../../archived/2026-09-17-final-slide-review/`.
+The readline introduction and debugger reuse the original prompt/input captures.

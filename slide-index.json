@@ -127,117 +127,117 @@
   },
   {
     "number": 22,
+    "title": "Send input to an R prompt",
+    "id": "stdin",
+    "section": "Work with the session"
+  },
+  {
+    "number": 23,
     "title": "Send input to a paused debugger",
     "id": "debugger",
     "section": "Work with the session"
   },
   {
-    "number": 23,
+    "number": 24,
     "title": "Run an interactive script in a fresh session",
     "id": "restart-input",
     "section": "Work with the session"
   },
   {
-    "number": 24,
+    "number": 25,
     "title": "The complete send() interface",
     "id": "full-signature",
     "section": "The capabilities live in the runtime"
   },
   {
-    "number": 25,
+    "number": 26,
     "title": "Default policy: read-only",
     "id": "default-sandbox",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 26,
+    "number": 27,
     "title": "Choose between two built-in sandbox policies",
     "id": "builtin-policies",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 27,
+    "number": 28,
     "title": "Extend a built-in policy for the project",
     "id": "private-inputs",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 28,
+    "number": 29,
     "title": "Example: connect to a corporate data warehouse",
     "id": "network-proxy",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 29,
+    "number": 30,
     "title": "Example: develop a local Shiny app",
     "id": "network-listener",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 30,
+    "number": 31,
     "title": "The complete proxy configuration",
     "id": "proxy-options",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 31,
+    "number": 32,
     "title": "Configure where the session runs",
     "id": "execution-choice",
     "section": "Choose the execution host"
   },
   {
-    "number": 32,
+    "number": 33,
     "title": "Move execution to the remote host",
     "id": "remote-topology",
     "section": "The same architecture over SSH"
   },
   {
-    "number": 33,
+    "number": 34,
     "title": "Send code to the remote host; receive results",
     "id": "ssh-workflow",
     "section": "SSH \u00b7 Keep computation beside the existing data"
   },
   {
-    "number": 34,
+    "number": 35,
     "title": "Point Console at the remote workspace",
     "id": "ssh",
     "section": "SSH \u00b7 Use an existing analysis host"
   },
   {
-    "number": 35,
+    "number": 36,
     "title": "Build the session's Docker image at launch",
     "id": "docker",
     "section": "Docker \u00b7 Choose the session environment"
   },
   {
-    "number": 36,
+    "number": 37,
     "title": "The agent uses the same interface on every host",
     "id": "target-invariance",
     "section": "Local \u00b7 SSH \u00b7 Docker"
   },
   {
-    "number": 37,
+    "number": 38,
+    "title": "Launch or install Console",
+    "id": "install-python",
+    "section": "Installation"
+  },
+  {
+    "number": 39,
     "title": "Register Console with your CLI client",
     "id": "codex",
     "section": "Use the client you already work in"
   },
   {
-    "number": 38,
-    "title": "Install the R package",
-    "id": "install-r",
-    "section": "Installation"
-  },
-  {
-    "number": 39,
+    "number": 40,
     "title": "ellmer",
     "id": "ellmer",
     "section": "Use the client you already work in"
-  },
-  {
-    "number": 40,
-    "title": "Python or a standalone MCP launch",
-    "id": "install-python",
-    "section": "Installation"
   },
   {
     "number": 41,
