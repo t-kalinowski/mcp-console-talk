@@ -1,12 +1,38 @@
-# Local validation — 2026-09-17
+# Local validation — 2026-09-18
 
-The revised project contains 54 slides (44 main, an appendix divider, and 9 optional appendix slides),
+The revised project contains 56 slides (46 main, an appendix divider, and 9 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-17-rocker-transcripts/mcp-console-captured.html).
+[the render archive](../archived/2026-09-18-dictated-runthrough/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Dictated run-through — 2026-09-18
+
+- Reworked the dictated portions into spoken notes, with technical references
+  separated from the spoken passages. The six slides spanning the lost recording
+  (old slides 13–18) remain byte-for-byte unchanged.
+- Restored explicit requirements and the captured debugger/input sequence. Moved
+  process topology into the package section and output handling before the full
+  send overview. Removed the dedicated cleanup slide; the default-policy notes
+  retain the cleanup explanation and platform limits.
+- Reduced the warehouse and Shiny YAML to five and four lines, respectively.
+  They are labeled excerpts and match subsets of their complete configurations.
+  Added a complete proxy-object slide with every supported field, explicitly
+  distinguishing this enabled-proxy baseline from the default no-proxy policy.
+- The new full proxy configuration passed a public `mcp-console sandbox` startup
+  with `/usr/bin/true` in a disposable workspace. No external network request was
+  needed. The broader sandbox suite was not rerun.
+- Native R and captured-output Quarto renders completed without warnings. The
+  source validator passed for both. All 56 native slides passed browser checks
+  for geometry, code overflow, notes presence, and image loading at a 1422 × 800
+  CSS viewport. The debugger, requirements, complete proxy, R cell, and R plot
+  also passed in capture mode. Screenshots of the restored debugger and complete
+  proxy configuration were inspected. Speaker View was not retested this turn.
+- Existing runtime captures were reused, and the measurements CSV is unchanged.
+  The notes generator, displayed-call checks, exact configuration-copy checks,
+  excerpt subset checks, and source whitespace checks passed.
 
 ## Completed
 
@@ -314,3 +340,23 @@ passed in-app browser checks for layout, code clipping, and native notes in both
 modes. The source validator passes for all 54 slides and their notes. The saved
 preview uses native R output; the captured-output render is in the archive linked
 above. The notes, slide index, and project documentation are refreshed.
+
+## Minimal Docker setup
+
+The Docker slide now follows the requested setup: `rocker/tidyverse`, the
+standard uv and rig installers, `uv tool install r-lib-ir`, and a workspace.
+The YAML launches `uvx mcp-console`. Explicit Python selection, package lists,
+version pins, and apt installation are omitted. The tools install into
+`/usr/local/bin` without changing PATH. A wider Dockerfile pane keeps the
+installer commands on single lines; both panes fit without scrolling.
+
+The installer commands and ir distribution name were checked against official
+sources. This is a presentation-day example: the inspected Console checkout
+`6cd4cfd4f61ec5df723cc0e25b8f35a90ba8377e` disables managed package preparation
+for Docker even when uv and ir are installed. The speaker notes and author
+checklist record that dependency. This is not a validated current-release Docker
+launch recipe, and no container build or session was run.
+
+The recipe and displayed YAML match their files, and the shell commands parse.
+Both Quarto modes and the source validator pass. The revised slide passes native
+browser layout and code-fit checks. All runtime captures are unchanged.

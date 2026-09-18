@@ -1,6 +1,6 @@
 # MCP Console presentation
 
-44 main slides, an appendix divider, and 9 optional implementation and testing slides (54 total). `deck.qmd` is the
+46 main slides, an appendix divider, and 9 optional implementation and testing slides (56 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 The main narrative starts with why: a comprehensive execution system that teams
@@ -8,9 +8,11 @@ can reuse across AI projects, with full capabilities and enforced safety as join
 requirements. Language and client choices establish the scope before the simple
 R, Python, and SQL workflow. A Python call and plot lead into the shared-process
 reveal; SQL and database connection selection follow together. Packages expand
-the workflow. Waiting, controls, and input precede the full send interface.
-Output handling leads into process topology and the sandbox before
-the policies, concrete access examples, cleanup, and local/SSH/Docker execution.
+the workflow, with the process topology showing where resolution happens.
+Waiting, output handling, controls, and debugger input lead into a combined call
+and the complete send interface. Sandbox defaults and built-in policies precede
+concrete access examples and a complete proxy configuration. Then the talk moves
+to local/SSH/Docker execution.
 An SSH topology diagram shows which processes move to the remote host. Client
 setup leads into session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
 work. The resolver protocol is in the appendix.
@@ -49,7 +51,9 @@ runs that same native renderer. The delivered HTML uses the native R mode.
 ## Edit and regenerate
 
 Keep each slide's notes with its `##` section. `speaker-notes.md` and
-`slide-index.json` are generated reading and navigation copies.
+`slide-index.json` are generated reading and navigation copies. The main-talk
+notes incorporate the dictated run-through. The missing recording segment's notes
+are preserved; technical references are separated from the new spoken passages.
 
 ```sh
 python sync_cells.py

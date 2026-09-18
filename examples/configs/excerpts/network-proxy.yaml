@@ -1,0 +1,5 @@
+sandbox:
+  proxy:
+    enabled: true
+    domains:
+      warehouse.example.com: allow

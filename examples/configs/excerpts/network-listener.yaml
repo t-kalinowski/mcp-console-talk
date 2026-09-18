@@ -1,0 +1,4 @@
+sandbox:
+  proxy:
+    enabled: true
+    allowLocalBinding: true

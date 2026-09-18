@@ -36,11 +36,11 @@
     "live_target_required": false
   },
   "network-proxy.yaml": {
-    "slide": "network-proxy",
+    "slide": null,
     "live_target_required": false
   },
   "network-listener.yaml": {
-    "slide": "network-listener",
+    "slide": null,
     "live_target_required": false
   },
   "config-overrides.yaml": {
@@ -74,5 +74,19 @@
   "docker-sandbox.yaml": {
     "slide": null,
     "live_target_required": true
+  },
+  "proxy-options.yaml": {
+    "slide": "proxy-options",
+    "live_target_required": false
+  },
+  "excerpts/network-proxy.yaml": {
+    "slide": "network-proxy",
+    "live_target_required": false,
+    "excerpt_of": "network-proxy.yaml"
+  },
+  "excerpts/network-listener.yaml": {
+    "slide": "network-listener",
+    "live_target_required": false,
+    "excerpt_of": "network-listener.yaml"
   }
 }

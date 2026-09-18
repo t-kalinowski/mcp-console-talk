@@ -24,7 +24,7 @@ def main() -> None:
     results = []
     configs = ROOT / 'examples/configs'
     workspace = {'config', 'permission-grants', 'private-inputs', 'temporary-storage',
-                 'network-proxy', 'network-listener', 'enforcement-modes-1', 'enforcement-modes-2'}
+                 'network-proxy', 'network-listener', 'proxy-options', 'enforcement-modes-1', 'enforcement-modes-2'}
     output_only = {'write-output', 'config-overrides'}
     with tempfile.TemporaryDirectory(prefix='console-talk-sandbox-') as temporary:
         root = Path(temporary).resolve()

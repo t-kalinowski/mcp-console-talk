@@ -1,5 +1,6 @@
 target:
   workspace: /workspace
+  command: [uvx, mcp-console]
   compute:
     kind: docker
     build:

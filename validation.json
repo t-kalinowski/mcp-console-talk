@@ -1,9 +1,9 @@
 {
-  "date": "2026-09-17",
-  "slide_count": 54,
-  "main_slides": 44,
+  "date": "2026-09-18",
+  "slide_count": 56,
+  "main_slides": 46,
   "addendum_slides": 9,
-  "native_quarto_notes_blocks": 54,
+  "native_quarto_notes_blocks": 56,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -14,15 +14,15 @@
   "render_warnings": false,
   "browser": "in-app browser",
   "css_viewport": [
-    2488,
-    1599
+    1422,
+    800
   ],
-  "layout_slides_checked": 54,
+  "layout_slides_checked": 56,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 14,
+  "captured_output_slides_checked": 5,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "f25ac1cb3a4f4e24345a4b7ba6a4d00c825ce33bf826923cad32977e410dd1ff",
-    "../archived/2026-09-17-rocker-transcripts/mcp-console-captured.html": "048c4e56b0f574e9cccc439f75a15337625c5e4cf753ff4ea7c8f50831cef412"
+    "mcp-console.html": "8cf156c121f9a8bce7020805f1d259b08cfedff033c6e39fd07f699870c57ffe",
+    "../archived/2026-09-18-dictated-runthrough/mcp-console-captured.html": "6e92b512de8cfd4cc70efd052a8461342194370e3ba175895e1bafc91d46ed36"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,19 +76,19 @@
     1600,
     900
   ],
-  "baseline_commit": "ce7086b",
+  "baseline_commit": "dceb0df",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
     "native and captured Quarto renders without warnings",
-    "Docker and Markdown slides checked in both browser render modes",
-    "Rocker image and Python helper checked against upstream sources",
-    "Console Linux wheel and runtime dependencies reviewed",
-    "displayed Dockerfile matches examples/Dockerfile; RUN shell snippets parse",
-    "Markdown transcript excerpt retains its literal capture provenance",
+    "all 56 native slides inspected in the in-app browser",
+    "five capture-mode slides inspected in the in-app browser",
+    "all six missing-recording slides preserved byte-for-byte",
+    "YAML excerpt subset checks against complete configurations",
+    "complete proxy configuration public sandbox startup",
     "sync_cells.py --check",
-    "validate_source.py",
+    "validate_source.py in both output modes",
     "source diff whitespace"
   ],
   "appendix_divider_slides": 1,
@@ -223,5 +223,74 @@
     "previous_full_layout_check_slides": 53,
     "markdown_precedes_quarto": true,
     "captures_reused": true
+  },
+  "docker_uv_review": {
+    "archive": "../archived/2026-09-17-docker-minimal",
+    "base": "rocker/tidyverse",
+    "command": [
+      "uvx",
+      "mcp-console"
+    ],
+    "setup": [
+      "standard uv installer",
+      "standard rig installer",
+      "uv tool install r-lib-ir"
+    ],
+    "console_version_pinned": false,
+    "apt_installation": false,
+    "explicit_python_environment": false,
+    "target_day_assumption": "Managed package preparation in Docker",
+    "currently_supported": false,
+    "docker_build_run": false,
+    "runtime_capture_rerun": false,
+    "visible_slides_rechecked": [
+      "docker"
+    ],
+    "browser_modes_rechecked": [
+      "r"
+    ],
+    "tool_bin_dir": "/usr/local/bin",
+    "path_modified": false,
+    "installer_line_continuations": false,
+    "column_ratio": [
+      1.44,
+      1
+    ]
+  },
+  "dictation_review": {
+    "archive": "../archived/2026-09-18-dictated-runthrough",
+    "new_slides": [
+      "requirements",
+      "debugger",
+      "proxy-options"
+    ],
+    "removed_slides": [
+      "sandbox-cleanup"
+    ],
+    "moved_slides": [
+      "process-topology",
+      "bounded-output",
+      "retained-output"
+    ],
+    "unchanged_missing_recording_slides": [
+      "package-opportunity",
+      "r-resolution",
+      "python",
+      "wait-timeout",
+      "poll",
+      "session-controls"
+    ],
+    "captures_reused": true,
+    "model_api_used": false,
+    "proxy_startup_passed": true,
+    "all_native_layouts_checked": true,
+    "capture_layouts_checked": [
+      "debugger",
+      "requirements",
+      "proxy-options",
+      "send-r",
+      "r-plots"
+    ],
+    "speaker_window_retested": false
   }
 }

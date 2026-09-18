@@ -27,7 +27,11 @@ Its output and Python's `os.write()` output are asserted during capture.
 is converted to YAML and checked by converting it back to JSON.
 
 Configurations whose `slide` is null in `configs/index.json` remain as reference
-examples after the shorter sandbox sequence was adopted.
+examples after the shorter sandbox sequence was adopted. The two files under
+`configs/excerpts/` are focused slide fragments, not complete launch configurations.
+Their `excerpt_of` entries point to the complete configurations. `proxy-options.yaml`
+shows every field of the proxy object with an explicit enabled-proxy baseline;
+its empty rule maps allow no destinations.
 
 `../captures/language-reveal/` contains a separate sandboxed session for the simple
 Python call, Matplotlib plot, and both directions of R/Python object access. Its
@@ -35,11 +39,13 @@ own `cells.json`, wire exchange, returned PNG, and provenance identify those
 examples. Both render modes use these captures. The source validator checks the
 displayed calls and returned text/images against that record.
 
-`Dockerfile` starts from `rocker/r-ver:4.6.1`, uses Rocker's Python installer,
-and adds Console 0.0.4, its runtime prerequisites, and analysis packages.
-`configs/docker.yaml` selects that Dockerfile through a path; inline Dockerfile
-text is not supported. The recipe was checked against the upstream sources,
-but the Docker build and target were not run because the local daemon was unavailable.
+`Dockerfile` shows the presentation's minimal environment setup: `rocker/tidyverse`,
+the standard uv and rig installers, and `uv tool install r-lib-ir`. The YAML
+launches `uvx mcp-console`. This example assumes on-demand package preparation in
+Docker by presentation day. The current inspected Console implementation disables
+that capability; installing uv and ir alone does not enable it. The installer
+commands were checked, but this is not a validated current-release Docker launch
+recipe. No image build or container session was run.
 
 ```sh
 python examples/capture_console.py --command /absolute/path/to/mcp-console serve

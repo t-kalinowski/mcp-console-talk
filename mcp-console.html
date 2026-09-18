@@ -776,7 +776,8 @@ background: var(--accent-soft); color: #164f50; font-size: 29px; }
 .policy-comparison .code-panel { margin-top: auto; }
 .policy-comparison .code-panel pre code { font-size: 25px; }
 
-#docker .left .code-panel pre code { font-size: 21px; line-height: 1.28; }
+#docker .two-col { grid-template-columns: minmax(0,1.44fr) minmax(0,1fr); gap: 24px; }
+#docker .code-panel pre code { font-size: 21px; line-height: 1.28; }
 #docker .left > p { font-size: 26px; line-height: 1.35; }
 #markdown-transcript .code-panel pre code { font-size: 25px; line-height: 1.28; }
 #markdown-transcript .code-panel { padding-top: 18px; padding-bottom: 18px; }
@@ -1292,10 +1293,9 @@ margin-right: 0; }
 <p>A shared workbench for the AI systems we build.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> We know how to let a model execute R code. We have built that more than once within the company. The reason for Console is to give us a comprehensive execution system we can reuse across the AI systems we build.</p>
-<p>Once execution becomes part of a real workflow, we need persistent state, packages, input, cancellation, useful output, records, remote hosts, and a sandbox. My hope is that the next team can use this and spend its effort on the AI system it is building.</p>
-<p>R, Python, and SQL belong in that shared workbench. The model can choose the language for the task, and we can solve the surrounding execution problems together.</p>
-<p><strong>Show:</strong> Lead with reuse and completeness. This audience already builds AI systems; code execution is familiar. The opening establishes why the shared system is worth adopting, and the later examples demonstrate its coverage and care.</p>
+<p><strong>Say:</strong> Hello. I’d like to take a few minutes to talk about a project I’ve been working on called MCP Console. It’s a ground-up rewrite of MCP REPL. There were a few problems with MCP REPL, and I reached the point where starting from scratch looked like less work than trying to repair it. I’ll get to some of those problems throughout the talk.</p>
+<p>One was conceptual: MCP REPL really is two products, an R console and a Python console. When you get into the weeds, they take substantially different code paths and have different semantics. It also forces users to choose R or Python, and I don’t think that’s where the choice belongs. I think it should be R and Python.</p>
+<p>That was the original seed for MCP Console. It’s a single product, a single binary, that handles R, Python, and SQL. The hope is that we can use this across the company instead of each building another ad hoc execution tool.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1332,10 +1332,10 @@ display:block!important;
 <p>Build on the shared workbench for the next AI project.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Real work requires multiple turns. The agent inspects data, fits a model, looks at a plot, and decides what to try next. Each turn should build on the objects and computation already there. The execution session needs continuity just as the conversation does.</p>
-<p>That brings these concerns together: state, input, cancellation, output, dependencies, and permissions. We have been addressing them in separate, ad hoc implementations. Console brings them into one execution system we can reuse.</p>
-<p>The goal is a common workbench teams can adopt: persistent sessions, interactive control, dependencies, bounded output, records, local or remote compute, and sandboxing. Language-specific adapters still do their own work, while the surrounding infrastructure is shared.</p>
-<p>I hope we can stop needing a new console implementation for each project. When we find another execution problem, we can solve it in the shared system. The examples later in the talk show a few details that make this breadth usable.</p>
+<p><strong>Say:</strong> It does the things you’d expect from a persistent, REPL-like environment. The model can define objects and interact with them over repeated turns. It handles long-running computations with waits and polls, interrupts and session restarts, interactive input, and plots.</p>
+<p>It also handles the details around output: oversized responses, progress bars, compact updates, and files the model can inspect when it needs the full output. It keeps logs and turns those logs into readable records of the session.</p>
+<p>There’s package resolution and, most importantly, a sandbox. There are filesystem permissions, network restrictions, and a built-in proxy with allow and deny rules. Users can configure those permissions for their work. And the session can run locally, over SSH, or in Docker.</p>
+<p>That’s it in a nutshell. I’ll go through some of the details, because I think that’s where the value of having one comprehensive solution becomes clearer.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Architecture</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1368,9 +1368,9 @@ display:block!important;
 <p>Both are requirements of the execution system.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> We want the model to have the languages’ full capabilities. That includes libraries, native code, and subprocesses. Those capabilities also carry risks: a mistake can change files, read secrets, contact a remote service, or leave work running.</p>
-<p>The operating system enforces the sandbox policy on the runtime and its subprocesses. That covers file and network access from a package or native library as well as from the submitted code. The runner owns process cleanup. Safety depends on those permissions and on trusted setup. This does not make arbitrary execution risk-free. Package preparation runs outside the worker sandbox, and the default host-read policy needs explicit denials for confidential files.</p>
-<p><strong>Show:</strong> Present two equal requirements: full language capabilities and enforced safety. The sandbox limits access to resources while preserving the languages and their libraries. The later policy examples show how the user sets that access. Full safety is the design goal; do not describe arbitrary code or trusted package installation as risk-free.</p>
+<p><strong>Say:</strong> For the model, the idea is full capabilities and full safety, without treating those as a compromise. It gets R, Python, and SQL, including libraries, native code, and subprocesses. We want the things you would normally do from a script to be available to the model too.</p>
+<p>Those capabilities carry risk, so the sandbox sets enforced limits on the files and network resources the code can access. The same policy applies to subprocesses. The user chooses those permissions, and the model works within them. I’ll show the defaults and how to change them later.</p>
+<p><strong>Reference (not spoken):</strong> “Full safety” is the design goal, not a claim that arbitrary code is risk-free. Trusted package preparation is outside the worker sandbox. Default host reads need explicit denials for confidential files.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1407,9 +1407,8 @@ display:block!important;
 <p>The model can choose the language and syntax it works best with.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> These are capabilities available to one model. R can fit the model and visualize the results. Python offers another set of libraries. SQL can query a local or remote database, letting its engine optimize filters, joins, and aggregations. The model can choose as the task develops, including the syntax it works best with. Data visualization is available in both R and Python; these cards do not assign exclusive strengths. A selected DBI or Python DB-API connection supplies the SQL backend; remote access needs the relevant driver, credentials, and network permission.</p>
-<p>Keeping R useful here means making its capabilities easy to reach from the agent’s ordinary workflow. We should not need to choose an R-only or Python-only product before the work begins.</p>
-<p><strong>Show:</strong> Each language has reasons to use it. The examples are illustrative uses, not exclusive assignments of what a language can do.</p>
+<p><strong>Say:</strong> The choice we’re presenting to the model is: which language is best for the task you’re doing right now? If R is a good fit, use R. If Python is a good fit, use Python. SQL gives it another way to work with data, including queries that a database can optimize.</p>
+<p>The user can still steer the model if they have a preference. But without that steering, I’d like the model to reach for the tool that fits the job, or the syntax it works best with. Hopefully, as models get smarter, they’ll make better use of that choice.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1443,8 +1442,10 @@ display:block!important;
 </div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The previous slide showed the languages the model can execute. This slide shows the harness or application making those calls. Console is an MCP server, so a compatible MCP client can use it directly. There is an ellmer tool in the R package, and Python offers direct clients and adapters for these frameworks. We will return to registration near the end. First, follow what this shared workbench provides as the task grows.</p>
-<p>The adapters preserve the live tool schema. Image support and client deadlines vary by interface, so check the chosen path before a demo. These interfaces are documented in the current source checkout; the installed PyPI 0.0.3 wheel used for runtime captures does not include the newer Python clients and extras.</p>
+<p><strong>Say:</strong> Those are the capabilities we’re exposing to the model. From the other side, Console works with the harnesses you’d expect.</p>
+<p>Any compatible MCP client can use it: Claude, Codex, Positron, and so on. It also comes as an R package with an ellmer tool. On the Python side, there are integrations for chatlas, the Codex SDK, the Anthropic API, the OpenAI Responses API, and the Agents SDK.</p>
+<p>There are also direct synchronous and asynchronous clients for other applications or harnesses. I’ll show a few of those integrations near the end. First, let’s look at what the model actually does.</p>
+<p><strong>Reference (not spoken):</strong> The adapters are documented in the source checkout; the older PyPI wheel used for some captures lacks newer clients and extras. Verify the release and image support of the chosen adapter before a live demo.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python integrations</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md">R interface</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1501,9 +1502,8 @@ Coefficients:
 <p>Define objects, see printed output, and continue in the same session.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This is the interaction we optimize for: send a cell, inspect its output, and continue with the objects already in the session. The capabilities live in the runtime and its packages. Fitting a model, drawing a plot, and using another library all go through this one tool.</p>
-<p>The final expression is fit, so R calls the fitted object’s default print method. The model receives that printed text; the fitted object remains in the R session. The agent receives useful output immediately, not prose that stands in for output. This is a real, persistent R workspace; ordinary cells do not require another object-management API.</p>
-<p><strong>Show:</strong> Show the exact submitted R code beside the printed lm object. The code and renderer both read the same cell definition. The data frame stays available for the following cells.</p>
+<p><strong>Say:</strong> This is the simplest usage, and it’s the pattern we’ve optimized for. A simpler model can use it, and many calls from a more capable model will look like this too: call console.send, send some R code, and get back output.</p>
+<p>Here we’re defining d, a data frame, and fit, a fitted model. The last expression prints fit, so the model sees its printed summary. The objects themselves stay in the session for subsequent calls.</p>
 <p><strong>Author / capture:</strong> Default preview evaluates this cell in native R through knitr, not in MCP Console. With -P output_source:mcp, the panel reads the literal captured Console text. No simulated numerical output is committed.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">runtime</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">send</a></p>
 <style type="text/css">
@@ -1558,8 +1558,7 @@ display:block!important;
 <p>R graphics return an image.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This is the base-R plot produced by this exact plot() call. Plotting is part of the runtime contract, not another tool. All drawing for a managed plot belongs in the same cell.</p>
-<p><strong>Show:</strong> Let R render this figure during quarto preview. Do not substitute a Matplotlib graphic. Capture mode uses the PNG returned by Console instead.</p>
+<p><strong>Say:</strong> On a subsequent call, the model can send some code that generates a plot. It uses the objects already in the session, and the plot comes back as an image in the MCP response. It works the way you’d expect from an R console.</p>
 <p><strong>Author / capture:</strong> Default uses the displayed base-R cell through knitr; plot capture mode reads captures/r-plot-01.png. Neither a stock image nor the previous illustrative SVG is used.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">runtime</a></p>
 <style type="text/css">
@@ -1609,8 +1608,7 @@ display:block!important;
 <p>Supply <code>python=</code> to evaluate a Python cell.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The same send tool also accepts Python. Choose the python argument, define a list, and print its sum. The calling pattern is the same as the R example.</p>
-<p><strong>Show:</strong> Stay with ordinary Python for this slide. The response is captured from Console, and values remains available for the next cell.</p>
+<p><strong>Say:</strong> If the model wants to use Python, it uses the same call and supplies the python argument instead of r. Here it defines a list and prints its sum. That code is evaluated as Python, and the values stay available for the next call.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1666,9 +1664,7 @@ display:block!important;
 <p>The response carries the image produced by the cell.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Plotting works here too. Use Matplotlib on the values from the preceding cell and receive the image in the tool response, just as with R graphics.</p>
-<p><strong>Show:</strong> This is the actual returned PNG. The full response also contains Matplotlib’s text representation of its final label object; the slide shows the image block. Both rendering modes use the capture.</p>
-<p><strong>Transition:</strong> So far these look like two familiar language consoles. They are also connected to each other.</p>
+<p><strong>Say:</strong> Plots work in Python too. The model can use Matplotlib, or libraries that build on it, such as plotnine. Here it plots the values from the previous call, and the response contains the image.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1731,10 +1727,10 @@ display:block!important;
 <p><code>r.d</code> exposes the R object to Python. <code>py$values</code> exposes the Python object to R.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> And these are the same process. Python can read d, the data frame we created in R, and R can read values, the list we just created in Python. The model can use the language it needs while continuing the same analysis.</p>
-<p>Reticulate supplies the bridge and converts values between the languages. Sharing the worker does not mean every object has zero-copy or reference-sharing behavior; conversion depends on the type.</p>
-<p><strong>Show:</strong> Each call has its own response directly below it. These calls, the initial R data frame, and the preceding Python cells were captured in one Console session.</p>
-<p><strong>Transition:</strong> SQL can use the R data frame too.</p>
+<p><strong>Say:</strong> And one thing that’s a little interesting: these two language sessions are embedded in the same process. The objects defined in R are available from Python, and vice versa.</p>
+<p>So Python can access d, the data frame we created earlier in R. And R can access values from Python’s main namespace. The model can keep working on the same analysis while choosing the language for each step.</p>
+<p>Reticulate provides the language bridge and the conversions between them.</p>
+<p><strong>Reference (not spoken):</strong> Reticulate conversion depends on the object type; shared process does not imply universal zero-copy or reference-sharing behavior.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1786,9 +1782,10 @@ display:block!important;
 </div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The same session can also query the live R data frame with DuckDB. The model can choose SQL for a grouped count without exporting the frame first. The connection and catalog persist across calls.</p>
-<p><strong>Show:</strong> d is the R data frame from the first example. This response comes from the same captured Console session.</p>
-<p><strong>Transition:</strong> That is the default DuckDB connection. The model can also select a database connection owned by R or Python.</p>
+<p><strong>Say:</strong> SQL works the same way: the model sends code with the sql argument. Notice that the query refers to d, the data frame defined in the R namespace.</p>
+<p>The default DuckDB connection can find R data frames by name. If we replace that data frame in R, a later query sees the updated binding. We don’t need to export it to a separate database first.</p>
+<p>It’s one runtime, with different ways for the model to interact with it.</p>
+<p><strong>Reference (not spoken):</strong> The managed DuckDB backend scans the R global environment. A view over an R name observes later rebinding. Python data frames must first be bound or converted to an R global for this backend.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1843,11 +1840,10 @@ display:block!important;
 <p>Use a local database or an existing remote connection through its driver.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> SQL defaults to the session’s DuckDB connection. The model can instead select a valid DBI connection owned by R, or a DB-API connection owned by Python. These SQLite examples are alternatives; a remote database connection follows the same selection pattern. The driver supplies the SQL dialect and transaction state.</p>
-<p>Later sql calls go to the selected connection. The object stays in its owning runtime, with its connection-local state. These are supported database connection interfaces, not arbitrary objects. A selected database sees its own tables and registrations; it does not automatically inherit the default DuckDB connection’s access to R data frames.</p>
-<p>Restore the managed connection with console_sql_connection(NULL) in R or console_sql_connection(None) in Python before closing a custom connection. A remote connection still needs its driver, credentials, and network permissions.</p>
-<p><strong>Show:</strong> Read the R and Python panels as two alternatives, followed by the same SQL call. No model or remote database call is needed for this illustration.</p>
-<p><strong>Transition:</strong> Now that the languages and database connections are in place, we can expand the session with packages from CRAN and PyPI.</p>
+<p><strong>Say:</strong> SQL doesn’t have to use the built-in DuckDB connection. The model can select a different connection from either the R or Python runtime.</p>
+<p>From R, that can be a DBI connection. From Python, it can be a DB-API connection. These examples use SQLite, but the same pattern works with a remote database, given the driver, credentials, and network access.</p>
+<p>After selecting the connection, the model keeps sending SQL through the same tool. The queries go to that connection and use its tables and state.</p>
+<p><strong>Reference (not spoken):</strong> A selected connection sees its own tables and state; it does not inherit managed DuckDB registrations. Restore managed SQL with console_sql_connection(NULL) in R or console_sql_connection(None) in Python before closing a custom connection.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql">SQL connection selection</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -1948,6 +1944,114 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
+<section id="process-topology" class="slide level2 deck-slide story-slide">
+<h2>Separate session control from code execution</h2>
+<div class="kicker">
+<p>How the processes fit together · local execution</p>
+</div>
+<!-- inline-svg:assets/process-topology.svg -->
+<div class="embedded-diagram">
+<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1400 455" role="img" aria-label="The LLM client talks to the Console server. The server uses trusted resolver processes outside the sandbox and exchanges cells and results with the sandboxed relay and worker. The sandbox enforces permissions and cleanup.">
+<g font-family="Arial, sans-serif" fill="#18323f">
+<rect x="865" y="8" width="520" height="435" rx="18" fill="#edf5ef" stroke="#167d76" stroke-width="2" stroke-dasharray="8 6" />
+<text x="1125" y="43" text-anchor="middle" font-size="24" fill="#167d76">Sandboxed processes</text>
+<rect x="10" y="83" width="245" height="100" rx="10" fill="white" stroke="#a9b6b6" />
+<text x="132" y="142" text-anchor="middle" font-size="29">LLM client</text>
+<rect x="390" y="83" width="305" height="100" rx="10" fill="white" stroke="#a9b6b6" />
+<text x="542" y="125" text-anchor="middle" font-size="29">Console server</text>
+<text x="542" y="158" text-anchor="middle" font-size="23">Session and records</text>
+<path d="M265 133 H380" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="320" y="108" text-anchor="middle" font-size="23">MCP</text>
+<rect x="930" y="83" width="390" height="100" rx="10" fill="white" stroke="#a9b6b6" />
+<text x="1125" y="125" text-anchor="middle" font-size="29">Worker relay</text>
+<text x="1125" y="158" text-anchor="middle" font-size="23">Transport and supervision</text>
+<path d="M705 133 H920" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="780" y="108" text-anchor="middle" font-size="22">Cells / results</text>
+<rect x="930" y="290" width="390" height="105" rx="10" fill="#d9eee9" stroke="#167d76" />
+<text x="1125" y="330" text-anchor="middle" font-size="29">Session worker</text>
+<text x="1125" y="367" text-anchor="middle" font-size="25">R · Python · SQL</text>
+<path d="M1125 194 V278" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="1144" y="239" font-size="23">Cells and I/O</text>
+<rect x="390" y="290" width="305" height="105" rx="10" fill="#fff" stroke="#a9b6b6" />
+<text x="542" y="330" text-anchor="middle" font-size="29">Trusted resolvers</text>
+<text x="542" y="367" text-anchor="middle" font-size="25">ir · uv</text>
+<path d="M542 194 V278" fill="none" stroke="#537b79" stroke-width="2" />
+<text x="560" y="239" font-size="23">Prepare packages</text>
+<text x="1125" y="428" text-anchor="middle" font-size="21" fill="#167d76">Sandbox: permissions and cleanup</text>
+</g>
+<g fill="#537b79"><path d="M265 133 l10 -5 v10 Z M380 133 l-10 -5 v10 Z M705 133 l10 -5 v10 Z M920 133 l-10 -5 v10 Z M1125 194 l-5 10 h10 Z M1125 278 l-5 -10 h10 Z M542 194 l-5 10 h10 Z M542 278 l-5 -10 h10 Z" /></g>
+</svg>
+</div>
+<!-- /inline-svg -->
+<div class="takeaway">
+<p>The server manages the session. The worker executes code inside the sandbox.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> This is how package resolution fits into the process layout. The LLM client talks to the Console server. The server owns the session and its records, and a relay carries code, input, controls, and results to and from the worker.</p>
+<p>R, Python, and SQL run in that worker, inside the sandbox. The package resolvers are separate trusted processes outside it. When the runtime reaches a missing package, it can make a structured request for preparation. The resolver prepares the package, makes the result available, and the worker continues inside the sandbox.</p>
+<p>That separation is what lets us prepare dependencies without giving the evaluated code the same access as the resolver.</p>
+<p><strong>Reference (not spoken):</strong> Trusted package preparation can execute installation or build code. It is outside the worker sandbox. The protocol-level request/response example remains in the appendix.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Implemented architecture</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="requirements" class="slide level2 deck-slide literal-slide">
+<h2>Declare package requirements explicitly</h2>
+<div class="kicker">
+<p>Use the package ecosystem</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>Prepare dependencies</p>
+</div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
+<span id="cb18-2"><a href aria-hidden="true" tabindex="-1"></a>  requirements<span class="op">=</span>{</span>
+<span id="cb18-3"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;r&quot;</span>: [<span class="st">&quot;dtplyr&quot;</span>],</span>
+<span id="cb18-4"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;python&quot;</span>: [<span class="st">&quot;scikit-learn==1.9.1&quot;</span>],</span>
+<span id="cb18-5"><a href aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb18-6"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div class="right">
+<div class="ownership-card">
+<p>Name a package without a version.</p>
+<p>Pin a specific version when needed.</p>
+<p>Prepare it before evaluating code.</p>
+</div>
+</div>
+</div>
+<div class="takeaway">
+<p>Requirements can also accompany a code cell in the same call.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> So far we’ve let the runtime discover packages as the code uses them. The model can also declare requirements explicitly.</p>
+<p>Here it asks for an R package and a particular version of a Python package. It can prepare those dependencies on their own, as shown here, or include them with a code cell. Preparation happens before that cell runs.</p>
+<p>This is useful when the model wants a specific version or when a distribution name can’t be inferred from the import.</p>
+<p><strong>Author / capture:</strong> This is an illustrative preparation request; no response is presented as a capture. scikit-learn 1.9.1 is the version in the existing Python reference capture. The earlier data.table==1.17.8 rehearsal failed on the installed R toolchains and remains documented in VALIDATION.md. That older request is retained in the reference files, not represented as a successful run here. Requirements are available only on targets that support managed preparation.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md">Requirements and trust</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
 <section id="python" class="slide level2 deck-slide code-dense">
 <h2>Use a Python library on the same data</h2>
 <div class="kicker">
@@ -1958,18 +2062,18 @@ display:block!important;
 <p>LLM client → Console · Python cell</p>
 </div>
 <!-- cells:python-ml -->
-<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb18-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.ensemble import RandomForestRegressor</span></span>
-<span id="cb18-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.model_selection import cross_val_score</span></span>
-<span id="cb18-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
-<span id="cb18-5"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">frame = r.d</span></span>
-<span id="cb18-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">X = pd.get_dummies(frame[[&quot;temperature&quot;, &quot;group&quot;]])</span></span>
-<span id="cb18-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">model = RandomForestRegressor(random_state=42)</span></span>
-<span id="cb18-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">scores = cross_val_score(model, X, frame[&quot;response&quot;],</span></span>
-<span id="cb18-10"><a href aria-hidden="true" tabindex="-1"></a><span class="st">                         cv=5, scoring=&quot;neg_mean_absolute_error&quot;)</span></span>
-<span id="cb18-11"><a href aria-hidden="true" tabindex="-1"></a><span class="st">print(f&quot;CV MAE: {-scores.mean():.3f}&quot;)</span></span>
-<span id="cb18-12"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb19-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.ensemble import RandomForestRegressor</span></span>
+<span id="cb19-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">from sklearn.model_selection import cross_val_score</span></span>
+<span id="cb19-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">import pandas as pd</span></span>
+<span id="cb19-5"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">frame = r.d</span></span>
+<span id="cb19-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">X = pd.get_dummies(frame[[&quot;temperature&quot;, &quot;group&quot;]])</span></span>
+<span id="cb19-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">model = RandomForestRegressor(random_state=42)</span></span>
+<span id="cb19-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">scores = cross_val_score(model, X, frame[&quot;response&quot;],</span></span>
+<span id="cb19-10"><a href aria-hidden="true" tabindex="-1"></a><span class="st">                         cv=5, scoring=&quot;neg_mean_absolute_error&quot;)</span></span>
+<span id="cb19-11"><a href aria-hidden="true" tabindex="-1"></a><span class="st">print(f&quot;CV MAE: {-scores.mean():.3f}&quot;)</span></span>
+<span id="cb19-12"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
 </div>
 <div class="result-panel">
 <div class="panel-label">
@@ -2011,15 +2115,15 @@ display:block!important;
 <p>LLM client → Console · running cell</p>
 </div>
 <!-- cells:progress -->
-<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
-<span id="cb20-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  pb &lt;- txtProgressBar(</span></span>
-<span id="cb20-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    max = 20, style = 3, width = 20)</span></span>
-<span id="cb20-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:20) {</span></span>
-<span id="cb20-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    Sys.sleep(0.15)</span></span>
-<span id="cb20-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    setTxtProgressBar(pb, i)</span></span>
-<span id="cb20-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
-<span id="cb20-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  close(pb)</span></span>
-<span id="cb20-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>, timeout_ms<span class="op">=</span><span class="dv">450</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb21-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb21-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  pb &lt;- txtProgressBar(</span></span>
+<span id="cb21-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    max = 20, style = 3, width = 20)</span></span>
+<span id="cb21-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  for (i in 1:20) {</span></span>
+<span id="cb21-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    Sys.sleep(0.15)</span></span>
+<span id="cb21-6"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    setTxtProgressBar(pb, i)</span></span>
+<span id="cb21-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb21-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  close(pb)</span></span>
+<span id="cb21-9"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>, timeout_ms<span class="op">=</span><span class="dv">450</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2068,9 +2172,9 @@ display:block!important;
 <p>LLM client → Console · collect new output</p>
 </div>
 <!-- cells:poll-next,poll-final -->
-<div class="sourceCode" id="cb22"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb22-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">600</span>)</span>
-<span id="cb22-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-3"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">5000</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">600</span>)</span>
+<span id="cb23-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href aria-hidden="true" tabindex="-1"></a>console.send(timeout_ms<span class="op">=</span><span class="dv">5000</span>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2117,6 +2221,139 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
+<section id="bounded-output" class="slide level2 deck-slide literal-slide code-dense">
+<h2>Protect the model’s context from oversized output</h2>
+<div class="kicker">
+<p>Detail 2 · Bound the response and retain the full output</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>Call</p>
+</div>
+<!-- cells:flood -->
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
+<span id="cb26-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  for </span><span class="kw">(</span><span class="vs">i in seq_len</span><span class="kw">(</span><span class="vs">10000</span><span class="kw">))</span><span class="vs"> {</span></span>
+<span id="cb26-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">sprintf</span><span class="kw">(</span><span class="vs">&quot;row %05d</span><span class="ch">\n</span><span class="vs">&quot;, i</span><span class="kw">))</span></span>
+<span id="cb26-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
+<span id="cb26-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  cat</span><span class="kw">(</span><span class="vs">&quot;fit complete</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
+<span id="cb26-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+</div>
+<div class="right">
+<div class="result-panel">
+<div class="panel-label">
+<p>One tool response · shortened for display</p>
+</div>
+<pre class="text"><code>row 00001
+row 00002
+row 00003
+
+[output preview: middle omitted;
+ raw output retained at
+ .agents/console/sessions/&lt;run&gt;/
+ outputs/call-000008.log]
+
+row 09999
+row 10000
+fit complete</code></pre>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> When a response comes back from send, Console also puts a guardrail around its size. We want to prevent the model from accidentally flooding its own context by running code that produces too much output.</p>
+<p>For an oversized response, we keep the beginning and the end, cut out the middle, and give the model a path to the fuller output. If it needs more detail, it can inspect that file with a filesystem tool.</p>
+<p><strong>Reference (not spoken):</strong> The text response budget is 8 KiB, with a separate image allowance. Raw retention is also bounded. This slide is a stylized, shortened response; captures/flood.txt holds the literal response.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="retained-output" class="slide level2 deck-slide literal-slide">
+<h2>Capture output below the language hooks</h2>
+<div class="kicker">
+<p>Detail 2 · Native output belongs in the result</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>R · forked child writes through a pipe</p>
+</div>
+<!-- cells:r-fork-cat -->
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb28-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
+<span id="cb28-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  job &lt;- parallel::mcparallel</span><span class="kw">(</span><span class="vs">{</span></span>
+<span id="cb28-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    out &lt;- pipe</span><span class="kw">(</span><span class="vs">&quot;cat&quot;, &quot;w&quot;</span><span class="kw">)</span></span>
+<span id="cb28-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">&quot;hello from fork</span><span class="ch">\n</span><span class="vs">&quot;, file = out</span><span class="kw">)</span></span>
+<span id="cb28-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    close</span><span class="kw">(</span><span class="vs">out</span><span class="kw">)</span></span>
+<span id="cb28-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span><span class="kw">)</span></span>
+<span id="cb28-7"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  invisible</span><span class="kw">(</span><span class="vs">parallel::mccollect</span><span class="kw">(</span><span class="vs">job</span><span class="kw">))</span></span>
+<span id="cb28-8"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+<div class="result-panel">
+<div class="panel-label">
+<p>Console response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>hello from fork</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label">
+<p>Python · write directly to stdout</p>
+</div>
+<!-- cells:python-fd -->
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
+<span id="cb30-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">import os</span></span>
+<span id="cb30-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">os</span><span class="dv">.</span><span class="vs">write</span><span class="kw">(</span><span class="vs">1, b&quot;hello directly on fd 1</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
+<span id="cb30-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+<div class="result-panel">
+<div class="panel-label">
+<p>Console response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>hello directly on fd 1
+23</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="takeaway">
+<p>Capture native output from the worker and its children.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> If you’ve built one of these before, another detail that may be interesting is where we capture output. We capture below the language-level hooks, so we can see output from a forked child or a direct write to a file descriptor.</p>
+<p>On the left, an R child process sends text through a pipe to the native cat command. On the right, Python writes directly to file descriptor 1, bypassing sys.stdout. Both outputs come back through Console. That is the kind of detail we want the shared execution system to handle.</p>
+<p><strong>Author / capture:</strong> Both panels use actual responses. Plain cat() in a fork completed without visible text in the captured build; the displayed R child → pipe → native cat route was captured successfully. The 23 after Python output is os.write()’s returned byte count.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
 <section id="session-controls" class="slide level2 deck-slide literal-slide">
 <h2>Interrupt or restart the session</h2>
 <div class="kicker">
@@ -2128,7 +2365,7 @@ display:block!important;
 <div class="panel-label">
 <p>Interrupt</p>
 </div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;interrupt&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;interrupt&quot;</span>)</span></code></pre></div>
 </div>
 <p>Interrupt a long-running computation. Keep the workspace.</p>
 </div>
@@ -2137,7 +2374,7 @@ display:block!important;
 <div class="panel-label">
 <p>Restart</p>
 </div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>)</span></code></pre></div>
 </div>
 <p>Replace the worker. Start with fresh in-memory state.</p>
 </div>
@@ -2147,11 +2384,11 @@ display:block!important;
 <div class="panel-label">
 <p>R package development</p>
 </div>
-<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Run the package tests in a fresh session</span></span>
-<span id="cb27-2"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::test()&quot;</span>)</span>
-<span id="cb27-3"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package, then evaluate more code</span></span>
-<span id="cb27-5"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::load_all(); ...&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb34-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Run the package tests in a fresh session</span></span>
+<span id="cb34-2"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::test()&quot;</span>)</span>
+<span id="cb34-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co"># Load the package, then evaluate more code</span></span>
+<span id="cb34-5"><a href aria-hidden="true" tabindex="-1"></a>console.send(control<span class="op">=</span><span class="st">&quot;restart&quot;</span>, r<span class="op">=</span><span class="st">&quot;devtools::load_all(); ...&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Restart keeps prepared dependencies and starts the supplied cell in the new session.</p>
@@ -2162,6 +2399,97 @@ display:block!important;
 <p><strong>Show:</strong> There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.</p>
 <p><strong>Author / capture:</strong> The restart-plus-test call was exercised against the local package fixture in the controls capture. The next slide captures restart plus a sourced script with queued input.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption">Interruption and restart</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="debugger" class="slide level2 deck-slide literal-slide">
+<h2>Send input to a paused debugger</h2>
+<div class="kicker">
+<p>Work with the session</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>Pause inside an R function</p>
+</div>
+<!-- cells:browser-start -->
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;&quot;&quot;</span></span>
+<span id="cb35-2"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  inspect_mean &lt;- function(x) {</span></span>
+<span id="cb35-3"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    browser()</span></span>
+<span id="cb35-4"><a href aria-hidden="true" tabindex="-1"></a><span class="st">    mean(x)</span></span>
+<span id="cb35-5"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  }</span></span>
+<span id="cb35-6"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href aria-hidden="true" tabindex="-1"></a><span class="st">  inspect_mean(c(1, 2, 3))</span></span>
+<span id="cb35-8"><a href aria-hidden="true" tabindex="-1"></a><span class="st">&quot;&quot;&quot;</span>)</span></code></pre></div>
+</div>
+<div class="result-panel">
+<div class="panel-label">
+<p>Response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>Called from: inspect_mean(c(1, 2, 3))
+[input requested: &quot;Browse[1]&gt; &quot;]
+[waiting for stdin]</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label">
+<p>Inspect x</p>
+</div>
+<!-- cells:browser-x -->
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb37-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(stdin<span class="op">=</span><span class="st">&#39;x</span><span class="ch">\n</span><span class="st">&#39;</span>)</span></code></pre></div>
+</div>
+<div class="result-panel">
+<div class="panel-label">
+<p>Response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1 2 3
+[input requested: &quot;Browse[1]&gt; &quot;]
+[waiting for stdin]</code></pre>
+</div>
+</div>
+</div>
+<div class="code-panel">
+<div class="panel-label">
+<p>Continue</p>
+</div>
+<!-- cells:browser-continue -->
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb39-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(stdin<span class="op">=</span><span class="st">&#39;c</span><span class="ch">\n</span><span class="st">&#39;</span>)</span></code></pre></div>
+</div>
+<div class="result-panel">
+<div class="panel-label">
+<p>Response</p>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> The model can also send standard input. Here’s a familiar R example: a function calls browser(), and execution pauses at the debugger prompt.</p>
+<p>The model sends x and a newline through stdin to inspect the argument. It gets the value back, along with another prompt. Then it sends c and a newline to continue, and the function returns its result.</p>
+<p>The same input field works for readline or other interactive prompts. The session stays alive while it waits for the model’s response.</p>
+<p><strong>Author / capture:</strong> Each call is paired with its literal Console response. All three calls were captured in the same sandboxed session. Quarto reads the saved output; it does not enter an interactive debugger during rendering. stdin does not add a newline automatically.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2185,21 +2513,21 @@ display:block!important;
 <div class="panel-label path-label">
 <p>./analyze.R</p>
 </div>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">readline</span>(<span class="st">&quot;Group to summarize: &quot;</span>)</span>
-<span id="cb28-2"><a href aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./measurements.csv&quot;</span>)</span>
-<span id="cb28-3"><a href aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> d<span class="sc">$</span>response[d<span class="sc">$</span>group <span class="sc">==</span> group]</span>
-<span id="cb28-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(values))</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href aria-hidden="true" tabindex="-1"></a>group <span class="ot">&lt;-</span> <span class="fu">readline</span>(<span class="st">&quot;Group to summarize: &quot;</span>)</span>
+<span id="cb41-2"><a href aria-hidden="true" tabindex="-1"></a>d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./measurements.csv&quot;</span>)</span>
+<span id="cb41-3"><a href aria-hidden="true" tabindex="-1"></a>values <span class="ot">&lt;-</span> d<span class="sc">$</span>response[d<span class="sc">$</span>group <span class="sc">==</span> group]</span>
+<span id="cb41-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="fu">summary</span>(values))</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>One send call</p>
 </div>
 <!-- control-cell:restart-script -->
-<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb29-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
-<span id="cb29-2"><a href aria-hidden="true" tabindex="-1"></a>  control<span class="op">=</span><span class="st">&quot;restart&quot;</span>,</span>
-<span id="cb29-3"><a href aria-hidden="true" tabindex="-1"></a>  stdin<span class="op">=</span><span class="st">&quot;A</span><span class="ch">\n</span><span class="st">&quot;</span>,</span>
-<span id="cb29-4"><a href aria-hidden="true" tabindex="-1"></a>  r<span class="op">=</span><span class="st">&#39;source(&quot;./analyze.R&quot;)&#39;</span></span>
-<span id="cb29-5"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb42-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
+<span id="cb42-2"><a href aria-hidden="true" tabindex="-1"></a>  control<span class="op">=</span><span class="st">&quot;restart&quot;</span>,</span>
+<span id="cb42-3"><a href aria-hidden="true" tabindex="-1"></a>  stdin<span class="op">=</span><span class="st">&quot;A</span><span class="ch">\n</span><span class="st">&quot;</span>,</span>
+<span id="cb42-4"><a href aria-hidden="true" tabindex="-1"></a>  r<span class="op">=</span><span class="st">&#39;source(&quot;./analyze.R&quot;)&#39;</span></span>
+<span id="cb42-5"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2224,9 +2552,9 @@ display:block!important;
 <p>Replace the worker → queue input → source the script.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> An existing analysis script asks which group to summarize. The model can run it in a fresh session without editing out its interactive prompt. One request restarts the worker, queues A followed by a newline, and sources the script. When readline asks for the group, that input is already available. The server returns lifecycle notices and the script’s output in one response.</p>
-<p>Launch this example from the examples directory, where ./analyze.R and ./measurements.csv are present. The source path names the real checked-in script. It reads the same measurements CSV used earlier in the talk. source does not automatically print each visible expression, so the script prints its summary explicitly. The newline is explicit because stdin does not add one.</p>
-<p><strong>Show:</strong> Read the script, then the call and response. Only the replacement receives same-call input. This is captured output, including the managed read notice; startup messages and prompt formatting can vary by runtime. The capture separately checks that an object from the old session is gone and the script selected group A. If the answer depends on output not yet seen, run the script first and answer its prompt with a later stdin-only call.</p>
+<p><strong>Say:</strong> Once we’ve introduced control and input separately, we can put them together. This script asks which group to summarize with readline. The model can run it in a fresh session and supply the answer in the same call.</p>
+<p>First we restart the worker. Then we queue A and a newline. Then we source the script. When readline asks for input, the answer is already there. The lifecycle notices and the script’s output come back in one response.</p>
+<p><strong>Reference (not spoken):</strong> Run from examples/ so the displayed relative paths exist. stdin is queued exactly; the newline is explicit. source() does not automatically print every visible expression, so the script prints its summary. If an answer depends on output not yet seen, supply it in a later stdin-only call.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations">Send operation order</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2258,204 +2586,11 @@ display:block!important;
 <p>Omit code to poll, supply input, control the session, or prepare dependencies.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The model reaches the languages and their package ecosystems through one tool. A new analysis library can add capabilities without adding tools to the MCP interface. These arguments handle the session around that code: preparation, evaluation, waiting, control, and input.</p>
-<p>These are the seven top-level fields in the managed session’s send interface. All are optional, and a call accepts at most one complete R, Python, or SQL cell. Requirements contain lists of R packages, Python distributions, or managed DuckDB extensions. The live schema exposes preparation only when the execution environment supports it.</p>
-<p>An empty send collects output. stdin answers a prompt or debugger; its text is queued exactly, so a line of input normally needs a trailing newline. Control interrupts or restarts the session. timeout_ms limits how long the call waits for an evaluation, rather than stopping the evaluation when that wait expires. Explicit preparation and control happen before that wait.</p>
-<p><strong>Show:</strong> This is a schematic field overview, not a call that supplies three languages at once. Keep the walkthrough brief. The preceding examples introduced evaluation, waiting, polling, interruption, restart, and input. This slide brings those arguments together. Requirements can also prepare an environment explicitly before a cell runs. Code-free standalone preparation cannot carry nonempty stdin. Use stdin alone to answer an already active prompt.</p>
+<p><strong>Say:</strong> That’s the model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.</p>
+<p>We can combine that with a session control operation or standard input. We can declare package requirements, including specific versions, and set how long the call waits for output.</p>
+<p>And we can leave out the code: poll for more output, answer a prompt, interrupt or restart the session, or prepare dependencies. The model can start with the simple call we saw earlier and use these other arguments when it needs them.</p>
+<p><strong>Reference (not spoken):</strong> This schematic overview lists fields, not three cells to submit together. Requirements are exposed only when supported by the execution target. An empty send collects output. Explicit preparation and control precede the evaluation wait. Code-free preparation cannot also carry nonempty stdin.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="bounded-output" class="slide level2 deck-slide literal-slide code-dense">
-<h2>Protect the model’s context from oversized output</h2>
-<div class="kicker">
-<p>Detail 2 · Bound the response and retain the full output</p>
-</div>
-<div class="two-col">
-<div class="left">
-<div class="code-panel">
-<div class="panel-label">
-<p>Call</p>
-</div>
-<!-- cells:flood -->
-<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb31-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
-<span id="cb31-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  for </span><span class="kw">(</span><span class="vs">i in seq_len</span><span class="kw">(</span><span class="vs">10000</span><span class="kw">))</span><span class="vs"> {</span></span>
-<span id="cb31-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">sprintf</span><span class="kw">(</span><span class="vs">&quot;row %05d</span><span class="ch">\n</span><span class="vs">&quot;, i</span><span class="kw">))</span></span>
-<span id="cb31-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span></span>
-<span id="cb31-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  cat</span><span class="kw">(</span><span class="vs">&quot;fit complete</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
-<span id="cb31-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
-</div>
-</div>
-<div class="right">
-<div class="result-panel">
-<div class="panel-label">
-<p>One tool response · shortened for display</p>
-</div>
-<pre class="text"><code>row 00001
-row 00002
-row 00003
-
-[output preview: middle omitted;
- raw output retained at
- .agents/console/sessions/&lt;run&gt;/
- outputs/call-000008.log]
-
-row 09999
-row 10000
-fit complete</code></pre>
-</div>
-</div>
-</div>
-<aside class="notes">
-<p><strong>Say:</strong> A noisy cell should not use the whole context window. One response keeps a beginning, a recent tail, and a notice pointing to retained output. The model can inspect the longer record with an appropriate filesystem tool if needed. The text budget is 8 KiB per result, with a separate allowance for images; raw retention also has a limit. This slide shortens the response for display.</p>
-<p><strong>Show:</strong> This is one stylized response. The middle notice and path are shortened, and most preview lines are omitted to fit the slide. The complete literal response is in captures/flood.txt.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="retained-output" class="slide level2 deck-slide literal-slide">
-<h2>Capture output below the language hooks</h2>
-<div class="kicker">
-<p>Detail 2 · Native output belongs in the result</p>
-</div>
-<div class="two-col">
-<div class="left">
-<div class="code-panel">
-<div class="panel-label">
-<p>R · forked child writes through a pipe</p>
-</div>
-<!-- cells:r-fork-cat -->
-<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb33-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
-<span id="cb33-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  job &lt;- parallel::mcparallel</span><span class="kw">(</span><span class="vs">{</span></span>
-<span id="cb33-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    out &lt;- pipe</span><span class="kw">(</span><span class="vs">&quot;cat&quot;, &quot;w&quot;</span><span class="kw">)</span></span>
-<span id="cb33-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    cat</span><span class="kw">(</span><span class="vs">&quot;hello from fork</span><span class="ch">\n</span><span class="vs">&quot;, file = out</span><span class="kw">)</span></span>
-<span id="cb33-5"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">    close</span><span class="kw">(</span><span class="vs">out</span><span class="kw">)</span></span>
-<span id="cb33-6"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  }</span><span class="kw">)</span></span>
-<span id="cb33-7"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">  invisible</span><span class="kw">(</span><span class="vs">parallel::mccollect</span><span class="kw">(</span><span class="vs">job</span><span class="kw">))</span></span>
-<span id="cb33-8"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
-</div>
-<div class="result-panel">
-<div class="panel-label">
-<p>Console response</p>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>hello from fork</code></pre>
-</div>
-</div>
-</div>
-</div>
-<div class="right">
-<div class="code-panel">
-<div class="panel-label">
-<p>Python · write directly to stdout</p>
-</div>
-<!-- cells:python-fd -->
-<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb35-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(python<span class="op">=</span><span class="vs">r&quot;&quot;&quot;</span></span>
-<span id="cb35-2"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">import os</span></span>
-<span id="cb35-3"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">os</span><span class="dv">.</span><span class="vs">write</span><span class="kw">(</span><span class="vs">1, b&quot;hello directly on fd 1</span><span class="ch">\n</span><span class="vs">&quot;</span><span class="kw">)</span></span>
-<span id="cb35-4"><a href aria-hidden="true" tabindex="-1"></a><span class="vs">&quot;&quot;&quot;</span>)</span></code></pre></div>
-</div>
-<div class="result-panel">
-<div class="panel-label">
-<p>Console response</p>
-</div>
-<div class="cell">
-<div class="cell-output cell-output-stdout">
-<pre><code>hello directly on fd 1
-23</code></pre>
-</div>
-</div>
-</div>
-</div>
-</div>
-<div class="takeaway">
-<p>Capture native output from the worker and its children.</p>
-</div>
-<aside class="notes">
-<p><strong>Say:</strong> The R example forks with parallel::mcparallel. Inside that child, R’s cat writes to a pipe; the native cat command forwards the bytes to stdout. Closing the pipe finishes that command, and mccollect waits for the forked child. This uses Unix process APIs and was captured on macOS.</p>
-<p>The Python example writes directly to file descriptor 1, bypassing sys.stdout. The text is followed by 23, the number of bytes returned by os.write and displayed as the cell’s final expression. There is no assignment to discard that value.</p>
-<p><strong>Show:</strong> Both panels use actual Console responses. Read each call with its own result. The R child → pipe → native cat route is deliberate: ordinary cat() in the fork completed but its text was absent in this installed build. Do not present the plain call as captured successfully. The older C-level fork example remains in the reference captures.</p>
-<p><strong>Transition:</strong> Those details describe what the agent sees. Next, look at the process arrangement that makes dependency preparation and sandbox enforcement possible.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
-<style type="text/css">
-span.MJX_Assistive_MathML {
-position:absolute!important;
-clip: rect(1px, 1px, 1px, 1px);
-padding: 1px 0 0 0!important;
-border: 0!important;
-height: 1px!important;
-width: 1px!important;
-overflow: hidden!important;
-display:block!important;
-}</style></aside>
-</section>
-<section id="process-topology" class="slide level2 deck-slide story-slide">
-<h2>Separate session control from code execution</h2>
-<div class="kicker">
-<p>How the processes fit together · local execution</p>
-</div>
-<!-- inline-svg:assets/process-topology.svg -->
-<div class="embedded-diagram">
-<svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 1400 455" role="img" aria-label="The LLM client talks to the Console server. The server uses trusted resolver processes outside the sandbox and exchanges cells and results with the sandboxed relay and worker. The sandbox enforces permissions and cleanup.">
-<g font-family="Arial, sans-serif" fill="#18323f">
-<rect x="865" y="8" width="520" height="435" rx="18" fill="#edf5ef" stroke="#167d76" stroke-width="2" stroke-dasharray="8 6" />
-<text x="1125" y="43" text-anchor="middle" font-size="24" fill="#167d76">Sandboxed processes</text>
-<rect x="10" y="83" width="245" height="100" rx="10" fill="white" stroke="#a9b6b6" />
-<text x="132" y="142" text-anchor="middle" font-size="29">LLM client</text>
-<rect x="390" y="83" width="305" height="100" rx="10" fill="white" stroke="#a9b6b6" />
-<text x="542" y="125" text-anchor="middle" font-size="29">Console server</text>
-<text x="542" y="158" text-anchor="middle" font-size="23">Session and records</text>
-<path d="M265 133 H380" fill="none" stroke="#537b79" stroke-width="2" />
-<text x="320" y="108" text-anchor="middle" font-size="23">MCP</text>
-<rect x="930" y="83" width="390" height="100" rx="10" fill="white" stroke="#a9b6b6" />
-<text x="1125" y="125" text-anchor="middle" font-size="29">Worker relay</text>
-<text x="1125" y="158" text-anchor="middle" font-size="23">Transport and supervision</text>
-<path d="M705 133 H920" fill="none" stroke="#537b79" stroke-width="2" />
-<text x="780" y="108" text-anchor="middle" font-size="22">Cells / results</text>
-<rect x="930" y="290" width="390" height="105" rx="10" fill="#d9eee9" stroke="#167d76" />
-<text x="1125" y="330" text-anchor="middle" font-size="29">Session worker</text>
-<text x="1125" y="367" text-anchor="middle" font-size="25">R · Python · SQL</text>
-<path d="M1125 194 V278" fill="none" stroke="#537b79" stroke-width="2" />
-<text x="1144" y="239" font-size="23">Cells and I/O</text>
-<rect x="390" y="290" width="305" height="105" rx="10" fill="#fff" stroke="#a9b6b6" />
-<text x="542" y="330" text-anchor="middle" font-size="29">Trusted resolvers</text>
-<text x="542" y="367" text-anchor="middle" font-size="25">ir · uv</text>
-<path d="M542 194 V278" fill="none" stroke="#537b79" stroke-width="2" />
-<text x="560" y="239" font-size="23">Prepare packages</text>
-<text x="1125" y="428" text-anchor="middle" font-size="21" fill="#167d76">Sandbox: permissions and cleanup</text>
-</g>
-<g fill="#537b79"><path d="M265 133 l10 -5 v10 Z M380 133 l-10 -5 v10 Z M705 133 l10 -5 v10 Z M920 133 l-10 -5 v10 Z M1125 194 l-5 10 h10 Z M1125 278 l-5 -10 h10 Z M542 194 l-5 10 h10 Z M542 278 l-5 -10 h10 Z" /></g>
-</svg>
-</div>
-<!-- /inline-svg -->
-<div class="takeaway">
-<p>The server manages the session. The worker executes code inside the sandbox.</p>
-</div>
-<aside class="notes">
-<p><strong>Say:</strong> The LLM client talks to the Console server over MCP. The server owns the session and its records. A relay carries cells, input, output, and control messages to the worker, where R, Python, and SQL run. The sandbox enforces permissions and owns process cleanup.</p>
-<p>Package resolvers are separate trusted processes, outside the worker sandbox. That is how the server can prepare a package without giving the worker direct network access. A protocol-level example of that exchange is in the appendix.</p>
-<p><strong>Show:</strong> This is the simplified local layout. Arrows indicate the labeled two-way exchanges, not a strict parent-process tree. Native setup helpers are omitted. The native runner is a separate executable; the shaded area identifies the processes whose permissions it restricts. Remote targets change placement and transport while retaining the session interface.</p>
-<p><strong>Transition:</strong> The shaded boundary marks where the evaluated code runs. Next, look at the permissions it gets by default.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Implemented architecture</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2478,16 +2613,16 @@ display:block!important;
 <li>Write only in private temporary storage.</li>
 <li>Restrict direct network access.</li>
 <li>Apply the same policy to subprocesses.</li>
-<li>Stop the worker and its child processes; remove temporary storage.</li>
+<li>On restart or shutdown, stop the worker and children; remove temporary storage.</li>
 </ul>
 <div class="takeaway">
 <p>Host reads are allowed. Deny sensitive paths explicitly.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The default is the read-only policy, available explicitly as :read-only. Before changing anything, here is what it provides: broad host reads, writes confined to private temporary storage, restricted direct networking, and the same policy for subprocesses. Project files and shared temporary directories are not generally writable.</p>
-<p>The runner owns worker cleanup on restart and shutdown, removes its private temporary storage, and handles caller loss while it remains alive. On Linux, it waits for namespace retirement. On macOS, cleanup covers the owned process group and detached descendants the runner observes; it cannot promise to catch every orphaning race. Runner death has no independent recovery guarantee.</p>
-<p>Read access and inherited environment variables can expose secrets, so configure explicit denials and environment controls when needed. Trusted package preparation is outside this worker policy. Session records, package caches, and intentionally written project files persist; temporary cleanup does not remove those.</p>
-<p><strong>Show:</strong> Explain these defaults before introducing a configuration file. Next, compare the built-in policies at launch, then add project-specific permissions.</p>
+<p><strong>Say:</strong> Now let’s look more closely at the sandbox. The default policy is called read-only. The model has read access to the host files available to the account, but it can write only in its own private temporary storage. Direct network access is restricted.</p>
+<p>Those restrictions apply to the worker and its subprocesses. On an explicit restart or server shutdown, Console stops the worker and cleans up its child processes and temporary storage. There is a grace period, followed by forceful termination if needed.</p>
+<p>That’s the default. If there are sensitive files the model shouldn’t read, the user can deny those paths explicitly.</p>
+<p><strong>Reference (not spoken):</strong> Cleanup runs on restart and server shutdown. Console allows a worker grace period before escalation. On Linux the runner waits for PID namespace retirement; on macOS it covers the owned process group and observed descendants, with an orphaning race limitation. Runner death has no independent cleanup guarantee. Prepared dependencies, records, and project files persist. Inherited environment variables and broad host reads may expose secrets; configuration can restrict them.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2517,8 +2652,8 @@ display:block!important;
 <li>Project files stay protected from writes.</li>
 </ul>
 <div class="code-panel">
-<div class="sourceCode" id="cb37"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb37-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
-<span id="cb37-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:read-only</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb44-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
+<span id="cb44-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:read-only</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2528,8 +2663,8 @@ display:block!important;
 <p>Adds writes in the <strong>workspace</strong>: the directory where you launch Console.</p>
 <p>Write access stays denied for <code>.git</code>, <code>.agents</code>, <code>.codex</code>, and <code>.claude</code>. These subdirectories remain readable.</p>
 <div class="code-panel">
-<div class="sourceCode" id="cb38"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb38-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
-<span id="cb38-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:workspace</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb45-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> serve <span class="dt">\</span></span>
+<span id="cb45-2"><a href aria-hidden="true" tabindex="-1"></a>  <span class="at">-c</span> extends=:workspace</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2537,9 +2672,9 @@ display:block!important;
 <p>Both restrict networking and provide private storage and process cleanup.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The two named built-ins are :read-only and :workspace. The default gives read access and private scratch. Workspace mode additionally grants writes under the launch working directory while protecting .git, .agents, .codex, and .claude from writes. Networking and private-storage behavior remain restricted.</p>
-<p>The -c option selects the policy for this launch. There are two built-in names in the current interface; external-sandbox and unrestricted are enforcement modes rather than additional named presets. The next slide puts the workspace choice in a project file and adds explicit read and deny entries.</p>
-<p><strong>Show:</strong> These are alternative launch commands. The leading colon is part of each built-in name. Project configuration is read first; -c overrides its extends field while retaining other configured fields. Demonstrate in a clean project when showing just the built-in baseline.</p>
+<p><strong>Say:</strong> There are two built-in policies. Read-only is the default. Workspace adds write access under the working directory where Console is launched.</p>
+<p>It still protects the .git, .agents, .codex, and .claude directories from writes. The network restrictions and private temporary storage are the same. The user can select either policy at the command line.</p>
+<p><strong>Reference (not spoken):</strong> The leading colon is part of the built-in name. -c overrides extends while retaining other project configuration. external-sandbox and unrestricted are enforcement modes, not additional named presets.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md">Configuration layering</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2571,16 +2706,16 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb39"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb39-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb39-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb39-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
-<span id="cb39-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
-<span id="cb39-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
-<span id="cb39-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span>
-<span id="cb39-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./secrets</span><span class="kw">}</span></span>
-<span id="cb39-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span>
-<span id="cb39-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./.env</span><span class="kw">}</span></span>
-<span id="cb39-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb46-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb46-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb46-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
+<span id="cb46-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
+<span id="cb46-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
+<span id="cb46-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span>
+<span id="cb46-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./secrets</span><span class="kw">}</span></span>
+<span id="cb46-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span>
+<span id="cb46-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./.env</span><span class="kw">}</span></span>
+<span id="cb46-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2588,8 +2723,8 @@ display:block!important;
 <p>Set project permissions in .agents/console/config.yaml.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Console reads .agents/console/config.yaml in the launch directory once at startup. This is trusted user configuration. The default requires no file. extends: “:workspace” makes the previous launch choice part of the project configuration. For project work we can allow workspace writes, make the data directory read-only, and deny the secrets directory and .env. These are user-selected permissions captured when Console starts. The model can work inside that choice. The example shows why the sandbox needs more than a single on/off switch.</p>
-<p><strong>Show:</strong> Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.</p>
+<p><strong>Say:</strong> If the user wants to customize a built-in policy, Console also reads .agents/console/config.yaml from the launch directory.</p>
+<p>Here we start with workspace and adjust the filesystem permissions: keep the data directory read-only, and deny access to the secrets directory and .env. This is the user’s configuration. It sets the permissions the model gets for that session.</p>
 <p><strong>Author / capture:</strong> Use pre-existing fixture paths. Native specificity is not array order. Linux has documented limits for nested deny/read reopenings; this simple example does not establish arbitrary cross-platform ACL equivalence.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">sandbox</a></p>
 <style type="text/css">
@@ -2620,22 +2755,13 @@ display:block!important;
 <div class="right">
 <div class="code-panel">
 <div class="panel-label path-label">
-<p>.agents/console/config.yaml</p>
+<p>.agents/console/config.yaml · excerpt</p>
 </div>
-<div class="sourceCode" id="cb40"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb40-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb40-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb40-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
-<span id="cb40-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
-<span id="cb40-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb40-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb40-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb40-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb40-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb40-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb40-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
-<span id="cb40-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
-<span id="cb40-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">warehouse.example.com</span><span class="kw">:</span><span class="at"> allow</span></span>
-<span id="cb40-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">blocked.example.com</span><span class="kw">:</span><span class="at"> deny</span></span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb47-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb47-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
+<span id="cb47-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb47-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
+<span id="cb47-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">warehouse.example.com</span><span class="kw">:</span><span class="at"> allow</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2643,9 +2769,10 @@ display:block!important;
 <p>The client still supplies its usual database credentials.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> For example, a corporate warehouse can expose an HTTPS query endpoint at the allowed host. A database using another TCP protocol needs a SOCKS-aware client or an explicitly configured SOCKS tunnel; a domain allowlist does not rewrite arbitrary database drivers. Network reachability and database authentication remain separate. For a database on a private IP, the pinned proxy requires a literal allowed IP matching the destination (or the broader local-binding exception); a hostname allowlist alone does not grant private-address access. The placeholder host is illustrative and was not contacted.</p>
-<p>This complete proxy configuration shows both the allowlist and the surrounding controls. The runner owns proxy routing, host normalization, and enforcement. A proxy object must include the required scalar fields; Console does not materialize omitted defaults for it.</p>
-<p><strong>Show:</strong> Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.</p>
+<p><strong>Say:</strong> The same configuration lets us make a specific exception to the network restrictions. For example, suppose we want the model to query a corporate data warehouse through an HTTPS API.</p>
+<p>We enable the managed proxy and allow that warehouse host. The model still needs the usual database credentials, but we can give it that connection without opening general network access.</p>
+<p>This excerpt shows the part of the policy that selects the destination. I’ll show the complete proxy configuration after the next example.</p>
+<p><strong>Reference (not spoken):</strong> This is a focused YAML excerpt, not a standalone config. examples/configs/network-proxy.yaml contains the full version. Arbitrary database TCP protocols need a SOCKS-aware client or tunnel. Private-IP destinations need the appropriate literal-IP rule or local-network exception; a hostname rule alone does not grant private-address access. Placeholder domains were not contacted.</p>
 <p><strong>Author / capture:</strong> Example domains are placeholders, not actual services. All seven required scalar proxy fields are present. mode: full does not erase the domain allowlist. Review PROTOCOL.md for mode, upstream proxy, UDP and local-binding semantics.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">sandbox</a></p>
 <style type="text/css">
@@ -2676,21 +2803,12 @@ display:block!important;
 <div class="right">
 <div class="code-panel">
 <div class="panel-label path-label">
-<p>.agents/console/config.yaml</p>
+<p>.agents/console/config.yaml · excerpt</p>
 </div>
-<div class="sourceCode" id="cb41"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb41-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb41-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb41-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
-<span id="cb41-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
-<span id="cb41-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb41-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb41-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb41-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb41-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb41-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb41-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
-<span id="cb41-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span></span>
-<span id="cb41-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">api.example.com</span><span class="kw">:</span><span class="at"> allow</span></span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb48-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb48-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
+<span id="cb48-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb48-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -2698,11 +2816,10 @@ display:block!important;
 <p><code>shiny::runApp(&quot;app&quot;, host = &quot;127.0.0.1&quot;, port = 8000)</code></p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This configuration supports local Shiny development: the worker can bind the loopback port while outbound requests use the managed proxy. Start an app at app/ with shiny::runApp and open its URL locally. A long-running app uses the wait, poll, and interrupt contract introduced earlier.</p>
-<p>An interactive local server can need a binding exception. The policy exposes that choice separately from the domain allowlist. Do not conflate permission to bind with permission to publish a remote service, create a tunnel, or expose every Unix socket.</p>
-<p><strong>Show:</strong> Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.</p>
+<p><strong>Say:</strong> Here’s another example: local Shiny development. We can enable local binding so the model can launch the app on a loopback port, and then open it in a browser.</p>
+<p>The app can keep running while the model polls for output, and the model can interrupt it when it’s finished. This is another permission we can configure for the work we want the agent to do.</p>
+<p><strong>Reference (not spoken):</strong> This is a focused YAML excerpt, not a standalone config. examples/configs/network-listener.yaml contains the full version. The flag permits local networking exceptions beyond a single Shiny port; it is not a port-specific allowlist. This does not promise a viewer or automatic port forwarding.</p>
 <p><strong>Author / capture:</strong> Validate the exact native behavior with the application used for the demo. This slide does not promise a Shiny viewer or automatic port forwarding. Keep all required proxy fields when changing a single flag.</p>
-<p><strong>Transition:</strong> A running app can create child processes. The next slide explains what happens to that process tree when the session restarts or the server shuts down.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">sandbox</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2716,27 +2833,49 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
-<section id="sandbox-cleanup" class="slide level2 deck-slide policy-slide">
-<h2>Clean up on restart or server shutdown</h2>
+<section id="proxy-options" class="slide level2 deck-slide config-slide code-dense">
+<h2>The complete proxy configuration</h2>
 <div class="kicker">
 <p>Choose the worker’s permissions</p>
 </div>
-<ul>
-<li>Ask the worker to exit, with a short grace period.</li>
-<li>Force termination if it does not exit.</li>
-<li>Stop its process group and tracked descendants, including children that detach.</li>
-<li>Confirm process cleanup, then remove private temporary storage.</li>
-</ul>
-<div class="takeaway">
-<p>The sandbox cleans up the process tree when the session ends or restarts.</p>
+<div class="two-col">
+<div class="left">
+<div class="ownership-card">
+<p>Enable the proxy explicitly.</p>
+<p>Set allowed destinations in <code>domains</code>.</p>
+<p>Opt into local binding for Shiny.</p>
+<p>Keep UDP, upstream proxies, and broad Unix-socket access off unless needed.</p>
+</div>
+<div class="small-note">
+<p>Empty rule maps grant no destinations. The default policy has no proxy.</p>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label path-label">
+<p>.agents/console/config.yaml</p>
+</div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb49-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb49-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb49-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> restricted</span></span>
+<span id="cb49-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">proxy</span><span class="kw">:</span></span>
+<span id="cb49-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enabled</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb49-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb49-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">enableSocks5Udp</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb49-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowUpstreamProxy</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb49-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">dangerouslyAllowAllUnixSockets</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb49-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">allowLocalBinding</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb49-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mode</span><span class="kw">:</span><span class="at"> full</span></span>
+<span id="cb49-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">domains</span><span class="kw">:</span><span class="at"> </span><span class="kw">{}</span></span>
+<span id="cb49-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">unixSockets</span><span class="kw">:</span><span class="at"> </span><span class="kw">{}</span></span></code></pre></div>
+</div>
+</div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This sequence runs when an explicit session restart is requested or the Console server shuts down. File and network permissions are only part of the sandbox. Console asks the worker to shut down and gives it a short grace period. The current default is one second. If the worker does not exit, the relay force-stops it. The sandbox also cleans up the process tree, so a child that outlives its parent is part of the shutdown contract.</p>
-<p>On Linux, the runner waits for the kernel to finish terminating the owned PID namespace. On macOS, it watches fork and exit events, tracks process identity, and stops the original process group and observed descendants, including those that detach. A descendant that detaches and becomes orphaned before observation can fall outside the macOS guarantee. The worker grace period and the runner’s separate descendant-cleanup deadline are different limits.</p>
-<p>The runner confirms process cleanup before removing private storage. A cleanup failure is reported as an error; if termination cannot be established, it retains the storage. Server or relay loss triggers cleanup while the runner remains alive. The runner’s own death does not guarantee temporary-directory deletion or macOS workload termination. Prepared package caches, records, and project files are retained.</p>
-<p><strong>Show:</strong> The sequence applies to the normal native sandbox. It is separate from the cooperative interrupt control. The notes retain platform boundaries; the visible point is that the session owns the child processes it launches.</p>
-<p><strong>Transition:</strong> These responsibilities belong to the execution environment. The worker itself can also live on another host.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#limitations">Console runtime</a> · <a href="https://github.com/t-kalinowski/codex/blob/2d0ad797210de821c07d1f18e4f1ffdcf06589cb/codex-rs/mcp-console-sandbox/LIFECYCLE.md">Pinned native runner lifecycle</a></p>
+<p><strong>Say:</strong> Here is the complete proxy configuration behind those two examples. Enabling the proxy is an explicit choice; it isn’t part of the default read-only policy.</p>
+<p>These are all the fields on the proxy object. We can set destination rules, choose whether to allow local binding, and control SOCKS, UDP, upstream proxies, and Unix sockets. The empty maps here grant no destinations. Add the warehouse rule or change the local-binding flag for the examples we just saw.</p>
+<p><strong>Reference (not spoken):</strong> The seven scalar fields are required when a proxy object is supplied; Console forwards it without filling in missing values. domains and unixSockets may be omitted, null, or empty. The shown values are an explicit enabled-proxy baseline, not automatically materialized defaults. mode: full permits the supported HTTP methods; destination policy still applies. The two preceding excerpts omit required surrounding fields for readability; their full runnable alternatives remain in examples/configs. This slide expands the proxy settings, not every platform-specific sandbox option.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -2772,8 +2911,9 @@ display:block!important;
 <p>Execution targets plug into the same session interface.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The architecture separates session control from its execution target, so target adapters can support different environments. These cards show local, SSH, and Docker examples supported today. The session worker does not have to run beside the client. It can run locally, on an SSH host, or in Docker. The user selects the target at session launch, and the model still chooses R, Python, or SQL. Additional targets need an implementation of the relevant transport, environment, and lifecycle contracts; arbitrary environments do not work just by naming them.</p>
-<p>Local and SSH targets support managed package preparation on the execution host. Docker uses the packages prepared in its image. The current implementation treats SSH and Docker as separate target modes.</p>
+<p><strong>Say:</strong> Finally, the session doesn’t have to run locally. Local is the default: the worker runs on the same host as the Console server.</p>
+<p>We can also configure an SSH host or a Docker container. The architecture separates the session interface from the execution environment, so where the worker runs is a user choice.</p>
+<p><strong>Reference (not spoken):</strong> Local and SSH support managed package preparation. The currently inspected Docker path uses prepared-image dependencies; installing uv and ir alone does not enable managed preparation.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md">SSH execution</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md">Docker execution</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2836,10 +2976,8 @@ display:block!important;
 <p>Code runs beside the remote data. The client and session records stay local.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This is the earlier process diagram with execution moved to another host. The LLM client and Console server stay on your machine. SSH carries cells, input, controls, and results between the server and the remote relay. R, Python, and SQL run in the remote worker under that host’s sandbox policy.</p>
-<p>Package preparation moves too. A separate SSH connection reaches the trusted preparation processes on the remote host, outside the worker sandbox. Prepared packages and their caches belong there. Session logs, returned images, and output records remain with the local Console server.</p>
-<p><strong>Show:</strong> Compare the same client, server, relay, worker, and resolver boxes with the local diagram. The warm outer box is the remote host; the green dashed box is its sandbox. Arrows show communication, not parent-process relationships. SSH helpers and setup processes are omitted. The existing remote workspace and runtime prerequisites must already be present.</p>
-<p><strong>Transition:</strong> With this placement, the worker can use data already on that host.</p>
+<p><strong>Say:</strong> This is the earlier diagram with execution moved to a remote host. On your machine, the LLM client talks to the Console server over MCP stdio. The server launches a worker relay on the SSH host, and the worker runs there.</p>
+<p>The trusted package resolvers run on that host too, outside the worker sandbox. The sandbox policy can still apply to the worker and its subprocesses. The placement has changed, but the relationship between the parts is the same.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md">SSH execution</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2874,8 +3012,8 @@ display:block!important;
 <p>The source data stays on the remote host. Results return over SSH.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This is an SSH session on an existing host. The project and source data are already there. Console sends code and control messages to that worker and receives its output, plots, and artifacts. It does not copy the project into a Docker sandbox.</p>
-<p>Results can of course contain data selected by the submitted code. The point is that the dataset does not need to be staged locally to run the analysis. The remote host needs a compatible Console installation, runtime prerequisites, and the workspace. Both the account permissions and the worker sandbox apply.</p>
+<p><strong>Say:</strong> With that separation, the Console server keeps the session records local, while the computation and sandbox live on the remote host. The worker uses the files available there, and sends results back.</p>
+<p>So if the project and data already live on that machine, we can work with them there without first staging the dataset locally.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md">SSH execution</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -2907,23 +3045,23 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb42"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb42-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb42-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
-<span id="cb42-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transport</span><span class="kw">:</span></span>
-<span id="cb42-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> ssh</span></span>
-<span id="cb42-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">host</span><span class="kw">:</span><span class="at"> analysis-host</span></span>
-<span id="cb42-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /srv/projects/analysis</span></span>
-<span id="cb42-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb42-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
-<span id="cb42-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
-<span id="cb42-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
-<span id="cb42-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb50-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb50-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
+<span id="cb50-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transport</span><span class="kw">:</span></span>
+<span id="cb50-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> ssh</span></span>
+<span id="cb50-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">host</span><span class="kw">:</span><span class="at"> analysis-host</span></span>
+<span id="cb50-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /srv/projects/analysis</span></span>
+<span id="cb50-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb50-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
+<span id="cb50-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
+<span id="cb50-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
+<span id="cb50-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This is the local project configuration. analysis-host is an existing SSH destination, and /srv/projects/analysis is an existing directory on that host. The workspace baseline and the read-only data rule are materialized there. Then the client starts mcp-console serve in the usual way. Relative worker paths refer to the remote workspace; records stay with the controller.</p>
-<p><strong>Show:</strong> Walk through the visible YAML from top to bottom. This is a complete alternative configuration, not a patch to concatenate with the preceding example.</p>
+<p><strong>Say:</strong> To configure an SSH host, the user names the host and the working directory where the worker should start. That directory and the runtime prerequisites need to exist on the remote machine.</p>
+<p>Then we can layer sandbox permissions on top. Here, the workspace policy and the data directory rule apply on the remote host. The client still launches the Console server in the usual way.</p>
 <p><strong>Author / capture:</strong> analysis-host must be a configured OpenSSH destination; /srv/projects/analysis and data must already exist. SSH+Docker composition is not supported in this revision.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md">ssh</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">sandbox</a></p>
 <style type="text/css">
@@ -2941,30 +3079,23 @@ display:block!important;
 <section id="docker" class="slide level2 deck-slide config-slide code-dense">
 <h2>Build the session’s Docker image at launch</h2>
 <div class="kicker">
-<p>Docker · Prepare the packages in the image</p>
+<p>Docker · Choose the session environment</p>
 </div>
 <div class="two-col">
 <div class="left">
-<p>Start with Rocker’s R image, then add Python and Console.</p>
+<p>Start with Rocker. Add uv, rig, and ir.</p>
 <div class="code-panel">
 <div class="panel-label path-label">
 <p>examples/Dockerfile</p>
 </div>
-<div class="sourceCode" id="cb43"><pre class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb43-1"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> rocker/r-ver:4.6.1</span>
-<span id="cb43-2"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">/rocker_scripts/install_python.sh</span></span>
-<span id="cb43-3"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> PATH=<span class="st">&quot;/opt/venv/bin:${PATH}&quot;</span></span>
-<span id="cb43-4"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> RETICULATE_PYTHON=/opt/venv/bin/python</span>
-<span id="cb43-5"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">apt-get</span> update <span class="kw">&amp;&amp;</span> <span class="ex">apt-get</span> install <span class="at">-y</span> <span class="dt">\</span></span>
-<span id="cb43-6"><a href aria-hidden="true" tabindex="-1"></a>    <span class="at">--no-install-recommends</span> libcap2 cmake <span class="dt">\</span></span>
-<span id="cb43-7"><a href aria-hidden="true" tabindex="-1"></a>    libssl-dev libcurl4-openssl-dev <span class="dt">\</span></span>
-<span id="cb43-8"><a href aria-hidden="true" tabindex="-1"></a>    <span class="kw">&amp;&amp;</span> <span class="fu">rm</span> <span class="at">-rf</span> /var/lib/apt/lists/<span class="pp">*</span></span>
-<span id="cb43-9"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="va">LIBARROW_BINARY</span><span class="op">=</span>true <span class="va">ARROW_DATASET</span><span class="op">=</span>ON <span class="dt">\</span></span>
-<span id="cb43-10"><a href aria-hidden="true" tabindex="-1"></a>    <span class="ex">install2.r</span> <span class="at">--error</span> <span class="at">--skipinstalled</span> <span class="dt">\</span></span>
-<span id="cb43-11"><a href aria-hidden="true" tabindex="-1"></a>    reticulate DBI jsonlite png nanoarrow <span class="dt">\</span></span>
-<span id="cb43-12"><a href aria-hidden="true" tabindex="-1"></a>    duckdb arrow pillar tibble utf8</span>
-<span id="cb43-13"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">pip</span> install mcp-console==0.0.4 <span class="dt">\</span></span>
-<span id="cb43-14"><a href aria-hidden="true" tabindex="-1"></a>    numpy pandas matplotlib duckdb scikit-learn</span>
-<span id="cb43-15"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /workspace</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb51-1"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> rocker/tidyverse</span>
+<span id="cb51-2"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> UV_INSTALL_DIR=/usr/local/bin</span>
+<span id="cb51-3"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> UV_TOOL_BIN_DIR=/usr/local/bin</span>
+<span id="cb51-4"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> RIG_PREFIX=/usr/local</span>
+<span id="cb51-5"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
+<span id="cb51-6"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-LsSf</span> https://r-lib.github.io/rig/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
+<span id="cb51-7"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">uv</span> tool install r-lib-ir</span>
+<span id="cb51-8"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /workspace</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -2972,29 +3103,29 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb44"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb44-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
-<span id="cb44-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /workspace</span></span>
-<span id="cb44-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compute</span><span class="kw">:</span></span>
-<span id="cb44-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> docker</span></span>
-<span id="cb44-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span></span>
-<span id="cb44-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">context</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb44-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dockerfile</span><span class="kw">:</span><span class="at"> ./examples/Dockerfile</span></span>
-<span id="cb44-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mounts</span><span class="kw">:</span></span>
-<span id="cb44-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">source</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb44-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at"> /workspace</span></span>
-<span id="cb44-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read_write</span></span>
-<span id="cb44-12"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb44-13"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">kind</span><span class="kw">:</span><span class="at"> external-sandbox</span><span class="kw">}</span></span>
-<span id="cb44-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> enabled</span></span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb52-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
+<span id="cb52-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /workspace</span></span>
+<span id="cb52-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">uvx</span><span class="kw">,</span><span class="at"> mcp-console</span><span class="kw">]</span></span>
+<span id="cb52-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compute</span><span class="kw">:</span></span>
+<span id="cb52-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> docker</span></span>
+<span id="cb52-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span></span>
+<span id="cb52-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">context</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb52-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dockerfile</span><span class="kw">:</span><span class="at"> ./examples/Dockerfile</span></span>
+<span id="cb52-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mounts</span><span class="kw">:</span></span>
+<span id="cb52-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">source</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb52-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at"> /workspace</span></span>
+<span id="cb52-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read_write</span></span>
+<span id="cb52-13"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb52-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">kind</span><span class="kw">:</span><span class="at"> external-sandbox</span><span class="kw">}</span></span>
+<span id="cb52-15"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> enabled</span></span></code></pre></div>
 </div>
 </div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The Dockerfile starts from rocker/r-ver:4.6.1. Rocker supplies R and an installation script that prepares Python and reticulate. We put that Python environment on PATH, select it for the runtime bridge, and install Console plus the R, Python, and SQL dependencies used by the session. The YAML asks Console to build that image during initial setup, then run the session in it with the project mounted at /workspace. Both build paths are relative to the local launch directory. Packages come from the image; this target does not resolve them dynamically during evaluation.</p>
-<p>external-sandbox delegates file and network enforcement to the Docker boundary; network: enabled permits ordinary container networking. The writable mount exposes those host files to changes. There are no implicit home, credential, or Docker socket mounts.</p>
-<p><strong>Show:</strong> The Dockerfile and YAML are separate files displayed together. Inline Dockerfile text is not accepted in the current target schema; build.dockerfile names a file. Docker build runs before the analysis worker and uses trusted setup permissions. It is not governed by the worker’s network policy.</p>
-<p><strong>Author / capture:</strong> The versioned Rocker Dockerfile and install_python.sh were checked upstream. The helper creates /opt/venv and installs reticulate. The additional R packages follow Console’s documented Docker prerequisites; Arrow Dataset support is requested explicitly. Console is pinned to 0.0.4, so use a compatible controller build. R and Python packages are otherwise resolved at build time. The Docker daemon was unavailable locally; the image build and Docker target were not run.</p>
-<p><strong>Sources:</strong> <a href="https://rocker-project.org/images/versioned/r-ver.html">Rocker R images</a> · <a href="https://github.com/rocker-org/rocker-versioned2/blob/master/scripts/install_python.sh">Rocker Python setup</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md">Docker execution and base image</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/examples/docker/Dockerfile">Full example Dockerfile</a></p>
+<p><strong>Say:</strong> Besides SSH hosts, users can configure a Docker container. Here we start from rocker/tidyverse and add uv, rig, and ir. We give Console the Dockerfile path, specify the project mount, and launch it with uvx inside the container.</p>
+<p>The interaction between the native sandbox and Docker’s networking controls isn’t fully fleshed out. In this example, enforcement is delegated to Docker, and the launch uses its bridge network. That does not give us the destination restrictions from the earlier proxy example. If someone is interested in helping with that integration, I’d welcome the help.</p>
+<p><strong>Author / target-day assumption:</strong> This is the requested minimal setup for on-demand resolution. The inspected Console checkout at 6cd4cfd4f61ec5df723cc0e25b8f35a90ba8377e still disables managed package preparation for Docker, even when uv and ir are installed. Installing these tools alone does not enable that capability in the current implementation. This example assumes Docker preparation support by presentation day; it is not a validated current-release launch recipe. No image build or container session was run. Confirm this support before a live demo. The installer commands and r-lib-ir distribution name were checked against their official documentation.</p>
+<p><strong>Sources:</strong> <a href="https://rocker-project.org/images/versioned/rstudio.html">Rocker analysis images</a> · <a href="https://docs.astral.sh/uv/getting-started/installation/">Install uv</a> · <a href="https://rig.r-lib.org/install.html">Install rig</a> · <a href="https://github.com/r-lib/ir#install">Install ir</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md">Current Docker behavior</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -3016,14 +3147,14 @@ display:block!important;
 <div class="panel-label">
 <p>send</p>
 </div>
-<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb45-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;coef(fit)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb53-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;coef(fit)&quot;</span>)</span></code></pre></div>
 </div>
 <div class="target-line">
 <p>Local host   /   SSH   /   Docker</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The model still sends a cell, receives results, and uses the same wait and control contract. It can use R, Python, and SQL whether the worker is beside the local project, on an SSH host, or in a container. The client above and the target below can change while the agent keeps the same send, result, and control interface. Available preparation capabilities differ by target and are reflected by the live tool schema.</p>
-<p><strong>Show:</strong> Return to one familiar call with three destinations beneath it. This is the bridge into client integrations: both the client above and execution target below can vary without changing the central idea.</p>
+<p><strong>Say:</strong> Regardless of where the worker runs, the model gets the same interface. It sends a cell, receives results, and uses the same input, wait, and control operations.</p>
+<p>The user configures the execution environment, and the model can keep working through the send tool.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Implemented architecture</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml">Canonical tool schema snapshot</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python clients and integrations</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3046,20 +3177,21 @@ display:block!important;
 <div class="panel-label">
 <p>Codex CLI</p>
 </div>
-<div class="sourceCode" id="cb46"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb46-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Claude Code CLI · the same Console installation</p>
 </div>
-<div class="sourceCode" id="cb47"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb47-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb55-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Let <code>uvx</code> manage resolution and automatically pick up updates.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Both clients can launch the same Console server over MCP stdio. Run the registration command for the client you use. Client-side deadlines remain separate from Console’s wait timeout. In the ordinary uvx-managed path, uv resolves requirements using its registry cache and picks up newer versions as that cache expires. It does not promise a new registry lookup on every launch. An explicitly installed compatible tool can be reused instead, and version pins remain intentional. Keep those details in the notes; the visible point is that the launcher manages installation and updates.</p>
-<p><strong>Show:</strong> The launcher and server arguments are identical. The commands were checked against the installed CLI help; no configuration was changed.</p>
+<p><strong>Say:</strong> If you want to use Console with your agent of choice, I recommend uvx mcp-console serve. Register that command with Codex or Claude, and the client launches the server.</p>
+<p>uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don’t have to manage a separate installation and remember to update it yourself.</p>
+<p><strong>Reference (not spoken):</strong> uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. Client-side deadlines remain separate from Console evaluation waits.</p>
 <p><strong>Sources:</strong> <a href="https://docs.astral.sh/uv/concepts/tools/">uv tools</a> · <a href="https://developers.openai.com/codex/mcp/">Codex MCP</a> · <a href="https://code.claude.com/docs/en/mcp">Claude Code MCP</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3080,17 +3212,17 @@ display:block!important;
 </div>
 <div class="code-panel">
 <div class="panel-label">
-<p>R package entry point</p>
+<p>Planned CRAN installation</p>
 </div>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Use Console from R and register it as a tool in ellmer.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> With the execution model established, show the R installation route before registering the tool in ellmer. For presentation day, assume mcp.console is published to the intended R package repository. The R package connects R applications to Console, handles the tool schema and results, and resolves the core binary from PyPI using reticulate’s uv integration. Executable resolution occurs when the tool is created, not during install.packages. An explicit path or a compatible executable already on PATH can be used instead of a download; an explicit version selects that PyPI release.</p>
-<p><strong>Show:</strong> Show one large line. This is explicitly an intended publication pathway: the currently inspected R README uses a GitHub installation command. Keep the present-day command in the author checklist, not as competing text on this slide.</p>
-<p><strong>Author check before presenting:</strong> Target-day assumption: mcp.console is published to an R repository usable by install.packages(). Current README documents pak::pak(“github::t-kalinowski/mcp-console/r”).</p>
+<p><strong>Say:</strong> For R, the intended installation is install.packages(“mcp.console”). It isn’t on CRAN yet, but that’s the plan. The current source installation is available from GitHub.</p>
+<p>The package provides the R interface and connects it to the core executable. It doesn’t ship the Rust binary itself: when a download is needed, it uses reticulate’s uv integration to resolve the binary from PyPI. I expect that separation to make the CRAN submission more straightforward.</p>
+<p><strong>Reference (not spoken):</strong> The current documented command is pak::pak(“github::t-kalinowski/mcp-console/r”). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md">R package interface</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3113,19 +3245,19 @@ display:block!important;
 <div class="panel-label">
 <p>R · register one tool</p>
 </div>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
-<span id="cb49-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
-<span id="cb49-3"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb49-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
-<span id="cb49-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
-<span id="cb49-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb57-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
+<span id="cb57-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
+<span id="cb57-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
+<span id="cb57-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Your chat and provider. A separate persistent Console worker.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Give ellmer one slide. The R wrapper starts Console, reads its live tool schema, and presents it as an ellmer tool. It does not execute agent code in the R process running the chat. Provider choice remains with ellmer and the application. Keep the tool alive across the conversation so its session persists.</p>
-<p><strong>Show:</strong> Show only the registration example, with the registration line emphasized. The preceding slide installed the R package; this connects it to an ellmer chat. The author notes include the asynchronous sequential-tool caveat from the R README.</p>
+<p><strong>Say:</strong> Once the package is installed, create your ellmer chat object as usual and register console_tool as another tool. Then the model can use the same persistent session through that chat.</p>
+<p>The R package handles the connection and the tool interface. The model’s code still runs in the Console worker, separate from the R process running ellmer.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md">R package interface</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R">R tool wrapper implementation</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3148,23 +3280,23 @@ display:block!important;
 <div class="panel-label">
 <p>Python clients and integrations</p>
 </div>
-<div class="sourceCode" id="cb50"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb50-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>One-shot tool launch</p>
 </div>
-<div class="sourceCode" id="cb51"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb51-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console serve</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Persistent command installation</p>
 </div>
-<div class="sourceCode" id="cb52"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb52-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This first command includes every supported Python client extra. Use only the extras your harness needs. MCP clients can launch through uvx, or use a persistent uv tool installation. These are alternative routes into the same distribution, not three installation steps. Framework extras avoid installing every SDK when only the executable is needed.</p>
-<p><strong>Show:</strong> The comma-separated extras name the supported integrations directly. The three panels are alternative installation routes with explicit labels. Mention prerequisites only as needed: Python packaging and supported native wheels are not the same thing as the language runtime installed on a selected execution host.</p>
+<p><strong>Say:</strong> You can also install the distribution with pip. The base package gives you the executable, and the optional extras add the Python integrations for the client you want to use.</p>
+<p>This first command lists the supported integrations. Pick the extras you need. Or, if you’re using an MCP client, use the uvx launch we just saw. These are alternative ways to use the same package.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/README.md">Project README</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python clients and integrations</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3187,22 +3319,21 @@ display:block!important;
 <div class="panel-label">
 <p>Python · preserve the server-provided schema</p>
 </div>
-<div class="sourceCode" id="cb53" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb53-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
-<span id="cb53-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
-<span id="cb53-3"><a href aria-label="3"></a></span>
-<span id="cb53-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
-<span id="cb53-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
-<span id="cb53-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
-<span id="cb53-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
-<span id="cb53-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb61-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
+<span id="cb61-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
+<span id="cb61-3"><a href aria-label="3"></a></span>
+<span id="cb61-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
+<span id="cb61-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
+<span id="cb61-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
+<span id="cb61-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
+<span id="cb61-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>The same registration pattern in Python.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The chatlas adapter adds the same tool to an existing chat. Use the adapter and set_tools so the explicit server schema is preserved rather than inferred from a generic Python function annotation. The application still owns the chat loop and the Console connection lifetime.</p>
-<p><strong>Show:</strong> Keep the visual design identical to the ellmer slide. For a visual demo, verify image preservation on the chosen adapter path; the native MCP registration variant is included in the examples file.</p>
-<p><strong>Transition:</strong> Whichever client you use, the session leaves a record of its work. End with what can be inspected and turned into a report.</p>
+<p><strong>Say:</strong> The Python integrations are straightforward too. For chatlas, import mcp_console and register its chatlas tool with the chat.</p>
+<p>The other supported clients have similar adapters. The application keeps control of the conversation, and Console provides the execution session.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python clients and integrations</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3239,10 +3370,10 @@ display:block!important;
 <p>Full logs and a readable presentation of the session.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Exploration should leave something useful behind. These files retain calls and results, raw output, plots, and two views of the session. Per-cell logs retain output up to the documented 1 GiB limit. The Markdown is a readable history. The Quarto source is a starting point for a report.</p>
-<p>The structured event journal preserves request metadata supplied by the harness. It is not the entire MCP transport exchange; our capture script records that separately in wire.jsonl. Session records remain on the controller when the worker is remote.</p>
-<p><strong>Transition:</strong> Look first at the Markdown record, then at the Quarto source.</p>
-<p><strong>Show:</strong> Walk down the tree. The comments are explanatory annotations, and the filenames reflect the captured layout.</p>
+<p><strong>Say:</strong> During a session, Console generates a set of records in a unique directory. The events journal records the tool calls and responses, including request metadata supplied by the harness. A client can attach things such as a thread ID, which can be useful when reconstructing what happened.</p>
+<p>Then there are the output files and artifacts: fuller output from an oversized response, images, and other retained files.</p>
+<p>Finally, Console maintains two readable views of the session. transcript.md shows the code and captured results. transcript.qmd gives us source we can copy and work into an analysis document.</p>
+<p><strong>Reference (not spoken):</strong> events.jsonl is the structured tool-call journal, including harness metadata, not every MCP transport message. The capture script separately records the full exchange in wire.jsonl. Per-cell raw retention has a 1 GiB limit. Records stay on the controller for remote sessions.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Architecture</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3265,26 +3396,25 @@ display:block!important;
 <div class="panel-label path-label">
 <p>transcript.md · recorded call and result</p>
 </div>
-<div class="sourceCode" id="cb55"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb55-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Call 4: R</span></span>
-<span id="cb55-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-3"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb55-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
-<span id="cb55-5"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb55-6"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Result for call 4</span></span>
-<span id="cb55-8"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb55-9"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
-<span id="cb55-10"><a href aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept) temperature      groupB </span></span>
-<span id="cb55-11"><a href aria-hidden="true" tabindex="-1"></a><span class="in">   6.888528    1.007196    1.273078 </span></span>
-<span id="cb55-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb63-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Call 4: R</span></span>
+<span id="cb63-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-3"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb63-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
+<span id="cb63-5"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb63-6"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Result for call 4</span></span>
+<span id="cb63-8"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb63-9"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
+<span id="cb63-10"><a href aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept) temperature      groupB </span></span>
+<span id="cb63-11"><a href aria-hidden="true" tabindex="-1"></a><span class="in">   6.888528    1.007196    1.273078 </span></span>
+<span id="cb63-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Code and captured results stay together in the session history.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> This is an excerpt from the generated Markdown transcript. It records the R call and the printed coefficients directly below it. A reader can follow what was submitted and what came back. Plot results link to the session’s captured images; oversized output links to the retained files.</p>
-<p><strong>Show:</strong> The excerpt is copied literally from the captured transcript, including its call number and numeric output. Only this call and result are shown; the complete chronological record remains in captures/session-records/transcript.md. Its source lines are recorded in captures/excerpts/provenance.json.</p>
-<p><strong>Transition:</strong> That gives us a readable history of the session. Console also writes Quarto source that we can copy into an analysis report and edit.</p>
+<p><strong>Say:</strong> Here’s what the Markdown looks like. The model evaluated some R code, and the output appears directly below it as a text block.</p>
+<p>It’s a readable record of what was submitted and what came back. Images and retained output are linked from the transcript too.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Session records</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3307,33 +3437,32 @@ display:block!important;
 <div class="panel-label path-label">
 <p>report.qmd · edited copy of the session transcript</p>
 </div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb56-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb56-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
-<span id="cb56-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb56-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
-<span id="cb56-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
-<span id="cb56-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
-<span id="cb56-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
-<span id="cb56-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
-<span id="cb56-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
-<span id="cb56-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb56-11"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb56-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb56-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
-<span id="cb56-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
-<span id="cb56-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
-<span id="cb56-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
-<span id="cb56-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb64-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb64-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
+<span id="cb64-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb64-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
+<span id="cb64-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
+<span id="cb64-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
+<span id="cb64-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
+<span id="cb64-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
+<span id="cb64-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
+<span id="cb64-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb64-11"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb64-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
+<span id="cb64-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
+<span id="cb64-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
+<span id="cb64-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
+<span id="cb64-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p><code>ir render report.qmd</code> uses the recorded package snapshot date.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> Add a snapshot date to the editable copy and render it with ir render report.qmd. ir consumes ir.exclude-newer to select dated default CRAN and Bioconductor repositories; declared Python requirements inherit the cutoff unless separately configured. This keeps subsequent resolution tied to the analysis date. It does not by itself pin every system dependency or arbitrary external source.</p>
-<p>This is one Quarto document: front matter followed by an executable R chunk. Copy it into a report, edit the analysis, and render it in a suitable environment. Console owns the generated original; edit a copy.</p>
-<p>Rendering runs the cells again. It does not replay interactive input, interrupts, or prior outputs. The data and any selected SQL connection still need to exist, and trusted rendering happens outside the worker sandbox. Remote projections default to eval:false.</p>
-<p><strong>Show:</strong> Read it from top to bottom as one source file. The snapshot date is an author-added setting, not a field emitted by the captured Console build. The root directory is shortened to <project>, the generated-file warning is omitted, and the dependency lists are shortened for display. The full source remains in captures/session-records/transcript.qmd. Dependencies reflect this captured build; they are not a complete record of inferred packages.</project></p>
-<p><strong>Transition:</strong> This is the result of the whole path: the agent worked interactively, used the needed languages and host, and left an editable analysis behind.</p>
+<p><strong>Say:</strong> The Quarto file has another useful piece. Because Console participates in package preparation, it can include the requirements it has recorded in the front matter for ir to use.</p>
+<p>Here I’ve copied the generated transcript into report.qmd, shortened the package list for the slide, and added a package snapshot date. We can edit that document and run ir render report.qmd to prepare the declared environment and evaluate its cells again.</p>
+<p>It’s a starting point for reproducing and extending the analysis. We still need its data and any external connections, but we don’t have to reconstruct the whole document from the conversation.</p>
+<p><strong>Reference (not spoken):</strong> The captured build does not record every inferred dependency. ir.exclude-newer is an author-added cutoff, not an emitted field or complete environment lock. Rendering runs code again, without replaying interactive input or interrupts, and happens outside the worker sandbox. Remote projections default to eval:false.</p>
 <p><strong>Sources:</strong> <a href="https://r-lib.github.io/ir/quarto.html">ir Quarto integration</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md">Architecture</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3359,11 +3488,9 @@ display:block!important;
 <p>Full language capabilities, with a sandbox that enforces the access you allow.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The reason for Console is to give the model access to R, Python, and SQL together, with a common execution system underneath. That keeps R’s capabilities in reach, reduces duplicated runtime work, and lets us address the difficult parts in one place.</p>
-<p>The examples—waiting without losing the run, compacting progress, and retaining output beyond the context window—show the level of detail we want across that system. The sandbox is central to that design: it enforces file and network permissions and cleans up the processes the session starts. We want the model to use the full languages and libraries within the access the user allows. Trusted package setup remains a separate boundary.</p>
-<p>A real session gives the work continuity across turns. A compact tool interface gives the model access to the language ecosystems. The sandbox sets the boundary for that execution.</p>
-<p>My hope is that the next AI project can build on this workbench, without needing another ad hoc execution tool. Its comprehensiveness is what makes that reuse possible.</p>
-<p><strong>Show:</strong> End the main talk here. After the appendix divider, the remaining slides cover the resolver protocol and development practices for questions.</p>
+<p><strong>Say:</strong> So that’s MCP Console. Let the model choose the language. You choose the execution host. Give the agent an interactive workbench, with the sandbox setting the permissions for its work.</p>
+<p>My hope is that the next team can use this rather than needing to build another ad hoc console. We can keep solving the difficult execution problems in one place.</p>
+<p>I have some backup material on the internal architecture and testing if that’s useful for questions. Thank you for your time.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
@@ -3423,22 +3550,22 @@ display:block!important;
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb57-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
-<span id="cb57-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb65-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
+<span id="cb65-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Server → worker</p>
 </div>
-<div class="sourceCode" id="cb58"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
-<span id="cb58-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb66-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
+<span id="cb66-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb59"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
-<span id="cb59-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb67-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
+<span id="cb67-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3597,15 +3724,15 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · request</p>
 </div>
-<div class="sourceCode" id="cb60"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
-<span id="cb60-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb60-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
-<span id="cb60-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
-<span id="cb60-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
-<span id="cb60-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
-<span id="cb60-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
-<span id="cb60-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb60-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb68-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
+<span id="cb68-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb68-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
+<span id="cb68-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
+<span id="cb68-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
+<span id="cb68-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
+<span id="cb68-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
+<span id="cb68-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb68-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -3613,12 +3740,12 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · result</p>
 </div>
-<div class="sourceCode" id="cb61"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb61-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
-<span id="cb61-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
-<span id="cb61-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
-<span id="cb61-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb61-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
-<span id="cb61-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
+<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
+<span id="cb69-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
+<span id="cb69-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb69-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
+<span id="cb69-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3762,9 +3889,9 @@ display:block!important;
 <div class="panel-label">
 <p>Run, regenerate, review</p>
 </div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
-<span id="cb64-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
+<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb72-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.</p>

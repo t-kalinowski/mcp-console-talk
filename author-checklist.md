@@ -4,7 +4,7 @@ The slide copy uses the intended presentation-day feature set, as requested. The
 
 ## Target-day assumptions
 
-**`install-r` — `install.packages("mcp.console")`.** This assumes publication to an R repository available in the presenter’s repository configuration. The inspected README currently uses `pak::pak("github::t-kalinowski/mcp-console/r")`. The binary download is triggered by first use when executable resolution needs it, not by `install.packages()` itself.
+**`install-r` — `install.packages("mcp.console")`.** The slide labels this as the planned CRAN installation, and the spoken notes say the package is not on CRAN yet. The current source command is `pak::pak("github::t-kalinowski/mcp-console/r")`. Binary download happens when executable resolution needs it, not during `install.packages()` itself. The richer S7 configuration surface mentioned in the rehearsal is not present in the inspected R wrapper.
 
 Richer named profiles, complete initial environment configuration, and configured SQL defaults remain broader design scope. This deck avoids presenting speculative YAML fields as runnable configuration; its displayed configuration examples use the implemented profile and override paths.
 
@@ -57,10 +57,12 @@ library path; it is not presented as a literal captured exchange.
 
 The Docker build example uses `examples/Dockerfile` alongside the YAML. The
 configuration accepts a Dockerfile path, not inline Dockerfile text. The recipe
-starts from Rocker's R 4.6.1 image and adds Python, Console 0.0.4, and the runtime
-and analysis packages. Rehearse the image build with a compatible controller
-before presenting it live. The local Docker daemon was unavailable, and neither
-this image build nor the SSH target was run locally.
+starts from `rocker/tidyverse`, installs uv and rig with their standard scripts,
+and runs `uv tool install r-lib-ir`. The YAML launches `uvx mcp-console`.
+**Target-day assumption:** this minimal example relies on Docker supporting
+managed package preparation. The inspected implementation currently disables it,
+even with uv and ir present. Confirm that support before using this as a live
+example. The image build and container session have not been run.
 
 The report's `ir.exclude-newer` date is added to an editable copy. Use
 `ir render report.qmd` to consume it. It is a package snapshot cutoff rather than
@@ -74,8 +76,28 @@ installed tool can retain an older version.
 SQL connection examples were exercised with local RSQLite and Python sqlite3
 connections. Other drivers and remote database access still need their own setup.
 
-The shutdown slide combines Console's one-second worker grace with the native
+The default-policy notes combine Console's one-second worker grace with the native
 runner's separate descendant cleanup. Keep the platform limits in the notes:
 macOS covers the owned process group and observed detached descendants; Linux
 uses namespace retirement. Do not present the worker grace as the native cleanup
 deadline or promise cleanup after the runner itself is killed.
+
+
+## Dictated run-through revision
+
+The notes follow the presenter's dictation, with repetition and timestamps removed.
+The missing segment (old slides 13–18) retains its previous notes. Debugger input
+now precedes the combined restart/input/cell call, explicit requirements are back,
+and the complete send interface ends the model-facing walkthrough. The local
+process diagram accompanies package resolution. The dedicated cleanup slide was
+removed; its platform details remain in the default-policy notes and the archive.
+
+The warehouse and Shiny slides show labeled excerpts. The full proxy configuration
+follows them. Current proxy scalar fields have no implicit defaults, so these
+excerpts must not be used as standalone configs. The complete files are retained
+under examples/configs, and fragments are under examples/configs/excerpts.
+
+Keep the distinction between the structured events journal and the full MCP wire
+exchange. The transcript front matter records known requirements; it is not a
+complete inventory of every inferred package. The snapshot date is added to the
+editable report, and rendering also requires its data and external connections.
