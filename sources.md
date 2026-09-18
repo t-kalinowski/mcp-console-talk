@@ -1,5 +1,22 @@
 # Source notes
 
+## Repository development appendix — September 18, 2026
+
+The development-history figures use a GitHub PR extraction at 19:08 UTC and
+complete Git trees through main revision `657a5981983768967deed83c070973848ec800fb`
+at 19:43 UTC. The PR charts include 279 merges directly into main; the size
+charts include 307 first-parent snapshots, including direct commits.
+See [the supplied data and methodology](examples/repository-development/README.md).
+
+The high-level agent instructions and development loop were checked against
+[AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md)
+and [docs/DEVELOPMENT.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
+at that revision. The slides describe the prescribed workflow, without claiming
+historical compliance. The five feature annotations link to their merged PRs
+in the speaker notes.
+
+## Main talk and existing technical appendix
+
 Repository documentation and wrapper/schema source were checked on 2026-09-16. Sources in slide notes support implemented behavior; user-authorized target-day scope is labeled in author checks. The diagrams are authored technical schematics, not screenshots.
 
 - **Project README:** https://github.com/t-kalinowski/mcp-console/blob/main/README.md

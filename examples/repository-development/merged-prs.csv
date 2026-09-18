@@ -1,0 +1,299 @@
+"number","title","url","merged_at","base","additions","deletions","changed","net"
+355,"Fix Linux startup restart checkpoint in CI","https://github.com/t-kalinowski/mcp-console/pull/355","2026-09-18T15:22:11Z","main",3,1,4,2
+354,"Move managed Python activation bookkeeping into Rust","https://github.com/t-kalinowski/mcp-console/pull/354","2026-09-18T14:56:21Z","main",142,59,201,83
+353,"Separate shared worker services from embedded R","https://github.com/t-kalinowski/mcp-console/pull/353","2026-09-18T14:08:20Z","main",251,172,423,79
+352,"Store the worker Python manifest behind native accessors","https://github.com/t-kalinowski/mcp-console/pull/352","2026-09-17T23:23:09Z","main",365,5,370,360
+351,"Avoid races with exiting validation resources","https://github.com/t-kalinowski/mcp-console/pull/351","2026-09-17T22:42:38Z","main",7,2,9,5
+349,"Prepare version 0.0.4","https://github.com/t-kalinowski/mcp-console/pull/349","2026-09-17T17:49:18Z","main",21,20,41,1
+348,"Synchronize the SQL interrupt test with DuckDB execution","https://github.com/t-kalinowski/mcp-console/pull/348","2026-09-17T15:15:17Z","main",106,24,130,82
+347,"Dispatch Python cells and console services directly","https://github.com/t-kalinowski/mcp-console/pull/347","2026-09-17T13:22:56Z","main",1696,173,1869,1523
+346,"Keep small task checkpoints and explicit stopping conditions","https://github.com/t-kalinowski/mcp-console/pull/346","2026-09-17T15:16:49Z","main",62,0,62,62
+345,"Inventory local tools and build artifacts without provisioning","https://github.com/t-kalinowski/mcp-console/pull/345","2026-09-17T14:47:29Z","main",431,8,439,423
+344,"Plan review boundaries and measure each layer against its base","https://github.com/t-kalinowski/mcp-console/pull/344","2026-09-17T14:35:59Z","main",233,0,233,233
+343,"Document fixture authoring and report formatter results","https://github.com/t-kalinowski/mcp-console/pull/343","2026-09-17T14:04:21Z","main",202,53,255,149
+342,"Map development tasks to focused public validation","https://github.com/t-kalinowski/mcp-console/pull/342","2026-09-17T03:59:10Z","dev-workflow/test-discovery",144,16,160,128
+340,"Discover and validate transcript tests before compilation","https://github.com/t-kalinowski/mcp-console/pull/340","2026-09-17T03:59:09Z","dev-workflow/validation",262,41,303,221
+339,"Own checkout validation and retain phase records","https://github.com/t-kalinowski/mcp-console/pull/339","2026-09-17T03:59:09Z","main",1374,33,1407,1341
+337,"Clarify the workspace overview and setup guides","https://github.com/t-kalinowski/mcp-console/pull/337","2026-09-17T12:43:00Z","main",130,212,342,-82
+336,"Fix resolver interrupt fixture race","https://github.com/t-kalinowski/mcp-console/pull/336","2026-09-16T20:55:50Z","main",12,4,16,8
+335,"Simplify response waits and restart acknowledgment","https://github.com/t-kalinowski/mcp-console/pull/335","2026-09-16T20:14:25Z","main",10,22,32,-12
+334,"Amortize streaming text buffers and borrow direct chunks","https://github.com/t-kalinowski/mcp-console/pull/334","2026-09-16T20:17:38Z","main",611,33,644,578
+333,"Move response recovery and reuse decoded image bytes","https://github.com/t-kalinowski/mcp-console/pull/333","2026-09-16T20:18:34Z","main",168,10,178,158
+331,"Reduce preview allocation work","https://github.com/t-kalinowski/mcp-console/pull/331","2026-09-15T20:28:11Z","feat/streaming-preview-tail",294,44,338,250
+330,"Preserve the latest output during streaming collection","https://github.com/t-kalinowski/mcp-console/pull/330","2026-09-15T20:28:10Z","main",1722,1322,3044,400
+329,"Bound complete responses using the existing collector","https://github.com/t-kalinowski/mcp-console/pull/329","2026-09-15T19:15:10Z","test/preview-evidence",3298,920,4218,2378
+328,"Stabilize output checkpoints and compact stress evidence","https://github.com/t-kalinowski/mcp-console/pull/328","2026-09-15T19:15:09Z","main",225,370,595,-145
+322,"Extract worker coordination and shared input handling","https://github.com/t-kalinowski/mcp-console/pull/322","2026-09-15T20:34:01Z","main",496,441,937,55
+315,"Layer CLI overrides over project configuration","https://github.com/t-kalinowski/mcp-console/pull/315","2026-09-13T19:34:43Z","main",911,63,974,848
+314,"Prefer remote PATH for SSH launches","https://github.com/t-kalinowski/mcp-console/pull/314","2026-09-13T18:43:49Z","main",704,65,769,639
+312,"Record workspace configuration values as YAML nodes","https://github.com/t-kalinowski/mcp-console/pull/312","2026-09-13T15:15:00Z","main",28,13,41,15
+311,"Clarify test transcripts and embedded programs","https://github.com/t-kalinowski/mcp-console/pull/311","2026-09-13T14:36:59Z","main",1386,1137,2523,249
+310,"Fix the R direct-stdin restart test race","https://github.com/t-kalinowski/mcp-console/pull/310","2026-09-13T13:52:11Z","main",20,13,33,7
+309,"Format embedded test programs and group related arguments","https://github.com/t-kalinowski/mcp-console/pull/309","2026-09-13T13:37:53Z","main",999,612,1611,387
+308,"Fix the Linux sandbox signal test race","https://github.com/t-kalinowski/mcp-console/pull/308","2026-09-13T01:27:17Z","main",16,12,28,4
+307,"Consolidate selected-target sessions and compute probes","https://github.com/t-kalinowski/mcp-console/pull/307","2026-09-13T00:03:59Z","main",616,638,1254,-22
+306,"Add Docker Sandbox compute enforcement through sbx","https://github.com/t-kalinowski/mcp-console/pull/306","2026-09-12T21:27:56Z","main",4485,582,5067,3903
+303,"Keep one MCP initialization lifecycle during Python startup","https://github.com/t-kalinowski/mcp-console/pull/303","2026-09-12T19:01:05Z","main",52,3,55,49
+302,"Add configurable Docker execution targets","https://github.com/t-kalinowski/mcp-console/pull/302","2026-09-12T18:42:04Z","main",5092,554,5646,4538
+301,"Document SSH preparation and cover uv bootstrap without ir","https://github.com/t-kalinowski/mcp-console/pull/301","2026-09-12T13:25:19Z","main",187,18,205,169
+300,"Prepare managed dependencies on SSH targets","https://github.com/t-kalinowski/mcp-console/pull/300","2026-09-12T12:25:16Z","main",4762,287,5049,4475
+299,"Run built-in sessions on SSH targets","https://github.com/t-kalinowski/mcp-console/pull/299","2026-09-11T23:34:18Z","main",3592,89,3681,3503
+298,"Add native built-in sandbox profiles","https://github.com/t-kalinowski/mcp-console/pull/298","2026-09-11T20:14:11Z","main",1445,144,1589,1301
+297,"Simplify sandbox policy capture and forwarding","https://github.com/t-kalinowski/mcp-console/pull/297","2026-09-11T18:29:13Z","main",128,184,312,-56
+296,"Forward native sandbox configuration without local validation","https://github.com/t-kalinowski/mcp-console/pull/296","2026-09-11T17:48:22Z","main",2169,701,2870,1468
+295,"Update sandbox runner for unrestricted and external policies","https://github.com/t-kalinowski/mcp-console/pull/295","2026-09-11T15:29:12Z","main",351,189,540,162
+294,"Consolidate project files under .agents/console/","https://github.com/t-kalinowski/mcp-console/pull/294","2026-09-11T14:12:56Z","main",304,342,646,-38
+293,"Share readiness waits between sideband and worker relay","https://github.com/t-kalinowski/mcp-console/pull/293","2026-09-11T14:10:44Z","main",74,88,162,-14
+292,"Compact proxy-enabled initialization handshakes in snapshots","https://github.com/t-kalinowski/mcp-console/pull/292","2026-09-11T14:11:20Z","main",286,242,528,44
+291,"Reuse runtime caches in slow transcript tests","https://github.com/t-kalinowski/mcp-console/pull/291","2026-09-11T12:54:18Z","main",27,16,43,11
+290,"Document revised session configuration design","https://github.com/t-kalinowski/mcp-console/pull/290","2026-09-11T14:47:13Z","main",1711,14,1725,1697
+289,"Fix sandbox acceptance startup and environment assumptions","https://github.com/t-kalinowski/mcp-console/pull/289","2026-09-11T03:51:07Z","main",27,5,32,22
+288,"Add project YAML sandbox configuration","https://github.com/t-kalinowski/mcp-console/pull/288","2026-09-11T12:34:01Z","main",3358,56,3414,3302
+287,"Make the sandbox processx PTY test deterministic","https://github.com/t-kalinowski/mcp-console/pull/287","2026-09-11T02:18:22Z","main",53,14,67,39
+286,"Reuse CI caches across runner image revisions","https://github.com/t-kalinowski/mcp-console/pull/286","2026-09-11T01:36:20Z","main",10,5,15,5
+285,"Record Linux sandbox helper source and linkage provenance","https://github.com/t-kalinowski/mcp-console/pull/285","2026-09-11T00:47:06Z","main",508,8,516,500
+284,"Refresh integration SDKs and GitHub caches weekly","https://github.com/t-kalinowski/mcp-console/pull/284","2026-09-11T00:48:03Z","main",41,28,69,13
+283,"Preserve cached Python streams in fork children","https://github.com/t-kalinowski/mcp-console/pull/283","2026-09-10T23:34:24Z","main",1071,43,1114,1028
+282,"Reuse staged sandbox runners on exact CI cache hits","https://github.com/t-kalinowski/mcp-console/pull/282","2026-09-10T20:40:34Z","main",138,30,168,108
+281,"Document and test Linux sandbox policy compatibility","https://github.com/t-kalinowski/mcp-console/pull/281","2026-09-10T19:44:52Z","main",730,27,757,703
+280,"Reuse weekly Cargo build caches across PRs","https://github.com/t-kalinowski/mcp-console/pull/280","2026-09-10T18:57:21Z","main",44,10,54,34
+279,"Enable incremental release builds in CI","https://github.com/t-kalinowski/mcp-console/pull/279","2026-09-10T17:21:09Z","main",12,10,22,2
+278,"Reuse build outputs and dependency caches in CI","https://github.com/t-kalinowski/mcp-console/pull/278","2026-09-10T17:10:44Z","main",214,73,287,141
+277,"Use the sandbox checkout's Rust toolchain","https://github.com/t-kalinowski/mcp-console/pull/277","2026-09-10T17:55:46Z","main",100,47,147,53
+276,"Update sandbox runner to rust-v0.154.0","https://github.com/t-kalinowski/mcp-console/pull/276","2026-09-10T16:08:40Z","main",10,6,16,4
+274,"Allow additional writable paths in sandbox launches","https://github.com/t-kalinowski/mcp-console/pull/274","2026-09-10T14:56:34Z","main",1927,61,1988,1866
+273,"Restore Linux host compatibility with native sandbox supervision","https://github.com/t-kalinowski/mcp-console/pull/273","2026-09-10T11:11:46Z","main",1088,105,1193,983
+272,"Expose explicit sandbox configuration from launch environments","https://github.com/t-kalinowski/mcp-console/pull/272","2026-09-10T01:57:13Z","main",930,24,954,906
+271,"Use CPU PyTorch wheels for the sandbox autograd test","https://github.com/t-kalinowski/mcp-console/pull/271","2026-09-09T21:45:10Z","main",3,0,3,3
+270,"Use release builds for integration tests","https://github.com/t-kalinowski/mcp-console/pull/270","2026-09-09T21:43:27Z","main",61,11,72,50
+269,"Synchronize poll ownership in the interrupt test","https://github.com/t-kalinowski/mcp-console/pull/269","2026-09-09T20:20:33Z","main",20,1,21,19
+268,"Synchronize interrupt test fixtures","https://github.com/t-kalinowski/mcp-console/pull/268","2026-09-09T19:35:18Z","main",111,58,169,53
+267,"Use anonymous pipes for the worker sideband","https://github.com/t-kalinowski/mcp-console/pull/267","2026-09-09T19:32:18Z","main",1100,440,1540,660
+266,"Delegate sandbox supervision to the private runner","https://github.com/t-kalinowski/mcp-console/pull/266","2026-09-10T00:36:44Z","main",1479,5148,6627,-3669
+265,"Synchronize plot, output, and shutdown tests with checkpoints","https://github.com/t-kalinowski/mcp-console/pull/265","2026-09-09T18:30:42Z","main",266,103,369,163
+264,"Reuse incremental Rust builds across CI runs","https://github.com/t-kalinowski/mcp-console/pull/264","2026-09-09T14:44:41Z","main",97,16,113,81
+263,"Reuse build caches across PR runs when checks fail","https://github.com/t-kalinowski/mcp-console/pull/263","2026-09-09T13:49:57Z","main",12,13,25,-1
+262,"Support sandboxed execution on Linux","https://github.com/t-kalinowski/mcp-console/pull/262","2026-09-09T11:58:44Z","main",1849,390,2239,1459
+261,"Cache the built sandbox runner in CI","https://github.com/t-kalinowski/mcp-console/pull/261","2026-09-08T20:43:13Z","main",25,0,25,25
+260,"Test R segfault recovery with a native memory fault","https://github.com/t-kalinowski/mcp-console/pull/260","2026-09-08T21:00:47Z","main",74,36,110,38
+259,"Make uv source installs work without manual staging","https://github.com/t-kalinowski/mcp-console/pull/259","2026-09-09T21:24:10Z","main",1094,506,1600,588
+258,"Separate test requirements and sandbox contracts","https://github.com/t-kalinowski/mcp-console/pull/258","2026-09-08T17:38:03Z","main",5137,4369,9506,768
+257,"Document release preparation and recovery","https://github.com/t-kalinowski/mcp-console/pull/257","2026-09-08T15:39:58Z","main",87,45,132,42
+256,"Remove redundant platform conditionals","https://github.com/t-kalinowski/mcp-console/pull/256","2026-09-08T16:12:59Z","main",7,67,74,-60
+255,"Prepare the worker before wheel evaluation checks","https://github.com/t-kalinowski/mcp-console/pull/255","2026-09-08T13:52:09Z","main",69,4,73,65
+254,"Prepare release 0.0.3","https://github.com/t-kalinowski/mcp-console/pull/254","2026-09-08T11:53:36Z","main",26,25,51,1
+252,"Synchronize interruption and retirement tests","https://github.com/t-kalinowski/mcp-console/pull/252","2026-09-08T13:36:49Z","main",221,70,291,151
+251,"Support Linux in no-sandbox mode","https://github.com/t-kalinowski/mcp-console/pull/251","2026-09-08T22:21:02Z","main",2699,902,3601,1797
+250,"Use a privately bundled native sandbox executable","https://github.com/t-kalinowski/mcp-console/pull/250","2026-09-08T16:47:26Z","main",2295,637,2932,1658
+249,"Add an unsandboxed server mode","https://github.com/t-kalinowski/mcp-console/pull/249","2026-09-07T22:17:36Z","main",2216,115,2331,2101
+247,"Initialize Python before arming the interruption checkpoint","https://github.com/t-kalinowski/mcp-console/pull/247","2026-09-07T21:35:46Z","main",4,0,4,4
+245,"Synchronize the R fatal-input recovery test","https://github.com/t-kalinowski/mcp-console/pull/245","2026-09-07T20:59:21Z","main",35,14,49,21
+244,"Compare PyTorch autograd inside and outside the sandbox","https://github.com/t-kalinowski/mcp-console/pull/244","2026-09-08T13:36:50Z","fix/relay-interrupt-checkpoint",118,1,119,117
+243,"Bound queued relay output and preserve control progress","https://github.com/t-kalinowski/mcp-console/pull/243","2026-09-07T21:35:47Z","fix/bounded-relay-writer-retirement",723,86,809,637
+242,"Bound relay output flushing during retirement","https://github.com/t-kalinowski/mcp-console/pull/242","2026-09-07T21:35:46Z","test/python-interrupt-initialization",893,107,1000,786
+240,"Make interruption and retirement checkpoints deterministic","https://github.com/t-kalinowski/mcp-console/pull/240","2026-09-07T19:56:31Z","main",198,49,247,149
+239,"Prepare built-in environments on first use","https://github.com/t-kalinowski/mcp-console/pull/239","2026-09-07T20:59:22Z","test/r-fatal-input-checkpoint",2001,326,2327,1675
+238,"Route all send operations through the session coordinator","https://github.com/t-kalinowski/mcp-console/pull/238","2026-09-07T19:56:33Z","refactor/relay-stream-ownership",136,186,322,-50
+237,"Represent each relay reader with one ownership state","https://github.com/t-kalinowski/mcp-console/pull/237","2026-09-07T19:56:32Z","test/stable-interruption-checkpoints",82,94,176,-12
+236,"Share typed events between the journal and recording projections","https://github.com/t-kalinowski/mcp-console/pull/236","2026-09-07T17:03:37Z","test/report-cancelled-cases",269,288,557,-19
+235,"Distinguish cancelled transcript cases from failures","https://github.com/t-kalinowski/mcp-console/pull/235","2026-09-07T17:03:36Z","test/launcher-retirement-fixtures",100,4,104,96
+233,"Wait for console output and retain retirement checkpoints","https://github.com/t-kalinowski/mcp-console/pull/233","2026-09-07T16:19:34Z","main",45,27,72,18
+232,"Expose launcher retirement races and remove duplicate expectations","https://github.com/t-kalinowski/mcp-console/pull/232","2026-09-07T17:03:35Z","docs/canonical-runtime-contracts",200,348,548,-148
+230,"Accept Python interruption at the provider-probe checkpoint","https://github.com/t-kalinowski/mcp-console/pull/230","2026-09-07T15:40:22Z","main",93,29,122,64
+229,"Consolidate session and sandbox documentation","https://github.com/t-kalinowski/mcp-console/pull/229","2026-09-07T17:03:34Z","docs/single-tool-description-reference",138,293,431,-155
+227,"Cancel startup resolvers when MCP input closes","https://github.com/t-kalinowski/mcp-console/pull/227","2026-09-07T14:48:51Z","main",402,10,412,392
+225,"Synchronize Python SQL provider-probe interruption","https://github.com/t-kalinowski/mcp-console/pull/225","2026-09-07T14:34:42Z","main",122,28,150,94
+224,"Consolidate tool description expectations and expose validation scenarios","https://github.com/t-kalinowski/mcp-console/pull/224","2026-09-07T17:03:33Z","test/public-transcript-client",578,680,1258,-102
+223,"Expose the transcript client API and bound response waits","https://github.com/t-kalinowski/mcp-console/pull/223","2026-09-07T17:03:32Z","main",1294,855,2149,439
+222,"Bound transcript case execution and failure cleanup","https://github.com/t-kalinowski/mcp-console/pull/222","2026-09-07T15:40:24Z","fix/r-wrapper-server-ownership",778,130,908,648
+220,"Keep R tool cleanup scoped to the server","https://github.com/t-kalinowski/mcp-console/pull/220","2026-09-07T15:40:23Z","test/accept-provider-interrupt",30,5,35,25
+219,"Bound relay output draining during worker retirement","https://github.com/t-kalinowski/mcp-console/pull/219","2026-09-07T13:25:07Z","main",345,46,391,299
+218,"Keep process-group cleanup inside the sandbox launcher","https://github.com/t-kalinowski/mcp-console/pull/218","2026-09-04T23:40:21Z","main",411,123,534,288
+216,"Consolidate sandbox process-exit observation","https://github.com/t-kalinowski/mcp-console/pull/216","2026-09-07T18:42:55Z","main",543,350,893,193
+213,"Launch worker generations through the sandbox subcommand","https://github.com/t-kalinowski/mcp-console/pull/213","2026-09-04T01:38:25Z","main",2529,937,3466,1592
+212,"Stabilize macOS transcript tests","https://github.com/t-kalinowski/mcp-console/pull/212","2026-09-04T00:00:52Z","main",16,7,23,9
+211,"Make the sandbox command own parent loss and bounded retirement","https://github.com/t-kalinowski/mcp-console/pull/211","2026-09-03T21:28:53Z","main",1371,103,1474,1268
+210,"Refine sandbox workflow coverage","https://github.com/t-kalinowski/mcp-console/pull/210","2026-09-03T21:19:27Z","main",272,37,309,235
+209,"Unify managed sandbox root startup","https://github.com/t-kalinowski/mcp-console/pull/209","2026-09-03T20:35:44Z","main",186,254,440,-68
+208,"Restore sandbox workflow coverage","https://github.com/t-kalinowski/mcp-console/pull/208","2026-09-03T20:29:14Z","main",288,1,289,287
+207,"Unify sandbox manager retirement paths","https://github.com/t-kalinowski/mcp-console/pull/207","2026-09-03T19:59:28Z","main",90,145,235,-55
+206,"Stabilize managed console input replay","https://github.com/t-kalinowski/mcp-console/pull/206","2026-09-03T19:59:38Z","main",14,6,20,8
+205,"Simplify CLI sandbox supervision tests","https://github.com/t-kalinowski/mcp-console/pull/205","2026-09-03T19:30:58Z","main",257,5057,5314,-4800
+204,"Simplify top-level test harnesses","https://github.com/t-kalinowski/mcp-console/pull/204","2026-09-03T18:40:44Z","main",1366,3000,4366,-1634
+203,"Simplify sandbox manager monitoring and process tracking","https://github.com/t-kalinowski/mcp-console/pull/203","2026-09-03T17:10:21Z","main",434,120,554,314
+202,"Simplify transcript test support","https://github.com/t-kalinowski/mcp-console/pull/202","2026-09-03T14:36:16Z","main",4129,4084,8213,45
+201,"Start gated roots before sandbox managers","https://github.com/t-kalinowski/mcp-console/pull/201","2026-09-03T13:23:57Z","main",732,367,1099,365
+200,"Use manager readiness as the sandbox startup barrier","https://github.com/t-kalinowski/mcp-console/pull/200","2026-09-03T03:07:50Z","main",343,206,549,137
+199,"Clarify boundary test imports","https://github.com/t-kalinowski/mcp-console/pull/199","2026-09-03T02:29:07Z","main",89,640,729,-551
+198,"Run sandbox manager supervision in one event loop","https://github.com/t-kalinowski/mcp-console/pull/198","2026-09-03T01:54:40Z","main",232,468,700,-236
+197,"Reorganize Python tests by boundary and behavior","https://github.com/t-kalinowski/mcp-console/pull/197","2026-09-03T01:35:58Z","main",19444,17739,37183,1705
+196,"Use the manager control socket as an ownership token","https://github.com/t-kalinowski/mcp-console/pull/196","2026-09-03T00:25:41Z","main",210,666,876,-456
+195,"Consolidate sandbox child retirement","https://github.com/t-kalinowski/mcp-console/pull/195","2026-09-02T23:17:48Z","main",409,275,684,134
+194,"Preserve base::loadNamespace body for pkgload compatibility","https://github.com/t-kalinowski/mcp-console/pull/194","2026-09-02T21:53:47Z","main",184,60,244,124
+193,"Share macOS sandbox kqueue primitives","https://github.com/t-kalinowski/mcp-console/pull/193","2026-09-02T18:41:39Z","main",281,346,627,-65
+192,"Make the sandbox manager the sole directory-cleanup owner after readiness","https://github.com/t-kalinowski/mcp-console/pull/192","2026-09-02T17:42:45Z","main",203,49,252,154
+191,"Transfer sandbox directory cleanup ownership to the manager","https://github.com/t-kalinowski/mcp-console/pull/191","2026-09-02T16:01:57Z","main",86,93,179,-7
+190,"Make sandbox managers own sandbox lifetimes","https://github.com/t-kalinowski/mcp-console/pull/190","2026-09-02T03:51:40Z","main",2686,1751,4437,935
+189,"Extract shared worker process services","https://github.com/t-kalinowski/mcp-console/pull/189","2026-09-07T21:55:07Z","main",355,313,668,42
+188,"Add foreground terminal handling to standalone sandboxes","https://github.com/t-kalinowski/mcp-console/pull/188","2026-09-01T23:32:23Z","main",1377,110,1487,1267
+187,"Retain cell text beyond inline output limits","https://github.com/t-kalinowski/mcp-console/pull/187","2026-09-08T20:50:08Z","main",1021,66,1087,955
+185,"Gate worker relay startup until supervision is ready","https://github.com/t-kalinowski/mcp-console/pull/185","2026-09-01T17:59:15Z","main",1180,559,1739,621
+184,"Make transcript checks reliable under concurrency","https://github.com/t-kalinowski/mcp-console/pull/184","2026-09-01T16:55:11Z","main",851,356,1207,495
+183,"Retire standalone sandbox processes after launcher loss","https://github.com/t-kalinowski/mcp-console/pull/183","2026-09-01T13:16:15Z","main",1721,155,1876,1566
+182,"Retire worker generations after abrupt server exit","https://github.com/t-kalinowski/mcp-console/pull/182","2026-08-31T20:45:31Z","main",1807,25,1832,1782
+181,"Route SQL cells to Python DB-API connections","https://github.com/t-kalinowski/mcp-console/pull/181","2026-09-01T17:06:17Z","main",2704,90,2794,2614
+180,"Retire observed descendants with each worker generation","https://github.com/t-kalinowski/mcp-console/pull/180","2026-08-31T16:36:42Z","main",872,173,1045,699
+176,"Retire observed descendants after standalone command exit","https://github.com/t-kalinowski/mcp-console/pull/176","2026-08-30T21:35:52Z","main",1186,20,1206,1166
+173,"Cancel blocked relay sideband writes during retirement","https://github.com/t-kalinowski/mcp-console/pull/173","2026-08-30T19:25:38Z","main",50,1,51,49
+172,"Allow R to select the DBI connection for SQL cells","https://github.com/t-kalinowski/mcp-console/pull/172","2026-08-30T20:39:50Z","main",665,109,774,556
+171,"Cover sandbox status under inherited SIGCHLD ignore","https://github.com/t-kalinowski/mcp-console/pull/171","2026-08-30T18:33:56Z","main",67,0,67,67
+170,"Install the bundled Python evaluator through Rust","https://github.com/t-kalinowski/mcp-console/pull/170","2026-08-30T17:10:04Z","main",132,19,151,113
+169,"Close unlisted inherited descriptors at the relay boundary","https://github.com/t-kalinowski/mcp-console/pull/169","2026-08-30T17:05:40Z","main",569,99,668,470
+167,"Use causal synchronization in load-sensitive tests","https://github.com/t-kalinowski/mcp-console/pull/167","2026-08-30T14:21:50Z","main",250,156,406,94
+165,"Close unlisted file descriptors in the standalone sandbox","https://github.com/t-kalinowski/mcp-console/pull/165","2026-08-30T12:26:35Z","main",217,1,218,216
+164,"Separate the worker facade from the embedded-R backend","https://github.com/t-kalinowski/mcp-console/pull/164","2026-08-30T12:28:07Z","main",1225,1195,2420,30
+163,"Separate the SQL runtime facade from its DBI backend","https://github.com/t-kalinowski/mcp-console/pull/163","2026-08-29T16:49:33Z","main",22,4,26,18
+162,"Resolve managed Python environments directly with uv","https://github.com/t-kalinowski/mcp-console/pull/162","2026-08-29T14:07:41Z","main",1100,528,1628,572
+158,"Resolve managed Python versions directly in Rust ","https://github.com/t-kalinowski/mcp-console/pull/158","2026-08-28T23:28:11Z","main",1061,86,1147,975
+155,"Initialize CPython through the Rust runtime facade","https://github.com/t-kalinowski/mcp-console/pull/155","2026-08-28T20:31:15Z","main",591,96,687,495
+154,"Test console_tool() through ellmer","https://github.com/t-kalinowski/mcp-console/pull/154","2026-08-28T18:54:00Z","main",150,496,646,-346
+153,"Load libpython through the Rust runtime facade","https://github.com/t-kalinowski/mcp-console/pull/153","2026-08-28T18:17:48Z","main",102,0,102,102
+152,"Run macOS CI on one runner","https://github.com/t-kalinowski/mcp-console/pull/152","2026-08-28T17:34:25Z","main",50,86,136,-36
+151,"Reduce macOS CI runner concurrency","https://github.com/t-kalinowski/mcp-console/pull/151","2026-08-28T16:39:25Z","main",17,61,78,-44
+150,"Bound macOS sandbox cleanup after supervision failures","https://github.com/t-kalinowski/mcp-console/pull/150","2026-09-02T13:23:10Z","main",1646,56,1702,1590
+149,"Separate the Python runtime facade from its reticulate backend","https://github.com/t-kalinowski/mcp-console/pull/149","2026-08-28T16:39:01Z","main",146,115,261,31
+148,"Use a Unix socket for the worker sideband","https://github.com/t-kalinowski/mcp-console/pull/148","2026-08-27T23:34:07Z","main",938,228,1166,710
+147,"Clarify the ellmer console tool interface","https://github.com/t-kalinowski/mcp-console/pull/147","2026-08-27T22:35:24Z","main",839,422,1261,417
+146,"Reduce CI runtime","https://github.com/t-kalinowski/mcp-console/pull/146","2026-08-27T20:16:14Z","main",670,294,964,376
+145,"Support reciprocal `ir` and `uv` resolver bootstrap","https://github.com/t-kalinowski/mcp-console/pull/145","2026-08-27T19:12:18Z","main",1244,428,1672,816
+144,"Resolve IR through PATH and host uv","https://github.com/t-kalinowski/mcp-console/pull/144","2026-08-27T17:00:47Z","main",317,61,378,256
+142,"Add Python integrations for chatlas and other LLM clients","https://github.com/t-kalinowski/mcp-console/pull/142","2026-09-10T23:33:31Z","main",1800,73,1873,1727
+141,"Add an ellmer R package wrapper","https://github.com/t-kalinowski/mcp-console/pull/141","2026-08-27T18:24:53Z","main",806,45,851,761
+140,"Update rmcp and support MCP 2026-07-28 negotiation","https://github.com/t-kalinowski/mcp-console/pull/140","2026-08-26T18:50:50Z","main",145,36,181,109
+139,"Publish macOS wheels through PyPI","https://github.com/t-kalinowski/mcp-console/pull/139","2026-08-26T19:43:46Z","main",1211,27,1238,1184
+137,"Upgrade to Rust 1.95 and update dependencies","https://github.com/t-kalinowski/mcp-console/pull/137","2026-08-26T14:44:03Z","main",87,87,174,0
+136,"Fix response admission ordering and integration synchronization","https://github.com/t-kalinowski/mcp-console/pull/136","2026-08-26T13:09:40Z","main",1199,995,2194,204
+135,"Add Markdown and Quarto session projections","https://github.com/t-kalinowski/mcp-console/pull/135","2026-08-26T16:12:15Z","main",1758,113,1871,1645
+134,"Expose send as the sole MCP tool","https://github.com/t-kalinowski/mcp-console/pull/134","2026-08-25T23:50:04Z","main",2136,1659,3795,477
+133,"Collapse progress-bar redraws","https://github.com/t-kalinowski/mcp-console/pull/133","2026-08-25T20:48:19Z","main",693,55,748,638
+132,"Add inline session control to send","https://github.com/t-kalinowski/mcp-console/pull/132","2026-08-25T02:50:58Z","main",3519,359,3878,3160
+131,"Split environment orchestration into focused modules","https://github.com/t-kalinowski/mcp-console/pull/131","2026-08-24T23:30:19Z","main",1389,1329,2718,60
+130,"Allow evals to limit send languages","https://github.com/t-kalinowski/mcp-console/pull/130","2026-08-24T21:28:19Z","main",144,5,149,139
+129,"Document read-only DuckDB attachments","https://github.com/t-kalinowski/mcp-console/pull/129","2026-08-24T21:30:08Z","main",25,7,32,18
+128,"Fix managed Python subprocesses after live resolution","https://github.com/t-kalinowski/mcp-console/pull/128","2026-08-24T22:23:12Z","main",705,29,734,676
+127,"Make console tool descriptions concise","https://github.com/t-kalinowski/mcp-console/pull/127","2026-08-24T18:58:31Z","main",189,398,587,-209
+126,"Allow joblib process backend in the sandbox","https://github.com/t-kalinowski/mcp-console/pull/126","2026-08-24T17:20:03Z","main",88,5,93,83
+125,"Clarify persistent console workflows and active states","https://github.com/t-kalinowski/mcp-console/pull/125","2026-08-24T16:19:02Z","main",596,296,892,300
+124,"Resolve missing Python imports on demand","https://github.com/t-kalinowski/mcp-console/pull/124","2026-08-24T14:55:21Z","main",3340,256,3596,3084
+123,"Resolve R packages automatically on demand","https://github.com/t-kalinowski/mcp-console/pull/123","2026-08-24T01:56:29Z","main",3944,300,4244,3644
+122,"Reduce transcript test noise and runtime","https://github.com/t-kalinowski/mcp-console/pull/122","2026-08-23T16:42:59Z","main",38,13,51,25
+121,"Streamline transcript test progress output","https://github.com/t-kalinowski/mcp-console/pull/121","2026-08-23T15:59:43Z","main",634,98,732,536
+120,"Prepare requirements in the same send call","https://github.com/t-kalinowski/mcp-console/pull/120","2026-08-23T15:48:09Z","main",2167,452,2619,1715
+119,"Stabilize timing- and cache-sensitive transcript cases","https://github.com/t-kalinowski/mcp-console/pull/119","2026-08-23T13:30:50Z","main",44,15,59,29
+118,"Delay console operations until response writes settle","https://github.com/t-kalinowski/mcp-console/pull/118","2026-08-23T03:02:47Z","main",1186,60,1246,1126
+117,"Reorganize current documentation by audience","https://github.com/t-kalinowski/mcp-console/pull/117","2026-08-22T22:07:16Z","main",1287,1403,2690,-116
+116,"Extract runtime programs and simplify repository guidance","https://github.com/t-kalinowski/mcp-console/pull/116","2026-08-22T12:57:09Z","main",1485,1595,3080,-110
+115,"Queue same-call stdin before evaluation","https://github.com/t-kalinowski/mcp-console/pull/115","2026-08-22T04:16:31Z","main",952,1328,2280,-376
+114,"Bound pending worker output with an ordered tape","https://github.com/t-kalinowski/mcp-console/pull/114","2026-08-22T00:26:24Z","main",2820,511,3331,2309
+113,"Constrain managed Python host resolution","https://github.com/t-kalinowski/mcp-console/pull/113","2026-08-21T19:38:30Z","main",2493,695,3188,1798
+112,"Include post-completion output in cell responses","https://github.com/t-kalinowski/mcp-console/pull/112","2026-08-21T16:58:10Z","main",143,30,173,113
+110,"Clarify worker response and preparation boundaries","https://github.com/t-kalinowski/mcp-console/pull/110","2026-08-21T14:35:32Z","main",108,59,167,49
+109,"Discard superseded worker environment commits during restart","https://github.com/t-kalinowski/mcp-console/pull/109","2026-08-21T13:58:37Z","main",672,68,740,604
+108,"Test Darwin worker stop and continue supervision","https://github.com/t-kalinowski/mcp-console/pull/108","2026-08-21T12:31:04Z","main",277,0,277,277
+107,"Test ordered relay retirement","https://github.com/t-kalinowski/mcp-console/pull/107","2026-08-21T12:03:59Z","main",481,3,484,478
+106,"Flatten worker relay events and preserve process outcomes","https://github.com/t-kalinowski/mcp-console/pull/106","2026-08-21T02:09:49Z","main",3097,1965,5062,1132
+105,"Organize transcript tests by process boundary","https://github.com/t-kalinowski/mcp-console/pull/105","2026-08-20T21:54:08Z","main",1164,431,1595,733
+104,"Route sandboxed workers through a relay","https://github.com/t-kalinowski/mcp-console/pull/104","2026-08-20T19:20:14Z","main",3603,611,4214,2992
+103,"Stabilize idle callback transcript polling","https://github.com/t-kalinowski/mcp-console/pull/103","2026-08-19T13:21:41Z","collect-activity-continuously",5,11,16,-6
+102,"Make sideband transport cancellable","https://github.com/t-kalinowski/mcp-console/pull/102","2026-08-19T12:41:20Z","main",513,63,576,450
+101,"Collect worker activity continuously","https://github.com/t-kalinowski/mcp-console/pull/101","2026-08-19T14:57:48Z","main",2125,675,2800,1450
+100,"Reuse host caches in transcript tests","https://github.com/t-kalinowski/mcp-console/pull/100","2026-08-19T01:07:39Z","main",27,215,242,-188
+99,"Run transcript tests in parallel by default","https://github.com/t-kalinowski/mcp-console/pull/99","2026-08-18T17:58:00Z","main",263,126,389,137
+97,"Remove provisional Python preparation state","https://github.com/t-kalinowski/mcp-console/pull/97","2026-08-18T19:09:46Z","main",151,67,218,84
+96,"Remove managed Python checkpoints","https://github.com/t-kalinowski/mcp-console/pull/96","2026-08-18T18:56:32Z","main",296,347,643,-51
+95,"Report committed Python activations","https://github.com/t-kalinowski/mcp-console/pull/95","2026-08-18T18:27:52Z","main",137,81,218,56
+94,"Accept managed Python activation receipts","https://github.com/t-kalinowski/mcp-console/pull/94","2026-08-18T13:18:34Z","main",165,14,179,151
+92,"Cancel managed console reads on interrupt","https://github.com/t-kalinowski/mcp-console/pull/92","2026-08-20T02:16:42Z","main",780,28,808,752
+91,"Avoid reticulate proxy races during Python evaluation","https://github.com/t-kalinowski/mcp-console/pull/91","2026-08-19T19:45:44Z","main",768,129,897,639
+90,"Report resolver interrupt failures","https://github.com/t-kalinowski/mcp-console/pull/90","2026-08-15T13:44:16Z","main",236,22,258,214
+89,"Route session interrupts to active resolvers","https://github.com/t-kalinowski/mcp-console/pull/89","2026-08-15T13:36:17Z","main",316,92,408,224
+88,"Add SIGINT support for live console workers","https://github.com/t-kalinowski/mcp-console/pull/88","2026-08-15T13:26:39Z","main",1539,324,1863,1215
+86,"Drain background worker activity before evaluations","https://github.com/t-kalinowski/mcp-console/pull/86","2026-08-14T23:17:36Z","refactor/worker-activity-receipt",132,20,152,112
+85,"Add ragnar R and SQL integration transcripts","https://github.com/t-kalinowski/mcp-console/pull/85","2026-08-14T20:48:55Z","main",891,0,891,891
+82,"Run R event handlers while the worker is idle","https://github.com/t-kalinowski/mcp-console/pull/82","2026-08-18T21:04:57Z","main",737,44,781,693
+81,"Route background worker activity through explicit operations","https://github.com/t-kalinowski/mcp-console/pull/81","2026-08-18T20:20:08Z","main",522,45,567,477
+80,"Service R events at cell boundaries","https://github.com/t-kalinowski/mcp-console/pull/80","2026-08-14T23:58:21Z","main",587,2,589,585
+79,"Retain the sideband reader descriptor","https://github.com/t-kalinowski/mcp-console/pull/79","2026-08-14T19:17:13Z","main",10,1,11,9
+78,"Refactor worker command dispatch","https://github.com/t-kalinowski/mcp-console/pull/78","2026-08-14T19:16:33Z","main",53,18,71,35
+76,"Add default DuckDB extensions and restart-time requirements","https://github.com/t-kalinowski/mcp-console/pull/76","2026-08-14T17:57:43Z","main",664,202,866,462
+75,"Clarify package guidance for custom Python","https://github.com/t-kalinowski/mcp-console/pull/75","2026-08-14T19:25:59Z","main",29,19,48,10
+74,"Preserve complete runtime diagnostics in transcript snapshots","https://github.com/t-kalinowski/mcp-console/pull/74","2026-08-14T16:31:14Z","main",92,41,133,51
+73,"Recover from denied macOS process-group signals","https://github.com/t-kalinowski/mcp-console/pull/73","2026-08-14T18:30:34Z","main",487,30,517,457
+72,"Add on-demand DuckDB extension preparation","https://github.com/t-kalinowski/mcp-console/pull/72","2026-08-14T16:30:16Z","main",1258,155,1413,1103
+71,"Align console defaults to 200 columns","https://github.com/t-kalinowski/mcp-console/pull/71","2026-08-14T13:15:01Z","main",289,34,323,255
+69,"Clarify R preparation failure regressions","https://github.com/t-kalinowski/mcp-console/pull/69","2026-08-14T12:49:45Z","main",47,33,80,14
+68,"Adapt managed Python integration to upstream changes","https://github.com/t-kalinowski/mcp-console/pull/68","2026-08-13T22:47:30Z","main",497,82,579,415
+67,"Allow idle workers to prepare R requirements","https://github.com/t-kalinowski/mcp-console/pull/67","2026-08-14T00:15:19Z","main",1054,144,1198,910
+66,"Populate default console environments","https://github.com/t-kalinowski/mcp-console/pull/66","2026-08-13T18:50:52Z","main",513,192,705,321
+65,"Preserve worker console output channels","https://github.com/t-kalinowski/mcp-console/pull/65","2026-08-13T17:21:10Z","main",237,97,334,140
+64,"Align worker replacement responses with lifecycle boundaries","https://github.com/t-kalinowski/mcp-console/pull/64","2026-08-13T15:59:14Z","main",1497,438,1935,1059
+63,"Improve mixed-language console guidance","https://github.com/t-kalinowski/mcp-console/pull/63","2026-08-13T15:33:30Z","main",388,91,479,297
+62,"Create optional console journals only on first use","https://github.com/t-kalinowski/mcp-console/pull/62","2026-08-13T13:23:55Z","main",482,221,703,261
+61,"Make worker retirement an ordered lifecycle boundary","https://github.com/t-kalinowski/mcp-console/pull/61","2026-08-13T02:00:33Z","main",1928,700,2628,1228
+60,"Install IR and Yamark with uv in CI","https://github.com/t-kalinowski/mcp-console/pull/60","2026-08-12T19:04:17Z","main",6,8,14,-2
+58,"Make Python preparation cancellation deterministic","https://github.com/t-kalinowski/mcp-console/pull/58","2026-08-12T15:02:44Z","main",44,13,57,31
+57,"Split resolver and worker client into submodules","https://github.com/t-kalinowski/mcp-console/pull/57","2026-08-12T15:49:46Z","main",2470,2352,4822,118
+56,"Apply late Python requirements without restarting","https://github.com/t-kalinowski/mcp-console/pull/56","2026-08-12T12:08:43Z","main",789,183,972,606
+55,"Refactor worker launch through runtime boundary","https://github.com/t-kalinowski/mcp-console/pull/55","2026-08-11T18:28:40Z","main",75,50,125,25
+54,"Prevent installation from local R package sources","https://github.com/t-kalinowski/mcp-console/pull/54","2026-08-12T18:06:15Z","main",270,108,378,162
+53,"Warm Matplotlib font caches during Python resolution","https://github.com/t-kalinowski/mcp-console/pull/53","2026-08-12T00:02:26Z","main",743,31,774,712
+52,"Show complete tracebacks in Matplotlib transcripts","https://github.com/t-kalinowski/mcp-console/pull/52","2026-08-11T11:54:12Z","main",8,8,16,0
+51,"Support restart with optional Python requirements","https://github.com/t-kalinowski/mcp-console/pull/51","2026-08-10T23:35:19Z","main",1184,1012,2196,172
+50,"Separate recorded events from MCP transcript goldens","https://github.com/t-kalinowski/mcp-console/pull/50","2026-08-10T21:00:21Z","main",212,212,424,0
+49,"Add IR-backed R requirements","https://github.com/t-kalinowski/mcp-console/pull/49","2026-08-10T22:40:53Z","main",1184,202,1386,982
+48,"Wait for Python resolver exit without polling","https://github.com/t-kalinowski/mcp-console/pull/48","2026-08-10T02:02:30Z","main",181,89,270,92
+47,"Capture Matplotlib plots from Python cells","https://github.com/t-kalinowski/mcp-console/pull/47","2026-08-11T00:25:44Z","main",475,24,499,451
+46,"Share R and SQL relations automatically","https://github.com/t-kalinowski/mcp-console/pull/46","2026-08-10T21:11:08Z","main",488,24,512,464
+45,"Record MCP console session transcripts","https://github.com/t-kalinowski/mcp-console/pull/45","2026-08-10T19:15:53Z","main",1203,25,1228,1178
+44,"Add explicit session restart","https://github.com/t-kalinowski/mcp-console/pull/44","2026-08-07T23:57:22Z","main",1388,141,1529,1247
+43,"Layer Python requirements declared at runtime","https://github.com/t-kalinowski/mcp-console/pull/43","2026-08-07T23:35:40Z","main",1165,172,1337,993
+42,"Refine Python requirement resolution","https://github.com/t-kalinowski/mcp-console/pull/42","2026-08-07T18:14:16Z","main",437,358,795,79
+41,"Add initial Python requirement preparation","https://github.com/t-kalinowski/mcp-console/pull/41","2026-08-07T16:58:55Z","main",1073,66,1139,1007
+40,"Emit managed plots when pages finalize","https://github.com/t-kalinowski/mcp-console/pull/40","2026-08-07T14:29:53Z","main",118,277,395,-159
+39,"Return R plots as MCP image content","https://github.com/t-kalinowski/mcp-console/pull/39","2026-08-07T12:51:26Z","main",1540,94,1634,1446
+38,"Add bounded SQL result previews","https://github.com/t-kalinowski/mcp-console/pull/38","2026-08-06T17:12:39Z","main",852,28,880,824
+37,"Fix SQL transcript formatting","https://github.com/t-kalinowski/mcp-console/pull/37","2026-08-05T12:10:52Z","main",6,11,17,-5
+36,"Add SQL cells backed by DuckDB","https://github.com/t-kalinowski/mcp-console/pull/36","2026-08-04T20:35:36Z","main",439,135,574,304
+35,"Preserve Python output from fork children","https://github.com/t-kalinowski/mcp-console/pull/35","2026-08-04T13:56:02Z","main",109,4,113,105
+34,"Let reticulate select the Python interpreter","https://github.com/t-kalinowski/mcp-console/pull/34","2026-08-04T13:43:25Z","main",560,213,773,347
+33,"Add worker transcript coverage for Python output routing","https://github.com/t-kalinowski/mcp-console/pull/33","2026-08-04T03:57:43Z","main",507,7,514,500
+32,"Document and test Python input and debugger interaction","https://github.com/t-kalinowski/mcp-console/pull/32","2026-08-04T00:51:00Z","main",194,10,204,184
+31,"Test explicit async execution in Python cells","https://github.com/t-kalinowski/mcp-console/pull/31","2026-08-03T23:40:36Z","main",47,0,47,47
+30,"Render interactive input requests explicitly","https://github.com/t-kalinowski/mcp-console/pull/30","2026-08-03T22:04:24Z","main",195,104,299,91
+29,"Run CI on macOS only","https://github.com/t-kalinowski/mcp-console/pull/29","2026-08-03T21:07:46Z","main",2,5,7,-3
+28,"Report automatic worker replacement and preserve failure output","https://github.com/t-kalinowski/mcp-console/pull/28","2026-08-03T20:53:32Z","main",541,48,589,493
+27,"Record exact source and diagnostics in transcript fixtures","https://github.com/t-kalinowski/mcp-console/pull/27","2026-08-03T16:50:39Z","main",176,161,337,15
+26,"Simplify Python bridge initialization","https://github.com/t-kalinowski/mcp-console/pull/26","2026-08-03T14:15:46Z","main",27,55,82,-28
+25,"Capture worker standard streams","https://github.com/t-kalinowski/mcp-console/pull/25","2026-08-03T01:55:59Z","main",485,127,612,358
+24,"Support Python cells through reticulate","https://github.com/t-kalinowski/mcp-console/pull/24","2026-08-03T13:35:52Z","main",846,93,939,753
+23,"Record the native R worker decision and expand acceptance coverage","https://github.com/t-kalinowski/mcp-console/pull/23","2026-08-02T18:30:11Z","main",1088,69,1157,1019
+22,"Add timeout polling to send","https://github.com/t-kalinowski/mcp-console/pull/22","2026-08-02T10:36:33Z","main",359,58,417,301
+21,"Simplify golden MCP transcripts","https://github.com/t-kalinowski/mcp-console/pull/21","2026-08-02T09:40:43Z","main",288,689,977,-401
+20,"Require format checks before commits","https://github.com/t-kalinowski/mcp-console/pull/20","2026-08-02T01:46:51Z","main",1,0,1,1
+19,"Support interactive stdin in R evaluations","https://github.com/t-kalinowski/mcp-console/pull/19","2026-08-02T16:58:33Z","main",1510,177,1687,1333
+18,"Run R cells through the native DLL REPL loop","https://github.com/t-kalinowski/mcp-console/pull/18","2026-08-01T19:21:05Z","main",503,60,563,443
+17,"Add the built-in R worker","https://github.com/t-kalinowski/mcp-console/pull/17","2026-08-01T17:05:33Z","main",1528,127,1655,1401
+16,"Add development worker sideband protocol","https://github.com/t-kalinowski/mcp-console/pull/16","2026-08-01T14:10:21Z","main",1234,12,1246,1222
+15,"Refactor sandbox launcher into reusable command builder","https://github.com/t-kalinowski/mcp-console/pull/15","2026-07-30T23:47:26Z","main",379,24,403,355
+14,"Rename transcript documents to entries","https://github.com/t-kalinowski/mcp-console/pull/14","2026-07-30T14:23:26Z","main",35,34,69,1
+13,"Move stable CLI checks to golden transcripts","https://github.com/t-kalinowski/mcp-console/pull/13","2026-07-30T14:08:14Z","main",249,143,392,106
+12,"Rename MCP tools to send and session","https://github.com/t-kalinowski/mcp-console/pull/12","2026-07-29T21:46:46Z","main",87,51,138,36
+11,"Simplify MCP transcript snapshots","https://github.com/t-kalinowski/mcp-console/pull/11","2026-07-29T21:09:33Z","main",16,15,31,1
+10,"Add repository-wide format script","https://github.com/t-kalinowski/mcp-console/pull/10","2026-07-29T20:37:58Z","main",75,11,86,64
+9,"Use clap for command-line parsing","https://github.com/t-kalinowski/mcp-console/pull/9","2026-07-29T19:07:17Z","main",326,81,407,245
+8,"Require the serve subcommand","https://github.com/t-kalinowski/mcp-console/pull/8","2026-07-29T16:49:40Z","main",39,101,140,-62
+7,"Add external golden transcript tests for the MCP server","https://github.com/t-kalinowski/mcp-console/pull/7","2026-07-29T16:09:17Z","main",441,135,576,306
+6,"Add a minimal MCP console server","https://github.com/t-kalinowski/mcp-console/pull/6","2026-07-28T23:22:01Z","main",892,5,897,887
+4,"Add the macOS sandbox process launcher","https://github.com/t-kalinowski/mcp-console/pull/4","2026-07-28T16:00:40Z","main",825,13,838,812
+3,"Document future Python session modes","https://github.com/t-kalinowski/mcp-console/pull/3","2026-07-27T16:56:13Z","main",3,0,3,3
+2,"Bootstrap Rust project","https://github.com/t-kalinowski/mcp-console/pull/2","2026-07-27T16:55:43Z","main",165,1,166,164

@@ -1,0 +1,7 @@
+"number","title","url","mergedAt","baseRefName"
+24,"Support Python cells through reticulate","https://github.com/t-kalinowski/mcp-console/pull/24","2026-08-03T13:35:52Z","main"
+36,"Add SQL cells backed by DuckDB","https://github.com/t-kalinowski/mcp-console/pull/36","2026-08-04T20:35:36Z","main"
+123,"Resolve R packages automatically on demand","https://github.com/t-kalinowski/mcp-console/pull/123","2026-08-24T01:56:29Z","main"
+124,"Resolve missing Python imports on demand","https://github.com/t-kalinowski/mcp-console/pull/124","2026-08-24T14:55:21Z","main"
+262,"Support sandboxed execution on Linux","https://github.com/t-kalinowski/mcp-console/pull/262","2026-09-09T11:58:44Z","main"
+302,"Add configurable Docker execution targets","https://github.com/t-kalinowski/mcp-console/pull/302","2026-09-12T18:42:04Z","main"

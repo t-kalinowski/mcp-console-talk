@@ -518,7 +518,7 @@ My hope is that we can share this execution system and keep solving the difficul
 
 ## 46. Appendix
 
-**Say:** The main talk ends here. These slides are available for questions about package configuration, the implementation, and how its behavior is checked.
+**Say:** The main talk ends here. These slides are available for questions about package configuration, how the project evolved, and how its behavior is checked. The development history leads into the instructions given to coding agents and some examples from the test suite.
 
 **Show:** Pause at this divider before entering the development material.
 
@@ -564,7 +564,84 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 
-## 50. Rust implementation. Python integration tests.
+## 50. Capabilities arriving on main
+
+**Say:** This is a little under eight weeks of development. Each dot is a PR merged directly into main. The vertical axis is logarithmic so that small and large changes are both visible. Python cells arrived on August 3 and SQL on August 4. On-demand R and Python packages landed on August 24, sandboxed Linux on September 9, and Docker targets on September 12.
+
+**Show:** Follow the dates across the top, then point out the range of PR sizes underneath. A feature can span several PRs; these annotations mark specific capability merges rather than the whole development effort. Linux without the sandbox preceded the sandboxed Linux milestone.
+
+**Data:** GitHub snapshot at September 18, 19:08 UTC. Of 298 merged PRs, 279 targeted main; 19 targeting intermediate branches are excluded. The dot heights count additions plus deletions, including moves and generated snapshots. The chart is not a measure of effort or complexity.
+
+**Sources:** [Python #24](https://github.com/t-kalinowski/mcp-console/pull/24) · [SQL #36](https://github.com/t-kalinowski/mcp-console/pull/36) · [R packages #123](https://github.com/t-kalinowski/mcp-console/pull/123) · [Python packages #124](https://github.com/t-kalinowski/mcp-console/pull/124) · [Sandboxed Linux #262](https://github.com/t-kalinowski/mcp-console/pull/262) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302)
+
+
+## 51. How much is in the repository?
+
+**Say:** This counts the files actually present in the repository at each point in time. Deleted lines come out of the total. It starts with a 21-line initial commit and reaches about 143,000 lines across 1,086 tracked text files. This includes comments, blank lines, tests, transcripts, documentation, and build files.
+
+**Show:** Point out that the total can fall as code and tests are simplified. This is a count of repository contents, not cumulative PR activity. Adding PR sizes together would double-count work that is later changed or removed.
+
+**Data:** Every first-parent commit through main commit 657a5981, September 18 at 19:43 UTC. Each snapshot is counted from the full Git tree. Binary and untracked files are excluded. UTC commit times determine the horizontal position.
+
+**Sources:** [Pinned main snapshot](https://github.com/t-kalinowski/mcp-console/tree/657a5981983768967deed83c070973848ec800fb) · [Analysis definitions and data](examples/repository-development/README.md)
+
+
+## 52. What grew alongside the core code?
+
+**Say:** The blue area is core code. The darker orange is test code, harnesses, and other fixtures. The lighter orange is YAML test transcripts: the requests and expected responses that a reviewer can read. Documentation and examples are yellow, and build tooling is gray.
+
+**Show:** Compare the orange areas with the blue one. Much of the repository records how the system should behave and how to exercise it. The testing slides that follow show what those transcripts look like.
+
+**Data:** These are file categories, not line-by-line semantic classifications: core files can contain inline tests and documentation comments. Transcript detection uses .yaml or .yml under tests/, r/tests/, or python/tests/, regardless of historical subdirectory. CI YAML remains tooling. The #197 reorganization has 17,224 transcript lines on both sides, so moving transcripts does not create artificial growth in this category.
+
+**Sources:** [Analysis definitions and checks](examples/repository-development/README.md) · [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197)
+
+
+## 53. How the proportions changed
+
+**Say:** Here the total height is always 100 percent. Early on, documentation occupies most of a small repository. As implementation and tests accumulate, that mix changes. At the latest snapshot, test code and fixtures account for about 42 percent, and YAML transcripts another 24 percent. Together they are about 65 percent of the tracked lines.
+
+**Show:** Use the preceding slide to keep absolute size in mind. A category can shrink as a proportion while still growing in lines. The first snapshot contains only 21 lines, so the earliest shares are particularly sensitive to small changes.
+
+**Data:** Each category's line count is divided by the total at the same commit. All 307 snapshots sum to 100 percent before rounding. The colors and classification match the absolute-size chart. Shares describe repository contents, not developer time, test coverage, or software quality.
+
+**Sources:** [Analysis definitions and data](examples/repository-development/README.md)
+
+
+## 54. Why some PRs look so large
+
+**Say:** The largest diffs deserve a closer look. The three largest PRs here changed no core-code files under this classification. They reorganized tests or simplified test support. The largest changed about 37,000 lines but added only about 1,700 net lines. File moves and rewritten snapshots can create substantial review volume without adding the same amount of repository content.
+
+**Show:** Compare the top bar with the Docker feature farther down. The categories help explain what a PR contains; line count alone cannot tell us how difficult it was or how much new capability it introduced.
+
+**Data:** The same GitHub snapshot as the timeline. Per-file additions and deletions reconcile with every PR total. YAML transcript files use the suffix-based classification in the repository charts. Labels shorten PR titles for readability.
+
+**Sources:** [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197) · [Test contracts #258](https://github.com/t-kalinowski/mcp-console/pull/258) · [Transcript support #202](https://github.com/t-kalinowski/mcp-console/pull/202) · [Sandbox supervision #266](https://github.com/t-kalinowski/mcp-console/pull/266) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302) · [CLI tests #205](https://github.com/t-kalinowski/mcp-console/pull/205)
+
+
+## 55. AGENTS.md gives the model project context
+
+**Say:** AGENTS.md is a checked-in Markdown file that gives a coding agent context about the repository. In this project it provides a map to the architecture, the public contracts, and the development guide, along with rules for making changes. The detailed behavior lives in source, protocol documents, and public tests.
+
+The instructions ask for coherent PRs, readable code, tests through public interfaces, and deliberate review of generated snapshots. They also explain which process owns which responsibility, so a change does not accidentally move behavior across a boundary.
+
+**Show:** Read these as three kinds of guidance: where to look, what to preserve, and how to make a change. The file supplies instructions; the checks and review provide evidence that a particular change follows them.
+
+**Sources:** [AGENTS.md at the analysis snapshot](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Development guide](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
+
+
+## 56. The development loop starts with behavior
+
+**Say:** For a behavior change, the project instructions start with a public acceptance or regression test and ask the agent to confirm that it fails. Then comes the implementation, a focused rerun, and review of any changed snapshots. After that, formatting and the full check suite precede the PR, and passing CI and approval from the configured reviewer are required on the current revision before merging.
+
+For an internal refactor, the existing public suite is the contract; the instructions do not ask for a new test of a private helper. Tests should use observable checkpoints instead of timing guesses. Generated transcripts should preserve the behavior a user sees, with only incidental noise normalized.
+
+**Show:** This describes the written workflow at the snapshot date, not an audit that every historical PR followed it. The following slides show the kinds of tests and review artifacts those instructions refer to.
+
+**Sources:** [Working rules in AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Validation ladder](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
+
+
+## 57. Rust implementation. Python integration tests.
 
 **Say:** The main integration suite is Python even though the application is Rust. It drives the built executable and observes the real process boundary. Small unit tests can still own pure parsing or validation policy; the claim is not that absolutely no Rust tests exist.
 
@@ -573,7 +650,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
 
 
-## 51. Test the boundaries you intend to preserve
+## 58. Test the boundaries you intend to preserve
 
 **Say:** The tests mirror architectural boundaries: client_server, server_relay, relay_worker, and cli. Public behavior belongs at the outermost boundary that can usefully observe it. Private-boundary cases cover their own protocol seams rather than replicating every public message at every layer.
 
@@ -582,7 +659,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 52. YAML is what the reviewer reads
+## 59. YAML is what the reviewer reads
 
 **Say:** The wire protocols are JSON-based, but the reviewable test transcripts are YAML. This is an actual checked-in snapshot excerpt: the test executes R, asserts that CPU detection returns a valid result, and prints a stable message. Humans can review the code and result without reading escaped JSON strings or snapshotting a machine-specific core count. YAML is the human review surface, not the production transport.
 
@@ -591,7 +668,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Checked-in CPU detection snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml)
 
 
-## 53. Normalize noise, not behavior
+## 60. Normalize noise, not behavior
 
 **Say:** Temporary paths, process identities, and similar unstable details should not obscure behavioral review. Normalize explicitly and narrowly. Preserve the fields, output, ordering, and failure distinctions the contract is meant to protect. The actual project normalizers and snapshot metadata are more specific than this schematic example.
 
@@ -600,7 +677,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 54. Synchronize; do not sleep and hope
+## 61. Synchronize; do not sleep and hope
 
 **Say:** Concurrency and liveness tests need causal synchronization. Fixtures use gates and checkpoints so the test knows when the relevant state has actually been reached. Arbitrary sleeps are not proof that output was drained, an interrupt was delivered, or an owned resource was retired.
 
@@ -609,7 +686,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 55. Portable behavior; real capability checks
+## 62. Portable behavior; real capability checks
 
 **Say:** Reuse portable cases across execution modes and centralize capability discovery. A skipped target fixture is not target validation. Deterministic peers can establish orchestration behavior, but they cannot establish real container or microVM cleanup. Keep real-target evidence distinct from simulated protocol coverage.
 
@@ -618,7 +695,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 56. Snapshots are generated evidence
+## 63. Snapshots are generated evidence
 
 **Say:** Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.
 
@@ -627,7 +704,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 57. Test the installed product
+## 64. Test the installed product
 
 **Say:** The delivered product includes the executable, companion binaries, Python interfaces, the R wrapper, and launch/lifetime behavior. Running a development binary alone does not establish that the installed bundle or each adapter works. Integration examples and packaging checks should be part of the release evidence, with actual target validation reported separately.
 

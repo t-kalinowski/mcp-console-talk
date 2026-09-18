@@ -4,3 +4,4 @@
 output/
 deck_files/
 __pycache__/
+.mcp-console/sessions

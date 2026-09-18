@@ -96,6 +96,20 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 
 .snapshot-slide pre code { font-size: 24px; line-height: 1.4; }
 
+/* Appendix figures share category colors and a fixed, readable plot footprint. */
+.history-chart .history-figure { display: block; width: 100%; height: 520px; object-fit: contain; margin: 0; }
+.history-chart > p, .history-chart .quarto-figure { margin: 0; }
+.history-chart .small-note { margin-top: 8px; font-size: 20px; }
+.history-chart .takeaway { margin-top: 16px; padding-top: 15px; font-size: 27px; }
+.development-intro { max-width: 1270px; font-size: 36px; line-height: 1.35; margin: 34px 0; }
+.development-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px; margin: 36px 0; }
+.development-card { background: white; border-top: 4px solid var(--accent); border-radius: 8px; padding: 30px; font-size: 29px; line-height: 1.45; }
+.development-card p:first-child { font-size: 31px; margin-bottom: 24px; }
+.development-steps { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 32px; margin: 35px 0; }
+.development-step { border-left: 4px solid var(--accent); background: white; padding: 24px 30px; border-radius: 6px; font-size: 28px; line-height: 1.35; }
+.development-step p:first-child { font-size: 30px; margin-bottom: 16px; }
+.development-card p:last-child, .development-step p:last-child { margin-bottom: 0; }
+
 /* Revision: literal output, higher-contrast contract, inline SVGs and YAML. */
 .signature { background: #edf2ee; border: 1px solid #b9c9c2; border-radius: 9px;
   font-size: 25px; margin-bottom: 23px; padding: 11px 15px; gap: 7px; }

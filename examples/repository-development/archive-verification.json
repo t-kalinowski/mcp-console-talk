@@ -1,0 +1,22 @@
+[
+  {
+    "commit": "05c51d46729f1b3da2a9da38934f9adbdafb3b3d",
+    "total_lines": 21,
+    "text_files": 1
+  },
+  {
+    "commit": "70128899a9dec008532f93f76cd2afabc6a794be",
+    "total_lines": 74753,
+    "text_files": 453
+  },
+  {
+    "commit": "b3209160bd1f0f9c90004e1c9011f351cf65a8d5",
+    "total_lines": 83972,
+    "text_files": 560
+  },
+  {
+    "commit": "657a5981983768967deed83c070973848ec800fb",
+    "total_lines": 143123,
+    "text_files": 1086
+  }
+]

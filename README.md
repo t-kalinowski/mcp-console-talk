@@ -1,6 +1,6 @@
 # MCP Console presentation
 
-45 main slides, an appendix divider, and 11 optional configuration, implementation, and testing slides (57 total). `deck.qmd` is the
+45 main slides, an appendix divider, and 18 optional configuration, development-history, implementation, and testing slides (64 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 The main narrative starts with why: a comprehensive execution system that teams
@@ -19,9 +19,15 @@ to local/SSH/Docker execution.
 An SSH topology diagram shows which processes move to the remote host. One installation overview leads into CLI and SDK integration examples,
 then session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
 work. The appendix covers approved package repositories, proposed config.yaml
-requirements, the resolver protocol, and testing. The proposed configuration
+requirements, the resolver protocol, repository growth and composition, major
+feature merges, instructions for coding agents, and testing. The proposed configuration
 form is visibly labeled as not implemented.
 The main talk ends at `closing`; an explicit appendix divider follows it.
+
+The repository-development sequence starts at `development-timeline` and
+includes absolute and proportional views that distinguish YAML test transcripts
+from test code. Frozen data, definitions, and the R figure generator are in
+[examples/repository-development](examples/repository-development/README.md).
 
 ## View the deck
 

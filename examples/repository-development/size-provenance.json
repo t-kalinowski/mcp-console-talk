@@ -1,0 +1,16 @@
+{
+  "repository": "t-kalinowski/mcp-console",
+  "local_repository": "/Users/tomasz/github/t-kalinowski/mcp-console",
+  "requested_revision": "657a5981983768967deed83c070973848ec800fb",
+  "pinned_main_head": "657a5981983768967deed83c070973848ec800fb",
+  "fetched_at": "2026-09-18T20:22:51.455337+00:00",
+  "snapshots": 307,
+  "distinct_blobs_counted": 6133,
+  "ignored_mode_occurrences": {},
+  "measurement": "Physical lines in tracked regular text files, including blank lines and comments; a nonempty unterminated final line counts as one.",
+  "binary_rule": "Files with a NUL byte in the first 8000 bytes are excluded from line counts.",
+  "history": "Every first-parent commit on pinned origin/main, counted from the complete tree. Includes direct commits and merges; side branches are not counted separately.",
+  "time": "Committer timestamp in UTC; all first-parent timestamps are nondecreasing.",
+  "category_rule": "Test transcripts are .yaml/.yml files anywhere under tests/, r/tests/, or python/tests/, regardless of historical subdirectory. Non-YAML snapshot fixtures remain Test code & fixtures. CI/configuration YAML remains Build & tooling. Examples are included with Docs & examples.",
+  "limitations": "Core files include inline tests and documentation comments. Binary content, Git metadata and untracked files are excluded. This is repository content, not code-only SLOC or disk usage."
+}

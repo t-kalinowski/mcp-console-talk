@@ -1,12 +1,37 @@
 # Local validation — 2026-09-18
 
-The revised project contains 57 slides (45 main, an appendix divider, and 11 optional appendix slides),
+The revised project contains 64 slides (45 main, an appendix divider, and 18 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-18-package-appendix/mcp-console-captured.html).
+[the render archive](../archived/2026-09-18-development-appendix/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Repository development in the appendix — 2026-09-18
+
+- Added seven slides (50–56) between package resolution and the existing
+  testing material: annotated PR timeline, total repository size, category
+  sizes, category proportions, the six largest PRs, AGENTS.md, and the
+  prescribed development loop. Updated the divider and speaker notes.
+- Generated five figures in MCP Console with R. PR charts use 279 merges
+  directly into main from the 19:08 UTC GitHub snapshot. Repository charts
+  use 307 complete Git trees through main commit 657a5981 at 19:43 UTC.
+  Frozen CSVs, definitions, verification records, and the R generator are
+  supplied under examples/repository-development/.
+- Category sums match all repository totals, and every proportion snapshot
+  sums to 100 percent before rounding. Per-file PR totals reconcile with
+  GitHub's additions and deletions. YAML transcript detection is independent
+  of historical test subdirectories; the #197 reorganization preserves
+  17,224 transcript lines on both sides.
+- Both native R and captured-output renders finish without warnings and pass
+  validate_source.py for 64 slides with matching notes. All five SVGs load
+  and display. The divider and all seven new slides pass browser bounds
+  checks at 1422 × 800 in both modes. The new slides were visually inspected
+  in native mode. Speaker View was not retested.
+- The source before the appendix matches the preceding commit. Runtime
+  captures and measurements are unchanged. The delivered HTML is the
+  native R render; both renders are retained in the archive above.
 
 ## Package configuration in the appendix — 2026-09-18
 

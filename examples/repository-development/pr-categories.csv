@@ -1,0 +1,979 @@
+"number","category","additions","deletions","changed","net"
+2,"Build & tooling",59,0,59,59
+2,"Core code",14,0,14,14
+2,"Docs & examples",76,1,77,75
+2,"Test code & fixtures",16,0,16,16
+3,"Docs & examples",3,0,3,3
+4,"Build & tooling",15,2,17,13
+4,"Core code",325,7,332,318
+4,"Docs & examples",28,4,32,24
+4,"Test code & fixtures",457,0,457,457
+6,"Build & tooling",710,1,711,709
+6,"Core code",42,2,44,40
+6,"Docs & examples",12,1,13,11
+6,"Test code & fixtures",128,1,129,127
+7,"Build & tooling",14,4,18,10
+7,"Docs & examples",45,3,48,42
+7,"Test code & fixtures",262,128,390,134
+7,"Test transcripts",120,0,120,120
+8,"Core code",7,12,19,-5
+8,"Docs & examples",18,16,34,2
+8,"Test code & fixtures",14,13,27,1
+8,"Test transcripts",0,60,60,-60
+9,"Build & tooling",131,0,131,131
+9,"Core code",61,44,105,17
+9,"Docs & examples",16,6,22,10
+9,"Test code & fixtures",41,31,72,10
+9,"Test transcripts",77,0,77,77
+10,"Build & tooling",13,0,13,13
+10,"Docs & examples",10,0,10,10
+10,"Test code & fixtures",48,8,56,40
+10,"Test transcripts",4,3,7,1
+11,"Docs & examples",2,0,2,2
+11,"Test code & fixtures",11,2,13,9
+11,"Test transcripts",3,13,16,-10
+12,"Core code",1,1,2,0
+12,"Docs & examples",81,43,124,38
+12,"Test code & fixtures",3,5,8,-2
+12,"Test transcripts",2,2,4,0
+13,"Docs & examples",2,0,2,2
+13,"Test code & fixtures",147,143,290,4
+13,"Test transcripts",100,0,100,100
+14,"Docs & examples",4,3,7,1
+14,"Test code & fixtures",31,31,62,0
+15,"Core code",212,22,234,190
+15,"Test code & fixtures",128,2,130,126
+15,"Test transcripts",39,0,39,39
+16,"Build & tooling",18,1,19,17
+16,"Core code",559,9,568,550
+16,"Docs & examples",178,2,180,176
+16,"Test code & fixtures",293,0,293,293
+16,"Test transcripts",186,0,186,186
+17,"Build & tooling",629,3,632,626
+17,"Core code",381,65,446,316
+17,"Docs & examples",75,44,119,31
+17,"Test code & fixtures",121,0,121,121
+17,"Test transcripts",322,15,337,307
+18,"Build & tooling",15,0,15,15
+18,"Core code",203,37,240,166
+18,"Docs & examples",36,23,59,13
+18,"Test code & fixtures",54,0,54,54
+18,"Test transcripts",195,0,195,195
+19,"Core code",470,85,555,385
+19,"Docs & examples",225,84,309,141
+19,"Test code & fixtures",343,2,345,341
+19,"Test transcripts",472,6,478,466
+20,"Docs & examples",1,0,1,1
+21,"Build & tooling",1,1,2,0
+21,"Docs & examples",12,5,17,7
+21,"Test code & fixtures",39,9,48,30
+21,"Test transcripts",236,674,910,-438
+22,"Build & tooling",1,1,2,0
+22,"Core code",134,14,148,120
+22,"Docs & examples",38,14,52,24
+22,"Test code & fixtures",54,4,58,50
+22,"Test transcripts",132,25,157,107
+23,"Docs & examples",446,63,509,383
+23,"Test code & fixtures",492,1,493,491
+23,"Test transcripts",150,5,155,145
+24,"Build & tooling",4,2,6,2
+24,"Core code",301,24,325,277
+24,"Docs & examples",85,44,129,41
+24,"Test code & fixtures",182,18,200,164
+24,"Test transcripts",274,5,279,269
+25,"Core code",233,23,256,210
+25,"Docs & examples",56,28,84,28
+25,"Test code & fixtures",131,26,157,105
+25,"Test transcripts",65,50,115,15
+26,"Core code",27,55,82,-28
+27,"Test code & fixtures",101,102,203,-1
+27,"Test transcripts",75,59,134,16
+28,"Core code",107,26,133,81
+28,"Docs & examples",31,9,40,22
+28,"Test code & fixtures",197,6,203,191
+28,"Test transcripts",206,7,213,199
+29,"Build & tooling",2,5,7,-3
+30,"Core code",16,1,17,15
+30,"Docs & examples",46,33,79,13
+30,"Test code & fixtures",73,38,111,35
+30,"Test transcripts",60,32,92,28
+31,"Test code & fixtures",19,0,19,19
+31,"Test transcripts",28,0,28,28
+32,"Docs & examples",19,10,29,9
+32,"Test code & fixtures",64,0,64,64
+32,"Test transcripts",111,0,111,111
+33,"Docs & examples",28,7,35,21
+33,"Test code & fixtures",356,0,356,356
+33,"Test transcripts",123,0,123,123
+34,"Core code",283,193,476,90
+34,"Docs & examples",44,12,56,32
+34,"Test code & fixtures",111,4,115,107
+34,"Test transcripts",122,4,126,118
+35,"Build & tooling",1,1,2,0
+35,"Docs & examples",10,3,13,7
+35,"Test code & fixtures",41,0,41,41
+35,"Test transcripts",57,0,57,57
+36,"Build & tooling",2,0,2,2
+36,"Core code",214,107,321,107
+36,"Docs & examples",60,21,81,39
+36,"Test code & fixtures",92,3,95,89
+36,"Test transcripts",71,4,75,67
+37,"Test code & fixtures",0,7,7,-7
+37,"Test transcripts",6,4,10,2
+38,"Build & tooling",4,0,4,4
+38,"Core code",294,10,304,284
+38,"Docs & examples",32,12,44,20
+38,"Test code & fixtures",208,0,208,208
+38,"Test transcripts",314,6,320,308
+39,"Build & tooling",12,0,12,12
+39,"Core code",744,76,820,668
+39,"Docs & examples",69,10,79,59
+39,"Test code & fixtures",443,2,445,441
+39,"Test transcripts",272,6,278,266
+40,"Core code",51,175,226,-124
+40,"Docs & examples",12,19,31,-7
+40,"Test code & fixtures",18,27,45,-9
+40,"Test transcripts",37,56,93,-19
+41,"Core code",465,39,504,426
+41,"Docs & examples",72,24,96,48
+41,"Test code & fixtures",309,3,312,306
+41,"Test transcripts",227,0,227,227
+42,"Core code",340,306,646,34
+42,"Docs & examples",23,7,30,16
+42,"Test code & fixtures",29,40,69,-11
+42,"Test transcripts",45,5,50,40
+43,"Build & tooling",2,0,2,2
+43,"Core code",630,90,720,540
+43,"Docs & examples",133,60,193,73
+43,"Test code & fixtures",196,7,203,189
+43,"Test transcripts",204,15,219,189
+44,"Core code",466,110,576,356
+44,"Docs & examples",44,14,58,30
+44,"Test code & fixtures",466,11,477,455
+44,"Test transcripts",412,6,418,406
+45,"Build & tooling",3,0,3,3
+45,"Core code",477,15,492,462
+45,"Docs & examples",27,1,28,26
+45,"Test code & fixtures",428,9,437,419
+45,"Test transcripts",268,0,268,268
+46,"Build & tooling",2,0,2,2
+46,"Core code",46,16,62,30
+46,"Docs & examples",37,8,45,29
+46,"Test code & fixtures",168,0,168,168
+46,"Test transcripts",235,0,235,235
+47,"Core code",98,10,108,88
+47,"Docs & examples",24,6,30,18
+47,"Test code & fixtures",191,2,193,189
+47,"Test transcripts",162,6,168,156
+48,"Core code",96,72,168,24
+48,"Docs & examples",5,1,6,4
+48,"Test code & fixtures",80,16,96,64
+49,"Build & tooling",8,0,8,8
+49,"Core code",398,106,504,292
+49,"Docs & examples",81,50,131,31
+49,"Test code & fixtures",432,29,461,403
+49,"Test transcripts",265,17,282,248
+50,"Core code",5,15,20,-10
+50,"Docs & examples",5,2,7,3
+50,"Test code & fixtures",78,61,139,17
+50,"Test transcripts",124,134,258,-10
+51,"Core code",386,355,741,31
+51,"Docs & examples",47,26,73,21
+51,"Test code & fixtures",607,621,1228,-14
+51,"Test transcripts",144,10,154,134
+52,"Test code & fixtures",0,6,6,-6
+52,"Test transcripts",8,2,10,6
+53,"Core code",104,6,110,98
+53,"Docs & examples",41,8,49,33
+53,"Test code & fixtures",354,10,364,344
+53,"Test transcripts",244,7,251,237
+54,"Build & tooling",2,0,2,2
+54,"Core code",84,39,123,45
+54,"Docs & examples",20,14,34,6
+54,"Test code & fixtures",114,36,150,78
+54,"Test transcripts",50,19,69,31
+55,"Core code",73,48,121,25
+55,"Docs & examples",2,2,4,0
+56,"Core code",310,45,355,265
+56,"Docs & examples",82,47,129,35
+56,"Test code & fixtures",191,17,208,174
+56,"Test transcripts",206,74,280,132
+57,"Core code",2444,2342,4786,102
+57,"Docs & examples",26,10,36,16
+58,"Core code",31,4,35,27
+58,"Docs & examples",4,1,5,3
+58,"Test code & fixtures",8,7,15,1
+58,"Test transcripts",1,1,2,0
+60,"Build & tooling",6,8,14,-2
+61,"Core code",937,430,1367,507
+61,"Docs & examples",53,46,99,7
+61,"Test code & fixtures",636,128,764,508
+61,"Test transcripts",302,96,398,206
+62,"Core code",213,137,350,76
+62,"Docs & examples",15,6,21,9
+62,"Test code & fixtures",142,36,178,106
+62,"Test transcripts",112,42,154,70
+63,"Core code",52,28,80,24
+63,"Docs & examples",129,6,135,123
+63,"Test code & fixtures",77,1,78,76
+63,"Test transcripts",130,56,186,74
+64,"Core code",973,278,1251,695
+64,"Docs & examples",61,32,93,29
+64,"Test code & fixtures",300,77,377,223
+64,"Test transcripts",163,51,214,112
+65,"Core code",70,25,95,45
+65,"Docs & examples",27,16,43,11
+65,"Test code & fixtures",79,42,121,37
+65,"Test transcripts",61,14,75,47
+66,"Build & tooling",16,0,16,16
+66,"Core code",65,38,103,27
+66,"Docs & examples",72,59,131,13
+66,"Test code & fixtures",240,43,283,197
+66,"Test transcripts",120,52,172,68
+67,"Core code",426,64,490,362
+67,"Docs & examples",112,41,153,71
+67,"Test code & fixtures",211,11,222,200
+67,"Test transcripts",305,28,333,277
+68,"Build & tooling",2,0,2,2
+68,"Core code",316,62,378,254
+68,"Docs & examples",40,17,57,23
+68,"Test code & fixtures",68,2,70,66
+68,"Test transcripts",71,1,72,70
+69,"Test code & fixtures",30,17,47,13
+69,"Test transcripts",17,16,33,1
+71,"Core code",32,3,35,29
+71,"Docs & examples",10,3,13,7
+71,"Test code & fixtures",109,0,109,109
+71,"Test transcripts",138,28,166,110
+72,"Core code",413,42,455,371
+72,"Docs & examples",124,55,179,69
+72,"Test code & fixtures",328,9,337,319
+72,"Test transcripts",393,49,442,344
+73,"Core code",255,15,270,240
+73,"Test code & fixtures",229,13,242,216
+73,"Test transcripts",3,2,5,1
+74,"Docs & examples",3,0,3,3
+74,"Test code & fixtures",35,24,59,11
+74,"Test transcripts",54,17,71,37
+75,"Core code",7,6,13,1
+75,"Docs & examples",2,2,4,0
+75,"Test code & fixtures",10,4,14,6
+75,"Test transcripts",10,7,17,3
+76,"Core code",180,116,296,64
+76,"Docs & examples",56,40,96,16
+76,"Test code & fixtures",213,13,226,200
+76,"Test transcripts",215,33,248,182
+78,"Core code",53,18,71,35
+79,"Core code",10,1,11,9
+80,"Core code",122,2,124,120
+80,"Docs & examples",20,0,20,20
+80,"Test code & fixtures",175,0,175,175
+80,"Test transcripts",270,0,270,270
+81,"Core code",168,25,193,143
+81,"Docs & examples",23,9,32,14
+81,"Test code & fixtures",216,7,223,209
+81,"Test transcripts",115,4,119,111
+82,"Core code",204,29,233,175
+82,"Docs & examples",40,15,55,25
+82,"Test code & fixtures",210,0,210,210
+82,"Test transcripts",283,0,283,283
+85,"Test code & fixtures",424,0,424,424
+85,"Test transcripts",467,0,467,467
+86,"Core code",48,13,61,35
+86,"Docs & examples",5,5,10,0
+86,"Test code & fixtures",35,2,37,33
+86,"Test transcripts",44,0,44,44
+88,"Core code",211,30,241,181
+88,"Docs & examples",53,8,61,45
+88,"Test code & fixtures",739,172,911,567
+88,"Test transcripts",536,114,650,422
+89,"Core code",108,48,156,60
+89,"Docs & examples",33,24,57,9
+89,"Test code & fixtures",98,0,98,98
+89,"Test transcripts",77,20,97,57
+90,"Core code",62,15,77,47
+90,"Docs & examples",7,6,13,1
+90,"Test code & fixtures",129,1,130,128
+90,"Test transcripts",38,0,38,38
+91,"Core code",230,110,340,120
+91,"Docs & examples",9,0,9,9
+91,"Test code & fixtures",250,6,256,244
+91,"Test transcripts",279,13,292,266
+92,"Core code",232,9,241,223
+92,"Docs & examples",43,19,62,24
+92,"Test code & fixtures",207,0,207,207
+92,"Test transcripts",298,0,298,298
+94,"Core code",98,3,101,95
+94,"Docs & examples",9,0,9,9
+94,"Test code & fixtures",36,6,42,30
+94,"Test transcripts",22,5,27,17
+95,"Core code",80,1,81,79
+95,"Docs & examples",44,34,78,10
+95,"Test code & fixtures",8,19,27,-11
+95,"Test transcripts",5,27,32,-22
+96,"Core code",66,208,274,-142
+96,"Docs & examples",88,80,168,8
+96,"Test code & fixtures",66,30,96,36
+96,"Test transcripts",76,29,105,47
+97,"Core code",32,67,99,-35
+97,"Test code & fixtures",46,0,46,46
+97,"Test transcripts",73,0,73,73
+99,"Docs & examples",5,2,7,3
+99,"Test code & fixtures",232,112,344,120
+99,"Test transcripts",26,12,38,14
+100,"Test code & fixtures",9,147,156,-138
+100,"Test transcripts",18,68,86,-50
+101,"Core code",1015,522,1537,493
+101,"Docs & examples",146,101,247,45
+101,"Test code & fixtures",480,39,519,441
+101,"Test transcripts",484,13,497,471
+102,"Core code",192,39,231,153
+102,"Docs & examples",30,12,42,18
+102,"Test code & fixtures",215,12,227,203
+102,"Test transcripts",76,0,76,76
+103,"Test code & fixtures",5,1,6,4
+103,"Test transcripts",0,10,10,-10
+104,"Core code",2372,462,2834,1910
+104,"Docs & examples",278,87,365,191
+104,"Test code & fixtures",703,58,761,645
+104,"Test transcripts",250,4,254,246
+105,"Core code",45,14,59,31
+105,"Docs & examples",44,29,73,15
+105,"Test code & fixtures",643,105,748,538
+105,"Test transcripts",432,283,715,149
+106,"Build & tooling",0,11,11,-11
+106,"Core code",2172,1617,3789,555
+106,"Docs & examples",203,115,318,88
+106,"Test code & fixtures",454,138,592,316
+106,"Test transcripts",268,84,352,184
+107,"Test code & fixtures",384,3,387,381
+107,"Test transcripts",97,0,97,97
+108,"Test code & fixtures",232,0,232,232
+108,"Test transcripts",45,0,45,45
+109,"Core code",141,63,204,78
+109,"Docs & examples",18,0,18,18
+109,"Test code & fixtures",372,5,377,367
+109,"Test transcripts",141,0,141,141
+110,"Core code",19,16,35,3
+110,"Docs & examples",52,33,85,19
+110,"Test code & fixtures",20,7,27,13
+110,"Test transcripts",17,3,20,14
+112,"Core code",66,13,79,53
+112,"Docs & examples",2,1,3,1
+112,"Test code & fixtures",44,11,55,33
+112,"Test transcripts",31,5,36,26
+113,"Build & tooling",382,3,385,379
+113,"Core code",573,158,731,415
+113,"Docs & examples",104,53,157,51
+113,"Test code & fixtures",815,293,1108,522
+113,"Test transcripts",619,188,807,431
+114,"Core code",2046,391,2437,1655
+114,"Docs & examples",140,73,213,67
+114,"Test code & fixtures",390,35,425,355
+114,"Test transcripts",244,12,256,232
+115,"Core code",13,7,20,6
+115,"Docs & examples",35,13,48,22
+115,"Test code & fixtures",736,397,1133,339
+115,"Test transcripts",168,911,1079,-743
+116,"Build & tooling",127,0,127,127
+116,"Core code",1229,1159,2388,70
+116,"Docs & examples",129,436,565,-307
+117,"Core code",14,0,14,14
+117,"Docs & examples",1273,1403,2676,-130
+118,"Core code",748,59,807,689
+118,"Test code & fixtures",438,1,439,437
+119,"Test code & fixtures",34,11,45,23
+119,"Test transcripts",10,4,14,6
+120,"Core code",514,261,775,253
+120,"Docs & examples",81,20,101,61
+120,"Test code & fixtures",884,59,943,825
+120,"Test transcripts",688,112,800,576
+121,"Docs & examples",7,4,11,3
+121,"Test code & fixtures",618,94,712,524
+121,"Test transcripts",9,0,9,9
+122,"Docs & examples",1,1,2,0
+122,"Test code & fixtures",37,12,49,25
+123,"Core code",1434,126,1560,1308
+123,"Docs & examples",207,32,239,175
+123,"Test code & fixtures",1449,51,1500,1398
+123,"Test transcripts",854,91,945,763
+124,"Build & tooling",8,0,8,8
+124,"Core code",697,119,816,578
+124,"Docs & examples",197,43,240,154
+124,"Test code & fixtures",1259,30,1289,1229
+124,"Test transcripts",1179,64,1243,1115
+125,"Core code",131,61,192,70
+125,"Docs & examples",146,16,162,130
+125,"Test code & fixtures",140,72,212,68
+125,"Test transcripts",179,147,326,32
+126,"Core code",2,0,2,2
+126,"Test code & fixtures",68,5,73,63
+126,"Test transcripts",18,0,18,18
+127,"Core code",41,101,142,-60
+127,"Docs & examples",12,92,104,-80
+127,"Test code & fixtures",95,104,199,-9
+127,"Test transcripts",41,101,142,-60
+128,"Core code",149,0,149,149
+128,"Docs & examples",3,0,3,3
+128,"Test code & fixtures",261,2,263,259
+128,"Test transcripts",292,27,319,265
+129,"Core code",5,3,8,2
+129,"Docs & examples",1,1,2,0
+129,"Test code & fixtures",14,0,14,14
+129,"Test transcripts",5,3,8,2
+130,"Core code",104,4,108,100
+130,"Test code & fixtures",40,1,41,39
+131,"Core code",1389,1329,2718,60
+132,"Core code",1052,128,1180,924
+132,"Docs & examples",158,40,198,118
+132,"Test code & fixtures",1722,150,1872,1572
+132,"Test transcripts",587,41,628,546
+133,"Core code",227,54,281,173
+133,"Docs & examples",10,1,11,9
+133,"Test code & fixtures",258,0,258,258
+133,"Test transcripts",198,0,198,198
+134,"Core code",199,218,417,-19
+134,"Docs & examples",71,84,155,-13
+134,"Test code & fixtures",1221,678,1899,543
+134,"Test transcripts",645,679,1324,-34
+135,"Build & tooling",5,0,5,5
+135,"Core code",709,3,712,706
+135,"Docs & examples",110,60,170,50
+135,"Test code & fixtures",744,49,793,695
+135,"Test transcripts",190,1,191,189
+136,"Core code",194,25,219,169
+136,"Docs & examples",2,2,4,0
+136,"Test code & fixtures",910,830,1740,80
+136,"Test transcripts",93,138,231,-45
+137,"Build & tooling",83,83,166,0
+137,"Core code",2,2,4,0
+137,"Test code & fixtures",1,0,1,1
+137,"Test transcripts",1,2,3,-1
+139,"Build & tooling",616,3,619,613
+139,"Core code",30,5,35,25
+139,"Docs & examples",161,16,177,145
+139,"Test code & fixtures",402,0,402,402
+139,"Test transcripts",2,3,5,-1
+140,"Build & tooling",46,26,72,20
+140,"Core code",25,10,35,15
+140,"Test code & fixtures",74,0,74,74
+141,"Build & tooling",67,0,67,67
+141,"Core code",361,0,361,361
+141,"Docs & examples",72,0,72,72
+141,"Test code & fixtures",306,34,340,272
+141,"Test transcripts",0,11,11,-11
+142,"Build & tooling",15,3,18,12
+142,"Core code",582,6,588,576
+142,"Docs & examples",254,6,260,248
+142,"Test code & fixtures",754,56,810,698
+142,"Test transcripts",195,2,197,193
+144,"Build & tooling",19,14,33,5
+144,"Core code",66,25,91,41
+144,"Docs & examples",12,8,20,4
+144,"Test code & fixtures",220,14,234,206
+145,"Build & tooling",15,13,28,2
+145,"Core code",603,167,770,436
+145,"Docs & examples",115,73,188,42
+145,"Test code & fixtures",459,127,586,332
+145,"Test transcripts",52,48,100,4
+146,"Build & tooling",174,60,234,114
+146,"Docs & examples",1,1,2,0
+146,"Test code & fixtures",360,148,508,212
+146,"Test transcripts",135,85,220,50
+147,"Build & tooling",23,1,24,22
+147,"Core code",65,18,83,47
+147,"Docs & examples",64,37,101,27
+147,"Test code & fixtures",658,351,1009,307
+147,"Test transcripts",29,15,44,14
+148,"Core code",102,94,196,8
+148,"Docs & examples",36,30,66,6
+148,"Test code & fixtures",685,104,789,581
+148,"Test transcripts",115,0,115,115
+149,"Core code",145,114,259,31
+149,"Docs & examples",1,1,2,0
+150,"Core code",177,42,219,135
+150,"Test code & fixtures",1192,13,1205,1179
+150,"Test transcripts",277,1,278,276
+151,"Build & tooling",17,61,78,-44
+152,"Build & tooling",12,77,89,-65
+152,"Test code & fixtures",38,9,47,29
+153,"Core code",101,0,101,101
+153,"Docs & examples",1,0,1,1
+154,"Build & tooling",1,1,2,0
+154,"Test code & fixtures",149,495,644,-346
+155,"Build & tooling",1,0,1,1
+155,"Core code",415,94,509,321
+155,"Docs & examples",2,2,4,0
+155,"Test code & fixtures",97,0,97,97
+155,"Test transcripts",76,0,76,76
+158,"Build & tooling",0,1,1,-1
+158,"Core code",526,70,596,456
+158,"Docs & examples",10,4,14,6
+158,"Test code & fixtures",393,1,394,392
+158,"Test transcripts",132,10,142,122
+162,"Build & tooling",0,1,1,-1
+162,"Core code",289,188,477,101
+162,"Docs & examples",14,6,20,8
+162,"Test code & fixtures",577,228,805,349
+162,"Test transcripts",220,105,325,115
+163,"Core code",21,3,24,18
+163,"Docs & examples",1,1,2,0
+164,"Core code",1172,1184,2356,-12
+164,"Docs & examples",1,1,2,0
+164,"Test code & fixtures",43,8,51,35
+164,"Test transcripts",9,2,11,7
+165,"Core code",108,1,109,107
+165,"Docs & examples",1,0,1,1
+165,"Test code & fixtures",85,0,85,85
+165,"Test transcripts",23,0,23,23
+167,"Test code & fixtures",248,153,401,95
+167,"Test transcripts",2,3,5,-1
+169,"Core code",49,4,53,45
+169,"Docs & examples",1,0,1,1
+169,"Test code & fixtures",450,95,545,355
+169,"Test transcripts",69,0,69,69
+170,"Core code",130,18,148,112
+170,"Docs & examples",2,1,3,1
+171,"Test code & fixtures",57,0,57,57
+171,"Test transcripts",10,0,10,10
+172,"Core code",122,43,165,79
+172,"Docs & examples",49,25,74,24
+172,"Test code & fixtures",192,8,200,184
+172,"Test transcripts",302,33,335,269
+173,"Core code",14,1,15,13
+173,"Docs & examples",2,0,2,2
+173,"Test code & fixtures",34,0,34,34
+176,"Core code",779,19,798,760
+176,"Docs & examples",3,1,4,2
+176,"Test code & fixtures",318,0,318,318
+176,"Test transcripts",86,0,86,86
+180,"Core code",368,70,438,298
+180,"Docs & examples",39,27,66,12
+180,"Test code & fixtures",320,64,384,256
+180,"Test transcripts",145,12,157,133
+181,"Build & tooling",1,0,1,1
+181,"Core code",665,48,713,617
+181,"Docs & examples",39,21,60,18
+181,"Test code & fixtures",874,3,877,871
+181,"Test transcripts",1125,18,1143,1107
+182,"Core code",923,14,937,909
+182,"Docs & examples",111,8,119,103
+182,"Test code & fixtures",593,3,596,590
+182,"Test transcripts",180,0,180,180
+183,"Core code",437,93,530,344
+183,"Docs & examples",112,43,155,69
+183,"Test code & fixtures",955,19,974,936
+183,"Test transcripts",217,0,217,217
+184,"Core code",8,0,8,8
+184,"Test code & fixtures",767,322,1089,445
+184,"Test transcripts",76,34,110,42
+185,"Core code",649,534,1183,115
+185,"Docs & examples",43,25,68,18
+185,"Test code & fixtures",428,0,428,428
+185,"Test transcripts",60,0,60,60
+187,"Core code",354,17,371,337
+187,"Docs & examples",30,2,32,28
+187,"Test code & fixtures",502,39,541,463
+187,"Test transcripts",135,8,143,127
+188,"Core code",692,90,782,602
+188,"Docs & examples",33,20,53,13
+188,"Test code & fixtures",522,0,522,522
+188,"Test transcripts",130,0,130,130
+189,"Core code",351,312,663,39
+189,"Docs & examples",4,1,5,3
+190,"Core code",1464,1161,2625,303
+190,"Docs & examples",175,148,323,27
+190,"Test code & fixtures",963,417,1380,546
+190,"Test transcripts",84,25,109,59
+191,"Core code",69,85,154,-16
+191,"Docs & examples",17,8,25,9
+192,"Core code",20,32,52,-12
+192,"Docs & examples",24,17,41,7
+192,"Test code & fixtures",142,0,142,142
+192,"Test transcripts",17,0,17,17
+193,"Core code",269,337,606,-68
+193,"Test transcripts",12,9,21,3
+194,"Build & tooling",1,0,1,1
+194,"Core code",76,52,128,24
+194,"Docs & examples",10,8,18,2
+194,"Test code & fixtures",61,0,61,61
+194,"Test transcripts",36,0,36,36
+195,"Core code",216,270,486,-54
+195,"Test code & fixtures",171,5,176,166
+195,"Test transcripts",22,0,22,22
+196,"Core code",55,336,391,-281
+196,"Docs & examples",41,29,70,12
+196,"Test code & fixtures",90,257,347,-167
+196,"Test transcripts",24,44,68,-20
+197,"Build & tooling",4,4,8,0
+197,"Docs & examples",31,31,62,0
+197,"Test code & fixtures",19132,17427,36559,1705
+197,"Test transcripts",277,277,554,0
+198,"Core code",180,220,400,-40
+198,"Docs & examples",9,2,11,7
+198,"Test code & fixtures",43,229,272,-186
+198,"Test transcripts",0,17,17,-17
+199,"Test code & fixtures",89,640,729,-551
+200,"Core code",7,92,99,-85
+200,"Docs & examples",49,47,96,2
+200,"Test code & fixtures",246,58,304,188
+200,"Test transcripts",41,9,50,32
+201,"Core code",281,302,583,-21
+201,"Docs & examples",17,16,33,1
+201,"Test code & fixtures",400,46,446,354
+201,"Test transcripts",34,3,37,31
+202,"Docs & examples",28,2,30,26
+202,"Test code & fixtures",4101,4082,8183,19
+203,"Core code",31,113,144,-82
+203,"Test code & fixtures",332,7,339,325
+203,"Test transcripts",71,0,71,71
+204,"Build & tooling",3,2,5,1
+204,"Docs & examples",19,2,21,17
+204,"Test code & fixtures",914,2830,3744,-1916
+204,"Test transcripts",430,166,596,264
+205,"Docs & examples",3,0,3,3
+205,"Test code & fixtures",113,4050,4163,-3937
+205,"Test transcripts",141,1007,1148,-866
+206,"Test code & fixtures",14,6,20,8
+207,"Core code",90,145,235,-55
+208,"Docs & examples",14,1,15,13
+208,"Test code & fixtures",155,0,155,155
+208,"Test transcripts",119,0,119,119
+209,"Core code",186,254,440,-68
+210,"Docs & examples",9,9,18,0
+210,"Test code & fixtures",262,27,289,235
+210,"Test transcripts",1,1,2,0
+211,"Core code",306,71,377,235
+211,"Docs & examples",21,7,28,14
+211,"Test code & fixtures",849,25,874,824
+211,"Test transcripts",195,0,195,195
+212,"Test code & fixtures",15,6,21,9
+212,"Test transcripts",1,1,2,0
+213,"Core code",1138,790,1928,348
+213,"Docs & examples",156,119,275,37
+213,"Test code & fixtures",1025,23,1048,1002
+213,"Test transcripts",210,5,215,205
+216,"Build & tooling",1,0,1,1
+216,"Core code",198,274,472,-76
+216,"Docs & examples",2,0,2,2
+216,"Test code & fixtures",342,75,417,267
+216,"Test transcripts",0,1,1,-1
+218,"Core code",15,56,71,-41
+218,"Docs & examples",53,67,120,-14
+218,"Test code & fixtures",233,0,233,233
+218,"Test transcripts",110,0,110,110
+219,"Core code",55,38,93,17
+219,"Docs & examples",13,8,21,5
+219,"Test code & fixtures",241,0,241,241
+219,"Test transcripts",36,0,36,36
+220,"Build & tooling",1,0,1,1
+220,"Core code",20,5,25,15
+220,"Docs & examples",9,0,9,9
+222,"Docs & examples",12,0,12,12
+222,"Test code & fixtures",766,130,896,636
+223,"Build & tooling",1,0,1,1
+223,"Docs & examples",10,1,11,9
+223,"Test code & fixtures",1283,854,2137,429
+224,"Core code",5,7,12,-2
+224,"Docs & examples",22,47,69,-25
+224,"Test code & fixtures",247,522,769,-275
+224,"Test transcripts",304,104,408,200
+225,"Test code & fixtures",84,16,100,68
+225,"Test transcripts",38,12,50,26
+227,"Core code",180,8,188,172
+227,"Docs & examples",6,2,8,4
+227,"Test code & fixtures",186,0,186,186
+227,"Test transcripts",30,0,30,30
+229,"Docs & examples",138,293,431,-155
+230,"Test code & fixtures",56,14,70,42
+230,"Test transcripts",37,15,52,22
+232,"Test code & fixtures",200,348,548,-148
+233,"Test code & fixtures",45,27,72,18
+235,"Docs & examples",4,2,6,2
+235,"Test code & fixtures",96,2,98,94
+236,"Core code",268,287,555,-19
+236,"Docs & examples",1,1,2,0
+237,"Core code",82,94,176,-12
+238,"Core code",132,184,316,-52
+238,"Docs & examples",4,2,6,2
+239,"Core code",528,195,723,333
+239,"Docs & examples",39,26,65,13
+239,"Test code & fixtures",642,80,722,562
+239,"Test transcripts",792,25,817,767
+240,"Test code & fixtures",135,38,173,97
+240,"Test transcripts",63,11,74,52
+242,"Core code",246,94,340,152
+242,"Docs & examples",28,13,41,15
+242,"Test code & fixtures",560,0,560,560
+242,"Test transcripts",59,0,59,59
+243,"Core code",244,76,320,168
+243,"Docs & examples",28,5,33,23
+243,"Test code & fixtures",402,5,407,397
+243,"Test transcripts",49,0,49,49
+244,"Docs & examples",6,1,7,5
+244,"Test code & fixtures",100,0,100,100
+244,"Test transcripts",12,0,12,12
+245,"Test code & fixtures",25,12,37,13
+245,"Test transcripts",10,2,12,8
+247,"Test code & fixtures",2,0,2,2
+247,"Test transcripts",2,0,2,2
+249,"Core code",108,43,151,65
+249,"Docs & examples",70,34,104,36
+249,"Test code & fixtures",381,0,381,381
+249,"Test transcripts",1657,38,1695,1619
+250,"Build & tooling",385,9,394,376
+250,"Core code",372,376,748,-4
+250,"Docs & examples",174,32,206,142
+250,"Test code & fixtures",1245,220,1465,1025
+250,"Test transcripts",119,0,119,119
+251,"Build & tooling",126,59,185,67
+251,"Core code",443,200,643,243
+251,"Docs & examples",90,35,125,55
+251,"Test code & fixtures",1643,581,2224,1062
+251,"Test transcripts",397,27,424,370
+252,"Test code & fixtures",196,70,266,126
+252,"Test transcripts",25,0,25,25
+254,"Build & tooling",2,2,4,0
+254,"Docs & examples",12,11,23,1
+254,"Test transcripts",12,12,24,0
+255,"Build & tooling",21,1,22,20
+255,"Test code & fixtures",48,3,51,45
+256,"Core code",6,67,73,-61
+256,"Docs & examples",1,0,1,1
+257,"Docs & examples",87,45,132,42
+258,"Docs & examples",78,22,100,56
+258,"Test code & fixtures",4274,2488,6762,1786
+258,"Test transcripts",785,1859,2644,-1074
+259,"Build & tooling",251,246,497,5
+259,"Core code",43,23,66,20
+259,"Docs & examples",96,29,125,67
+259,"Test code & fixtures",704,208,912,496
+260,"Test code & fixtures",70,33,103,37
+260,"Test transcripts",4,3,7,1
+261,"Build & tooling",25,0,25,25
+262,"Build & tooling",112,86,198,26
+262,"Core code",631,62,693,569
+262,"Docs & examples",161,57,218,104
+262,"Test code & fixtures",822,173,995,649
+262,"Test transcripts",123,12,135,111
+263,"Build & tooling",12,13,25,-1
+264,"Build & tooling",97,16,113,81
+265,"Build & tooling",18,0,18,18
+265,"Test code & fixtures",170,83,253,87
+265,"Test transcripts",78,20,98,58
+266,"Build & tooling",1,1,2,0
+266,"Core code",228,4049,4277,-3821
+266,"Docs & examples",640,434,1074,206
+266,"Test code & fixtures",590,565,1155,25
+266,"Test transcripts",20,99,119,-79
+267,"Core code",224,122,346,102
+267,"Docs & examples",23,17,40,6
+267,"Test code & fixtures",733,299,1032,434
+267,"Test transcripts",120,2,122,118
+268,"Test code & fixtures",83,50,133,33
+268,"Test transcripts",28,8,36,20
+269,"Test code & fixtures",15,1,16,14
+269,"Test transcripts",5,0,5,5
+270,"Build & tooling",8,6,14,2
+270,"Docs & examples",4,2,6,2
+270,"Test code & fixtures",49,3,52,46
+271,"Test code & fixtures",3,0,3,3
+272,"Build & tooling",1,1,2,0
+272,"Core code",37,12,49,25
+272,"Docs & examples",234,6,240,228
+272,"Test code & fixtures",464,0,464,464
+272,"Test transcripts",194,5,199,189
+273,"Build & tooling",34,5,39,29
+273,"Core code",6,0,6,6
+273,"Docs & examples",169,18,187,151
+273,"Test code & fixtures",608,70,678,538
+273,"Test transcripts",271,12,283,259
+274,"Core code",95,31,126,64
+274,"Docs & examples",40,5,45,35
+274,"Test code & fixtures",574,6,580,568
+274,"Test transcripts",1218,19,1237,1199
+276,"Build & tooling",2,2,4,0
+276,"Docs & examples",2,2,4,0
+276,"Test code & fixtures",5,1,6,4
+276,"Test transcripts",1,1,2,0
+277,"Build & tooling",11,25,36,-14
+277,"Docs & examples",16,5,21,11
+277,"Test code & fixtures",73,17,90,56
+278,"Build & tooling",159,69,228,90
+278,"Docs & examples",13,4,17,9
+278,"Test code & fixtures",42,0,42,42
+279,"Build & tooling",3,8,11,-5
+279,"Docs & examples",9,2,11,7
+280,"Build & tooling",35,10,45,25
+280,"Docs & examples",9,0,9,9
+281,"Docs & examples",85,20,105,65
+281,"Test code & fixtures",378,7,385,371
+281,"Test transcripts",267,0,267,267
+282,"Build & tooling",4,2,6,2
+282,"Docs & examples",3,0,3,3
+282,"Test code & fixtures",131,28,159,103
+283,"Core code",18,0,18,18
+283,"Docs & examples",4,0,4,4
+283,"Test code & fixtures",261,29,290,232
+283,"Test transcripts",788,14,802,774
+284,"Build & tooling",23,19,42,4
+284,"Docs & examples",11,3,14,8
+284,"Test code & fixtures",7,6,13,1
+285,"Build & tooling",183,1,184,182
+285,"Docs & examples",16,0,16,16
+285,"Test code & fixtures",309,7,316,302
+286,"Build & tooling",4,2,6,2
+286,"Docs & examples",6,3,9,3
+287,"Test code & fixtures",29,7,36,22
+287,"Test transcripts",24,7,31,17
+288,"Build & tooling",75,1,76,74
+288,"Core code",428,40,468,388
+288,"Docs & examples",115,14,129,101
+288,"Test code & fixtures",909,1,910,908
+288,"Test transcripts",1831,0,1831,1831
+289,"Docs & examples",10,0,10,10
+289,"Test code & fixtures",17,5,22,12
+290,"Docs & examples",1705,11,1716,1694
+290,"Test code & fixtures",6,3,9,3
+291,"Build & tooling",21,13,34,8
+291,"Docs & examples",1,0,1,1
+291,"Test code & fixtures",5,3,8,2
+292,"Docs & examples",1,0,1,1
+292,"Test code & fixtures",46,5,51,41
+292,"Test transcripts",239,237,476,2
+293,"Core code",73,88,161,-15
+293,"Docs & examples",1,0,1,1
+294,"Build & tooling",1,0,1,1
+294,"Core code",18,26,44,-8
+294,"Docs & examples",13,11,24,2
+294,"Test code & fixtures",144,165,309,-21
+294,"Test transcripts",128,140,268,-12
+295,"Build & tooling",1,1,2,0
+295,"Docs & examples",95,45,140,50
+295,"Test code & fixtures",97,7,104,90
+295,"Test transcripts",158,136,294,22
+296,"Core code",218,238,456,-20
+296,"Docs & examples",56,44,100,12
+296,"Test code & fixtures",765,100,865,665
+296,"Test transcripts",1130,319,1449,811
+297,"Core code",128,184,312,-56
+298,"Build & tooling",1,1,2,0
+298,"Core code",60,10,70,50
+298,"Docs & examples",229,129,358,100
+298,"Test code & fixtures",586,0,586,586
+298,"Test transcripts",569,4,573,565
+299,"Build & tooling",3,2,5,1
+299,"Core code",1126,63,1189,1063
+299,"Docs & examples",266,16,282,250
+299,"Test code & fixtures",1139,3,1142,1136
+299,"Test transcripts",1058,5,1063,1053
+300,"Core code",1554,159,1713,1395
+300,"Docs & examples",92,36,128,56
+300,"Test code & fixtures",1472,52,1524,1420
+300,"Test transcripts",1644,40,1684,1604
+301,"Docs & examples",14,6,20,8
+301,"Test code & fixtures",128,12,140,116
+301,"Test transcripts",45,0,45,45
+302,"Build & tooling",7,0,7,7
+302,"Core code",1909,490,2399,1419
+302,"Docs & examples",397,33,430,364
+302,"Test code & fixtures",1817,15,1832,1802
+302,"Test transcripts",962,16,978,946
+303,"Core code",3,1,4,2
+303,"Docs & examples",1,0,1,1
+303,"Test code & fixtures",42,1,43,41
+303,"Test transcripts",6,1,7,5
+306,"Core code",1379,528,1907,851
+306,"Docs & examples",479,29,508,450
+306,"Test code & fixtures",1656,5,1661,1651
+306,"Test transcripts",971,20,991,951
+307,"Core code",482,540,1022,-58
+307,"Docs & examples",83,31,114,52
+307,"Test code & fixtures",51,67,118,-16
+308,"Test code & fixtures",16,12,28,4
+309,"Core code",9,19,28,-10
+309,"Docs & examples",21,15,36,6
+309,"Test code & fixtures",703,466,1169,237
+309,"Test transcripts",266,112,378,154
+310,"Test code & fixtures",15,8,23,7
+310,"Test transcripts",5,5,10,0
+311,"Docs & examples",3,0,3,3
+311,"Test code & fixtures",510,309,819,201
+311,"Test transcripts",873,828,1701,45
+312,"Docs & examples",6,0,6,6
+312,"Test code & fixtures",6,5,11,1
+312,"Test transcripts",16,8,24,8
+314,"Core code",6,1,7,5
+314,"Docs & examples",31,17,48,14
+314,"Test code & fixtures",584,45,629,539
+314,"Test transcripts",83,2,85,81
+315,"Core code",274,48,322,226
+315,"Docs & examples",92,7,99,85
+315,"Test code & fixtures",321,0,321,321
+315,"Test transcripts",224,8,232,216
+322,"Core code",489,439,928,50
+322,"Docs & examples",7,2,9,5
+328,"Docs & examples",6,0,6,6
+328,"Test code & fixtures",140,13,153,127
+328,"Test transcripts",79,357,436,-278
+329,"Core code",961,498,1459,463
+329,"Docs & examples",106,28,134,78
+329,"Test code & fixtures",1168,210,1378,958
+329,"Test transcripts",1063,184,1247,879
+330,"Core code",466,991,1457,-525
+330,"Docs & examples",50,43,93,7
+330,"Test code & fixtures",521,85,606,436
+330,"Test transcripts",685,203,888,482
+331,"Core code",61,41,102,20
+331,"Docs & examples",2,0,2,2
+331,"Test code & fixtures",121,3,124,118
+331,"Test transcripts",110,0,110,110
+333,"Core code",19,10,29,9
+333,"Test code & fixtures",93,0,93,93
+333,"Test transcripts",56,0,56,56
+334,"Core code",39,33,72,6
+334,"Test code & fixtures",268,0,268,268
+334,"Test transcripts",304,0,304,304
+335,"Core code",7,21,28,-14
+335,"Docs & examples",3,1,4,2
+336,"Test code & fixtures",12,4,16,8
+337,"Docs & examples",130,212,342,-82
+339,"Build & tooling",414,25,439,389
+339,"Docs & examples",81,6,87,75
+339,"Test code & fixtures",879,2,881,877
+340,"Build & tooling",2,1,3,1
+340,"Docs & examples",13,1,14,12
+340,"Test code & fixtures",247,39,286,208
+342,"Docs & examples",55,3,58,52
+342,"Test code & fixtures",89,13,102,76
+343,"Build & tooling",27,4,31,23
+343,"Docs & examples",71,2,73,69
+343,"Test code & fixtures",104,47,151,57
+344,"Build & tooling",85,0,85,85
+344,"Docs & examples",35,0,35,35
+344,"Test code & fixtures",113,0,113,113
+345,"Build & tooling",208,5,213,203
+345,"Docs & examples",33,1,34,32
+345,"Test code & fixtures",190,2,192,188
+346,"Docs & examples",62,0,62,62
+347,"Build & tooling",1,0,1,1
+347,"Core code",614,139,753,475
+347,"Docs & examples",21,6,27,15
+347,"Test code & fixtures",475,4,479,471
+347,"Test transcripts",585,24,609,561
+348,"Test code & fixtures",79,16,95,63
+348,"Test transcripts",27,8,35,19
+349,"Build & tooling",4,3,7,1
+349,"Test transcripts",17,17,34,0
+351,"Test code & fixtures",7,2,9,5
+352,"Core code",41,2,43,39
+352,"Docs & examples",6,3,9,3
+352,"Test code & fixtures",149,0,149,149
+352,"Test transcripts",169,0,169,169
+353,"Build & tooling",2,0,2,2
+353,"Core code",223,164,387,59
+353,"Docs & examples",16,4,20,12
+353,"Test code & fixtures",10,4,14,6
+354,"Core code",133,55,188,78
+354,"Docs & examples",9,4,13,5
+355,"Test code & fixtures",3,1,4,2

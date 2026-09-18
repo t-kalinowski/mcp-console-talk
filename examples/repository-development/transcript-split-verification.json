@@ -1,0 +1,9 @@
+{
+  "snapshots_compared": 307,
+  "all_totals_unchanged": true,
+  "all_combined_test_counts_unchanged": true,
+  "transcript_rule": "YAML suffix in test directories; independent of snapshot subdirectory",
+  "current_transcript_files": 658,
+  "current_transcript_lines": 33675,
+  "current_other_test_lines": 59965
+}
