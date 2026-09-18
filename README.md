@@ -1,11 +1,12 @@
 # MCP Console presentation
 
-46 main slides, an appendix divider, and 9 optional implementation and testing slides (56 total). `deck.qmd` is the
+45 main slides, an appendix divider, and 9 optional implementation and testing slides (55 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 The main narrative starts with why: a comprehensive execution system that teams
-can reuse across AI projects, with full capabilities and enforced safety as joint
-requirements. Language and client choices establish the scope before the simple
+can reuse across AI projects. The model's language choice leads into the combined
+capabilities and safety overview, including explicit runtime state. Client choices
+establish the scope before the simple
 R, Python, and SQL workflow. A Python call and plot lead into the shared-process
 reveal; SQL and database connection selection follow together. Packages expand
 the workflow, with the process topology showing where resolution happens.

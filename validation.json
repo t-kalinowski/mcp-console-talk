@@ -1,9 +1,9 @@
 {
   "date": "2026-09-18",
-  "slide_count": 56,
-  "main_slides": 46,
+  "slide_count": 55,
+  "main_slides": 45,
   "addendum_slides": 9,
-  "native_quarto_notes_blocks": 56,
+  "native_quarto_notes_blocks": 55,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -14,15 +14,15 @@
   "render_warnings": false,
   "browser": "in-app browser",
   "css_viewport": [
-    1422,
-    800
+    2723,
+    1738
   ],
-  "layout_slides_checked": 56,
+  "layout_slides_checked": 3,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 5,
+  "captured_output_slides_checked": 0,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "8cf156c121f9a8bce7020805f1d259b08cfedff033c6e39fd07f699870c57ffe",
-    "../archived/2026-09-18-dictated-runthrough/mcp-console-captured.html": "6e92b512de8cfd4cc70efd052a8461342194370e3ba175895e1bafc91d46ed36"
+    "mcp-console.html": "149a1a65f5b3779e41d9e77a390e2cc1b8f7878d2832f574fe45e786cca14b4a",
+    "../archived/2026-09-18-second-runthrough/mcp-console-captured.html": "1ad51186a5470b704145f95a06b4f9eaba414439ebfe4a6870fa67f07a647302"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,17 +76,14 @@
     1600,
     900
   ],
-  "baseline_commit": "dceb0df",
+  "baseline_commit": "3be5d82",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
     "native and captured Quarto renders without warnings",
-    "all 56 native slides inspected in the in-app browser",
-    "five capture-mode slides inspected in the in-app browser",
-    "all six missing-recording slides preserved byte-for-byte",
-    "YAML excerpt subset checks against complete configurations",
-    "complete proxy configuration public sandbox startup",
+    "three revised or reordered slides inspected in both output modes",
+    "runtime-state, recording, artifact, and transcript claims checked against local product documentation",
     "sync_cells.py --check",
     "validate_source.py in both output modes",
     "source diff whitespace"
@@ -292,5 +289,30 @@
       "r-plots"
     ],
     "speaker_window_retested": false
+  },
+  "second_runthrough_review": {
+    "archive": "../archived/2026-09-18-second-runthrough",
+    "opening_order": [
+      "interactive-work",
+      "small-surface",
+      "sandbox-motivation",
+      "interfaces"
+    ],
+    "removed_slide": "shared-problems",
+    "recording_root": ".agents/console/sessions/<session-id>/",
+    "browser_slides_checked": [
+      "small-surface",
+      "sandbox-motivation",
+      "recording"
+    ],
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "previous_full_layout_check_slides": 56,
+    "runtime_cells_changed": false,
+    "captures_reused": true,
+    "speaker_window_retested": false,
+    "product_source": "62e4f3cf4e73625ecefd19ce8162fcba22480875"
   }
 }

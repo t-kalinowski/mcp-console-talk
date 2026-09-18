@@ -101,3 +101,20 @@ Keep the distinction between the structured events journal and the full MCP wire
 exchange. The transcript front matter records known requirements; it is not a
 complete inventory of every inferred package. The snapshot date is added to the
 editable report, and rendering also requires its data and external connections.
+
+
+## Second run-through
+
+The opening now goes from the rewrite and shared-effort motivation to the model's
+language choice, then to one combined capabilities and safety slide. Its spoken
+notes explain explicit runtime-state reporting, including managed input and idle
+output, before listing the surrounding capabilities. The middle of the talk is
+unchanged.
+
+The recording slide shows `.agents/console/sessions/<session-id>/`. The journal
+records tool requests and assembled results with metadata; it is not a complete
+wire capture. The current artifact recorder saves returned images. It does not
+grant the worker a general-purpose export directory. The QMD front matter holds
+managed defaults and explicit declarations, not every dynamically inferred
+package or a lockfile. These boundaries were checked in the current local
+architecture and worker-protocol documentation.

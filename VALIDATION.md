@@ -1,12 +1,32 @@
 # Local validation — 2026-09-18
 
-The revised project contains 56 slides (46 main, an appendix divider, and 9 optional appendix slides),
+The revised project contains 55 slides (45 main, an appendix divider, and 9 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-18-dictated-runthrough/mcp-console-captured.html).
+[the render archive](../archived/2026-09-18-second-runthrough/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Second run-through — 2026-09-18
+
+- Moved language choice immediately after the introduction and merged the former
+  capability inventory with the safety slide. The notes explain explicit runtime
+  state before the overview of output handling, packages, records, and hosts.
+- Updated the dictated opening, ordinary R/Python examples, record descriptions,
+  and conclusion. The middle of the presentation and all captured cells are
+  unchanged. The source now has 55 slides, with one notes block per slide.
+- The recording tree names `.agents/console/sessions/<session-id>/`. Local product
+  documentation confirms the path, the structured journal's scope, image-artifact
+  persistence, and how the QMD's package declarations are generated.
+- Both Quarto modes rendered without warnings and passed the source validator.
+  The language-choice, combined capabilities/safety, and recording slides passed
+  browser geometry and overflow checks in both modes at a 2723 × 1738 CSS viewport.
+  Screenshots of the two edited layouts were inspected. The preceding revision's
+  full 56-slide check remains historical evidence for the unchanged layouts.
+- Notes and index were regenerated; source whitespace checks pass. Runtime
+  captures and measurements are unchanged. No new runtime or provider calls were
+  needed, and Speaker View was not retested.
 
 ## Dictated run-through — 2026-09-18
 
