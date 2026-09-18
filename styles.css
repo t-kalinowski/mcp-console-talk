@@ -249,3 +249,5 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 #docker .left > p { font-size: 26px; line-height: 1.35; }
 #markdown-transcript .code-panel pre code { font-size: 25px; line-height: 1.28; }
 #markdown-transcript .code-panel { padding-top: 18px; padding-bottom: 18px; }
+
+#package-sources .two-col { grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); }

@@ -518,12 +518,42 @@ My hope is that we can share this execution system and keep solving the difficul
 
 ## 46. Appendix
 
-**Say:** The main talk ends here. These slides are available for questions about the implementation and how its behavior is checked.
+**Say:** The main talk ends here. These slides are available for questions about package configuration, the implementation, and how its behavior is checked.
 
 **Show:** Pause at this divider before entering the development material.
 
 
-## 47. Follow a package-resolution request
+## 47. Example: use approved package repositories
+
+**Say:** Making packages available doesn't mean we have to expose all of CRAN or PyPI. We can point the resolvers at a corporate mirror or a Posit Package Manager instance. Those repositories can contain an approved set of packages and versions.
+
+Here the user sets the R repository and Python index in the environment used to launch Console. The organization manages the approved set, and the model can still request a package when the task needs it.
+
+These are client launch settings. The config.yaml examples in the main talk control the worker sandbox. The resolver runs outside that sandbox, so exclusive access to approved sources also needs network policy on the resolver host. A preinstalled, administrator-managed environment is another option when dynamic additions aren't wanted.
+
+**Reference (not spoken):** This is the common mcpServers client configuration shown as YAML for readability; use JSON for clients that require it. Replace the illustrative PPM URLs with the repository's setup URLs. PKG_CRAN_MIRROR configures the pak resolver used by ir; UV_DEFAULT_INDEX replaces uv's default PyPI index. Supply these in the Console server's launch environment, not sandbox.environment in .agents/console/config.yaml. On SSH, configure the trusted remote preparation environment.
+
+Repository selection is not a complete package allowlist. Remove unapproved additional indexes and sources, account for Bioconductor and explicit R remote references, and restrict the resolver host's egress as needed. Preinstalled packages and reused caches also belong to the approved environment. ir tooling bootstrap can use its public PPM endpoint, and uvx needs the Console distribution and any resolver tooling; provision these through the approved environment before restricting access. Current Console config.yaml has no package-allowlist field. A selected RETICULATE_PYTHON disables managed Python additions; current Docker targets use preinstalled environments for all languages.
+
+**Author / validation:** Repository selection was checked with pak and uv. The example does not represent a connection to a live corporate PPM instance or an end-to-end network-enforcement test.
+
+**Sources:** [Resolver configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration) · [Worker environment scope](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [pak configuration](https://pak.r-lib.org/reference/pak-config.html) · [uv package indexes](https://docs.astral.sh/uv/concepts/indexes/) · [PPM curated CRAN](https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html) · [PPM curated PyPI](https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html)
+
+
+## 48. Proposed: declare requirements in config.yaml
+
+**Say:** The model can declare session dependencies through send, as we saw in the main talk. On the right is a proposed way for the user to supply the same requirements in config.yaml.
+
+It uses YAML sequences of package names or version specifications, matching the requirements supplied through send. This configuration form is not implemented yet.
+
+**Reference (not spoken):** The proposed requirements field would supply session dependencies, not restrict which other packages can be requested. The inspected config schema accepts only extends, sandbox, and target and rejects unknown fields. Do not use this YAML with the current implementation.
+
+**Author / capture:** This is an illustrative preparation request; no response is presented as a capture. scikit-learn 1.9.1 is the version in the existing Python reference capture. The earlier data.table==1.17.8 rehearsal failed on the installed R toolchains and remains documented in VALIDATION.md. That older request is retained in the reference files, not represented as a successful run here. Requirements are available only on targets that support managed preparation.
+
+**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+
+
+## 49. Follow a package-resolution request
 
 **Say:** The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.
 
@@ -534,7 +564,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 
-## 48. Rust implementation. Python integration tests.
+## 50. Rust implementation. Python integration tests.
 
 **Say:** The main integration suite is Python even though the application is Rust. It drives the built executable and observes the real process boundary. Small unit tests can still own pure parsing or validation policy; the claim is not that absolutely no Rust tests exist.
 
@@ -543,7 +573,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
 
 
-## 49. Test the boundaries you intend to preserve
+## 51. Test the boundaries you intend to preserve
 
 **Say:** The tests mirror architectural boundaries: client_server, server_relay, relay_worker, and cli. Public behavior belongs at the outermost boundary that can usefully observe it. Private-boundary cases cover their own protocol seams rather than replicating every public message at every layer.
 
@@ -552,7 +582,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 50. YAML is what the reviewer reads
+## 52. YAML is what the reviewer reads
 
 **Say:** The wire protocols are JSON-based, but the reviewable test transcripts are YAML. This is an actual checked-in snapshot excerpt: the test executes R, asserts that CPU detection returns a valid result, and prints a stable message. Humans can review the code and result without reading escaped JSON strings or snapshotting a machine-specific core count. YAML is the human review surface, not the production transport.
 
@@ -561,7 +591,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Checked-in CPU detection snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml)
 
 
-## 51. Normalize noise, not behavior
+## 53. Normalize noise, not behavior
 
 **Say:** Temporary paths, process identities, and similar unstable details should not obscure behavioral review. Normalize explicitly and narrowly. Preserve the fields, output, ordering, and failure distinctions the contract is meant to protect. The actual project normalizers and snapshot metadata are more specific than this schematic example.
 
@@ -570,7 +600,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 52. Synchronize; do not sleep and hope
+## 54. Synchronize; do not sleep and hope
 
 **Say:** Concurrency and liveness tests need causal synchronization. Fixtures use gates and checkpoints so the test knows when the relevant state has actually been reached. Arbitrary sleeps are not proof that output was drained, an interrupt was delivered, or an owned resource was retired.
 
@@ -579,7 +609,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 53. Portable behavior; real capability checks
+## 55. Portable behavior; real capability checks
 
 **Say:** Reuse portable cases across execution modes and centralize capability discovery. A skipped target fixture is not target validation. Deterministic peers can establish orchestration behavior, but they cannot establish real container or microVM cleanup. Keep real-target evidence distinct from simulated protocol coverage.
 
@@ -588,7 +618,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 54. Snapshots are generated evidence
+## 56. Snapshots are generated evidence
 
 **Say:** Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.
 
@@ -597,7 +627,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 55. Test the installed product
+## 57. Test the installed product
 
 **Say:** The delivered product includes the executable, companion binaries, Python interfaces, the R wrapper, and launch/lifetime behavior. Running a development binary alone does not establish that the installed bundle or each adapter works. Integration examples and packaging checks should be part of the release evidence, with actual target validation reported separately.
 

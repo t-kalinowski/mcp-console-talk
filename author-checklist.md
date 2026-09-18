@@ -6,7 +6,7 @@ The slide copy uses the intended presentation-day feature set, as requested. The
 
 **`install-python` — `install.packages("mcp.console")`.** The slide labels this as the planned CRAN installation, and the spoken notes say the package is not on CRAN yet. The current source command is `pak::pak("github::t-kalinowski/mcp-console/r")`. Binary download happens when executable resolution needs it, not during `install.packages()` itself. The richer S7 configuration surface mentioned in the rehearsal is not present in the inspected R wrapper.
 
-Richer named profiles, complete initial environment configuration, and configured SQL defaults remain broader design scope. This deck avoids presenting speculative YAML fields as runnable configuration; its displayed configuration examples use the implemented profile and override paths.
+**`config-requirements` (appendix) — requirements in config.yaml.** The right-hand YAML panel proposes session dependencies as R and Python sequences, equivalent to the declarations passed to send. This field is not implemented: the inspected config schema accepts only extends, sandbox, and target and rejects unknown fields. Both the visible panel and notes label the config form as proposed. These dependencies would not be an exclusive package allowlist. Richer named profiles and configured SQL defaults remain broader design scope.
 
 **`interfaces` — Python adapters.** The overview follows the current source checkout. The PyPI 0.0.3 wheel used for runtime captures does not contain the newer Python clients and extras; use a release or source installation that includes them.
 
@@ -45,8 +45,8 @@ Docker uses packages built into the image; it does not dynamically resolve them.
 
 The detail examples combine wait/poll continuity with progress compaction, then
 show bounded responses and retained output, including a direct descriptor write and output from a forked R child.
-The last slide of the main talk is `closing`; the appendix divider introduces nine slides of
-optional technical material. The earlier full API walkthrough is preserved in
+The last slide of the main talk is `closing`; the appendix divider introduces eleven slides of
+optional configuration and technical material. The earlier full API walkthrough is preserved in
 presentation commit `ab89d0c`.
 
 The forked R example deliberately sends cat() output through a pipe to the native
@@ -129,3 +129,14 @@ requirement is used by the script, and its response was captured in a fresh
 sandboxed rehearsal. The order is preparation, worker replacement, input enqueue,
 and script evaluation. The response is one actual tool result, not concatenated
 polls. The three-argument base-R capture remains available as historical evidence.
+
+## Approved package repositories
+
+The appendix slide `package-sources` shows client launch environment settings as YAML. It does not
+introduce a package policy field in Console config.yaml. PKG_CRAN_MIRROR selects
+pak's CRAN source; UV_DEFAULT_INDEX replaces uv's default PyPI index. PPM can own
+curated R and Python package sets. Exclusive source enforcement also requires
+resolver-host policy, with approved bootstrap tooling, preinstalled packages,
+caches, additional repositories, and explicit R remote references accounted for.
+The examples use placeholder URLs; they are not captures from a corporate PPM
+instance. A preinstalled environment is an alternative to dynamic additions.

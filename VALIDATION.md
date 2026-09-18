@@ -1,12 +1,62 @@
 # Local validation — 2026-09-18
 
-The revised project contains 55 slides (45 main, an appendix divider, and 9 optional appendix slides),
+The revised project contains 57 slides (45 main, an appendix divider, and 11 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-18-chatlas-registration/mcp-console-captured.html).
+[the render archive](../archived/2026-09-18-package-appendix/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Package configuration in the appendix — 2026-09-18
+
+- Moved the approved-repository example and proposed config.yaml requirements
+  into the appendix. Restored the main talk's explicit send requirements slide.
+- Updated the appendix divider, notes, slide index, and current slide counts.
+  The main talk contains 45 slides; the proposed configuration remains clearly
+  labeled as not implemented.
+- Both Quarto modes render without warnings and pass source validation for all
+  57 slides. The revised divider and configuration slide pass browser layout
+  checks in both modes. The main talk source matches the preceding commit.
+  Runtime captures and the measurements CSV are unchanged.
+
+## Requirements in config.yaml — 2026-09-18
+
+- Corrected the requirements-list interpretation. The explicit requirements slide
+  now shows R and Python YAML sequences beside the equivalent send call. The YAML
+  is visibly labeled proposed and not implemented.
+- Checked src/settings.rs in Console source
+  e6e94127706fdb3d71a77a733bc478ac48651ec7. Its Project schema accepts only
+  extends, sandbox, and target, with unknown fields rejected. No product feature
+  was added, and the proposed configuration was not run as a supported example.
+- Restored the preceding slide's corporate-mirror example. The PPM list-file
+  detour is superseded; those three illustrative files are preserved under
+  ../archived/2026-09-18-package-lists/package-policy/ alongside its old renders.
+
+- Regenerated notes and index. Both native and captured-output Quarto renders
+  pass source validation for 56 slides. Both changed slides fit without code
+  wrapping or overflow in the in-app browser at 1422 × 800. Runtime captures
+  and the measurements CSV are unchanged. Speaker View was not retested.
+
+## Approved package repositories — 2026-09-18
+
+- Added an example after process topology, before explicit requirements. It shows
+  PKG_CRAN_MIRROR and UV_DEFAULT_INDEX in client launch settings, displayed as
+  YAML, pointing to illustrative PPM repositories. The slide distinguishes
+  curated package sets from resolver-host network enforcement.
+- Checked the local Console resolver configuration, ir/pak repository handling,
+  and official uv and PPM documentation. Console config.yaml governs workload
+  settings; its sandbox.environment does not configure trusted resolvers.
+  Curated lists belong to the repository manager, not a Console allowlist key.
+- A public pak::repo_get() probe selected the configured R repository even when
+  options(repos) contained the default public PPM URL. An isolated uv invocation
+  with UV_DEFAULT_INDEX requested a missing package from a loopback index and
+  failed without falling back to PyPI. The probe installed no packages and made
+  no model API calls. No corporate PPM service or full Console enforcement setup
+  was tested. Scripts and results are in the render archive.
+- Refreshed notes and the slide index. Native and captured-output Quarto renders
+  pass source validation. The new layout was checked in the in-app browser.
+  Existing runtime captures and the measurements CSV are unchanged.
 
 ## Simpler chatlas registration — 2026-09-18
 

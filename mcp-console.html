@@ -784,6 +784,7 @@ background: var(--accent-soft); color: #164f50; font-size: 29px; }
 #docker .left > p { font-size: 26px; line-height: 1.35; }
 #markdown-transcript .code-panel pre code { font-size: 25px; line-height: 1.28; }
 #markdown-transcript .code-panel { padding-top: 18px; padding-bottom: 18px; }
+#package-sources .two-col { grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); }
 </style>
   <style type="text/css">.reveal
 div.sourceCode
@@ -3528,14 +3529,121 @@ display:block!important;
 <p>Backup material</p>
 </div>
 <div class="big-statement">
-<p>Implementation details and tests.</p>
+<p>Package configuration, implementation details, and tests.</p>
 </div>
 <div class="takeaway">
-<p>Package resolution, integration tests, snapshots, and process boundaries.</p>
+<p>Package sources, session requirements, resolution, and testing.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> The main talk ends here. These slides are available for questions about the implementation and how its behavior is checked.</p>
+<p><strong>Say:</strong> The main talk ends here. These slides are available for questions about package configuration, the implementation, and how its behavior is checked.</p>
 <p><strong>Show:</strong> Pause at this divider before entering the development material.</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="package-sources" class="slide level2 deck-slide config-slide code-dense">
+<h2>Example: use approved package repositories</h2>
+<div class="kicker">
+<p>Appendix · package sources</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="ownership-card">
+<p>Use a corporate mirror or a Posit Package Manager repository.</p>
+<p>A curated repository exposes an approved set of packages and versions.</p>
+<p>Restrict the resolver host’s network access to enforce approved sources.</p>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label">
+<p>MCP client launch settings · YAML view</p>
+</div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">mcpServers</span><span class="kw">:</span></span>
+<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">console</span><span class="kw">:</span></span>
+<span id="cb69-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> uvx</span></span>
+<span id="cb69-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">args</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mcp-console</span><span class="kw">,</span><span class="at"> serve</span><span class="kw">]</span></span>
+<span id="cb69-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb69-6"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      PKG_CRAN_MIRROR</span><span class="kw">: </span><span class="ch">&gt;-</span></span>
+<span id="cb69-7"><a href aria-hidden="true" tabindex="-1"></a>        https://ppm.example.com/r/latest</span>
+<span id="cb69-8"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      UV_DEFAULT_INDEX</span><span class="kw">: </span><span class="ch">&gt;-</span></span>
+<span id="cb69-9"><a href aria-hidden="true" tabindex="-1"></a>        https://ppm.example.com/python/simple</span></code></pre></div>
+</div>
+</div>
+</div>
+<div class="takeaway">
+<p>Choose which packages are available for resolution.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> Making packages available doesn’t mean we have to expose all of CRAN or PyPI. We can point the resolvers at a corporate mirror or a Posit Package Manager instance. Those repositories can contain an approved set of packages and versions.</p>
+<p>Here the user sets the R repository and Python index in the environment used to launch Console. The organization manages the approved set, and the model can still request a package when the task needs it.</p>
+<p>These are client launch settings. The config.yaml examples in the main talk control the worker sandbox. The resolver runs outside that sandbox, so exclusive access to approved sources also needs network policy on the resolver host. A preinstalled, administrator-managed environment is another option when dynamic additions aren’t wanted.</p>
+<p><strong>Reference (not spoken):</strong> This is the common mcpServers client configuration shown as YAML for readability; use JSON for clients that require it. Replace the illustrative PPM URLs with the repository’s setup URLs. PKG_CRAN_MIRROR configures the pak resolver used by ir; UV_DEFAULT_INDEX replaces uv’s default PyPI index. Supply these in the Console server’s launch environment, not sandbox.environment in .agents/console/config.yaml. On SSH, configure the trusted remote preparation environment.</p>
+<p>Repository selection is not a complete package allowlist. Remove unapproved additional indexes and sources, account for Bioconductor and explicit R remote references, and restrict the resolver host’s egress as needed. Preinstalled packages and reused caches also belong to the approved environment. ir tooling bootstrap can use its public PPM endpoint, and uvx needs the Console distribution and any resolver tooling; provision these through the approved environment before restricting access. Current Console config.yaml has no package-allowlist field. A selected RETICULATE_PYTHON disables managed Python additions; current Docker targets use preinstalled environments for all languages.</p>
+<p><strong>Author / validation:</strong> Repository selection was checked with pak and uv. The example does not represent a connection to a live corporate PPM instance or an end-to-end network-enforcement test.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration">Resolver configuration</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Worker environment scope</a> · <a href="https://pak.r-lib.org/reference/pak-config.html">pak configuration</a> · <a href="https://docs.astral.sh/uv/concepts/indexes/">uv package indexes</a> · <a href="https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html">PPM curated CRAN</a> · <a href="https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html">PPM curated PyPI</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="config-requirements" class="slide level2 deck-slide literal-slide">
+<h2>Proposed: declare requirements in config.yaml</h2>
+<div class="kicker">
+<p>Appendix · session requirements</p>
+</div>
+<div class="two-col">
+<div class="left">
+<div class="code-panel">
+<div class="panel-label">
+<p>Prepare dependencies through send()</p>
+</div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
+<span id="cb70-2"><a href aria-hidden="true" tabindex="-1"></a>  requirements<span class="op">=</span>{</span>
+<span id="cb70-3"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;r&quot;</span>: [<span class="st">&quot;dtplyr&quot;</span>],</span>
+<span id="cb70-4"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;python&quot;</span>: [<span class="st">&quot;scikit-learn==1.9.1&quot;</span>],</span>
+<span id="cb70-5"><a href aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb70-6"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+<div class="right">
+<div class="code-panel">
+<div class="panel-label path-label">
+<p>.agents/console/config.yaml · proposed</p>
+</div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb71-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">requirements</span><span class="kw">:</span></span>
+<span id="cb71-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">r</span><span class="kw">:</span></span>
+<span id="cb71-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> dtplyr</span></span>
+<span id="cb71-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">python</span><span class="kw">:</span></span>
+<span id="cb71-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> scikit-learn==1.9.1</span></span></code></pre></div>
+</div>
+<p>Config form is not implemented yet.</p>
+</div>
+</div>
+<div class="takeaway">
+<p>Name packages or pin versions for the session.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> The model can declare session dependencies through send, as we saw in the main talk. On the right is a proposed way for the user to supply the same requirements in config.yaml.</p>
+<p>It uses YAML sequences of package names or version specifications, matching the requirements supplied through send. This configuration form is not implemented yet.</p>
+<p><strong>Reference (not spoken):</strong> The proposed requirements field would supply session dependencies, not restrict which other packages can be requested. The inspected config schema accepts only extends, sandbox, and target and rejects unknown fields. Do not use this YAML with the current implementation.</p>
+<p><strong>Author / capture:</strong> This is an illustrative preparation request; no response is presented as a capture. scikit-learn 1.9.1 is the version in the existing Python reference capture. The earlier data.table==1.17.8 rehearsal failed on the installed R toolchains and remains documented in VALIDATION.md. That older request is retained in the reference files, not represented as a successful run here. Requirements are available only on targets that support managed preparation.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md">Requirements and trust</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;
@@ -3568,22 +3676,22 @@ display:block!important;
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb69"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
-<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
+<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Server → worker</p>
 </div>
-<div class="sourceCode" id="cb70"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb70-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
-<span id="cb70-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb73-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
+<span id="cb73-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb71"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb71-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
-<span id="cb71-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb74-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
+<span id="cb74-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3742,15 +3850,15 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · request</p>
 </div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
-<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb72-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
-<span id="cb72-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
-<span id="cb72-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
-<span id="cb72-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
-<span id="cb72-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
-<span id="cb72-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb72-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb75-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
+<span id="cb75-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb75-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
+<span id="cb75-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
+<span id="cb75-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
+<span id="cb75-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
+<span id="cb75-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
+<span id="cb75-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb75-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -3758,12 +3866,12 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · result</p>
 </div>
-<div class="sourceCode" id="cb73"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb73-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
-<span id="cb73-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
-<span id="cb73-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
-<span id="cb73-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb73-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
-<span id="cb73-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb76-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
+<span id="cb76-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
+<span id="cb76-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
+<span id="cb76-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb76-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
+<span id="cb76-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3907,9 +4015,9 @@ display:block!important;
 <div class="panel-label">
 <p>Run, regenerate, review</p>
 </div>
-<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
-<span id="cb76-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb76-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
+<span id="cb79-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.</p>

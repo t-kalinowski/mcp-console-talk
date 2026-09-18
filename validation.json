@@ -1,9 +1,9 @@
 {
   "date": "2026-09-18",
-  "slide_count": 55,
+  "slide_count": 57,
   "main_slides": 45,
-  "addendum_slides": 9,
-  "native_quarto_notes_blocks": 55,
+  "addendum_slides": 11,
+  "native_quarto_notes_blocks": 57,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -14,15 +14,15 @@
   "render_warnings": false,
   "browser": "in-app browser",
   "css_viewport": [
-    2723,
-    1156
+    1422,
+    800
   ],
-  "layout_slides_checked": 1,
+  "layout_slides_checked": 2,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 1,
+  "captured_output_slides_checked": 2,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "595cdbb5ee97182c884b07125ed62e4f5a598b0c44a1e6cb9ed545755ddca87e",
-    "../archived/2026-09-18-chatlas-registration/mcp-console-captured.html": "f93777b26309f0d76231300a7a041e285f5172973189b3a61ec526c8a5834712"
+    "mcp-console.html": "0b8e7a29797c5dcf10c4fd4e04cff6cb6cb6a96b5013fa305c51466dcc26dede",
+    "../archived/2026-09-18-package-appendix/mcp-console-captured.html": "0227fd7984de970148cdee9bdcfb63951ce77eab638d38f5dffc44cbb6ac4a16"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,16 +76,17 @@
     1600,
     900
   ],
-  "baseline_commit": "cde0196",
+  "baseline_commit": "47dbf69",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
-    "chatlas register_tool public API and sandboxed R execution without a model API call",
+    "PPM list syntax checked against curated CRAN and PyPI documentation",
+    "displayed package files and shared-list include checked",
     "native and captured Quarto renders without warnings",
-    "chatlas slide layout in both modes",
+    "package-sources slide layout in both modes",
     "validate_source.py in both modes",
-    "notes regenerated",
+    "notes and index regenerated",
     "source diff whitespace"
   ],
   "appendix_divider_slides": 1,
@@ -405,5 +406,96 @@
       "mcp"
     ],
     "layout_failures": []
+  },
+  "package_sources_review": {
+    "archive": "../archived/2026-09-18-package-sources",
+    "new_slide": "package-sources",
+    "slide_number": 15,
+    "source_configuration": "MCP client launch environment",
+    "console_config_allowlist_supported": false,
+    "product_source": "62e4f3cf4e73625ecefd19ce8162fcba22480875",
+    "probes": {
+      "pak_repository": "pak 0.11.1 \nhttps://ppm.example.com/r/latest",
+      "uv_default_index_requests": [
+        "/simple/mcp-console-approved-source-probe/"
+      ],
+      "missing_package_failed": true,
+      "public_pypi_fallback": false,
+      "corporate_ppm_contacted": false,
+      "packages_installed_by_probe": false,
+      "full_console_enforcement_test": false
+    },
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "layout_failures": [],
+    "captures_reused": true,
+    "speaker_window_retested": false
+  },
+  "package_lists_review": {
+    "archive": "../archived/2026-09-18-package-lists",
+    "slide": "package-sources",
+    "files": [
+      "../archived/2026-09-18-package-lists/package-policy/approved-r.txt",
+      "../archived/2026-09-18-package-lists/package-policy/approved-python.txt",
+      "../archived/2026-09-18-package-lists/package-policy/shared-python.txt"
+    ],
+    "ppm_list_workflow_documented": true,
+    "console_requirements_are_additive": true,
+    "repository_probes_reused": true,
+    "ppm_instance_tested": false,
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "layout_failures": [],
+    "status": "superseded by config requirements clarification"
+  },
+  "config_requirements_review": {
+    "archive": "../archived/2026-09-18-config-requirements",
+    "slide": "requirements",
+    "product_source": "e6e94127706fdb3d71a77a733bc478ac48651ec7",
+    "config_requirements_supported": false,
+    "visibly_labeled_proposed": true,
+    "schema_accepts": [
+      "extends",
+      "sandbox",
+      "target"
+    ],
+    "unknown_fields_rejected": true,
+    "runtime_cells_changed": false,
+    "captures_reused": true,
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "browser_slides_checked": [
+      "package-sources",
+      "requirements"
+    ],
+    "layout_failures": [],
+    "speaker_window_retested": false
+  },
+  "package_appendix_review": {
+    "archive": "../archived/2026-09-18-package-appendix",
+    "appendix_slides": {
+      "package-sources": 47,
+      "config-requirements": 48
+    },
+    "main_talk_matches_previous_commit": true,
+    "main_requirements_slide_retained": true,
+    "config_form_visibly_proposed": true,
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "browser_slides_checked": [
+      "appendix",
+      "config-requirements"
+    ],
+    "layout_failures": [],
+    "runtime_captures_changed": false,
+    "speaker_window_retested": false
   }
 }

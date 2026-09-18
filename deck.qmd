@@ -2998,21 +2998,162 @@ Backup material
 
 ::: {.big-statement}
 
-Implementation details and tests.
+Package configuration, implementation details, and tests.
 
 :::
 
 ::: {.takeaway}
 
-Package resolution, integration tests, snapshots, and process boundaries.
+Package sources, session requirements, resolution, and testing.
 
 :::
 
 ::: {.notes}
 
-**Say:** The main talk ends here. These slides are available for questions about the implementation and how its behavior is checked.
+**Say:** The main talk ends here. These slides are available for questions about package configuration, the implementation, and how its behavior is checked.
 
 **Show:** Pause at this divider before entering the development material.
+
+:::
+
+## Example: use approved package repositories {#package-sources .deck-slide .config-slide .code-dense}
+::: {.kicker}
+
+Appendix · package sources
+
+:::
+
+:::::: {.two-col}
+::::: {.left}
+
+::: {.ownership-card}
+
+Use a corporate mirror or a Posit Package Manager repository.
+
+A curated repository exposes an approved set of packages and versions.
+
+Restrict the resolver host's network access to enforce approved sources.
+
+:::
+
+:::::
+::::: {.right}
+
+:::: {.code-panel}
+::: {.panel-label}
+
+MCP client launch settings · YAML view
+
+:::
+
+```yaml
+mcpServers:
+  console:
+    command: uvx
+    args: [mcp-console, serve]
+    env:
+      PKG_CRAN_MIRROR: >-
+        https://ppm.example.com/r/latest
+      UV_DEFAULT_INDEX: >-
+        https://ppm.example.com/python/simple
+```
+
+::::
+:::::
+::::::
+
+::: {.takeaway}
+
+Choose which packages are available for resolution.
+
+:::
+
+::: {.notes}
+
+**Say:** Making packages available doesn't mean we have to expose all of CRAN or PyPI. We can point the resolvers at a corporate mirror or a Posit Package Manager instance. Those repositories can contain an approved set of packages and versions.
+
+Here the user sets the R repository and Python index in the environment used to launch Console. The organization manages the approved set, and the model can still request a package when the task needs it.
+
+These are client launch settings. The config.yaml examples in the main talk control the worker sandbox. The resolver runs outside that sandbox, so exclusive access to approved sources also needs network policy on the resolver host. A preinstalled, administrator-managed environment is another option when dynamic additions aren't wanted.
+
+**Reference (not spoken):** This is the common mcpServers client configuration shown as YAML for readability; use JSON for clients that require it. Replace the illustrative PPM URLs with the repository's setup URLs. PKG_CRAN_MIRROR configures the pak resolver used by ir; UV_DEFAULT_INDEX replaces uv's default PyPI index. Supply these in the Console server's launch environment, not sandbox.environment in .agents/console/config.yaml. On SSH, configure the trusted remote preparation environment.
+
+Repository selection is not a complete package allowlist. Remove unapproved additional indexes and sources, account for Bioconductor and explicit R remote references, and restrict the resolver host's egress as needed. Preinstalled packages and reused caches also belong to the approved environment. ir tooling bootstrap can use its public PPM endpoint, and uvx needs the Console distribution and any resolver tooling; provision these through the approved environment before restricting access. Current Console config.yaml has no package-allowlist field. A selected RETICULATE_PYTHON disables managed Python additions; current Docker targets use preinstalled environments for all languages.
+
+**Author / validation:** Repository selection was checked with pak and uv. The example does not represent a connection to a live corporate PPM instance or an end-to-end network-enforcement test.
+
+**Sources:** [Resolver configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration) · [Worker environment scope](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [pak configuration](https://pak.r-lib.org/reference/pak-config.html) · [uv package indexes](https://docs.astral.sh/uv/concepts/indexes/) · [PPM curated CRAN](https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html) · [PPM curated PyPI](https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html)
+
+:::
+
+## Proposed: declare requirements in config.yaml {#config-requirements .deck-slide .literal-slide}
+::: {.kicker}
+
+Appendix · session requirements
+
+:::
+
+:::::: {.two-col}
+::::: {.left}
+:::: {.code-panel}
+::: {.panel-label}
+
+Prepare dependencies through send()
+
+:::
+
+```python
+console.send(
+  requirements={
+    "r": ["dtplyr"],
+    "python": ["scikit-learn==1.9.1"],
+  },
+)
+```
+
+::::
+:::::
+::::: {.right}
+
+:::: {.code-panel}
+::: {.panel-label .path-label}
+
+.agents/console/config.yaml · proposed
+
+:::
+
+```yaml
+requirements:
+  r:
+    - dtplyr
+  python:
+    - scikit-learn==1.9.1
+```
+
+::::
+
+Config form is not implemented yet.
+
+:::::
+::::::
+
+::: {.takeaway}
+
+Name packages or pin versions for the session.
+
+:::
+
+::: {.notes}
+
+**Say:** The model can declare session dependencies through send, as we saw in the main talk. On the right is a proposed way for the user to supply the same requirements in config.yaml.
+
+It uses YAML sequences of package names or version specifications, matching the requirements supplied through send. This configuration form is not implemented yet.
+
+**Reference (not spoken):** The proposed requirements field would supply session dependencies, not restrict which other packages can be requested. The inspected config schema accepts only extends, sandbox, and target and rejects unknown fields. Do not use this YAML with the current implementation.
+
+**Author / capture:** This is an illustrative preparation request; no response is presented as a capture. scikit-learn 1.9.1 is the version in the existing Python reference capture. The earlier data.table==1.17.8 rehearsal failed on the installed R toolchains and remains documented in VALIDATION.md. That older request is retained in the reference files, not represented as a successful run here. Requirements are available only on targets that support managed preparation.
+
+**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 

@@ -277,54 +277,66 @@
   },
   {
     "number": 47,
+    "title": "Example: use approved package repositories",
+    "id": "package-sources",
+    "section": "Appendix \u00b7 package sources"
+  },
+  {
+    "number": 48,
+    "title": "Proposed: declare requirements in config.yaml",
+    "id": "config-requirements",
+    "section": "Appendix \u00b7 session requirements"
+  },
+  {
+    "number": 49,
     "title": "Follow a package-resolution request",
     "id": "resolver-boundary",
     "section": "Private worker protocol \u00b7 illustrative paths"
   },
   {
-    "number": 48,
+    "number": 50,
     "title": "Rust implementation. Python integration tests.",
     "id": "tests-python",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 49,
+    "number": 51,
     "title": "Test the boundaries you intend to preserve",
     "id": "test-boundaries",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 50,
+    "number": 52,
     "title": "YAML is what the reviewer reads",
     "id": "yaml-transcripts",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 51,
+    "number": 53,
     "title": "Normalize noise, not behavior",
     "id": "test-normalization",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 52,
+    "number": 54,
     "title": "Synchronize; do not sleep and hope",
     "id": "test-determinism",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 53,
+    "number": 55,
     "title": "Portable behavior; real capability checks",
     "id": "test-capabilities",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 54,
+    "number": 56,
     "title": "Snapshots are generated evidence",
     "id": "snapshot-review",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 55,
+    "number": 57,
     "title": "Test the installed product",
     "id": "installed-product-tests",
     "section": "Appendix \u00b7 Development practices"
