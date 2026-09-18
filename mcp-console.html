@@ -3221,19 +3221,20 @@ display:block!important;
 <div class="panel-label">
 <p>Recommended · launch an MCP server</p>
 </div>
-<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Persistent Python installation · choose the integrations you need</p>
 </div>
-<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>R package · planned CRAN installation</p>
 </div>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Let <code>uvx</code> manage resolution and automatically pick up updates.</p>
@@ -3265,13 +3266,13 @@ display:block!important;
 <div class="panel-label">
 <p>Codex CLI</p>
 </div>
-<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Claude Code CLI</p>
 </div>
-<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Register the launch command; your client starts Console.</p>
@@ -3301,12 +3302,12 @@ display:block!important;
 <div class="panel-label">
 <p>R · register one tool</p>
 </div>
-<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb63-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
-<span id="cb63-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
-<span id="cb63-3"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb63-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
-<span id="cb63-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
-<span id="cb63-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb64-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
+<span id="cb64-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb64-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
+<span id="cb64-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
+<span id="cb64-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Your chat and provider. A separate persistent Console worker.</p>
@@ -3336,14 +3337,14 @@ display:block!important;
 <div class="panel-label">
 <p>Python · preserve the server-provided schema</p>
 </div>
-<div class="sourceCode" id="cb64" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb64-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
-<span id="cb64-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
-<span id="cb64-3"><a href aria-label="3"></a></span>
-<span id="cb64-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
-<span id="cb64-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
-<span id="cb64-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
-<span id="cb64-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
-<span id="cb64-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb65-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
+<span id="cb65-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
+<span id="cb65-3"><a href aria-label="3"></a></span>
+<span id="cb65-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
+<span id="cb65-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
+<span id="cb65-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
+<span id="cb65-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
+<span id="cb65-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>The same registration pattern in Python.</p>
@@ -3414,18 +3415,18 @@ display:block!important;
 <div class="panel-label path-label">
 <p>transcript.md · recorded call and result</p>
 </div>
-<div class="sourceCode" id="cb66"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb66-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Call 4: R</span></span>
-<span id="cb66-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-3"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb66-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
-<span id="cb66-5"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb66-6"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Result for call 4</span></span>
-<span id="cb66-8"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb66-9"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
-<span id="cb66-10"><a href aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept) temperature      groupB </span></span>
-<span id="cb66-11"><a href aria-hidden="true" tabindex="-1"></a><span class="in">   6.888528    1.007196    1.273078 </span></span>
-<span id="cb66-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb67"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb67-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Call 4: R</span></span>
+<span id="cb67-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-3"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb67-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
+<span id="cb67-5"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb67-6"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Result for call 4</span></span>
+<span id="cb67-8"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb67-9"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
+<span id="cb67-10"><a href aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept) temperature      groupB </span></span>
+<span id="cb67-11"><a href aria-hidden="true" tabindex="-1"></a><span class="in">   6.888528    1.007196    1.273078 </span></span>
+<span id="cb67-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Code and captured results stay together in the session history.</p>
@@ -3455,23 +3456,23 @@ display:block!important;
 <div class="panel-label path-label">
 <p>report.qmd · edited copy of the session transcript</p>
 </div>
-<div class="sourceCode" id="cb67"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb67-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb67-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
-<span id="cb67-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb67-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
-<span id="cb67-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
-<span id="cb67-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
-<span id="cb67-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
-<span id="cb67-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
-<span id="cb67-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
-<span id="cb67-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb67-11"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb67-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
-<span id="cb67-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
-<span id="cb67-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
-<span id="cb67-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
-<span id="cb67-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb68-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb68-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
+<span id="cb68-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb68-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
+<span id="cb68-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
+<span id="cb68-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
+<span id="cb68-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
+<span id="cb68-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
+<span id="cb68-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
+<span id="cb68-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb68-11"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb68-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
+<span id="cb68-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
+<span id="cb68-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
+<span id="cb68-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
+<span id="cb68-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p><code>ir render report.qmd</code> uses the recorded package snapshot date.</p>
@@ -3567,22 +3568,22 @@ display:block!important;
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb68-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
-<span id="cb68-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
+<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Server → worker</p>
 </div>
-<div class="sourceCode" id="cb69"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
-<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb70-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
+<span id="cb70-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb70"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb70-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
-<span id="cb70-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb71-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
+<span id="cb71-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3741,15 +3742,15 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · request</p>
 </div>
-<div class="sourceCode" id="cb71"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb71-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
-<span id="cb71-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb71-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
-<span id="cb71-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
-<span id="cb71-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
-<span id="cb71-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
-<span id="cb71-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
-<span id="cb71-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb71-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
+<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb72-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
+<span id="cb72-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
+<span id="cb72-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
+<span id="cb72-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
+<span id="cb72-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
+<span id="cb72-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb72-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -3757,12 +3758,12 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · result</p>
 </div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
-<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
-<span id="cb72-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
-<span id="cb72-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb72-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
-<span id="cb72-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb73-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
+<span id="cb73-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
+<span id="cb73-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
+<span id="cb73-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb73-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
+<span id="cb73-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3906,9 +3907,9 @@ display:block!important;
 <div class="panel-label">
 <p>Run, regenerate, review</p>
 </div>
-<div class="sourceCode" id="cb75"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb75-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
-<span id="cb75-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb75-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb76-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
+<span id="cb76-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb76-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.</p>
