@@ -465,7 +465,9 @@ The R package handles the connection and the tool interface. The model's code st
 
 The other supported clients have similar adapters. The application keeps control of the conversation, and Console provides the execution session.
 
-**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
+**Reference (not spoken):** Registration and a direct call through the registered tool were checked with chatlas 0.23.0, without a model API call. In this version, register_tool() rebuilds the schema from Console's Python send annotations; it does not preserve the server-provided schema verbatim. The seven send arguments remain available. Use set_tools() when exact schema preservation is required.
+
+**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [chatlas registration](https://posit-dev.github.io/chatlas/reference/Chat.html#chatlas.Chat.register_tool)
 
 
 ## 42. Keep session logs and readable transcripts

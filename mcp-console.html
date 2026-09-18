@@ -3335,16 +3335,15 @@ display:block!important;
 </div>
 <div class="code-panel">
 <div class="panel-label">
-<p>Python · preserve the server-provided schema</p>
+<p>Python · register one tool</p>
 </div>
-<div class="sourceCode" id="cb65" data-code-line-numbers="2,5-7"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb65-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
+<div class="sourceCode" id="cb65" data-code-line-numbers="2,5-6"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb65-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
 <span id="cb65-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
 <span id="cb65-3"><a href aria-label="3"></a></span>
 <span id="cb65-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
 <span id="cb65-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
-<span id="cb65-6"><a href aria-label="6"></a>    tool <span class="op">=</span> mcp_console.chatlas.tool(console)</span>
-<span id="cb65-7"><a href aria-label="7"></a>    chat.set_tools([<span class="op">*</span>chat.get_tools(), tool])</span>
-<span id="cb65-8"><a href aria-label="8"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<span id="cb65-6"><a href aria-label="6"></a>    chat.register_tool(mcp_console.chatlas.tool(console))</span>
+<span id="cb65-7"><a href aria-label="7"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>The same registration pattern in Python.</p>
@@ -3352,7 +3351,8 @@ display:block!important;
 <aside class="notes">
 <p><strong>Say:</strong> The Python integrations are straightforward too. For chatlas, import mcp_console and register its chatlas tool with the chat.</p>
 <p>The other supported clients have similar adapters. The application keeps control of the conversation, and Console provides the execution session.</p>
-<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python clients and integrations</a></p>
+<p><strong>Reference (not spoken):</strong> Registration and a direct call through the registered tool were checked with chatlas 0.23.0, without a model API call. In this version, register_tool() rebuilds the schema from Console’s Python send annotations; it does not preserve the server-provided schema verbatim. The seven send arguments remain available. Use set_tools() when exact schema preservation is required.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md">Python clients and integrations</a> · <a href="https://posit-dev.github.io/chatlas/reference/Chat.html#chatlas.Chat.register_tool">chatlas registration</a></p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;

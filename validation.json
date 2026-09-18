@@ -15,14 +15,14 @@
   "browser": "in-app browser",
   "css_viewport": [
     2723,
-    1738
+    1156
   ],
-  "layout_slides_checked": 2,
+  "layout_slides_checked": 1,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 2,
+  "captured_output_slides_checked": 1,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,8 +55,8 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "7ba0e6525c9a9cf5d01231735e772fe2c19f06677766ef5f7c571e4637c7b0b3",
-    "../archived/2026-09-18-installation/mcp-console-captured.html": "6dbeb00f48d471232450e1b64d9d4ac5eed2e0dca516e7fda7533319bc9d1c74"
+    "mcp-console.html": "595cdbb5ee97182c884b07125ed62e4f5a598b0c44a1e6cb9ed545755ddca87e",
+    "../archived/2026-09-18-chatlas-registration/mcp-console-captured.html": "f93777b26309f0d76231300a7a041e285f5172973189b3a61ec526c8a5834712"
   },
   "measurements_unchanged": true,
   "checks": [
@@ -76,17 +76,16 @@
     1600,
     900
   ],
-  "baseline_commit": "4fbd4a9",
+  "baseline_commit": "cde0196",
   "deferred": [],
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
+    "chatlas register_tool public API and sandboxed R execution without a model API call",
     "native and captured Quarto renders without warnings",
-    "installation and CLI registration slides fit in both output modes",
-    "Python extras and uv pip syntax checked against local source repositories",
-    "notes and index regenerated",
-    "sync_cells.py --check",
-    "validate_source.py in both output modes",
+    "chatlas slide layout in both modes",
+    "validate_source.py in both modes",
+    "notes regenerated",
     "source diff whitespace"
   ],
   "appendix_divider_slides": 1,
@@ -390,5 +389,21 @@
     "captures_reused": true,
     "packages_installed": false,
     "speaker_window_retested": false
+  },
+  "chatlas_registration_review": {
+    "archive": "../archived/2026-09-18-chatlas-registration",
+    "product_source": "62e4f3cf4e73625ecefd19ce8162fcba22480875",
+    "chatlas_version": "0.23.0",
+    "mcp_sdk_version": "2.2.0",
+    "registration_passed": true,
+    "all_send_arguments_present": true,
+    "sandboxed_r_call_passed": true,
+    "model_api_called": false,
+    "schema_rebuilt_from_annotations": true,
+    "browser_modes_checked": [
+      "r",
+      "mcp"
+    ],
+    "layout_failures": []
   }
 }

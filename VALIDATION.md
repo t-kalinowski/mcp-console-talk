@@ -4,9 +4,24 @@ The revised project contains 55 slides (45 main, an appendix divider, and 9 opti
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-18-installation/mcp-console-captured.html).
+[the render archive](../archived/2026-09-18-chatlas-registration/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Simpler chatlas registration — 2026-09-18
+
+- The chatlas example now calls
+  `chat.register_tool(mcp_console.chatlas.tool(console))` directly, removing the
+  temporary variable and tool-list manipulation. Adjusted the highlighted lines
+  and panel label, and regenerated the notes.
+- A disposable uv environment with chatlas 0.23.0 and MCP SDK 2.2.0 registered the
+  tool and invoked it against the sandboxed Console. All seven send arguments
+  were registered, and `1 + 1` returned `[1] 2`. No model API was called. The probe
+  and schema comparison are in the render archive. This version of chatlas
+  rebuilds the schema from annotations; the slide no longer claims to preserve
+  the server schema, and the speaker notes explain that distinction.
+- Both Quarto modes render without warnings and pass source validation. The
+  chatlas slide fits without wrapping or overflow in the in-app browser.
 
 ## Consolidated installation — 2026-09-18
 
