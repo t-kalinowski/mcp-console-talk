@@ -81,3 +81,8 @@ The earlier base-R script remains in `analyze.R`. `captures/controls/` preserves
 its three-argument request and the restart-and-devtools-test rehearsal. Their
 fixture and collector remain in `../../archived/2026-09-17-final-slide-review/`.
 The readline introduction and debugger reuse the original prompt/input captures.
+
+`sandbox-analysis.R` is the standalone sandbox example. From the presentation
+directory, run `mcp-console sandbox -- Rscript examples/sandbox-analysis.R`.
+It uses base R to read the measurements CSV and print model coefficients under
+the default read-only policy; it does not need an MCP server or package resolver.

@@ -1,12 +1,33 @@
-# Local validation — 2026-09-18
+# Local validation — 2026-09-23
 
-The revised project contains 64 slides (45 main, an appendix divider, and 18 optional appendix slides),
+The revised project contains 65 slides (46 main, an appendix divider, and 18 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The current Console-capture
 render used for validation is preserved in
-[the render archive](../archived/2026-09-18-development-appendix/mcp-console-captured.html).
+[the render archive](../archived/2026-09-23-standalone-sandbox/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Standalone sandbox command — 2026-09-23
+
+- Added a main-talk slide after the complete proxy configuration. It shows the
+  public sandbox command, shared project policy, the native runner handoff, and
+  ordinary subprocess streams and exit status for application integrations.
+- Added examples/sandbox-analysis.R, using base R and the existing measurements
+  CSV. The displayed command ran successfully with Console 0.0.4 on macOS and
+  printed model coefficients. The enclosing agent sandbox initially prevented
+  nested Seatbelt initialization; the approved host-level retry succeeded while
+  retaining Console's own sandbox enforcement.
+- Checked the installed CLI help and local source at
+  edaf0b394d4bca070c1abd9ecc0f2a0ce49b775b. The notes distinguish the public
+  standalone command from the external-sandbox filesystem mode and explain its
+  local execution scope. No MCP server, model API, or dependency resolver was
+  used for this example. Runtime captures and the CSV are unchanged.
+
+- Both Quarto modes render without warnings and pass source validation for all
+  65 slides. The new slide fits without code wrapping or overflow at 1422 × 800
+  in both browser modes. Existing slide source is unchanged. Notes, index, and
+  native preview are regenerated. Speaker View was not retested.
 
 ## Repository development in the appendix — 2026-09-18
 

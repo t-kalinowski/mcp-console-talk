@@ -2240,6 +2240,72 @@ These are all the fields on the proxy object. We can set destination rules, choo
 
 :::
 
+## Run any command through the sandbox {#sandbox-command .deck-slide .story-slide .literal-slide}
+::: {.kicker}
+
+Reuse the sandbox in your own application
+
+:::
+
+:::: {.code-panel}
+::: {.panel-label}
+
+Public command-line interface
+
+:::
+
+```bash
+mcp-console sandbox -- Rscript examples/sandbox-analysis.R
+```
+
+::::
+
+:::: {.three-col}
+::: {.story-card}
+
+**Choose the policy**
+
+Use the same project config and command-line overrides.
+
+:::
+::: {.story-card}
+
+**Run the command**
+
+Console hands execution to the native sandbox runner. Its restrictions apply to the command and its children.
+
+:::
+::: {.story-card}
+
+**Connect your application**
+
+Use ordinary stdin, stdout, stderr, and exit status.
+
+:::
+::::
+
+::: {.takeaway}
+
+Reuse the sandbox from your own tools and agent harnesses.
+
+:::
+
+::: {.notes}
+
+**Say:** And by the way, this sandbox is also available as a public command-line interface. This was one of the major things people asked for with MCP REPL: a sandbox they could build on themselves.
+
+Here I'm running an ordinary R script. The command could just as easily be Python, a compiler, or an executable from your own application. Console reads the same project configuration and command-line overrides we just saw, then hands execution to the native sandbox runner. That runner executes the command and applies the filesystem and network policy to it and its child processes.
+
+Your application launches this as a subprocess and uses ordinary standard input, standard output, standard error, and exit status. You don't need to start an MCP server or a persistent Console session. You can use the sandbox directly in another tool or agent harness.
+
+**Show:** Point to the command after --. The supplied script reads the measurements CSV and prints model coefficients. Run it from the presentation directory.
+
+**Reference (not spoken):** Ordinary sandbox launches discover .agents/console/config.yaml beneath the launch directory and use the local native policy. -c extends=:workspace selects the workspace baseline; without project configuration or overrides, the default is read-only. Console verifies and execs its bundled runner, which inherits fd 0/1/2 and owns native enforcement and cleanup. This path does not use the built-in worker, automatic package resolution, MCP output framing, or session transcripts. The standalone command executes locally; target settings do not turn it into an SSH or Docker command dispatcher. The separate filesystem mode named external-sandbox means enforcement by an outer boundary; it is not the name of this public CLI feature. Advanced callers can supply a complete runner policy through --config-env. Supported native hosts are macOS and Linux; the existing platform and lifecycle limits still apply.
+
+**Sources:** [Sandbox integration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+
+:::
+
 ## Configure where the session runs {#execution-choice .deck-slide .story-slide}
 ::: {.kicker}
 

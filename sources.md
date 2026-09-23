@@ -1,5 +1,15 @@
 # Source notes
 
+## Standalone sandbox command — September 23, 2026
+
+The public CLI and runner handoff were checked against the installed Console
+0.0.4 help and local source at
+`edaf0b394d4bca070c1abd9ecc0f2a0ce49b775b`, including
+[src/sandbox/runner.rs](https://github.com/t-kalinowski/mcp-console/blob/edaf0b394d4bca070c1abd9ecc0f2a0ce49b775b/src/sandbox/runner.rs),
+[the sandbox integration](https://github.com/t-kalinowski/mcp-console/blob/edaf0b394d4bca070c1abd9ecc0f2a0ce49b775b/docs/SANDBOX.md),
+and [project configuration](https://github.com/t-kalinowski/mcp-console/blob/edaf0b394d4bca070c1abd9ecc0f2a0ce49b775b/docs/SANDBOX_CONFIGURATION.md).
+The displayed base-R example was run through the native macOS sandbox.
+
 ## Repository development appendix — September 18, 2026
 
 The development-history figures use a GitHub PR extraction at 19:08 UTC and

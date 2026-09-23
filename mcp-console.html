@@ -2946,6 +2946,53 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
+<section id="sandbox-command" class="slide level2 deck-slide story-slide literal-slide">
+<h2>Run any command through the sandbox</h2>
+<div class="kicker">
+<p>Reuse the sandbox in your own application</p>
+</div>
+<div class="code-panel">
+<div class="panel-label">
+<p>Public command-line interface</p>
+</div>
+<div class="sourceCode" id="cb54"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb54-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">mcp-console</span> sandbox <span class="at">--</span> Rscript examples/sandbox-analysis.R</span></code></pre></div>
+</div>
+<div class="three-col">
+<div class="story-card">
+<p><strong>Choose the policy</strong></p>
+<p>Use the same project config and command-line overrides.</p>
+</div>
+<div class="story-card">
+<p><strong>Run the command</strong></p>
+<p>Console hands execution to the native sandbox runner. Its restrictions apply to the command and its children.</p>
+</div>
+<div class="story-card">
+<p><strong>Connect your application</strong></p>
+<p>Use ordinary stdin, stdout, stderr, and exit status.</p>
+</div>
+</div>
+<div class="takeaway">
+<p>Reuse the sandbox from your own tools and agent harnesses.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> And by the way, this sandbox is also available as a public command-line interface. This was one of the major things people asked for with MCP REPL: a sandbox they could build on themselves.</p>
+<p>Here I’m running an ordinary R script. The command could just as easily be Python, a compiler, or an executable from your own application. Console reads the same project configuration and command-line overrides we just saw, then hands execution to the native sandbox runner. That runner executes the command and applies the filesystem and network policy to it and its child processes.</p>
+<p>Your application launches this as a subprocess and uses ordinary standard input, standard output, standard error, and exit status. You don’t need to start an MCP server or a persistent Console session. You can use the sandbox directly in another tool or agent harness.</p>
+<p><strong>Show:</strong> Point to the command after –. The supplied script reads the measurements CSV and prints model coefficients. Run it from the presentation directory.</p>
+<p><strong>Reference (not spoken):</strong> Ordinary sandbox launches discover .agents/console/config.yaml beneath the launch directory and use the local native policy. -c extends=:workspace selects the workspace baseline; without project configuration or overrides, the default is read-only. Console verifies and execs its bundled runner, which inherits fd 0/1/2 and owns native enforcement and cleanup. This path does not use the built-in worker, automatic package resolution, MCP output framing, or session transcripts. The standalone command executes locally; target settings do not turn it into an SSH or Docker command dispatcher. The separate filesystem mode named external-sandbox means enforcement by an outer boundary; it is not the name of this public CLI feature. Advanced callers can supply a complete runner policy through –config-env. Supported native hosts are macOS and Linux; the existing platform and lifecycle limits still apply.</p>
+<p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX.md">Sandbox integration</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md">Sandbox configuration</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
 <section id="execution-choice" class="slide level2 deck-slide story-slide">
 <h2>Configure where the session runs</h2>
 <div class="kicker">
@@ -3103,17 +3150,17 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb54"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb54-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
-<span id="cb54-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
-<span id="cb54-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transport</span><span class="kw">:</span></span>
-<span id="cb54-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> ssh</span></span>
-<span id="cb54-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">host</span><span class="kw">:</span><span class="at"> analysis-host</span></span>
-<span id="cb54-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /srv/projects/analysis</span></span>
-<span id="cb54-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb54-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
-<span id="cb54-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
-<span id="cb54-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
-<span id="cb54-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb55-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">extends</span><span class="kw">:</span><span class="at"> </span><span class="st">&quot;:workspace&quot;</span></span>
+<span id="cb55-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
+<span id="cb55-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">transport</span><span class="kw">:</span></span>
+<span id="cb55-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> ssh</span></span>
+<span id="cb55-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">host</span><span class="kw">:</span><span class="at"> analysis-host</span></span>
+<span id="cb55-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /srv/projects/analysis</span></span>
+<span id="cb55-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb55-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span></span>
+<span id="cb55-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">entries</span><span class="kw">:</span></span>
+<span id="cb55-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">type</span><span class="kw">:</span><span class="at"> path</span><span class="kw">,</span><span class="at"> </span><span class="fu">path</span><span class="kw">:</span><span class="at"> ./data</span><span class="kw">}</span></span>
+<span id="cb55-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3146,14 +3193,14 @@ display:block!important;
 <div class="panel-label path-label">
 <p>examples/Dockerfile</p>
 </div>
-<div class="sourceCode" id="cb55"><pre class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb55-1"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> rocker/tidyverse</span>
-<span id="cb55-2"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> UV_INSTALL_DIR=/usr/local/bin</span>
-<span id="cb55-3"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> UV_TOOL_BIN_DIR=/usr/local/bin</span>
-<span id="cb55-4"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> RIG_PREFIX=/usr/local</span>
-<span id="cb55-5"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
-<span id="cb55-6"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-LsSf</span> https://r-lib.github.io/rig/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
-<span id="cb55-7"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">uv</span> tool install r-lib-ir</span>
-<span id="cb55-8"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /workspace</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode dockerfile"><code class="sourceCode dockerfile"><span id="cb56-1"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">FROM</span> rocker/tidyverse</span>
+<span id="cb56-2"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> UV_INSTALL_DIR=/usr/local/bin</span>
+<span id="cb56-3"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> UV_TOOL_BIN_DIR=/usr/local/bin</span>
+<span id="cb56-4"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">ENV</span> RIG_PREFIX=/usr/local</span>
+<span id="cb56-5"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-LsSf</span> https://astral.sh/uv/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
+<span id="cb56-6"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">curl</span> <span class="at">-LsSf</span> https://r-lib.github.io/rig/install.sh <span class="kw">|</span> <span class="fu">sh</span></span>
+<span id="cb56-7"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">RUN</span> <span class="ex">uv</span> tool install r-lib-ir</span>
+<span id="cb56-8"><a href aria-hidden="true" tabindex="-1"></a><span class="kw">WORKDIR</span> /workspace</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -3161,21 +3208,21 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml</p>
 </div>
-<div class="sourceCode" id="cb56"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb56-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
-<span id="cb56-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /workspace</span></span>
-<span id="cb56-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">uvx</span><span class="kw">,</span><span class="at"> mcp-console</span><span class="kw">]</span></span>
-<span id="cb56-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compute</span><span class="kw">:</span></span>
-<span id="cb56-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> docker</span></span>
-<span id="cb56-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span></span>
-<span id="cb56-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">context</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb56-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dockerfile</span><span class="kw">:</span><span class="at"> ./examples/Dockerfile</span></span>
-<span id="cb56-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mounts</span><span class="kw">:</span></span>
-<span id="cb56-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">source</span><span class="kw">:</span><span class="at"> .</span></span>
-<span id="cb56-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at"> /workspace</span></span>
-<span id="cb56-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read_write</span></span>
-<span id="cb56-13"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
-<span id="cb56-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">kind</span><span class="kw">:</span><span class="at"> external-sandbox</span><span class="kw">}</span></span>
-<span id="cb56-15"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> enabled</span></span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb57-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">target</span><span class="kw">:</span></span>
+<span id="cb57-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">workspace</span><span class="kw">:</span><span class="at"> /workspace</span></span>
+<span id="cb57-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">command</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">uvx</span><span class="kw">,</span><span class="at"> mcp-console</span><span class="kw">]</span></span>
+<span id="cb57-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">compute</span><span class="kw">:</span></span>
+<span id="cb57-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">kind</span><span class="kw">:</span><span class="at"> docker</span></span>
+<span id="cb57-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">build</span><span class="kw">:</span></span>
+<span id="cb57-7"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">context</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb57-8"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="fu">dockerfile</span><span class="kw">:</span><span class="at"> ./examples/Dockerfile</span></span>
+<span id="cb57-9"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">mounts</span><span class="kw">:</span></span>
+<span id="cb57-10"><a href aria-hidden="true" tabindex="-1"></a><span class="at">      </span><span class="kw">-</span><span class="at"> </span><span class="fu">source</span><span class="kw">:</span><span class="at"> .</span></span>
+<span id="cb57-11"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">target</span><span class="kw">:</span><span class="at"> /workspace</span></span>
+<span id="cb57-12"><a href aria-hidden="true" tabindex="-1"></a><span class="at">        </span><span class="fu">access</span><span class="kw">:</span><span class="at"> read_write</span></span>
+<span id="cb57-13"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">sandbox</span><span class="kw">:</span></span>
+<span id="cb57-14"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">filesystem</span><span class="kw">:</span><span class="at"> </span><span class="kw">{</span><span class="fu">kind</span><span class="kw">:</span><span class="at"> external-sandbox</span><span class="kw">}</span></span>
+<span id="cb57-15"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">network</span><span class="kw">:</span><span class="at"> enabled</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3205,7 +3252,7 @@ display:block!important;
 <div class="panel-label">
 <p>send</p>
 </div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb57-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;coef(fit)&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(r<span class="op">=</span><span class="st">&quot;coef(fit)&quot;</span>)</span></code></pre></div>
 </div>
 <div class="target-line">
 <p>Local host   /   SSH   /   Docker</p>
@@ -3235,20 +3282,20 @@ display:block!important;
 <div class="panel-label">
 <p>Recommended · launch an MCP server</p>
 </div>
-<div class="sourceCode" id="cb58"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb58-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
-<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb59-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> tool install mcp-console</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uvx</span> mcp-console</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Persistent Python installation · choose the integrations you need</p>
 </div>
-<div class="sourceCode" id="cb60"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb60-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb61-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> pip install <span class="st">&quot;mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]&quot;</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>R package · planned CRAN installation</p>
 </div>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">&quot;mcp.console&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Let <code>uvx</code> manage resolution and automatically pick up updates.</p>
@@ -3280,13 +3327,13 @@ display:block!important;
 <div class="panel-label">
 <p>Codex CLI</p>
 </div>
-<div class="sourceCode" id="cb62"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb62-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">codex</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Claude Code CLI</p>
 </div>
-<div class="sourceCode" id="cb63"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb63-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
+<div class="sourceCode" id="cb64"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb64-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">claude</span> mcp add console <span class="at">--</span> uvx mcp-console serve</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Register the launch command; your client starts Console.</p>
@@ -3316,12 +3363,12 @@ display:block!important;
 <div class="panel-label">
 <p>R · register one tool</p>
 </div>
-<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb64-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
-<span id="cb64-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
-<span id="cb64-3"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb64-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
-<span id="cb64-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
-<span id="cb64-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ellmer)</span>
+<span id="cb65-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mcp.console)</span>
+<span id="cb65-3"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb65-4"><a href aria-hidden="true" tabindex="-1"></a>chat <span class="ot">&lt;-</span> <span class="fu">chat_openai</span>()</span>
+<span id="cb65-5"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">register_tool</span>(<span class="fu">console_tool</span>())</span>
+<span id="cb65-6"><a href aria-hidden="true" tabindex="-1"></a>chat<span class="sc">$</span><span class="fu">chat</span>(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Your chat and provider. A separate persistent Console worker.</p>
@@ -3351,13 +3398,13 @@ display:block!important;
 <div class="panel-label">
 <p>Python · register one tool</p>
 </div>
-<div class="sourceCode" id="cb65" data-code-line-numbers="2,5-6"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb65-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
-<span id="cb65-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
-<span id="cb65-3"><a href aria-label="3"></a></span>
-<span id="cb65-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
-<span id="cb65-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
-<span id="cb65-6"><a href aria-label="6"></a>    chat.register_tool(mcp_console.chatlas.tool(console))</span>
-<span id="cb65-7"><a href aria-label="7"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb66" data-code-line-numbers="2,5-6"><pre class="sourceCode numberSource python number-lines"><code class="sourceCode python"><span id="cb66-1"><a href aria-label="1"></a><span class="im">from</span> chatlas <span class="im">import</span> ChatOpenAI</span>
+<span id="cb66-2"><a href aria-label="2"></a><span class="im">import</span> mcp_console</span>
+<span id="cb66-3"><a href aria-label="3"></a></span>
+<span id="cb66-4"><a href aria-label="4"></a>chat <span class="op">=</span> ChatOpenAI()</span>
+<span id="cb66-5"><a href aria-label="5"></a><span class="cf">with</span> mcp_console.MCPConsole() <span class="im">as</span> console:</span>
+<span id="cb66-6"><a href aria-label="6"></a>    chat.register_tool(mcp_console.chatlas.tool(console))</span>
+<span id="cb66-7"><a href aria-label="7"></a>    chat.chat(<span class="st">&quot;Analyze measurements.csv with Console.&quot;</span>)</span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>The same registration pattern in Python.</p>
@@ -3429,18 +3476,18 @@ display:block!important;
 <div class="panel-label path-label">
 <p>transcript.md · recorded call and result</p>
 </div>
-<div class="sourceCode" id="cb67"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb67-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Call 4: R</span></span>
-<span id="cb67-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-3"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
-<span id="cb67-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
-<span id="cb67-5"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb67-6"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Result for call 4</span></span>
-<span id="cb67-8"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-9"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
-<span id="cb67-10"><a href aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept) temperature      groupB </span></span>
-<span id="cb67-11"><a href aria-hidden="true" tabindex="-1"></a><span class="in">   6.888528    1.007196    1.273078 </span></span>
-<span id="cb67-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb68-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Call 4: R</span></span>
+<span id="cb68-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-3"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```r</span></span>
+<span id="cb68-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">coef</span>(fit)</span>
+<span id="cb68-5"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb68-6"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-7"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">## Result for call 4</span></span>
+<span id="cb68-8"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb68-9"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```text</span></span>
+<span id="cb68-10"><a href aria-hidden="true" tabindex="-1"></a><span class="in">(Intercept) temperature      groupB </span></span>
+<span id="cb68-11"><a href aria-hidden="true" tabindex="-1"></a><span class="in">   6.888528    1.007196    1.273078 </span></span>
+<span id="cb68-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p>Code and captured results stay together in the session history.</p>
@@ -3470,23 +3517,23 @@ display:block!important;
 <div class="panel-label path-label">
 <p>report.qmd · edited copy of the session transcript</p>
 </div>
-<div class="sourceCode" id="cb68"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb68-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb68-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
-<span id="cb68-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
-<span id="cb68-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
-<span id="cb68-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
-<span id="cb68-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
-<span id="cb68-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
-<span id="cb68-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
-<span id="cb68-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
-<span id="cb68-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb68-11"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb68-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb68-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
-<span id="cb68-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
-<span id="cb68-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
-<span id="cb68-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
-<span id="cb68-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
+<div class="sourceCode" id="cb69"><pre class="sourceCode markdown"><code class="sourceCode markdown"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> MCP Console code cells</span></span>
+<span id="cb69-3"><a href aria-hidden="true" tabindex="-1"></a><span class="an">knitr:</span></span>
+<span id="cb69-4"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  opts_knit:</span></span>
+<span id="cb69-5"><a href aria-hidden="true" tabindex="-1"></a><span class="co">    root.dir: &lt;project&gt;</span></span>
+<span id="cb69-6"><a href aria-hidden="true" tabindex="-1"></a><span class="an">ir:</span></span>
+<span id="cb69-7"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  exclude-newer: &quot;2026-09-17&quot;</span></span>
+<span id="cb69-8"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  isolated: true</span></span>
+<span id="cb69-9"><a href aria-hidden="true" tabindex="-1"></a><span class="co">  packages: [tidyverse, reticulate]</span></span>
+<span id="cb69-10"><a href aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb69-11"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb69-12"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb69-13"><a href aria-hidden="true" tabindex="-1"></a>  d <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;examples/measurements.csv&quot;</span>)</span>
+<span id="cb69-14"><a href aria-hidden="true" tabindex="-1"></a>  fit <span class="ot">&lt;-</span> <span class="fu">lm</span>(response <span class="sc">~</span> temperature <span class="sc">+</span> group,</span>
+<span id="cb69-15"><a href aria-hidden="true" tabindex="-1"></a>            <span class="at">data =</span> d)</span>
+<span id="cb69-16"><a href aria-hidden="true" tabindex="-1"></a>  fit</span>
+<span id="cb69-17"><a href aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span></code></pre></div>
 </div>
 <div class="takeaway">
 <p><code>ir render report.qmd</code> uses the recorded package snapshot date.</p>
@@ -3580,15 +3627,15 @@ display:block!important;
 <div class="panel-label">
 <p>MCP client launch settings · YAML view</p>
 </div>
-<div class="sourceCode" id="cb69"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb69-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">mcpServers</span><span class="kw">:</span></span>
-<span id="cb69-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">console</span><span class="kw">:</span></span>
-<span id="cb69-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> uvx</span></span>
-<span id="cb69-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">args</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mcp-console</span><span class="kw">,</span><span class="at"> serve</span><span class="kw">]</span></span>
-<span id="cb69-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
-<span id="cb69-6"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      PKG_CRAN_MIRROR</span><span class="kw">: </span><span class="ch">&gt;-</span></span>
-<span id="cb69-7"><a href aria-hidden="true" tabindex="-1"></a>        https://ppm.example.com/r/latest</span>
-<span id="cb69-8"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      UV_DEFAULT_INDEX</span><span class="kw">: </span><span class="ch">&gt;-</span></span>
-<span id="cb69-9"><a href aria-hidden="true" tabindex="-1"></a>        https://ppm.example.com/python/simple</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb70-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">mcpServers</span><span class="kw">:</span></span>
+<span id="cb70-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">console</span><span class="kw">:</span></span>
+<span id="cb70-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">command</span><span class="kw">:</span><span class="at"> uvx</span></span>
+<span id="cb70-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">args</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">mcp-console</span><span class="kw">,</span><span class="at"> serve</span><span class="kw">]</span></span>
+<span id="cb70-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="fu">env</span><span class="kw">:</span></span>
+<span id="cb70-6"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      PKG_CRAN_MIRROR</span><span class="kw">: </span><span class="ch">&gt;-</span></span>
+<span id="cb70-7"><a href aria-hidden="true" tabindex="-1"></a>        https://ppm.example.com/r/latest</span>
+<span id="cb70-8"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      UV_DEFAULT_INDEX</span><span class="kw">: </span><span class="ch">&gt;-</span></span>
+<span id="cb70-9"><a href aria-hidden="true" tabindex="-1"></a>        https://ppm.example.com/python/simple</span></code></pre></div>
 </div>
 </div>
 </div>
@@ -3626,12 +3673,12 @@ display:block!important;
 <div class="panel-label">
 <p>Prepare dependencies through send()</p>
 </div>
-<div class="sourceCode" id="cb70"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb70-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
-<span id="cb70-2"><a href aria-hidden="true" tabindex="-1"></a>  requirements<span class="op">=</span>{</span>
-<span id="cb70-3"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;r&quot;</span>: [<span class="st">&quot;dtplyr&quot;</span>],</span>
-<span id="cb70-4"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;python&quot;</span>: [<span class="st">&quot;scikit-learn==1.9.1&quot;</span>],</span>
-<span id="cb70-5"><a href aria-hidden="true" tabindex="-1"></a>  },</span>
-<span id="cb70-6"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb71"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb71-1"><a href aria-hidden="true" tabindex="-1"></a>console.send(</span>
+<span id="cb71-2"><a href aria-hidden="true" tabindex="-1"></a>  requirements<span class="op">=</span>{</span>
+<span id="cb71-3"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;r&quot;</span>: [<span class="st">&quot;dtplyr&quot;</span>],</span>
+<span id="cb71-4"><a href aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;python&quot;</span>: [<span class="st">&quot;scikit-learn==1.9.1&quot;</span>],</span>
+<span id="cb71-5"><a href aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb71-6"><a href aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -3639,11 +3686,11 @@ display:block!important;
 <div class="panel-label path-label">
 <p>.agents/console/config.yaml · proposed</p>
 </div>
-<div class="sourceCode" id="cb71"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb71-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">requirements</span><span class="kw">:</span></span>
-<span id="cb71-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">r</span><span class="kw">:</span></span>
-<span id="cb71-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> dtplyr</span></span>
-<span id="cb71-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">python</span><span class="kw">:</span></span>
-<span id="cb71-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> scikit-learn==1.9.1</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">requirements</span><span class="kw">:</span></span>
+<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">r</span><span class="kw">:</span></span>
+<span id="cb72-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> dtplyr</span></span>
+<span id="cb72-4"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">python</span><span class="kw">:</span></span>
+<span id="cb72-5"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> scikit-learn==1.9.1</span></span></code></pre></div>
 </div>
 <p>Config form is not implemented yet.</p>
 </div>
@@ -3689,22 +3736,22 @@ display:block!important;
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb72-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
-<span id="cb72-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb73-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;resolve_r&quot;</span><span class="fu">,</span></span>
+<span id="cb73-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;packages&quot;</span><span class="fu">:</span> <span class="ot">[</span><span class="st">&quot;data.table&quot;</span><span class="ot">]</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Server → worker</p>
 </div>
-<div class="sourceCode" id="cb73"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb73-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
-<span id="cb73-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb74-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_resolved&quot;</span><span class="fu">,</span></span>
+<span id="cb74-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 <div class="code-panel">
 <div class="panel-label">
 <p>Worker → server</p>
 </div>
-<div class="sourceCode" id="cb74"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb74-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
-<span id="cb74-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb75"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb75-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">{</span><span class="dt">&quot;kind&quot;</span><span class="fu">:</span> <span class="st">&quot;r_activated&quot;</span><span class="fu">,</span></span>
+<span id="cb75-2"><a href aria-hidden="true" tabindex="-1"></a> <span class="dt">&quot;library&quot;</span><span class="fu">:</span> <span class="st">&quot;/cache/r/library&quot;</span><span class="fu">}</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -4093,15 +4140,15 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · request</p>
 </div>
-<div class="sourceCode" id="cb75"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb75-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
-<span id="cb75-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb75-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
-<span id="cb75-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
-<span id="cb75-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
-<span id="cb75-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
-<span id="cb75-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
-<span id="cb75-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb75-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb76-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">send</span><span class="kw">:</span></span>
+<span id="cb76-2"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">  r</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb76-3"><a href aria-hidden="true" tabindex="-1"></a>    cores &lt;- parallel::detectCores()</span>
+<span id="cb76-4"><a href aria-hidden="true" tabindex="-1"></a>    stopifnot(</span>
+<span id="cb76-5"><a href aria-hidden="true" tabindex="-1"></a>      length(cores) == 1L,</span>
+<span id="cb76-6"><a href aria-hidden="true" tabindex="-1"></a>      !is.na(cores),</span>
+<span id="cb76-7"><a href aria-hidden="true" tabindex="-1"></a>      cores &gt;= 1L</span>
+<span id="cb76-8"><a href aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb76-9"><a href aria-hidden="true" tabindex="-1"></a>    writeLines(&quot;R core detection available&quot;)</span></code></pre></div>
 </div>
 </div>
 <div class="right">
@@ -4109,12 +4156,12 @@ display:block!important;
 <div class="panel-label">
 <p>Checked-in YAML · result</p>
 </div>
-<div class="sourceCode" id="cb76"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb76-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
-<span id="cb76-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
-<span id="cb76-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
-<span id="cb76-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
-<span id="cb76-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
-<span id="cb76-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb77-1"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">result</span><span class="kw">:</span></span>
+<span id="cb77-2"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">content</span><span class="kw">:</span></span>
+<span id="cb77-3"><a href aria-hidden="true" tabindex="-1"></a><span class="at">    </span><span class="kw">-</span><span class="at"> </span><span class="fu">type</span><span class="kw">:</span><span class="at"> text</span></span>
+<span id="cb77-4"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">      text</span><span class="kw">: </span><span class="ch">|</span></span>
+<span id="cb77-5"><a href aria-hidden="true" tabindex="-1"></a>        R core detection available</span>
+<span id="cb77-6"><a href aria-hidden="true" tabindex="-1"></a><span class="at">  </span><span class="fu">isError</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span></code></pre></div>
 </div>
 </div>
 </div>
@@ -4258,9 +4305,9 @@ display:block!important;
 <div class="panel-label">
 <p>Run, regenerate, review</p>
 </div>
-<div class="sourceCode" id="cb79"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb79-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
-<span id="cb79-2"><a href aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb79-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb80-1"><a href aria-hidden="true" tabindex="-1"></a><span class="ex">scripts/test</span> <span class="at">--update</span> BOUNDARY/SUITE::CASE</span>
+<span id="cb80-2"><a href aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb80-3"><a href aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> diff <span class="at">--</span> tests/snapshots/</span></code></pre></div>
 </div>
 <aside class="notes">
 <p><strong>Say:</strong> Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.</p>
