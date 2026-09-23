@@ -1,6 +1,6 @@
 # MCP Console presentation
 
-47 main slides, an appendix divider, and 18 optional configuration, development-history, implementation, and testing slides (66 total). `deck.qmd` is the
+49 main slides, an appendix divider, and 18 optional configuration, development-history, implementation, and testing slides (68 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 The main narrative starts with why: a comprehensive execution system that teams
@@ -13,7 +13,9 @@ the workflow, with the process topology showing where resolution happens.
 Explicit requirements remain part of the model-facing interface.
 Waiting, output handling, controls, readline input, and debugger interaction lead
 into a call combining restart, requirements, input, and code
-and the complete send interface. Sandbox defaults and built-in policies precede
+and the current send interface. Two visibly unimplemented API ideas follow:
+a session selector for concurrent sessions and a note argument for an append-only
+lab notebook. Sandbox defaults and built-in policies precede
 concrete access examples and a complete proxy configuration. A standalone command
 example shows how other applications can use `mcp-console sandbox`, before the
 talk moves to local/SSH/Docker execution.

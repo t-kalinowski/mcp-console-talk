@@ -1,9 +1,9 @@
 {
   "date": "2026-09-23",
-  "slide_count": 66,
-  "main_slides": 47,
+  "slide_count": 68,
+  "main_slides": 49,
   "addendum_slides": 18,
-  "native_quarto_notes_blocks": 66,
+  "native_quarto_notes_blocks": 68,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
@@ -13,10 +13,10 @@
   "render_warnings": false,
   "browser": "in-app browser",
   "css_viewport": [
-    1422,
-    800
+    1258,
+    1180
   ],
-  "layout_slides_checked": 1,
+  "layout_slides_checked": 3,
   "layout_failures": [],
   "code_soft_wrap": false,
   "inline_diagrams": 3,
@@ -54,7 +54,7 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "3d4bd1caa4077b67f744eac152a25da9b90244f40c8880347a25bad9eb59e9f8",
+    "mcp-console.html": "9a7c1b3d82627dc8728e2b6796a312bb8751d4b13e87d159bd5bdac14e71f16f",
     "../archived/2026-09-23-standalone-sandbox/mcp-console-captured.html": "23b8a4871c5c941afabed45b3ff0d33589172f6d53962f378f10af5e2e0e1aaa"
   },
   "measurements_unchanged": true,
@@ -83,8 +83,8 @@
     "native Quarto render without warnings",
     "validate_source.py",
     "notes and index regenerated",
-    "before-release visual and bounds checks in the in-app browser",
-    "existing slide sources unchanged",
+    "current and proposed signature slides checked in the in-app browser",
+    "proposal slide order checked",
     "source diff whitespace"
   ],
   "appendix_divider_slides": 1,
@@ -588,6 +588,34 @@
     ],
     "layout_failures": [],
     "existing_slide_sources_unchanged": true,
+    "runtime_captures_changed": false,
+    "speaker_window_retested": false
+  },
+  "api_ideas_review": {
+    "current_interface_slide": "full-signature",
+    "new_slides": [
+      "future-sessions",
+      "future-notes"
+    ],
+    "slide_numbers": [
+      26,
+      27
+    ],
+    "visibly_labeled_unimplemented": true,
+    "note_argument_name_provisional": true,
+    "browser_modes_checked": [
+      "r"
+    ],
+    "browser_slides_checked": [
+      "full-signature",
+      "future-sessions",
+      "future-notes"
+    ],
+    "viewport": [
+      1258,
+      1180
+    ],
+    "layout_failures": [],
     "runtime_captures_changed": false,
     "speaker_window_retested": false
   }

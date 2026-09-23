@@ -1,12 +1,28 @@
 # Local validation — 2026-09-23
 
-The revised project contains 66 slides (47 main, an appendix divider, and 18 optional appendix slides),
+The revised project contains 68 slides (49 main, an appendix divider, and 18 optional appendix slides),
 with one native notes block each.
 `mcp-console.html` is the current native R render. The most recent Console-capture
-render, from the preceding 65-slide revision, is preserved in
+render, from the earlier 65-slide revision, is preserved in
 [the render archive](../archived/2026-09-23-standalone-sandbox/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Possible API extensions — 2026-09-23
+
+- Labeled slide 25 as the current send interface. Added slides 26 and 27,
+  `future-sessions` and `future-notes`, immediately afterward. They progressively
+  add and highlight session selection and prose notes, with both slides visibly
+  marked as ideas that are not implemented. The note/comment name remains open.
+- Speaker notes describe concurrent sessions and an append-only lab notebook
+  containing intentions, observations, and conclusions for later interpretation
+  and curated exports. The diagrams are schematic signatures, not executable
+  calls or product changes.
+- Regenerated notes, index, and native R HTML. Quarto rendered without warnings,
+  and source validation passed for all 68 slides. All three signature slides
+  passed bounds checks in the in-app browser at 1258 × 1180; the two new slides
+  were visually inspected. Code does not soft wrap. Runtime examples and captures
+  are unchanged. Captured-output rendering and Speaker View were not repeated.
 
 ## Pre-release work — 2026-09-23
 

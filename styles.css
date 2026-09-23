@@ -63,6 +63,10 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 .full-contract .signature-display { font-family: var(--mono); font-size: 36px; line-height: 1.6; color: var(--ink); }
 .syntax-accent { color: var(--accent); font-weight: 700; }
 .syntax-comment { color: var(--muted); font-size: 28px; }
+.api-proposal .full-contract { padding: 24px 32px; margin-top: 24px; }
+.api-proposal .signature-display { font-size: 32px; line-height: 1.4; }
+.api-proposal .proposed-arg { background: var(--accent-soft); color: #085850; font-weight: 700; border-radius: 5px; }
+.api-proposal .takeaway { font-size: 27px; }
 .prompt-card { padding: 38px 42px; font-size: 37px; line-height: 1.38; background: white; border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: 8px; margin: 30px 0; }
 .recording-label { display: inline-block; font-size: 19px; letter-spacing: 1.2px; color: #855232; padding: 10px 16px; background: var(--warm-soft); border-radius: 7px; margin-top: 30px; }
 .recording-label p { margin: 0; }

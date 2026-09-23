@@ -614,6 +614,10 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 .full-contract .signature-display { font-family: var(--mono); font-size: 36px; line-height: 1.6; color: var(--ink); }
 .syntax-accent { color: var(--accent); font-weight: 700; }
 .syntax-comment { color: var(--muted); font-size: 28px; }
+.api-proposal .full-contract { padding: 24px 32px; margin-top: 24px; }
+.api-proposal .signature-display { font-size: 32px; line-height: 1.4; }
+.api-proposal .proposed-arg { background: var(--accent-soft); color: #085850; font-weight: 700; border-radius: 5px; }
+.api-proposal .takeaway { font-size: 27px; }
 .prompt-card { padding: 38px 42px; font-size: 37px; line-height: 1.38; background: white; border: 1px solid var(--line); border-left: 5px solid var(--accent); border-radius: 8px; margin: 30px 0; }
 .recording-label { display: inline-block; font-size: 19px; letter-spacing: 1.2px; color: #855232; padding: 10px 16px; background: var(--warm-soft); border-radius: 7px; margin-top: 30px; }
 .recording-label p { margin: 0; }
@@ -2627,9 +2631,9 @@ display:block!important;
 }</style></aside>
 </section>
 <section id="full-signature" class="slide level2 deck-slide signature-slide">
-<h2>The complete send() interface</h2>
+<h2>The current send() interface</h2>
 <div class="kicker">
-<p>The capabilities live in the runtime</p>
+<p>The model-facing API today</p>
 </div>
 <div class="full-contract">
 <pre class="signature-display">console.send(
@@ -2644,11 +2648,84 @@ display:block!important;
 <p>Omit code to poll, supply input, control the session, or prepare dependencies.</p>
 </div>
 <aside class="notes">
-<p><strong>Say:</strong> That’s the model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.</p>
+<p><strong>Say:</strong> This is the current model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.</p>
 <p>We can combine that with a session control operation or standard input. We can declare package requirements, including specific versions, and set how long the call waits for output.</p>
 <p>And we can leave out the code: poll for more output, answer a prompt, interrupt or restart the session, or prepare dependencies. The model can start with the simple call we saw earlier and use these other arguments when it needs them.</p>
 <p><strong>Reference (not spoken):</strong> This schematic overview lists fields, not three cells to submit together. Requirements are exposed only when supported by the execution target. An empty send collects output. Explicit preparation and control precede the evaluation wait. Code-free preparation cannot also carry nonempty stdin.</p>
 <p><strong>Sources:</strong> <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md">Send operation contract</a> · <a href="https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md">Built-in runtime</a></p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="future-sessions" class="slide level2 deck-slide signature-slide api-proposal">
+<h2>Possible extension: multiple sessions</h2>
+<div class="kicker">
+<p>API ideas · not implemented</p>
+</div>
+<div class="full-contract">
+<pre class="signature-display">console.send(
+  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
+  <span class="proposed-arg">session=…</span>,               <span class="syntax-comment"># which session to address</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+</div>
+<div class="takeaway">
+<p>Let the model manage several sessions and keep work running concurrently.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> There are also a couple of possible extensions I’m thinking about. These are ideas, rather than part of the current API.</p>
+<p>One would be a session argument. That would let the model manage multiple sessions concurrently through the same send tool. It could keep separate workspaces for different parts of a task and return to one session while work continues in another.</p>
+<p>The argument would identify which session a call belongs to. I still need to work through how the model creates and manages those sessions, but this is the shape of the interface I have in mind.</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
+<section id="future-notes" class="slide level2 deck-slide signature-slide api-proposal">
+<h2>Possible extension: a session notebook</h2>
+<div class="kicker">
+<p>API ideas · not implemented</p>
+</div>
+<div class="full-contract">
+<pre class="signature-display">console.send(
+  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
+  session=…,               <span class="syntax-comment"># which session to address</span>
+  <span class="proposed-arg">note=…</span>,                  <span class="syntax-comment"># append prose to the record</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+</div>
+<div class="small-note">
+<p><code>note</code> is a working name; it could also be <code>comment</code>.</p>
+</div>
+<div class="takeaway">
+<p>Append intentions, observations, and conclusions alongside the code and results.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> Another idea is a note argument, or perhaps comment. The name isn’t settled. The model could send prose and use the transcript as an append-only lab notebook.</p>
+<p>Before running code, it might record what it wants to check: for example, whether the residual pattern differs between groups. After seeing the result, it could add an observation or conclusion, including a note on its own without another code cell.</p>
+<p>That would leave a record of the purpose of the analysis and what the model learned, alongside the code and its output. Someone coming back later could follow how the work developed. And when we export a curated document, we’d already have prose to draw on.</p>
+<p>The session and note arguments are both still ideas. The current API is the one on the preceding overview slide. Now let’s look at the permissions around the runtime it exposes.</p>
 <style type="text/css">
 span.MJX_Assistive_MathML {
 position:absolute!important;

@@ -1830,10 +1830,10 @@ Console prepares the declared dependency first, then replaces the worker. Once t
 
 :::
 
-## The complete send() interface {#full-signature .deck-slide .signature-slide}
+## The current send() interface {#full-signature .deck-slide .signature-slide}
 ::: {.kicker}
 
-The capabilities live in the runtime
+The model-facing API today
 
 :::
 
@@ -1857,7 +1857,7 @@ Omit code to poll, supply input, control the session, or prepare dependencies.
 
 ::: {.notes}
 
-**Say:** That's the model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.
+**Say:** This is the current model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.
 
 We can combine that with a session control operation or standard input. We can declare package requirements, including specific versions, and set how long the call waits for output.
 
@@ -1866,6 +1866,87 @@ And we can leave out the code: poll for more output, answer a prompt, interrupt 
 **Reference (not spoken):** This schematic overview lists fields, not three cells to submit together. Requirements are exposed only when supported by the execution target. An empty send collects output. Explicit preparation and control precede the evaluation wait. Code-free preparation cannot also carry nonempty stdin.
 
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+
+:::
+
+## Possible extension: multiple sessions {#future-sessions .deck-slide .signature-slide .api-proposal}
+::: {.kicker}
+
+API ideas · not implemented
+
+:::
+
+::: {.full-contract}
+
+<pre class="signature-display">console.send(
+  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
+  <span class="proposed-arg">session=…</span>,               <span class="syntax-comment"># which session to address</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+
+:::
+
+::: {.takeaway}
+
+Let the model manage several sessions and keep work running concurrently.
+
+:::
+
+::: {.notes}
+
+**Say:** There are also a couple of possible extensions I'm thinking about. These are ideas, rather than part of the current API.
+
+One would be a session argument. That would let the model manage multiple sessions concurrently through the same send tool. It could keep separate workspaces for different parts of a task and return to one session while work continues in another.
+
+The argument would identify which session a call belongs to. I still need to work through how the model creates and manages those sessions, but this is the shape of the interface I have in mind.
+
+:::
+
+## Possible extension: a session notebook {#future-notes .deck-slide .signature-slide .api-proposal}
+::: {.kicker}
+
+API ideas · not implemented
+
+:::
+
+::: {.full-contract}
+
+<pre class="signature-display">console.send(
+  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
+  session=…,               <span class="syntax-comment"># which session to address</span>
+  <span class="proposed-arg">note=…</span>,                  <span class="syntax-comment"># append prose to the record</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+
+:::
+
+::: {.small-note}
+
+`note` is a working name; it could also be `comment`.
+
+:::
+
+::: {.takeaway}
+
+Append intentions, observations, and conclusions alongside the code and results.
+
+:::
+
+::: {.notes}
+
+**Say:** Another idea is a note argument, or perhaps comment. The name isn't settled. The model could send prose and use the transcript as an append-only lab notebook.
+
+Before running code, it might record what it wants to check: for example, whether the residual pattern differs between groups. After seeing the result, it could add an observation or conclusion, including a note on its own without another code cell.
+
+That would leave a record of the purpose of the analysis and what the model learned, alongside the code and its output. Someone coming back later could follow how the work developed. And when we export a curated document, we'd already have prose to draw on.
+
+The session and note arguments are both still ideas. The current API is the one on the preceding overview slide. Now let's look at the permissions around the runtime it exposes.
 
 :::
 

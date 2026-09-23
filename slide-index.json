@@ -145,252 +145,264 @@
   },
   {
     "number": 25,
-    "title": "The complete send() interface",
+    "title": "The current send() interface",
     "id": "full-signature",
-    "section": "The capabilities live in the runtime"
+    "section": "The model-facing API today"
   },
   {
     "number": 26,
+    "title": "Possible extension: multiple sessions",
+    "id": "future-sessions",
+    "section": "API ideas \u00b7 not implemented"
+  },
+  {
+    "number": 27,
+    "title": "Possible extension: a session notebook",
+    "id": "future-notes",
+    "section": "API ideas \u00b7 not implemented"
+  },
+  {
+    "number": 28,
     "title": "Default policy: read-only",
     "id": "default-sandbox",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 27,
+    "number": 29,
     "title": "Choose between two built-in sandbox policies",
     "id": "builtin-policies",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 28,
+    "number": 30,
     "title": "Extend a built-in policy for the project",
     "id": "private-inputs",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 29,
+    "number": 31,
     "title": "Example: connect to a corporate data warehouse",
     "id": "network-proxy",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 30,
+    "number": 32,
     "title": "Example: develop a local Shiny app",
     "id": "network-listener",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 31,
+    "number": 33,
     "title": "The complete proxy configuration",
     "id": "proxy-options",
     "section": "Choose the worker\u2019s permissions"
   },
   {
-    "number": 32,
+    "number": 34,
     "title": "Run any command through the sandbox",
     "id": "sandbox-command",
     "section": "Reuse the sandbox in your own application"
   },
   {
-    "number": 33,
+    "number": 35,
     "title": "Configure where the session runs",
     "id": "execution-choice",
     "section": "Choose the execution host"
   },
   {
-    "number": 34,
+    "number": 36,
     "title": "Move execution to the remote host",
     "id": "remote-topology",
     "section": "The same architecture over SSH"
   },
   {
-    "number": 35,
+    "number": 37,
     "title": "Send code to the remote host; receive results",
     "id": "ssh-workflow",
     "section": "SSH \u00b7 Keep computation beside the existing data"
   },
   {
-    "number": 36,
+    "number": 38,
     "title": "Point Console at the remote workspace",
     "id": "ssh",
     "section": "SSH \u00b7 Use an existing analysis host"
   },
   {
-    "number": 37,
+    "number": 39,
     "title": "Build the session's Docker image at launch",
     "id": "docker",
     "section": "Docker \u00b7 Choose the session environment"
   },
   {
-    "number": 38,
+    "number": 40,
     "title": "The agent uses the same interface on every host",
     "id": "target-invariance",
     "section": "Local \u00b7 SSH \u00b7 Docker"
   },
   {
-    "number": 39,
+    "number": 41,
     "title": "Launch or install Console",
     "id": "install-python",
     "section": "Installation"
   },
   {
-    "number": 40,
+    "number": 42,
     "title": "Register Console with your CLI client",
     "id": "codex",
     "section": "Use the client you already work in"
   },
   {
-    "number": 41,
+    "number": 43,
     "title": "ellmer",
     "id": "ellmer",
     "section": "Use the client you already work in"
   },
   {
-    "number": 42,
+    "number": 44,
     "title": "chatlas",
     "id": "chatlas",
     "section": "Use the client you already work in"
   },
   {
-    "number": 43,
+    "number": 45,
     "title": "Keep session logs and readable transcripts",
     "id": "recording",
     "section": "Keep the work useful after the session"
   },
   {
-    "number": 44,
+    "number": 46,
     "title": "Read the session as Markdown",
     "id": "markdown-transcript",
     "section": "Keep the work useful after the session"
   },
   {
-    "number": 45,
+    "number": 47,
     "title": "Turn the session into an editable starting point",
     "id": "quarto-transcript",
     "section": "Keep the work useful after the session"
   },
   {
-    "number": 46,
+    "number": 48,
     "title": "Before an official release",
     "id": "before-release",
     "section": "Pending work"
   },
   {
-    "number": 47,
+    "number": 49,
     "title": "R, Python, and SQL, available for the work",
     "id": "closing",
     "section": "Why Console exists"
   },
   {
-    "number": 48,
+    "number": 50,
     "title": "Appendix",
     "id": "appendix",
     "section": "Backup material"
   },
   {
-    "number": 49,
+    "number": 51,
     "title": "Example: use approved package repositories",
     "id": "package-sources",
     "section": "Appendix \u00b7 package sources"
   },
   {
-    "number": 50,
+    "number": 52,
     "title": "Proposed: declare requirements in config.yaml",
     "id": "config-requirements",
     "section": "Appendix \u00b7 session requirements"
   },
   {
-    "number": 51,
+    "number": 53,
     "title": "Follow a package-resolution request",
     "id": "resolver-boundary",
     "section": "Private worker protocol \u00b7 illustrative paths"
   },
   {
-    "number": 52,
+    "number": 54,
     "title": "Capabilities arriving on main",
     "id": "development-timeline",
     "section": "Appendix \u00b7 repository development \u00b7 July\u2013September 2026"
   },
   {
-    "number": 53,
+    "number": 55,
     "title": "How much is in the repository?",
     "id": "repository-total",
     "section": "Appendix \u00b7 repository development \u00b7 absolute size"
   },
   {
-    "number": 54,
+    "number": 56,
     "title": "What grew alongside the core code?",
     "id": "repository-categories",
     "section": "Appendix \u00b7 repository development \u00b7 contents by category"
   },
   {
-    "number": 55,
+    "number": 57,
     "title": "How the proportions changed",
     "id": "repository-proportions",
     "section": "Appendix \u00b7 repository development \u00b7 share of repository contents"
   },
   {
-    "number": 56,
+    "number": 58,
     "title": "Why some PRs look so large",
     "id": "development-large-prs",
     "section": "Appendix \u00b7 repository development \u00b7 review volume"
   },
   {
-    "number": 57,
+    "number": 59,
     "title": "AGENTS.md gives the model project context",
     "id": "development-agent-guidance",
     "section": "Appendix \u00b7 development practices \u00b7 instructions in the repository"
   },
   {
-    "number": 58,
+    "number": 60,
     "title": "The development loop starts with behavior",
     "id": "development-loop",
     "section": "Appendix \u00b7 development practices \u00b7 the prescribed workflow"
   },
   {
-    "number": 59,
+    "number": 61,
     "title": "Rust implementation. Python integration tests.",
     "id": "tests-python",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 60,
+    "number": 62,
     "title": "Test the boundaries you intend to preserve",
     "id": "test-boundaries",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 61,
+    "number": 63,
     "title": "YAML is what the reviewer reads",
     "id": "yaml-transcripts",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 62,
+    "number": 64,
     "title": "Normalize noise, not behavior",
     "id": "test-normalization",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 63,
+    "number": 65,
     "title": "Synchronize; do not sleep and hope",
     "id": "test-determinism",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 64,
+    "number": 66,
     "title": "Portable behavior; real capability checks",
     "id": "test-capabilities",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 65,
+    "number": 67,
     "title": "Snapshots are generated evidence",
     "id": "snapshot-review",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 66,
+    "number": 68,
     "title": "Test the installed product",
     "id": "installed-product-tests",
     "section": "Appendix \u00b7 Development practices"
