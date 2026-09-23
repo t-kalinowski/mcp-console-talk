@@ -271,120 +271,126 @@
   },
   {
     "number": 46,
+    "title": "Before an official release",
+    "id": "before-release",
+    "section": "Pending work"
+  },
+  {
+    "number": 47,
     "title": "R, Python, and SQL, available for the work",
     "id": "closing",
     "section": "Why Console exists"
   },
   {
-    "number": 47,
+    "number": 48,
     "title": "Appendix",
     "id": "appendix",
     "section": "Backup material"
   },
   {
-    "number": 48,
+    "number": 49,
     "title": "Example: use approved package repositories",
     "id": "package-sources",
     "section": "Appendix \u00b7 package sources"
   },
   {
-    "number": 49,
+    "number": 50,
     "title": "Proposed: declare requirements in config.yaml",
     "id": "config-requirements",
     "section": "Appendix \u00b7 session requirements"
   },
   {
-    "number": 50,
+    "number": 51,
     "title": "Follow a package-resolution request",
     "id": "resolver-boundary",
     "section": "Private worker protocol \u00b7 illustrative paths"
   },
   {
-    "number": 51,
+    "number": 52,
     "title": "Capabilities arriving on main",
     "id": "development-timeline",
     "section": "Appendix \u00b7 repository development \u00b7 July\u2013September 2026"
   },
   {
-    "number": 52,
+    "number": 53,
     "title": "How much is in the repository?",
     "id": "repository-total",
     "section": "Appendix \u00b7 repository development \u00b7 absolute size"
   },
   {
-    "number": 53,
+    "number": 54,
     "title": "What grew alongside the core code?",
     "id": "repository-categories",
     "section": "Appendix \u00b7 repository development \u00b7 contents by category"
   },
   {
-    "number": 54,
+    "number": 55,
     "title": "How the proportions changed",
     "id": "repository-proportions",
     "section": "Appendix \u00b7 repository development \u00b7 share of repository contents"
   },
   {
-    "number": 55,
+    "number": 56,
     "title": "Why some PRs look so large",
     "id": "development-large-prs",
     "section": "Appendix \u00b7 repository development \u00b7 review volume"
   },
   {
-    "number": 56,
+    "number": 57,
     "title": "AGENTS.md gives the model project context",
     "id": "development-agent-guidance",
     "section": "Appendix \u00b7 development practices \u00b7 instructions in the repository"
   },
   {
-    "number": 57,
+    "number": 58,
     "title": "The development loop starts with behavior",
     "id": "development-loop",
     "section": "Appendix \u00b7 development practices \u00b7 the prescribed workflow"
   },
   {
-    "number": 58,
+    "number": 59,
     "title": "Rust implementation. Python integration tests.",
     "id": "tests-python",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 59,
+    "number": 60,
     "title": "Test the boundaries you intend to preserve",
     "id": "test-boundaries",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 60,
+    "number": 61,
     "title": "YAML is what the reviewer reads",
     "id": "yaml-transcripts",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 61,
+    "number": 62,
     "title": "Normalize noise, not behavior",
     "id": "test-normalization",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 62,
+    "number": 63,
     "title": "Synchronize; do not sleep and hope",
     "id": "test-determinism",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 63,
+    "number": 64,
     "title": "Portable behavior; real capability checks",
     "id": "test-capabilities",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 64,
+    "number": 65,
     "title": "Snapshots are generated evidence",
     "id": "snapshot-review",
     "section": "Appendix \u00b7 Development practices"
   },
   {
-    "number": 65,
+    "number": 66,
     "title": "Test the installed product",
     "id": "installed-product-tests",
     "section": "Appendix \u00b7 Development practices"

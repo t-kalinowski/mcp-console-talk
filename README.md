@@ -1,6 +1,6 @@
 # MCP Console presentation
 
-46 main slides, an appendix divider, and 18 optional configuration, development-history, implementation, and testing slides (65 total). `deck.qmd` is the
+47 main slides, an appendix divider, and 18 optional configuration, development-history, implementation, and testing slides (66 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
 The main narrative starts with why: a comprehensive execution system that teams
@@ -19,7 +19,10 @@ example shows how other applications can use `mcp-console sandbox`, before the
 talk moves to local/SSH/Docker execution.
 An SSH topology diagram shows which processes move to the remote host. One installation overview leads into CLI and SDK integration examples,
 then session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
-work. The appendix covers approved package repositories, proposed config.yaml
+work. A pre-release work list follows the transcripts, covering Windows and sans-R
+support, human-facing configuration, tool descriptions and evals, curated exports,
+and artifact handoff before the conclusion.
+The appendix covers approved package repositories, proposed config.yaml
 requirements, the resolver protocol, repository growth and composition, major
 feature merges, instructions for coding agents, and testing. The proposed configuration
 form is visibly labeled as not implemented.

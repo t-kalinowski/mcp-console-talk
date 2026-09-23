@@ -522,7 +522,24 @@ On this slide, I've copied the generated transcript into report.qmd, shortened t
 **Sources:** [ir Quarto integration](https://r-lib.github.io/ir/quarto.html) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 
-## 46. R, Python, and SQL, available for the work
+## 46. Before an official release
+
+**Say:** Before an official release, there are a few things I still want to work through. The agent-facing API has had a lot of thought put into it, and I think it's largely feature complete. The human-facing experience needs another solid pass.
+
+Windows support is mostly stubbed out already in open PRs; those still need to land. Sans-R mode, so running Console without R, is also in flight.
+
+The configuration format is currently a fairly raw pass-through of the Rust structs that drive the sandbox. I'd like it to be an API designed for people to read and write. That includes deciding where config is discovered, whether there's a default location in the home directory, and where session files should live so we don't clutter project directories.
+
+The tool descriptions also need work. They should convey the capabilities clearly without spending unnecessary tokens. We need evals to see whether the descriptions actually help models discover and use those capabilities.
+
+For session exports, I'd like an R or Python function the model can call to turn selected parts of the session into a curated Quarto document. Another possibility is building a document incrementally, appending prose alongside the work, like a timestamped lab notebook. Those are workflows we still need to design beyond the automatic transcripts shown here.
+
+Finally, we need to think through artifact handoff. The model might create a graphic inside Console, then use another tool to copy it to its destination. We need to expose the write-only output locations and make the files persist so that handoff works. Console can keep its restrictive permissions while another tool uses the permissions it already has.
+
+**Reference (not spoken):** This is the author's pre-release work list as of 2026-09-23. Windows and sans-R status reflect the author's update, not a verified release or PR audit. The proposed configuration, curated-export, notebook, and general artifact-handoff workflows are pending design work. No function names, configuration paths, or APIs are promised here.
+
+
+## 47. R, Python, and SQL, available for the work
 
 **Say:** So those are the core ideas behind Console. Let the model choose the language. Users configure the execution host and the permissions for the work. It's all in service of giving the agent an interactive workbench, with full capabilities and a sandbox.
 
@@ -531,14 +548,14 @@ My hope is that we can share this execution system and keep solving the difficul
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 
-## 47. Appendix
+## 48. Appendix
 
 **Say:** The main talk ends here. These slides are available for questions about package configuration, how the project evolved, and how its behavior is checked. The development history leads into the instructions given to coding agents and some examples from the test suite.
 
 **Show:** Pause at this divider before entering the development material.
 
 
-## 48. Example: use approved package repositories
+## 49. Example: use approved package repositories
 
 **Say:** Making packages available doesn't mean we have to expose all of CRAN or PyPI. We can point the resolvers at a corporate mirror or a Posit Package Manager instance. Those repositories can contain an approved set of packages and versions.
 
@@ -555,7 +572,7 @@ Repository selection is not a complete package allowlist. Remove unapproved addi
 **Sources:** [Resolver configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration) · [Worker environment scope](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [pak configuration](https://pak.r-lib.org/reference/pak-config.html) · [uv package indexes](https://docs.astral.sh/uv/concepts/indexes/) · [PPM curated CRAN](https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html) · [PPM curated PyPI](https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html)
 
 
-## 49. Proposed: declare requirements in config.yaml
+## 50. Proposed: declare requirements in config.yaml
 
 **Say:** The model can declare session dependencies through send, as we saw in the main talk. On the right is a proposed way for the user to supply the same requirements in config.yaml.
 
@@ -568,7 +585,7 @@ It uses YAML sequences of package names or version specifications, matching the 
 **Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 
-## 50. Follow a package-resolution request
+## 51. Follow a package-resolution request
 
 **Say:** The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.
 
@@ -579,7 +596,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 
-## 51. Capabilities arriving on main
+## 52. Capabilities arriving on main
 
 **Say:** This is a little under eight weeks of development. Each dot is a PR merged directly into main. The vertical axis is logarithmic so that small and large changes are both visible. Python cells arrived on August 3 and SQL on August 4. On-demand R and Python packages landed on August 24, sandboxed Linux on September 9, and Docker targets on September 12.
 
@@ -590,7 +607,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Python #24](https://github.com/t-kalinowski/mcp-console/pull/24) · [SQL #36](https://github.com/t-kalinowski/mcp-console/pull/36) · [R packages #123](https://github.com/t-kalinowski/mcp-console/pull/123) · [Python packages #124](https://github.com/t-kalinowski/mcp-console/pull/124) · [Sandboxed Linux #262](https://github.com/t-kalinowski/mcp-console/pull/262) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302)
 
 
-## 52. How much is in the repository?
+## 53. How much is in the repository?
 
 **Say:** This counts the files actually present in the repository at each point in time. Deleted lines come out of the total. It starts with a 21-line initial commit and reaches about 143,000 lines across 1,086 tracked text files. This includes comments, blank lines, tests, transcripts, documentation, and build files.
 
@@ -601,7 +618,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Pinned main snapshot](https://github.com/t-kalinowski/mcp-console/tree/657a5981983768967deed83c070973848ec800fb) · [Analysis definitions and data](examples/repository-development/README.md)
 
 
-## 53. What grew alongside the core code?
+## 54. What grew alongside the core code?
 
 **Say:** The blue area is core code. The darker orange is test code, harnesses, and other fixtures. The lighter orange is YAML test transcripts: the requests and expected responses that a reviewer can read. Documentation and examples are yellow, and build tooling is gray.
 
@@ -612,7 +629,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Analysis definitions and checks](examples/repository-development/README.md) · [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197)
 
 
-## 54. How the proportions changed
+## 55. How the proportions changed
 
 **Say:** Here the total height is always 100 percent. Early on, documentation occupies most of a small repository. As implementation and tests accumulate, that mix changes. At the latest snapshot, test code and fixtures account for about 42 percent, and YAML transcripts another 24 percent. Together they are about 65 percent of the tracked lines.
 
@@ -623,7 +640,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Analysis definitions and data](examples/repository-development/README.md)
 
 
-## 55. Why some PRs look so large
+## 56. Why some PRs look so large
 
 **Say:** The largest diffs deserve a closer look. The three largest PRs here changed no core-code files under this classification. They reorganized tests or simplified test support. The largest changed about 37,000 lines but added only about 1,700 net lines. File moves and rewritten snapshots can create substantial review volume without adding the same amount of repository content.
 
@@ -634,7 +651,7 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197) · [Test contracts #258](https://github.com/t-kalinowski/mcp-console/pull/258) · [Transcript support #202](https://github.com/t-kalinowski/mcp-console/pull/202) · [Sandbox supervision #266](https://github.com/t-kalinowski/mcp-console/pull/266) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302) · [CLI tests #205](https://github.com/t-kalinowski/mcp-console/pull/205)
 
 
-## 56. AGENTS.md gives the model project context
+## 57. AGENTS.md gives the model project context
 
 **Say:** AGENTS.md is a checked-in Markdown file that gives a coding agent context about the repository. In this project it provides a map to the architecture, the public contracts, and the development guide, along with rules for making changes. The detailed behavior lives in source, protocol documents, and public tests.
 
@@ -645,7 +662,7 @@ The instructions ask for coherent PRs, readable code, tests through public inter
 **Sources:** [AGENTS.md at the analysis snapshot](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Development guide](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
 
 
-## 57. The development loop starts with behavior
+## 58. The development loop starts with behavior
 
 **Say:** For a behavior change, the project instructions start with a public acceptance or regression test and ask the agent to confirm that it fails. Then comes the implementation, a focused rerun, and review of any changed snapshots. After that, formatting and the full check suite precede the PR, and passing CI and approval from the configured reviewer are required on the current revision before merging.
 
@@ -656,7 +673,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Working rules in AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Validation ladder](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
 
 
-## 58. Rust implementation. Python integration tests.
+## 59. Rust implementation. Python integration tests.
 
 **Say:** The main integration suite is Python even though the application is Rust. It drives the built executable and observes the real process boundary. Small unit tests can still own pure parsing or validation policy; the claim is not that absolutely no Rust tests exist.
 
@@ -665,7 +682,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
 
 
-## 59. Test the boundaries you intend to preserve
+## 60. Test the boundaries you intend to preserve
 
 **Say:** The tests mirror architectural boundaries: client_server, server_relay, relay_worker, and cli. Public behavior belongs at the outermost boundary that can usefully observe it. Private-boundary cases cover their own protocol seams rather than replicating every public message at every layer.
 
@@ -674,7 +691,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 60. YAML is what the reviewer reads
+## 61. YAML is what the reviewer reads
 
 **Say:** The wire protocols are JSON-based, but the reviewable test transcripts are YAML. This is an actual checked-in snapshot excerpt: the test executes R, asserts that CPU detection returns a valid result, and prints a stable message. Humans can review the code and result without reading escaped JSON strings or snapshotting a machine-specific core count. YAML is the human review surface, not the production transport.
 
@@ -683,7 +700,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Checked-in CPU detection snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml)
 
 
-## 61. Normalize noise, not behavior
+## 62. Normalize noise, not behavior
 
 **Say:** Temporary paths, process identities, and similar unstable details should not obscure behavioral review. Normalize explicitly and narrowly. Preserve the fields, output, ordering, and failure distinctions the contract is meant to protect. The actual project normalizers and snapshot metadata are more specific than this schematic example.
 
@@ -692,7 +709,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 62. Synchronize; do not sleep and hope
+## 63. Synchronize; do not sleep and hope
 
 **Say:** Concurrency and liveness tests need causal synchronization. Fixtures use gates and checkpoints so the test knows when the relevant state has actually been reached. Arbitrary sleeps are not proof that output was drained, an interrupt was delivered, or an owned resource was retired.
 
@@ -701,7 +718,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 63. Portable behavior; real capability checks
+## 64. Portable behavior; real capability checks
 
 **Say:** Reuse portable cases across execution modes and centralize capability discovery. A skipped target fixture is not target validation. Deterministic peers can establish orchestration behavior, but they cannot establish real container or microVM cleanup. Keep real-target evidence distinct from simulated protocol coverage.
 
@@ -710,7 +727,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 64. Snapshots are generated evidence
+## 65. Snapshots are generated evidence
 
 **Say:** Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.
 
@@ -719,7 +736,7 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 
-## 65. Test the installed product
+## 66. Test the installed product
 
 **Say:** The delivered product includes the executable, companion binaries, Python interfaces, the R wrapper, and launch/lifetime behavior. Running a development binary alone does not establish that the installed bundle or each adapter works. Integration examples and packaging checks should be part of the release evidence, with actual target validation reported separately.
 

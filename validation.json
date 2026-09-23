@@ -1,15 +1,14 @@
 {
   "date": "2026-09-23",
-  "slide_count": 65,
-  "main_slides": 46,
+  "slide_count": 66,
+  "main_slides": 47,
   "addendum_slides": 18,
-  "native_quarto_notes_blocks": 65,
+  "native_quarto_notes_blocks": 66,
   "one_notes_aside_per_slide": true,
   "native_quarto_executed": true,
   "quarto_version": "1.10.18",
   "render_modes": [
-    "r",
-    "mcp"
+    "r"
   ],
   "render_warnings": false,
   "browser": "in-app browser",
@@ -22,7 +21,7 @@
   "code_soft_wrap": false,
   "inline_diagrams": 3,
   "images_loaded": true,
-  "captured_output_slides_checked": 1,
+  "captured_output_slides_checked": 0,
   "speaker_view": {
     "shortcut_exercised": true,
     "window_opened": "confirmed by presenter",
@@ -55,7 +54,7 @@
     "model-provider integrations"
   ],
   "html_sha256": {
-    "mcp-console.html": "5e80c40f3bc93c24bd702f05e3ab71347ca73246368f04ec0db4d419d3776992",
+    "mcp-console.html": "3d4bd1caa4077b67f744eac152a25da9b90244f40c8880347a25bad9eb59e9f8",
     "../archived/2026-09-23-standalone-sandbox/mcp-console-captured.html": "23b8a4871c5c941afabed45b3ff0d33589172f6d53962f378f10af5e2e0e1aaa"
   },
   "measurements_unchanged": true,
@@ -81,12 +80,11 @@
   "investigation": "../shinychat-investigation-2026-09-17/FINDINGS.md",
   "narrative_source_review": "43706f40460934503eec056a7e6cf57b6582c6ad",
   "checks_this_revision": [
-    "PPM list syntax checked against curated CRAN and PyPI documentation",
-    "displayed package files and shared-list include checked",
-    "native and captured Quarto renders without warnings",
-    "package-sources slide layout in both modes",
-    "validate_source.py in both modes",
+    "native Quarto render without warnings",
+    "validate_source.py",
     "notes and index regenerated",
+    "before-release visual and bounds checks in the in-app browser",
+    "existing slide sources unchanged",
     "source diff whitespace"
   ],
   "appendix_divider_slides": 1,
@@ -572,5 +570,25 @@
     ],
     "layout_failures": [],
     "existing_slide_sources_unchanged": true
+  },
+  "pre_release_review": {
+    "slide": "before-release",
+    "slide_number": 46,
+    "status_source": "author dictation, 2026-09-23",
+    "pr_status_independently_verified": false,
+    "browser_modes_checked": [
+      "r"
+    ],
+    "browser_slides_checked": [
+      "before-release"
+    ],
+    "viewport": [
+      1422,
+      800
+    ],
+    "layout_failures": [],
+    "existing_slide_sources_unchanged": true,
+    "runtime_captures_changed": false,
+    "speaker_window_retested": false
   }
 }

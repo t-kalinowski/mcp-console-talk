@@ -1,12 +1,28 @@
 # Local validation — 2026-09-23
 
-The revised project contains 65 slides (46 main, an appendix divider, and 18 optional appendix slides),
+The revised project contains 66 slides (47 main, an appendix divider, and 18 optional appendix slides),
 with one native notes block each.
-`mcp-console.html` is the current native R render. The current Console-capture
-render used for validation is preserved in
+`mcp-console.html` is the current native R render. The most recent Console-capture
+render, from the preceding 65-slide revision, is preserved in
 [the render archive](../archived/2026-09-23-standalone-sandbox/mcp-console-captured.html).
 The original agent delivery remains in the separate handoff archive. Both HTML files
 are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+
+## Pre-release work — 2026-09-23
+
+- Added slide 46, `before-release`, between the Quarto transcript and the
+  conclusion. Six bullets cover Windows, sans-R mode, human-facing configuration,
+  tool descriptions and evals, curated exports, and artifact handoff.
+- Expanded the author's dictated priorities in native speaker notes, including
+  config discovery and storage defaults, R/Python export functions, a lab-notebook
+  workflow, and persistent output locations accessible to other authorized tools.
+  Implementation status reflects the author's update; no PR audit was performed.
+- Regenerated the notes, slide index, and native R HTML. The render completed
+  without warnings, and source validation passed for all 66 slides. The new slide
+  was visually inspected in the in-app browser at 1422 × 800 and fits without
+  overflow. Existing slide source, runtime examples, and captures are unchanged.
+  Captured-output rendering and Speaker View were not repeated for this text-only
+  addition.
 
 ## Standalone sandbox command — 2026-09-23
 

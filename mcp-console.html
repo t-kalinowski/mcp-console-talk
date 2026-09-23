@@ -3556,6 +3556,42 @@ overflow: hidden!important;
 display:block!important;
 }</style></aside>
 </section>
+<section id="before-release" class="slide level2 deck-slide policy-slide">
+<h2>Before an official release</h2>
+<div class="kicker">
+<p>Pending work</p>
+</div>
+<ul>
+<li><strong>Windows support:</strong> mostly stubbed out; open PRs still need to land.</li>
+<li><strong>Sans-R mode:</strong> running without R; in flight.</li>
+<li><strong>Human-facing configuration:</strong> readable YAML, discovery, and storage defaults.</li>
+<li><strong>Tool descriptions and evals:</strong> convey capabilities clearly and use fewer tokens.</li>
+<li><strong>Curated session exports:</strong> Quarto documents and timestamped lab notebooks.</li>
+<li><strong>Artifact handoff:</strong> persistent output locations for other authorized tools.</li>
+</ul>
+<div class="takeaway">
+<p>The agent-facing API is largely complete. The human-facing experience needs another pass.</p>
+</div>
+<aside class="notes">
+<p><strong>Say:</strong> Before an official release, there are a few things I still want to work through. The agent-facing API has had a lot of thought put into it, and I think it’s largely feature complete. The human-facing experience needs another solid pass.</p>
+<p>Windows support is mostly stubbed out already in open PRs; those still need to land. Sans-R mode, so running Console without R, is also in flight.</p>
+<p>The configuration format is currently a fairly raw pass-through of the Rust structs that drive the sandbox. I’d like it to be an API designed for people to read and write. That includes deciding where config is discovered, whether there’s a default location in the home directory, and where session files should live so we don’t clutter project directories.</p>
+<p>The tool descriptions also need work. They should convey the capabilities clearly without spending unnecessary tokens. We need evals to see whether the descriptions actually help models discover and use those capabilities.</p>
+<p>For session exports, I’d like an R or Python function the model can call to turn selected parts of the session into a curated Quarto document. Another possibility is building a document incrementally, appending prose alongside the work, like a timestamped lab notebook. Those are workflows we still need to design beyond the automatic transcripts shown here.</p>
+<p>Finally, we need to think through artifact handoff. The model might create a graphic inside Console, then use another tool to copy it to its destination. We need to expose the write-only output locations and make the files persist so that handoff works. Console can keep its restrictive permissions while another tool uses the permissions it already has.</p>
+<p><strong>Reference (not spoken):</strong> This is the author’s pre-release work list as of 2026-09-23. Windows and sans-R status reflect the author’s update, not a verified release or PR audit. The proposed configuration, curated-export, notebook, and general artifact-handoff workflows are pending design work. No function names, configuration paths, or APIs are promised here.</p>
+<style type="text/css">
+span.MJX_Assistive_MathML {
+position:absolute!important;
+clip: rect(1px, 1px, 1px, 1px);
+padding: 1px 0 0 0!important;
+border: 0!important;
+height: 1px!important;
+width: 1px!important;
+overflow: hidden!important;
+display:block!important;
+}</style></aside>
+</section>
 <section id="closing" class="slide level2 deck-slide hero story-slide">
 <h2>R, Python, and SQL, available for the work</h2>
 <div class="kicker">
