@@ -1,42 +1,53 @@
-# Recording plan
+# Opening demo
 
-## What the recording should establish
+Use the penguins session as a live preamble to the fuller presentation. Console
+should already be registered with the agent. Allow about two minutes for the
+interaction, then start the existing deck; no demo slide is needed.
 
-Show the **model-facing interaction**, not that a chat application can call an evaluator. The useful sequence is a real model choosing code, inspecting a result, continuing with retained state, dealing with a wait, and seeing a plot or switching language without a second session setup.
+A brief introduction can still establish why before the demo:
 
-Use the Codex TUI when it gives the clearest expanded tool arguments and results. Use the desktop client when it makes the actual returned images materially clearer. Keep the application chrome out of most frames. The static slides use editable function-call panels so the explanation does not depend on a particular client version or theme.
+> I wanted R, Python, and SQL available to the agent in one session. Let me show what that looks like, then I'll walk through how it works.
 
 ## Prompt
 
-> Use `measurements.csv` to investigate the temperature effect. Check whether it differs by group, inspect the residuals, and summarize the evidence. Use Console as your workbench. The dataset is synthetic.
+> Use console to find out something interesting about the palmer penguins. Exercise use SQL, R, and Python for different parts of the analysis, and tell me something interesting that I haven't heard before.
 
-Do not claim that the model will spontaneously take a particular language path. Capture its actual choices. A deliberate follow-up can request a cross-language step or a bootstrap calculation when needed to demonstrate the contract honestly.
+Follow with “Can you visualize that?” The original session used the longer
+follow-up “Are there any interesting data visualizations you can spin up to
+illustrate these findings?”
 
-## Suggested shots
+Keep the original open-ended prompt. The presenter has observed it returning the
+same finding over repeated runs. That is a rehearsal observation, not a guarantee
+about another run. Asking for three languages demonstrates their availability;
+it does not establish that the model independently chose the best language.
 
-1. Brief establishing view: the existing client and Console tool availability, not the installation process.
-2. Expanded first call and returned result: crop tightly enough that the argument keys are readable.
-3. A dependent call that uses existing objects without reloading the data.
-4. A real long-running operation with a wait timeout and empty polling call. The supplied bootstrap script is deliberately slowed for this demonstration; do not use it as performance evidence.
-5. A returned plot or a cross-language step, with the actual input and output visible.
-6. The real `transcript.md` and `transcript.qmd` generated for that session.
+## What to show
 
-Keep a short recording with natural pauses or edit points; use the static feature slides to explain individual mechanics rather than making the recording carry every capability.
+1. The prompt and visible Console calls.
+2. The finding and returned plot.
+3. Point out the shared state: R defines the data frame, SQL queries it, and
+   Python accesses it through `r.penguins`.
+4. Begin the full deck: “That's the interaction. Now I'll walk through what
+   Console makes available and how the session is controlled.”
 
-## Data and fallback
+There is no need to narrate every call or wait for a specific call sequence.
+The retained session includes an unsuccessful SQL query and a Python namespace
+error followed by corrections. A later run may take a different path.
 
-`examples/measurements.csv` contains 240 synthetic observations with temperature, group, and response columns. It is not an external experiment or evidence about a real-world population. `examples/bootstrap.R` fits repeated resamples and inserts deliberate sleeps to expose polling.
+## Client and fallback
 
-`examples/replay_demo.py` drives a deterministic subset of the session. It is a **scripted fallback**, not model-generated behavior. It can help test the environment and produce a real Console record before recording the model session. The direct client prints text and image placeholders; inspect Console’s retained artifacts or use the native MCP client for the actual visual capture.
+Use a client that shows images. In Codex desktop, ask the agent to embed the saved
+PNG in its reply. The inspected Codex TUI represents MCP image results with a
+text placeholder; switching terminal emulators alone does not change that.
 
-## Insert the recording
+Keep the [saved penguins plot](captures/opening-demo/artifacts/call-000013-image-000001.png)
+available in an image viewer. It is the actual returned image from the rehearsal.
+If the live interaction takes too long or the client does not show it, open that
+saved result, identify it as the earlier run, and continue into the full deck.
 
-The slide with stable ID `demo` is the replacement point. Put a genuine recording at `assets/demo.mp4` and replace its body with an HTML video element, leaving its notes intact. Do not relabel the existing placeholder as an actual recording.
+The shorter alternative, `deck-short.qmd`, also retains its embedded demo slides.
+They are not part of the restored main presentation.
 
-```html
-<video controls preload="metadata" style="width:100%;max-height:590px">
-  <source src="assets/demo.mp4" type="video/mp4">
-</video>
-```
-
-Render the edited deck with `quarto preview deck.qmd` or `quarto render deck.qmd --to revealjs`. Add a real recording using Quarto-supported video markup and verify its playback in the browser before presenting. Speaker notes remain in the slide’s native `.notes` block and are available with S.
+The evidence is in [captures/opening-demo](captures/opening-demo/README.md).
+The older synthetic measurements examples remain available for the API detail
+slides; they are not the opening demo.

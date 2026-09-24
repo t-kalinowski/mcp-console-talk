@@ -1,12 +1,56 @@
 # Local validation — 2026-09-23
 
-The revised project contains 68 slides (49 main, an appendix divider, and 18 optional appendix slides),
-with one native notes block each.
-`mcp-console.html` is the current native R render. The most recent Console-capture
-render, from the earlier 65-slide revision, is preserved in
+The main presentation is restored to the fuller 68-slide version: 49 main slides,
+an appendix divider, and 18 reference slides. `deck.qmd` matches `deck-full.qmd`
+byte for byte. The 39-slide alternative is preserved in `deck-short.qmd`.
+`mcp-console.html`, the reading notes, and the slide index describe the full deck.
+
+## Restore the fuller presentation — 2026-09-23
+
+- Restored the source without slide or speaker-note edits. The penguins demo is
+  now documented as a live preamble, with the saved PNG as an external fallback.
+  The shorter deck and its embedded demo remain available separately.
+- Regenerated the main HTML, notes, and index. Native Quarto rendered without
+  warnings, and `validate_source.py` passed for all 68 slides. The browser confirms
+  the full opening slide and 68-slide count. No new full layout sweep was needed:
+  the source is restored exactly and the short-deck CSS additions are scoped.
+- No new live demo, model run, timing rehearsal, or runtime test was performed.
+  The previous short-version checks below apply to `deck-short.qmd`.
+
+## Short presentation — 2026-09-23
+
+- Opens with the language-choice motivation, then the nominated penguins session:
+  original prompt, actual returned image, and selected cross-language excerpts.
+  The unmodified transcript, generated QMD, and PNG are retained under
+  `captures/opening-demo/`, with original location and SHA-256 provenance.
+- Reduces the main talk from 49 to 24 slides. The standalone sandbox command,
+  local and remote topology, current send interface, and pre-release work remain
+  in the main talk. Exhaustive configurations and proposed API extensions are
+  backup material; the full deck preserves the remaining reference material.
+- Spoken notes are approximately 1,600 words, with a two-minute live-demo budget.
+  The 15-minute talk target has not been timed in a new rehearsal. The broad
+  prompt requests all three languages and is not presented as evidence of
+  unprompted optimal language choice.
+- Runtime examples reuse existing captures. The Markdown slide reads a literal
+  excerpt from the penguins record. The edited Quarto example selects one
+  penguins regression and adds an explicit requirement and package cutoff date;
+  that report was not executed. No new model, runtime, package-resolution,
+  sandbox, SSH, or Docker test was run for this presentation edit.
+- Native Quarto rendered without warnings. `validate_source.py` passed for all
+  39 slides, including matching notes, existing calls and captures, configuration
+  snippets, and inline SVGs. The full backup matches the pre-edit source; copied
+  demo files match their recorded hashes. Source whitespace checks pass.
+- All 39 slides passed browser bounds and code-overflow checks in the in-app
+  browser at 703 × 852. The new image is loaded and has nonzero visible dimensions.
+  The opener, demo plot, shared-session excerpts, progress pairing, policies,
+  integrations, report source, and release slide were visually inspected.
+  A Quarto auto-stretch issue on the new image was found and corrected.
+  Speaker View and the alternate capture-mode render were not repeated.
+
+Earlier validation below refers to prior deck revisions. The older 65-slide
+captured-output HTML remains in
 [the render archive](../archived/2026-09-23-standalone-sandbox/mcp-console-captured.html).
-The original agent delivery remains in the separate handoff archive. Both HTML files
-are native Quarto reveal.js renders with embedded resources. `examples/measurements.csv` is unchanged.
+The existing runtime captures and `examples/measurements.csv` are unchanged.
 
 ## Possible API extensions — 2026-09-23
 

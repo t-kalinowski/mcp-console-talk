@@ -1,0 +1,14 @@
+{
+  "codex_session": "01a0d048-5f66-7900-b6cd-39affebe5e8c",
+  "title": "Analyze Palmer penguins",
+  "console_run": "20260923T220029.270049000Z-86433",
+  "source_directory": "/Users/tomasz/github/t-kalinowski/penguins/.mcp-console/sessions/20260923T220029.270049000Z-86433",
+  "copied_without_modification": true,
+  "new_model_run_for_this_revision": false,
+  "files": {
+    "transcript.md": "e3e27a0256ba3214c90a7dc1cd41fee5d3bcc5bff60364940af66ec8c587dcc8",
+    "transcript.qmd": "457bb5c0fb178d0f21c43994c5d33db47fed6224ba6bbe397167e33e430cfce6",
+    "artifacts/call-000013-image-000001.png": "0d8dbc67f7e765156db3399733070da346489c4d454cd550068a62a98fa80ed0"
+  },
+  "full_deck_sha256": "4b96f1eb871c5403bead8a7ee5d491022a85fae433ea5bf6261c2dbaa8736bf9"
+}

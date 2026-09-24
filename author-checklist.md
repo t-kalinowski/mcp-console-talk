@@ -1,6 +1,9 @@
 # Checks before presentation or capture
 
-The slide copy uses the intended presentation-day feature set, as requested. These notes distinguish that target from the currently inspected implementation.
+The fuller talk is restored in `deck.qmd`, matching `deck-full.qmd`.
+The shorter alternative is retained in `deck-short.qmd`. The slide
+copy uses the intended presentation-day feature set, as requested. These notes
+distinguish that target from the currently inspected implementation.
 
 ## Target-day assumptions
 
@@ -45,9 +48,9 @@ Docker uses packages built into the image; it does not dynamically resolve them.
 
 The detail examples combine wait/poll continuity with progress compaction, then
 show bounded responses and retained output, including a direct descriptor write and output from a forked R child.
-The last slide of the main talk is `closing`; the appendix divider introduces eleven slides of
-optional configuration and technical material. The earlier full API walkthrough is preserved in
-presentation commit `ab89d0c`.
+The last slide of the 49-slide main talk is `closing`; the appendix divider introduces
+18 optional reference slides. The complete presentation has 68 slides. Use the
+penguins demo as a live preamble; see `recording-plan.md`.
 
 The forked R example deliberately sends cat() output through a pipe to the native
 cat command. Plain cat() in the fork completed without visible text in the tested

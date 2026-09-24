@@ -269,3 +269,22 @@ section.deck-slide::before { content: ""; display: block; width: 6px; height: 34
 #markdown-transcript .code-panel { padding-top: 18px; padding-bottom: 18px; }
 
 #package-sources .two-col { grid-template-columns: minmax(0,0.9fr) minmax(0,1.1fr); }
+
+/* Short-talk layouts; the full reference deck keeps its existing geometry. */
+#penguins-demo .story-lead { font-size: 35px; margin-top: 40px; }
+#penguins-result .penguins-figure { display: block; height: 575px; width: 100%; object-fit: contain; margin: 0; }
+#penguins-result .quarto-figure, #penguins-result > p { margin: 0; }
+#penguins-result .small-note { text-align: center; margin-top: 12px; }
+.demo-steps { display: grid; grid-template-columns: 235px minmax(0,1fr); gap: 16px 28px; align-items: center; }
+.demo-steps .code-panel { margin: 0; padding: 20px 26px; }
+.demo-caption { font-size: 26px; line-height: 1.4; }
+.demo-caption strong { color: var(--accent); font-size: 32px; }
+#penguins-session .takeaway { margin-top: 24px; }
+.short-talk#wait-timeout .code-panel, .short-talk#wait-timeout .result-panel { padding: 16px 22px; margin-bottom: 16px; }
+.short-talk#wait-timeout .panel-label { margin-bottom: 10px; padding-bottom: 10px; }
+.short-talk#wait-timeout .result-panel pre code { font-size: 22px; white-space: pre; }
+.short-talk#builtin-policies h3 { font-size: 33px; }
+.short-talk#builtin-policies .takeaway { font-size: 27px; }
+.short-talk#interfaces .story-card { font-size: 25px; padding: 24px; }
+.short-talk#interfaces .code-panel { margin-top: 28px; }
+.short-talk#interfaces .code-panel pre code { font-size: 32px; }

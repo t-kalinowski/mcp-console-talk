@@ -3,32 +3,25 @@
 49 main slides, an appendix divider, and 18 optional configuration, development-history, implementation, and testing slides (68 total). `deck.qmd` is the
 canonical source, including one native Quarto speaker-notes block per slide.
 
-The main narrative starts with why: a comprehensive execution system that teams
-can reuse across AI projects. The model's language choice leads into the combined
-capabilities and safety overview, including explicit runtime state. Client choices
-establish the scope before the simple
-R, Python, and SQL workflow. A Python call and plot lead into the shared-process
-reveal; SQL and database connection selection follow together. Packages expand
-the workflow, with the process topology showing where resolution happens.
-Explicit requirements remain part of the model-facing interface.
-Waiting, output handling, controls, readline input, and debugger interaction lead
-into a call combining restart, requirements, input, and code
-and the current send interface. Two visibly unimplemented API ideas follow:
-a session selector for concurrent sessions and a note argument for an append-only
-lab notebook. Sandbox defaults and built-in policies precede
-concrete access examples and a complete proxy configuration. A standalone command
-example shows how other applications can use `mcp-console sandbox`, before the
-talk moves to local/SSH/Docker execution.
-An SSH topology diagram shows which processes move to the remote host. One installation overview leads into CLI and SDK integration examples,
-then session logs, the Markdown transcript, and an editable Quarto report as the lasting result of the
-work. A pre-release work list follows the transcripts, covering Windows and sans-R
-support, human-facing configuration, tool descriptions and evals, curated exports,
-and artifact handoff before the conclusion.
-The appendix covers approved package repositories, proposed config.yaml
-requirements, the resolver protocol, repository growth and composition, major
-feature merges, instructions for coding agents, and testing. The proposed configuration
-form is visibly labeled as not implemented.
-The main talk ends at `closing`; an explicit appendix divider follows it.
+The fuller presentation is the main deck again, unchanged from `deck-full.qmd`.
+The shorter alternative is preserved as `deck-short.qmd` (24 main slides,
+an appendix divider, and 14 backup slides). Its added layouts are scoped in the
+shared stylesheet.
+
+Use the penguins demo as a live preamble, then begin the existing slide sequence.
+No demo slides have been added to the full deck. See
+[recording-plan.md](recording-plan.md) for the prompt, transition, and saved plot.
+The demo and fuller talk still need a timed rehearsal together.
+
+To render the shorter alternative without replacing the main preview:
+
+```sh
+quarto render deck-short.qmd --to revealjs --output mcp-console-short.html
+```
+
+Both alternate QMD files retain the main output filename in their front matter;
+use an explicit `--output` when rendering an alternate. Generated notes and the
+slide index always describe `deck.qmd`.
 
 The repository-development sequence starts at `development-timeline` and
 includes absolute and proportional views that distinguish YAML test transcripts
