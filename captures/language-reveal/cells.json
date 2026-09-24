@@ -6,7 +6,7 @@
     "python": "import matplotlib.pyplot as plt\n\nplt.plot(values, marker=\"o\")\nplt.xlabel(\"Index\")\nplt.ylabel(\"Value\")"
   },
   "python-read-r": {
-    "python": "print(len(r.d))"
+    "python": "len(r.d)"
   },
   "r-read-python": {
     "r": "length(py$values)"

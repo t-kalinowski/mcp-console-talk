@@ -10,4 +10,4 @@ exchange, and each response has its literal JSON/text and returned PNGs.
 
 `provenance.json` records the installed executable fingerprint, checked before
 and after capture, the data hash, and the capture time. No model API was used.
-The collector for this focused run is preserved in the language-reveal archive.
+The collector is `examples/capture_language_reveal.py`.

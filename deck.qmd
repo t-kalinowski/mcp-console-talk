@@ -518,7 +518,7 @@ Python reads the R data frame
 
 <!-- reveal-cell:python-read-r -->
 ```python
-console.send(python='print(len(r.d))')
+console.send(python='len(r.d)')
 ```
 
 ::::

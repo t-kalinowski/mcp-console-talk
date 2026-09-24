@@ -43,7 +43,7 @@ plt.ylabel("Value")
 ```
 
 ```{python}
-print(len(r.d))
+len(r.d)
 ```
 
 ```{r}

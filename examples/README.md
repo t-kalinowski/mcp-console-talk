@@ -38,6 +38,8 @@ Python call, Matplotlib plot, and both directions of R/Python object access. Its
 own `cells.json`, wire exchange, returned PNG, and provenance identify those
 examples. Both render modes use these captures. The source validator checks the
 displayed calls and returned text/images against that record.
+Run `python examples/capture_language_reveal.py OUT EXECUTABLE` to recapture them
+in an empty output directory before replacing the published capture.
 
 `Dockerfile` shows the presentation's minimal environment setup: `rocker/tidyverse`,
 the standard uv and rig installers, and `uv tool install r-lib-ir`. The YAML

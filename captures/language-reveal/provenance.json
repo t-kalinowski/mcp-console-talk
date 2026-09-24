@@ -1,5 +1,5 @@
 {
-  "captured_at_utc": "2026-09-17T22:43:39Z",
+  "captured_at_utc": "2026-09-24T13:42:18Z",
   "command": [
     "/Users/tomasz/.local/bin/mcp-console",
     "serve"
@@ -15,7 +15,7 @@
       "version": "0.0.4"
     }
   },
-  "executable_sha256": "ea006d9e93ea2c3c23128afbbce8b44ed289598b803f21aa661c577c223fb864",
+  "executable_sha256": "47230e074b9aef577aa416997bce197b12e4950a116bb0c4385dc27c21490e87",
   "executable_unchanged_during_capture": true,
   "data_sha256": "c8824302164402eb1e2545f340151dacd7616b511c722335d2ff214eae567b9a",
   "source_cells": {
@@ -26,7 +26,7 @@
       "python": "import matplotlib.pyplot as plt\n\nplt.plot(values, marker=\"o\")\nplt.xlabel(\"Index\")\nplt.ylabel(\"Value\")"
     },
     "python-read-r": {
-      "python": "print(len(r.d))"
+      "python": "len(r.d)"
     },
     "r-read-python": {
       "r": "length(py$values)"

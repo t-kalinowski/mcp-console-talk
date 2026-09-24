@@ -9,8 +9,8 @@ This document is an append-only chronological record of MCP Console events.
 ```json
 {
   "session": "default",
-  "run_id": "20260917T224324.089516000Z-0000003315",
-  "started_at": "2026-09-17T22:43:24.089516000Z",
+  "run_id": "20260924T134214.625684000Z-0000045117",
+  "started_at": "2026-09-24T13:42:14.625684000Z",
   "working_directory": "/Users/tomasz/github/t-kalinowski/mcp-console-demo/mcp-console-talk"
 }
 ```
@@ -95,7 +95,7 @@ Text(0, 0.5, 'Value')
 ## Call 5: Python
 
 ```python
-print(len(r.d))
+len(r.d)
 ```
 
 ## Result for call 5

@@ -539,6 +539,10 @@ Dockerfile matches its file, and the CSV is unchanged. Both renders and all
 53 native slide layouts pass, along with the 13 capture-sensitive slides in MCP
 mode. Notes, the slide index, and the saved native preview are regenerated.
 
+On September 24, slide 9's Python bridge call was changed to `len(r.d)` and the
+focused language-reveal session was recaptured. The new call returned `240\n`;
+`captures/language-reveal/provenance.json` records the current run and executable.
+
 
 ## Framing comparison with the useR! lightning talk
 
