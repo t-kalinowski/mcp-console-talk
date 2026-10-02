@@ -52,17 +52,17 @@ R, Python, and SQL.<br>One execution system.
 
 ::: {.takeaway}
 
-A shared workbench for the AI systems we build.
+Shared state, session controls, and configurable permissions.
 
 :::
 
 ::: {.notes}
 
-**Say:** Hello everyone. I'd like to talk about a project I've been working on called MCP Console. It's a ground-up rewrite of MCP REPL. MCP REPL is really two products: an R REPL and a Python REPL, with different code paths and different semantics for the model. It also forces the user to choose R or Python, and I don't think that's where the choice belongs. It should be R and Python.
+MCP Console makes R, Python, and SQL available through one tool, with state that persists between calls. The model can use different languages for different parts of an analysis and move data between them.
 
-That was the original seed for MCP Console: a single product, a single binary, that handles R, Python, and SQL. My hope is that we can share the effort of building one execution tool to equip agents with, instead of each building an ad hoc implementation for the needs at hand.
+The shared foundation handles session state, input, output, plots, package preparation, interrupts, and process cleanup. The application supplies the conversation; Console supplies the execution environment and applies the configured permissions.
 
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Equip the model with R, Python, and SQL {#small-surface .deck-slide .story-slide}
@@ -107,19 +107,17 @@ The model can choose the language and syntax it works best with.
 
 ::: {.notes}
 
-**Say:** The choice I want to give the model is which language fits the task it's doing right now. If R has the methods or plotting tools it wants, use R. If the Python ecosystem is a better fit, use Python. And SQL gives it another way to query data, locally or through a database connection.
+The model can use R for its statistical methods and plotting tools, Python for its libraries, and SQL to query data. It can switch languages as the work develops, with the user steering that choice when needed.
 
-The user can steer that choice, of course. But they shouldn't have to pick an R-only or Python-only product before the work begins. I'd like the model to choose the best tool for the job.
+R and Python can exchange objects in the same session. SQL can query R data frames through the managed DuckDB connection or use a connection selected by the user. Filesystem and network permissions apply around the runtime.
 
-For that to work, we need to give it the full capabilities of those runtimes, with a sandbox that controls what resources it can access.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-## Full capabilities and full safety {#sandbox-motivation .deck-slide .story-slide .capabilities-safety}
+## Full runtimes with explicit permissions {#sandbox-motivation .deck-slide .story-slide .capabilities-safety}
 ::: {.kicker}
 
-One execution system we can reuse
+A shared foundation for R, Python, and SQL
 
 :::
 
@@ -153,25 +151,19 @@ Filesystem and network policy.<br>Subprocesses covered.<br>Shutdown and cleanup.
 
 ::: {.takeaway}
 
-Later: where the session runs, what it records, and what’s still pending.
+Persistent state, input, output, and controls across languages.
 
 :::
 
 ::: {.notes}
 
-**Say:** The goal is full capabilities and full safety. I don't want to restrict the language to a small subset just to make execution manageable. The model should be able to use libraries, native code, and subprocesses, within the permissions the user allows.
+Console runs the language runtimes with access to libraries, native code, and subprocesses under the user's configured permissions. It handles the session details around them: long computations, input prompts, interrupts, background output, plots, and large responses.
 
-That means handling the less obvious cases too. Output can come from a forked child or directly from a file descriptor. A computation can take a long time, need an interrupt, or produce enough output to flood the model's context. A script can ask for input over stdin. We want the model to be able to drive a real interactive session through all of that.
+The embedded runtimes report when evaluation starts, waits for managed input, and finishes. Those state changes use explicit messages; ordinary output is collected separately. Native code can also read input or start background work that the runtime cannot fully observe.
 
-We run the languages embedded, so the runtime reports when it is evaluating, waiting for managed input, or finished. We don't have to parse printed output to guess that state. Output from background activity can still be collected while the session is idle, and Console tracks the controls it sends, including shutdown and escalation.
+The sandbox applies filesystem and network policy to the worker and its subprocesses. Package preparation uses separate trusted processes outside that sandbox. Sensitive files may need explicit read denials, and enforcement and cleanup have platform-specific limits. These boundaries are covered in the later examples.
 
-Around that session, we handle plots as images, compact progress updates, oversized responses with files the model can inspect, and logs with readable transcripts and Quarto source. Package resolution and environment management are built in too.
-
-And the sandbox is central: filesystem permissions, network restrictions, and a configurable proxy, applying to the worker and its subprocesses. The session can run locally, over SSH, or in Docker. The rest of the talk goes through these three columns in order. After that, I'll cover where the session can run, what it records, and what's still pending.
-
-**Reference (not spoken):** “Full safety” is the design goal, not a claim that arbitrary code is risk-free. Trusted package preparation runs outside the worker sandbox. Broad host reads need explicit denials for confidential files. Managed runtime reads emit input_requested/input_received events; arbitrary native reads are not all observable as managed input. Worker readiness and evaluation completion use explicit protocol frames, while raw and background output are separate streams. Console tracks requested controls and lifecycle operations; this is not introspection into every background thread. Target capabilities and enforcement differ, as explained later.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Send a cell of code {#send-r .deck-slide .literal-slide}
@@ -238,13 +230,11 @@ Define objects, see printed output, and continue in the same session.
 
 ::: {.notes}
 
-**Say:** Despite that long tail of capabilities, we've optimized for the simplest use case: evaluating a chunk of code. The model sends a string of R code, it gets evaluated, and the model gets back output.
+The basic operation is a call to `send` with a string of code. This R cell creates the data frame `d`, fits a linear model, and prints the fitted object. Both objects remain available for later calls.
 
-This is the only tool exposed: a single send tool. Here the code defines d, a data frame, then fits a linear model and prints the fitted object. The objects stay in the session, ready for the next turn.
+The default slide render evaluates this example through knitr. The captured-output render uses the saved Console response.
 
-**Author / capture:** Default preview evaluates this cell in native R through knitr, not in MCP Console. With -P output_source:mcp, the panel reads the literal captured Console text. No simulated numerical output is committed.
-
-**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
+[runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
 ## Python uses the same call {#python-simple .deck-slide .literal-slide}
@@ -299,11 +289,9 @@ Supply `python=` to evaluate a Python cell.
 
 ::: {.notes}
 
-**Say:** If the model wants to send Python, it changes the keyword argument. The previous call used r; this one uses python.
+Python uses the same tool with the `python` argument. The code runs in the session's Python interpreter, and its output is returned to the model. A final expression displays its value without an explicit `print()` call.
 
-Now the string is evaluated as a Python cell, and the model gets its printed output. The usage pattern is the same.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Plots return as images {#plots .deck-slide .literal-slide}
@@ -399,13 +387,11 @@ The response carries the image produced by the cell.
 
 ::: {.notes}
 
-**Say:** On the next turn, maybe the model wants to generate a graphic. It sends plotting code using the objects already in the session, and the graphic comes back as an image.
+Plotting code uses the objects already in the session, and the result comes back as an image. On the left, base R plots the data frame from the first cell. On the right, Matplotlib plots the values from the preceding Python cell.
 
-On the left, base R plots the data frame from the first cell. On the right, Matplotlib plots the values from the preceding Python cell. It works as you'd expect in both languages.
+The default render runs the R plotting code through knitr. The Python image is a saved Console result; the captured-output render uses saved images for both.
 
-**Author / capture:** Default uses the displayed base-R cell through knitr; plot capture mode reads captures/r-plot-01.png. Neither a stock image nor the previous illustrative SVG is used.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## R and Python share the same process {#python-first .deck-slide .literal-slide}
@@ -484,13 +470,11 @@ console_protocol("language-reveal/r-read-python")
 
 ::: {.notes}
 
-**Say:** And the R and Python runtimes are embedded in the same process. You can access values defined in R from Python, and vice versa. Reticulate provides that bridge.
+R and Python are embedded in the same process, with reticulate providing the bridge. On the left, Python accesses `d` from R's global environment. On the right, R accesses `values` from Python's main dictionary.
 
-On the left, Python accesses d, the data frame in R's global environment. On the right, R accesses values from Python's main dictionary. The model can work with the same data across the two languages.
+This lets the model work with the same data across languages. Conversion depends on the object type; sharing a process does not mean every object is shared by reference or transferred without copying.
 
-**Reference (not spoken):** Reticulate conversion depends on the object type; shared process does not imply universal zero-copy or reference-sharing behavior.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Query the same data with SQL {#sql .deck-slide .literal-slide}
@@ -551,15 +535,11 @@ console_protocol("sql")
 
 ::: {.notes}
 
-**Say:** SQL works the same way: the model sends code with the sql argument. Notice that the query refers to d, the data frame defined in the R namespace.
+The `sql` argument submits a query through the same tool. Here, `d` is the data frame created in R, rather than a table exported to a separate database.
 
-The default DuckDB connection can find R data frames by name. If we replace that data frame in R, a later query sees the updated binding. We don't need to export it to a separate database first.
+The R-backed managed DuckDB connection finds data frames in R's global environment. Later queries see updated bindings if those objects are replaced. For this backend, Python data frames first need to be bound or converted to an R global.
 
-It's one runtime, with different ways for the model to interact with it.
-
-**Reference (not spoken):** The managed DuckDB backend scans the R global environment. A view over an R name observes later rebinding. Python data frames must first be bound or converted to an R global for this backend.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## SQL uses the connection you choose {#sql-connections .deck-slide .literal-slide}
@@ -639,15 +619,11 @@ Use a local database or an existing remote connection through its driver.
 
 ::: {.notes}
 
-**Say:** SQL doesn't have to use the built-in DuckDB connection. The model can select a different connection from either the R or Python runtime.
+SQL can use a connection selected from either runtime: a DBI connection in R or a DB-API connection in Python. These examples use SQLite. A remote database needs its driver, credentials, and network access.
 
-From R, that can be a DBI connection. From Python, it can be a DB-API connection. These examples use SQLite, but the same pattern works with a remote database, given the driver, credentials, and network access.
+After selection, SQL cells use that connection's tables and state. They do not inherit the managed DuckDB registrations. Before closing a custom connection, restore managed SQL with `console_sql_connection(NULL)` in R or `console_sql_connection(None)` in Python.
 
-After selecting the connection, the model keeps sending SQL through the same tool. The queries go to that connection and use its tables and state.
-
-**Reference (not spoken):** A selected connection sees its own tables and state; it does not inherit managed DuckDB registrations. Restore managed SQL with console_sql_connection(NULL) in R or console_sql_connection(None) in Python before closing a custom connection.
-
-**Sources:** [SQL connection selection](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql)
+[SQL connection selection](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql)
 
 :::
 ## Make CRAN and PyPI available to the session {#package-opportunity .deck-slide .story-slide}
@@ -698,13 +674,13 @@ Ordinary package use can request the dependency it needs.
 
 ::: {.notes}
 
-**Say:** In my experience, models often hesitate to install packages because installation sounds like a change to the user’s global setup. They may settle for a simpler approach using only what is already there. I want using the right library to be an ordinary part of the analysis.
+In my experience, models sometimes avoid installing a package because it sounds like a change to the user's global setup. They may settle for the libraries already available, even when another package would help.
 
-Here the requirement belongs to the Console session and is resolved into a managed environment. That puts the breadth of trusted CRAN and PyPI packages in reach.
+Console resolves session requirements into a managed environment. The requirement configuration belongs to the session, while caches and prepared environments can be reused on disk. This gives the model access to CRAN and PyPI without installing into the user's global library.
 
-**Reference (not spoken):** The session’s retained requirement configuration is temporary; resolver caches and prepared environments may be reused on disk. This does not mean every package installs successfully or that all its installation code is sandboxed.
+Packages can still fail to install, and installation or build code runs outside the worker sandbox. The packages and preparation environment need to be trusted.
 
-**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+[Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 ## Use the package; let the runtime prepare it {#r-resolution .deck-slide .story-slide .literal-slide}
@@ -767,13 +743,13 @@ The live workspace stays available during supported additions.
 
 ::: {.notes}
 
-**Say:** The model writes ordinary R or Python. When execution reaches a supported missing-package operation, the runtime requests preparation, activates the result, and continues the original operation. It keeps the live workspace.
+When execution reaches a supported missing-package operation, the runtime requests preparation, activates the result, and continues the original operation. The live workspace is preserved.
 
-For R this uses ir; managed Python uses uv. We react to package use during execution rather than pre-scanning the source or replaying the whole cell. Explicit requirements remain available when the model needs a version pin or a distribution name that cannot be inferred from an import.
+R preparation uses ir; managed Python uses uv. Resolution happens during execution, without pre-scanning the source or replaying the whole cell. Explicit requirements are available for version pins and distribution names that cannot be inferred from an import.
 
-**Show:** These are illustrative package-use calls. Availability depends on a working managed resolver and the package’s system prerequisites. Docker’s prepared-image path is different and appears later.
+These calls are illustrative. Preparation needs a working resolver and the package's system prerequisites. Docker sessions use dependencies already installed in the image.
 
-**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+[Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 ## Separate session control from code execution {#process-topology .deck-slide .story-slide}
@@ -828,15 +804,13 @@ The server manages the session. The worker executes code inside the sandbox.
 
 ::: {.notes}
 
-**Say:** This is how package resolution fits into the process layout. The LLM client talks to the Console server. The server owns the session and its records, and a relay carries code, input, controls, and results to and from the worker.
+The client talks to the Console server, which owns the session and its records. A relay carries code, input, controls, and results between the server and worker. The language runtimes execute inside the sandboxed worker.
 
-R, Python, and SQL run in that worker, inside the sandbox. The package resolvers are separate trusted processes outside it. When the runtime reaches a missing package, it can make a structured request for preparation. The resolver prepares the package, makes the result available, and the worker continues inside the sandbox.
+Package resolvers are separate trusted processes outside the worker sandbox. A missing-package operation can request preparation; the resolver prepares the package, and the worker activates it and continues. Evaluated code keeps its own restricted permissions.
 
-That separation is what lets us prepare dependencies without giving the evaluated code the same access as the resolver.
+Installation and build code use the resolver's permissions. The appendix shows the private request and activation exchange in more detail.
 
-**Reference (not spoken):** Trusted package preparation can execute installation or build code. It is outside the worker sandbox. The protocol-level request/response example remains in the appendix.
-
-**Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Declare package requirements explicitly {#requirements .deck-slide .literal-slide}
@@ -889,15 +863,11 @@ Requirements can also accompany a code cell in the same call.
 
 ::: {.notes}
 
-**Say:** So far we've let the runtime discover packages as the code uses them. The model can also declare requirements explicitly.
+The model can declare requirements explicitly, either on their own or alongside a code cell. Preparation happens before the cell runs. This is useful for a version pin or a distribution name that cannot be inferred from an import.
 
-Here it asks for an R package and a particular version of a Python package. It can prepare those dependencies on their own, as shown here, or include them with a code cell. Preparation happens before that cell runs.
+This slide shows an illustrative request, not a captured successful preparation. The scikit-learn version comes from the Python reference capture. The older `data.table==1.17.8` rehearsal failed on the installed R toolchains and remains documented in the validation notes. Managed requirements are available only on targets that support preparation.
 
-This is useful when the model wants a specific version or when a distribution name can't be inferred from the import.
-
-**Author / capture:** This is an illustrative preparation request; no response is presented as a capture. scikit-learn 1.9.1 is the version in the existing Python reference capture. The earlier data.table==1.17.8 rehearsal failed on the installed R toolchains and remains documented in VALIDATION.md. That older request is retained in the reference files, not represented as a successful run here. Requirements are available only on targets that support managed preparation.
-
-**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+[Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 ## Use a Python library on the same data {#python .deck-slide .code-dense}
@@ -953,13 +923,11 @@ console_protocol("python-ml")
 
 ::: {.notes}
 
-**Say:** Now the model can use the scikit-learn it just prepared. We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.
+Python reads the R data frame through `r.d` and uses scikit-learn's `RandomForestRegressor` and `cross_val_score`. The data stays in the session while the model switches to the library it needs.
 
-**Transition:** We have seen the ordinary analysis loop: write code, inspect the result, and continue. A session also has to handle work that takes time, asks for input, or produces more output than the model can use at once. The next examples show how the same tool handles those situations.
+The numerical result is a saved Console response. This example demonstrates access to both language ecosystems; it does not compare the statistical merits of the two models.
 
-**Show:** The meaningful difference is the library being used: RandomForestRegressor and cross_val_score. The result is shown below the call.
-
-**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+[runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 ## Collect progress while the code keeps running {#wait-timeout .deck-slide .literal-slide .code-dense}
@@ -1089,17 +1057,13 @@ The computation keeps running. An empty `send()` collects new output.
 
 ::: {.notes}
 
-**Say:** A calculation can take longer than a tool call should hold the client. This uses R’s built-in txtProgressBar, and Sys.sleep stands in for each unit of work. Here the client waits 450 milliseconds and receives the progress so far. The computation is still running in the same worker. The timeout describes how long to wait for output.
+`timeout_ms` controls how long a call waits for output. It does not stop the computation. Here, the first call waits 450 milliseconds and returns the progress collected so far while the same worker continues running.
 
-We can poll for more without submitting the calculation again. An empty send is a poll. These are separate responses to later polls, not a transcript dumped into one response, and the redrawn progress bar comes back as one current line.
+An empty `send()` polls for more output without resubmitting the code. Each poll returns newly collected output. Carriage-return redraws within a response interval collapse to the current progress line; later polls can return another update.
 
-**Show:** Read the compact progress line and the exact running notice in the first response, then point to the two poll calls and their results. The last response has real output and no invented [done] appended.
+The example uses R's `txtProgressBar`, with `Sys.sleep` standing in for work. These are literal captured responses, including the 600 ms and 5000 ms polls. Progress percentages depend on timing and are not guaranteed at a particular wait duration.
 
-**Reference (not spoken):** Each poll contains newly collected output. Carriage-return redraws within one response interval collapse to its current line; a later interval can return the next current line.
-
-**Author / capture:** Warm up the session before capturing this example. Do not promise a particular percentage at 450 ms. The local capture script retains actual responses rather than asserting fixed percentages. Both rendering modes read the literal captured poll responses. The wire exchange records the 600 ms poll followed by the 5000 ms poll. Exact progress fractions are not a public API guarantee.
-
-**Sources:** [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Protect the model’s context from oversized output {#bounded-output .deck-slide .literal-slide .code-dense}
@@ -1169,13 +1133,11 @@ fit complete
 
 ::: {.notes}
 
-**Say:** When a response comes back from send, Console also puts a guardrail around its size. We want to prevent the model from accidentally flooding its own context by running code that produces too much output.
+Console bounds the text returned in a tool response so a large printout does not fill the model's context. It keeps the beginning and end, omits the middle, and gives the model a path to fuller retained output. A filesystem tool can inspect that file when needed.
 
-For an oversized response, we keep the beginning and the end, cut out the middle, and give the model a path to the fuller output. If it needs more detail, it can inspect that file with a filesystem tool.
+The text budget is 8 KiB, with a separate image allowance. Raw retention is also bounded. The slide shortens the response for readability; `captures/flood.txt` contains the literal result.
 
-**Reference (not spoken):** The text response budget is 8 KiB, with a separate image allowance. Raw retention is also bounded. This slide is a stylized, shortened response; captures/flood.txt holds the literal response.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Capture output below the language hooks {#retained-output .deck-slide .literal-slide}
@@ -1279,13 +1241,11 @@ Capture native output from the worker and its children.
 
 ::: {.notes}
 
-**Say:** If you've built one of these before, another detail that may be interesting is where we capture output. We capture below the language-level hooks, so we can see output from a forked child or a direct write to a file descriptor.
+Console captures output below the language-level hooks. In the R example, a child process sends text through a pipe to the native `cat` command. Python writes directly to file descriptor 1, bypassing `sys.stdout`. Both results are captured.
 
-On the left, an R child process sends text through a pipe to the native cat command. On the right, Python writes directly to file descriptor 1, bypassing sys.stdout. Both outputs come back through Console. That is the kind of detail we want the shared execution system to handle.
+The R example uses that specific route because plain `cat()` in a fork produced no visible text in the recorded build. The `23` after the Python output is the byte count returned by `os.write()`.
 
-**Author / capture:** Both panels use actual responses. Plain cat() in a fork completed without visible text in the captured build; the displayed R child → pipe → native cat route was captured successfully. The 23 after Python output is os.write()'s returned byte count.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Interrupt or restart the session {#session-controls .deck-slide .literal-slide}
@@ -1367,17 +1327,13 @@ Restart keeps prepared dependencies and starts the supplied cell in the new sess
 
 ::: {.notes}
 
-**Say:** Interrupt a long-running computation while keeping the workspace, like pressing Escape in the RStudio console. Restart retires the worker and starts a replacement with fresh in-memory state. Prepared dependencies remain available.
+An interrupt asks the current computation to stop while keeping the workspace. It sends SIGINT, which code can catch or delay; changes already made remain. Restart replaces the worker with fresh in-memory state while retaining successfully prepared dependencies.
 
-A control and a code cell can be combined in one send call. A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session.
+A control and a cell can share a call. For package development, a restart followed by `devtools::load_all()` or `devtools::test()` runs against the files on disk in a fresh R session. Launch these examples from the package directory. The calls are alternatives, and the ellipsis stands for further code.
 
-**Reference (not spoken):** Interrupt requests SIGINT; code can catch or delay it. Changes already made by the computation remain. Restart discards R objects, Python state, the managed DuckDB catalog, debugger state, and unread input; successfully prepared dependencies remain available. Launch from the package directory for these examples. The two calls are alternatives. The ellipsis after load_all is a placeholder for the package code the model wants to evaluate next, not literal R code to run.
+A control-only interrupt can overlap a pending call. If an interrupt includes a new cell, that cell waits for the previous evaluation to stop. Restart discards R objects, Python state, the managed DuckDB catalog, debugger state, and unread input. The restart-and-test example was exercised with the saved control-operation fixture.
 
-**Show:** There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.
-
-**Author / capture:** The restart-plus-test call was exercised against the local package fixture in the controls capture. The following examples introduce stdin, use it with the debugger, and combine restart, requirements, input, and a sourced script.
-
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
+[Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
 
 :::
 ## Send input to an R prompt {#stdin .deck-slide .literal-slide}
@@ -1469,15 +1425,13 @@ Send the answer through `stdin`, including the newline.
 
 ::: {.notes}
 
-**Say:** Some R code needs to consume standard input. Here readline asks for a name, and the cell pauses while it waits for an answer. Console returns the prompt and tells the model that the runtime is waiting for input.
+`readline()` asks for a name and pauses the cell. Console returns the prompt and reports that the runtime is waiting for input.
 
-The model sends Ada followed by a newline through the stdin argument. That supplies the bytes to the running session. The same cell resumes, assigns the answer to name, and prints it. We don't need to submit the R code again.
+The next call supplies `Ada` followed by a newline through `stdin`. The same cell resumes, assigns the answer to `name`, and prints it. The R code is not submitted again, and `stdin` does not add a newline automatically.
 
-That is the input mechanism for an ordinary interactive prompt. It also lets the model drive a debugger, which is the next example.
+Both calls and responses come from the saved sandboxed session. Rendering reads those responses without opening an interactive prompt.
 
-**Author / capture:** The two calls and responses are literal captures from the existing sandboxed session. stdin does not add a newline automatically. Quarto reads the captured output instead of running an interactive prompt during rendering.
-
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
+[Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
 ## Send input to a paused debugger {#debugger .deck-slide .literal-slide}
@@ -1598,15 +1552,11 @@ console_protocol("browser-continue")
 
 ::: {.notes}
 
-**Say:** The same stdin argument also lets the model drive a debugger. Here a function calls browser(), and execution pauses at the debugger prompt.
+The `stdin` argument also supplies input to R's debugger. Here, `browser()` pauses execution inside a function. Sending `x` followed by a newline inspects the argument; sending `c` followed by a newline continues execution.
 
-The model sends x and a newline through stdin to inspect the argument. It gets the value back, along with another prompt. Then it sends c and a newline to continue, and the function returns its result.
+The session stays alive between calls while the model inspects values and decides how to continue. Each call is paired with its saved response from the same sandboxed session. Rendering does not enter the debugger, and `stdin` does not add newlines automatically.
 
-This uses the same input mechanism as readline. The session stays alive while the model inspects values and decides how to continue.
-
-**Author / capture:** Each call is paired with its literal Console response. All three calls were captured in the same sandboxed session. Quarto reads the saved output; it does not enter an interactive debugger during rendering. stdin does not add a newline automatically.
-
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
+[Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
 ## Run an interactive script in a fresh session {#restart-input .deck-slide .literal-slide}
@@ -1692,15 +1642,13 @@ Prepare readr → restart → queue input → source the script.
 
 ::: {.notes}
 
-**Say:** Now we can combine four things in one call: a restart, package requirements, standard input, and an R cell. This script asks which group to summarize, reads the data with readr, and prints a summary.
+This call combines a restart, package requirements, input, and an R cell. Console prepares `readr`, replaces the worker, queues `A` and a newline, then sources the script. When `readline()` asks which group to summarize, the answer is already waiting. The worker-replacement notices and script output arrive in one response.
 
-Console prepares the declared dependency first, then replaces the worker. Once the fresh session is ready, it queues A and a newline and sources the script. When readline asks for the group, the answer is already there. The replacement notices and the script's output come back in one response.
+Run from `examples/` so the script and CSV are available. Preparation happens before the old worker is retired; a resolution failure at that stage leaves it available. Only the replacement receives the queued input. The script uses `readr::read_csv()` and prints its summary explicitly because `source()` does not automatically print visible expressions.
 
-**Reference (not spoken):** Run from examples/ so ./summarize.R and ./measurements.csv exist. Requirements are prepared before worker retirement; a resolution failure at that stage leaves the old worker available. Only the replacement receives the queued input. Preparation makes readr available; the script calls readr::read_csv explicitly. source() does not automatically print each visible expression, so the script prints its summary. An answer that depends on unseen output should be supplied in a later stdin-only call.
+This request and response were captured together. Subsequent checks confirmed that old state was gone and group A was selected. If an answer depends on output not yet seen, supply it in a later input-only call.
 
-**Author / capture:** The four-argument request and its single literal response were captured in captures/combined-input. A subsequent assertion verified that the old session's sentinel was gone, readr returned a tibble, and group A was selected. The earlier three-argument example and its base-R script remain in captures/controls and examples/analyze.R.
-
-**Sources:** [Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
+[Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
 
 :::
 ## The current send() interface {#full-signature .deck-slide .signature-slide}
@@ -1730,15 +1678,13 @@ Omit code to poll, supply input, control the session, or prepare dependencies.
 
 ::: {.notes}
 
-**Say:** This is the current model-facing interface: one tool with a set of optional arguments. It accepts one language cell at a time, in R, Python, or SQL.
+`send` accepts one language cell at a time: R, Python, or SQL. A call can also carry a control operation, standard input, package requirements, and a wait duration.
 
-We can combine that with a session control operation or standard input. We can declare package requirements, including specific versions, and set how long the call waits for output.
+Code is optional. A call can poll, answer a prompt, interrupt or restart the session, or prepare dependencies. Explicit preparation and controls run before the evaluation wait. Code-free preparation cannot also carry nonempty `stdin`.
 
-And we can leave out the code: poll for more output, answer a prompt, interrupt or restart the session, or prepare dependencies. The model can start with the simple call we saw earlier and use these other arguments when it needs them.
+This is a schematic list of arguments, not a request to submit three language cells together. Requirements are exposed only when the target supports managed preparation.
 
-**Reference (not spoken):** This schematic overview lists fields, not three cells to submit together. Requirements are exposed only when supported by the execution target. An empty send collects output. Explicit preparation and control precede the evaluation wait. Code-free preparation cannot also carry nonempty stdin.
-
-**Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Choose between two built-in sandbox policies {#builtin-policies .deck-slide .literal-slide .policy-comparison}
@@ -1798,15 +1744,15 @@ Both restrict networking, cover subprocesses, and clean up on restart. Deny sens
 
 ::: {.notes}
 
-**Say:** Now let's look more closely at the sandbox. There are two built-in policies. The default is called read-only. The model has read access to the host files available to the account, but it can write only in its own private temporary storage. Direct network access is restricted. If there are sensitive files the model shouldn't read, the user can deny those paths explicitly.
+The default `:read-only` policy allows reads of host files available to the account and writes in private temporary storage. It restricts direct networking. Sensitive files need explicit read denials, and inherited environment variables may also need restrictions.
 
-Workspace adds write access under the working directory where Console is launched. It still protects the .git, .agents, .codex, and .claude directories from writes.
+`:workspace` adds write access under the launch directory while protecting `.git`, `.agents`, `.codex`, and `.claude` from writes. Both policies cover the worker and its subprocesses. The leading colon is part of the preset name; `-c` overrides `extends` while retaining other project settings.
 
-Both policies apply to the worker and its subprocesses. On an explicit restart or server shutdown, Console stops the worker and cleans up its child processes and temporary storage. The user can select either policy at the command line.
+On restart and server shutdown, Console stops the worker and cleans up subprocesses and private storage, allowing a grace period before escalation. Linux waits for PID namespace retirement. macOS covers the owned process group and observed descendants, with an orphaning-race limitation. Runner death has no independent cleanup guarantee. Prepared dependencies, records, and project files persist.
 
-**Reference (not spoken):** Cleanup runs on restart and server shutdown. Console allows a worker grace period before escalation. On Linux the runner waits for PID namespace retirement; on macOS it covers the owned process group and observed descendants, with an orphaning race limitation. Runner death has no independent cleanup guarantee. Prepared dependencies, records, and project files persist. Inherited environment variables and broad host reads may expose secrets; configuration can restrict them. There is a grace period, followed by forceful termination if needed. The leading colon is part of the built-in name. -c overrides extends while retaining other project configuration. external-sandbox and unrestricted are enforcement modes, not additional named presets.
+`external-sandbox` and `unrestricted` are enforcement modes, not additional named presets.
 
-**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Configuration layering](https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
+[Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Configuration layering](https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
 ## Extend a built-in policy for the project {#private-inputs .deck-slide .config-slide .code-dense}
@@ -1868,13 +1814,11 @@ Set project permissions in .agents/console/config.yaml.
 
 ::: {.notes}
 
-**Say:** If the user wants to customize a built-in policy, Console also reads .agents/console/config.yaml from the launch directory.
+Console reads `.agents/console/config.yaml` from the launch directory. This example extends `:workspace`, keeps the data directory read-only, and denies reads of the secrets directory and `.env`.
 
-Here we start with workspace and adjust the filesystem permissions: keep the data directory read-only, and deny access to the secrets directory and .env. This is the user's configuration. It sets the permissions the model gets for that session.
+The paths should already exist. Native permission specificity is not determined by array order. Linux has documented limits on nested deny/read reopenings, so this example does not establish that arbitrary filesystem rules behave identically across platforms.
 
-**Author / capture:** Use pre-existing fixture paths. Native specificity is not array order. Linux has documented limits for nested deny/read reopenings; this simple example does not establish arbitrary cross-platform ACL equivalence.
-
-**Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Example: connect to a corporate data warehouse {#network-proxy .deck-slide .config-slide .code-dense}
@@ -1931,17 +1875,13 @@ The client still supplies its usual database credentials.
 
 ::: {.notes}
 
-**Say:** The same configuration lets us make a specific exception to the network restrictions. For example, suppose we want the model to query a corporate data warehouse through an HTTPS API.
+A managed proxy can allow a specific HTTPS destination, such as a corporate data warehouse API, while retaining restrictions on other network access. The model still needs the usual credentials.
 
-We enable the managed proxy and allow that warehouse host. The model still needs the usual database credentials, but we can give it that connection without opening general network access.
+This slide shows a focused excerpt. The full configuration is in `examples/configs/network-proxy.yaml`, and the appendix lists the proxy fields. All seven scalar fields are required; `mode: full` still applies the destination rules.
 
-This excerpt shows the part of the policy that selects the destination. The complete proxy configuration is in the appendix.
+Other database TCP protocols need a SOCKS-aware client or tunnel. Private-IP destinations need a literal-IP rule or local-network exception; allowing a hostname alone does not grant private-address access. The domains are placeholders and were not contacted.
 
-**Reference (not spoken):** This is a focused YAML excerpt, not a standalone config. examples/configs/network-proxy.yaml contains the full version. Arbitrary database TCP protocols need a SOCKS-aware client or tunnel. Private-IP destinations need the appropriate literal-IP rule or local-network exception; a hostname rule alone does not grant private-address access. Placeholder domains were not contacted.
-
-**Author / capture:** Example domains are placeholders, not actual services. All seven required scalar proxy fields are present. mode: full does not erase the domain allowlist. Review PROTOCOL.md for mode, upstream proxy, UDP and local-binding semantics.
-
-**Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Example: develop a local Shiny app {#network-listener .deck-slide .config-slide .code-dense}
@@ -1997,15 +1937,11 @@ sandbox:
 
 ::: {.notes}
 
-**Say:** Here's another example: local Shiny development. We can enable local binding so the model can launch the app on a loopback port, and then open it in a browser.
+Allowing local binding lets the model start a Shiny app on a loopback port. The app can keep running while the model polls for output, then be interrupted when the work is finished.
 
-The app can keep running while the model polls for output, and the model can interrupt it when it's finished. This is another permission we can configure for the work we want the agent to do.
+This is a focused excerpt; `examples/configs/network-listener.yaml` contains the full configuration. The flag permits local networking beyond a single Shiny port. It does not provide a port-specific allowlist, a viewer, or automatic forwarding. Application behavior still needs to be checked on the chosen host.
 
-**Reference (not spoken):** This is a focused YAML excerpt, not a standalone config. examples/configs/network-listener.yaml contains the full version. The flag permits local networking exceptions beyond a single Shiny port; it is not a port-specific allowlist. This does not promise a viewer or automatic port forwarding.
-
-**Author / capture:** Validate the exact native behavior with the application used for the demo. This slide does not promise a Shiny viewer or automatic port forwarding. Keep all required proxy fields when changing a single flag.
-
-**Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Run any command through the sandbox {#sandbox-command .deck-slide .story-slide .literal-slide}
@@ -2060,17 +1996,13 @@ Reuse the sandbox from your own tools and agent harnesses.
 
 ::: {.notes}
 
-**Say:** And by the way, this sandbox is also available as a public command-line interface. This was one of the major things people asked for with MCP REPL: a sandbox they could build on themselves.
+The sandbox is also available as a command-line interface. An application can launch an ordinary command with standard input, output, error, and exit status, without starting an MCP server or persistent Console session.
 
-Here I'm running an ordinary R script. The command could just as easily be Python, a compiler, or an executable from your own application. Console reads the same project configuration and command-line overrides we just saw, then hands execution to the native sandbox runner. That runner executes the command and applies the filesystem and network policy to it and its child processes.
+The command after `--` runs under the project configuration and command-line overrides. Here, an R script reads the measurements CSV and prints model coefficients. Run it from the presentation directory. The native runner applies filesystem and network policy to the command and its subprocesses and owns their cleanup.
 
-Your application launches this as a subprocess and uses ordinary standard input, standard output, standard error, and exit status. You don't need to start an MCP server or a persistent Console session. You can use the sandbox directly in another tool or agent harness.
+This path executes locally on macOS or Linux. It does not use the worker runtime, automatic package preparation, MCP output framing, or session transcripts. Target settings do not turn it into an SSH or Docker dispatcher. `external-sandbox` is a separate enforcement mode; advanced callers can supply a complete runner policy through `--config-env`. The native platform and lifecycle limits still apply.
 
-**Show:** Point to the command after --. The supplied script reads the measurements CSV and prints model coefficients. Run it from the presentation directory.
-
-**Reference (not spoken):** Ordinary sandbox launches discover .agents/console/config.yaml beneath the launch directory and use the local native policy. -c extends=:workspace selects the workspace baseline; without project configuration or overrides, the default is read-only. Console verifies and execs its bundled runner, which inherits fd 0/1/2 and owns native enforcement and cleanup. This path does not use the built-in worker, automatic package resolution, MCP output framing, or session transcripts. The standalone command executes locally; target settings do not turn it into an SSH or Docker command dispatcher. The separate filesystem mode named external-sandbox means enforcement by an outer boundary; it is not the name of this public CLI feature. Advanced callers can supply a complete runner policy through --config-env. Supported native hosts are macOS and Linux; the existing platform and lifecycle limits still apply.
-
-**Sources:** [Sandbox integration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[Sandbox integration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Configure where the session runs {#execution-choice .deck-slide .story-slide}
@@ -2116,13 +2048,11 @@ Execution targets plug into the same session interface.
 
 ::: {.notes}
 
-**Say:** The session also doesn't have to run locally. Local is the default: the worker runs on the same host as the Console server.
+Local execution is the default: the worker runs on the same host as the Console server. The user can instead configure an SSH host or a Docker container.
 
-We can also configure an SSH host or a Docker container. The architecture separates the session interface from the execution environment, so where the worker runs is a user choice.
+The session interface is separate from the execution environment. Local and SSH targets support managed package preparation. Docker uses preinstalled dependencies; adding uv and ir to an image does not enable preparation inside a running session.
 
-**Reference (not spoken):** Local and SSH support managed package preparation. The currently inspected Docker path uses prepared-image dependencies; installing uv and ir alone does not enable managed preparation.
-
-**Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
+[SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
 
 :::
 ## Move execution to the remote host {#remote-topology .deck-slide .story-slide}
@@ -2183,13 +2113,11 @@ Code runs beside the remote data. The client and session records stay local.
 
 ::: {.notes}
 
-**Say:** This is the earlier diagram with execution moved to a remote host. On your machine, the LLM client talks to the Console server over MCP stdio. The server launches a worker relay on the SSH host, and the worker runs there.
+With SSH, the client and Console server stay on the local machine while the relay and worker run on the remote host. Trusted package resolvers also run remotely, outside the worker sandbox.
 
-The trusted package resolvers run on that host too, outside the worker sandbox. The sandbox policy can still apply to the worker and its subprocesses. The placement has changed, but the relationship between the parts is the same.
+This lets code run beside data already on that host. Results return over SSH, and the server keeps the session records locally. The remote worker and its subprocesses use the configured sandbox policy.
 
-So if the project and data already live on that machine, we can work with them there without first staging the dataset locally. Results come back over SSH, and the session records stay on your machine.
-
-**Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md)
+[SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md)
 
 :::
 ## Point Console at the remote workspace {#ssh .deck-slide .config-slide .code-dense}
@@ -2248,13 +2176,11 @@ sandbox:
 
 ::: {.notes}
 
-**Say:** To configure an SSH host, the user names the host and the working directory where the worker should start. That directory and the runtime prerequisites need to exist on the remote machine.
+An SSH target names the host and the workspace where the worker starts. The workspace, data, and runtime prerequisites must already exist remotely. The client launches the local Console server as usual.
 
-Then we can layer sandbox permissions on top. Here, the workspace policy and the data directory rule apply on the remote host. The client still launches the Console server in the usual way.
+Here, the workspace policy and data-directory rule apply on the SSH host. `analysis-host` must be a configured OpenSSH destination, and `/srv/projects/analysis` must exist. Combining SSH and Docker targets is unsupported in this revision.
 
-**Author / capture:** analysis-host must be a configured OpenSSH destination; /srv/projects/analysis and data must already exist. SSH+Docker composition is not supported in this revision.
-
-**Sources:** [ssh](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[ssh](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Run a prepared Docker image {#docker .deck-slide .config-slide .code-dense}
@@ -2321,13 +2247,13 @@ Docker sessions use preinstalled packages. Build the dependencies into the image
 
 ::: {.notes}
 
-**Say:** Besides SSH hosts, users can configure a Docker container. The Console repository includes a Dockerfile that builds the Linux executable and its native companion, and installs R, Python, and analysis dependencies. We build that image, then give Console its name and the project mount.
+The Console repository includes a Dockerfile that builds the Linux executable and its native companion and installs R, Python, and analysis dependencies. Build the image from that repository, then configure its name and the project mount.
 
-Package preparation happens when we build the image. Console does not resolve new dependencies inside a running Docker session. In this example, enforcement is delegated to Docker, and the launch uses its bridge network. That does not give us the destination restrictions from the earlier proxy example.
+Docker sessions use preinstalled packages. Console does not resolve new dependencies inside the running container. This example delegates enforcement to Docker and uses bridge networking, without the destination restrictions from the proxy example.
 
-**Author / validation:** Checked against Console source ea5c1e737f329a86d957b12d7d1f15690824e398 on October 2, 2026. Run the build command from that repository, not the presentation directory. The image must contain the runtimes and packages the session needs. No image build or container session was run for this presentation. External-sandbox delegates enforcement to Docker; the writable bind includes project metadata and recordings, without native .git or .agents write protection.
+The writable project bind includes metadata and recordings; `external-sandbox` adds no native `.git` or `.agents` write protection. The recipe and configuration were checked against revision `ea5c1e737f329a86d957b12d7d1f15690824e398` on October 2, 2026. No image build or container session was run for this presentation.
 
-**Sources:** [Docker image recipe](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/examples/docker/Dockerfile) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
+[Docker image recipe](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/examples/docker/Dockerfile) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
 
 :::
 ## The agent uses the same interface on every host {#target-invariance .deck-slide}
@@ -2361,11 +2287,11 @@ Local host &nbsp; / &nbsp; SSH &nbsp; / &nbsp; Docker
 
 ::: {.notes}
 
-**Say:** Regardless of where the worker runs, the model gets the same interface. It sends a cell, receives results, and uses the same input, wait, and control operations.
+The model uses the same `send` interface whether the worker runs locally, over SSH, or in Docker. It submits cells, receives results, and uses the same input, wait, and control operations.
 
-The user configures the execution environment, and the model can keep working through the send tool.
+The user selects the execution host and its permissions. Available capabilities, including managed package preparation, depend on that target.
 
-**Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
+[Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 :::
 ## Keep session logs and readable transcripts {#recording .deck-slide .literal-slide}
@@ -2404,17 +2330,15 @@ Full logs and a readable presentation of the session.
 
 ::: {.notes}
 
-**Say:** Wherever the worker runs, the Console server keeps the session records. Each recorded session gets a directory under .agents/console/sessions, relative to the Console server's working directory. Recording starts on the first send call.
+Recording starts on the first `send` call. Each recorded session gets a directory under `.agents/console/sessions/`, relative to the Console server's working directory. For a remote worker, these files stay on the controller.
 
-The events.jsonl file records the tool calls and responses, including metadata attached by the client. For example, a client can attach a thread ID and other information that helps reconstruct the session.
+`internal/events.jsonl` records tool requests, assembled results, lifecycle metadata, and client-supplied metadata such as a thread ID. It is a structured journal, not a byte-for-byte wire capture or proof of delivery. The capture scripts retain the transport separately in `wire.jsonl`.
 
-The outputs directory preserves the fuller output that the model can inspect when a response is too large. The artifacts directory holds captured images. These are files on the server side, so other tools with access to that directory can use them. The server can save a plot there even when the worker has read-only permissions on the project.
+`outputs/` keeps fuller output when a response is shortened, with raw per-cell retention bounded at 1 GiB. `artifacts/` holds returned images. The server writes these files, so it can record a plot even when the worker has read-only project access. Other tools need access to that recording directory; it is not a general worker-writable export location.
 
-Then we maintain human-readable transcripts. You can think of these as projections of the session record. The Markdown shows what was submitted and what came back. The Quarto file gives us the submitted code as a starting point for another analysis.
+Markdown presents the submitted calls and results in order. Quarto projects the submitted code into an editable document.
 
-**Reference (not spoken):** The exact default root is .agents/console/sessions/, with a unique directory for each recorded session. The path is on the controller for remote workers. internal/events.jsonl records tool requests, assembled results, and lifecycle metadata; it is not a byte-for-byte capture of every MCP message or proof of delivery. The capture script records the complete transport separately in wire.jsonl. The current artifacts/ mechanism persists returned images; it is not a general worker-writable export directory or an automatic export API for arbitrary files. Raw per-cell output retention is bounded at 1 GiB. Other tools need access to the controller's recording workspace.
-
-**Sources:** [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+[Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
 ## Read the session as Markdown {#markdown-transcript .deck-slide .literal-slide .code-dense}
@@ -2450,11 +2374,11 @@ Code and captured results stay together in the session history.
 
 ::: {.notes}
 
-**Say:** Here's the Markdown version. If the model sends some R code, we get a fenced code block, followed by the captured output in a text block.
+The Markdown transcript pairs each submitted cell with its returned output. Code and text use fenced blocks, with links to captured images and fuller retained output.
 
-It's a readable presentation of the session. A reader can follow the calls and results in order, and links point to captured images or fuller retained output.
+A reader can follow the session in order without replaying it.
 
-**Sources:** [Session records](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+[Session records](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
 ## Turn the session into an editable starting point {#quarto-transcript .deck-slide .literal-slide .code-dense}
@@ -2518,15 +2442,13 @@ cat(
 
 ::: {.notes}
 
-**Say:** We also maintain a QMD file. The submitted R code becomes an R chunk; Python and SQL code become chunks in those languages. The earlier output isn't copied into this source document. The idea is to evaluate the code again when we render it.
+The QMD transcript turns submitted R, Python, and SQL cells into executable chunks. It omits the recorded output, input, polls, and controls. The front matter records managed defaults and explicitly declared requirements in an `ir` section.
 
-The front matter includes an ir section with the managed defaults and declared package requirements recorded during the session. That gives us a starting point for preparing the environment as well as the analysis itself.
+The example copies that source into `report.qmd`, shortens the package list, and adds a package cutoff date. With the data and connections available, `ir render report.qmd` can evaluate the edited analysis again.
 
-On this slide, I've copied the generated transcript into report.qmd, shortened the package list, and added a package snapshot date. We can edit that copy and run ir render report.qmd. With the data and connections in place, it's a starting point for a reproducible artifact from an interactive session the model had.
+The generated source needs curation: it can include failed or rejected calls, and its requirements are not a complete package inventory or environment lock. Rendering executes code outside the worker sandbox. SQL chunks need a configured DBI connection, and remote projections default to `eval: false` until an appropriate replay environment is supplied.
 
-**Reference (not spoken):** The ir declarations include managed defaults and explicit requirements submitted in recorded calls, not every inferred package or a lockfile of successful resolutions. ir.exclude-newer is author-added. The QMD omits recorded outputs, stdin, polls, and controls; it can include source from rejected or failed calls. Rendering evaluates cells again outside the worker sandbox. SQL chunks need a configured DBI connection. Remote projections default to eval:false and need an appropriate execution environment for replay.
-
-**Sources:** [ir Quarto integration](https://r-lib.github.io/ir/quarto.html) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
+[ir Quarto integration](https://r-lib.github.io/ir/quarto.html) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
 ## Possible extension: multiple sessions {#future-sessions .deck-slide .signature-slide .api-proposal}
@@ -2557,11 +2479,9 @@ Let the model manage several sessions and keep work running concurrently.
 
 ::: {.notes}
 
-**Say:** There are also a couple of possible extensions I'm thinking about. These are ideas, rather than part of the current API.
+A possible extension is a `session` argument to address several independent workspaces through the same tool. The model could return to one analysis while another continues running.
 
-One would be a session argument. That would let the model manage multiple sessions concurrently through the same send tool. It could keep separate workspaces for different parts of a task and return to one session while work continues in another.
-
-The argument would identify which session a call belongs to. I still need to work through how the model creates and manages those sessions, but this is the shape of the interface I have in mind.
+This is an idea, not part of the current API. Session creation and management still need a design.
 
 :::
 ## Possible extension: a session notebook {#future-notes .deck-slide .signature-slide .api-proposal}
@@ -2599,13 +2519,9 @@ Append intentions, observations, and conclusions alongside the code and results.
 
 ::: {.notes}
 
-**Say:** Another idea is a note argument, or perhaps comment. The name isn't settled. The model could send prose and use the transcript as an append-only lab notebook.
+Another possible extension is a `note` or `comment` argument. The model could record what it intends to check, then add observations or conclusions alongside the code and results, including notes without a code cell.
 
-Before running code, it might record what it wants to check: for example, whether the residual pattern differs between groups. After seeing the result, it could add an observation or conclusion, including a note on its own without another code cell.
-
-That would leave a record of the purpose of the analysis and what the model learned, alongside the code and its output. Someone coming back later could follow how the work developed. And when we export a curated document, we'd already have prose to draw on.
-
-The session and note arguments are both still ideas. The current API is the one we saw earlier. Beyond the API, there are a few things I want to finish before a release.
+That would make the session record more useful as a lab notebook and provide prose for a later curated report. The name and behavior are still open; neither this argument nor the proposed session argument is implemented.
 
 :::
 ## Before an official release {#before-release .deck-slide .policy-slide}
@@ -2630,21 +2546,15 @@ The agent-facing API is largely complete. The human-facing experience needs anot
 
 ::: {.notes}
 
-**Say:** The agent-facing API has had a lot of thought put into it, and I think it's largely feature complete. The human-facing experience needs another solid pass.
+As of October 2, 2026, macOS and Linux are supported, Windows is not, and Python and SQL can run without R. That status was checked at revision `ea5c1e737f329a86d957b12d7d1f15690824e398`.
 
-As of October 2, macOS and Linux are supported, and Windows is not. Python and SQL can already run without R.
+The remaining items are design priorities. I'd like the configuration to be easier to read and write, with clearer discovery and storage defaults. Tool descriptions need to explain the available capabilities concisely, and evals can help check whether models find and use them.
 
-The configuration format is currently a fairly raw pass-through of the Rust structs that drive the sandbox. I'd like it to be an API designed for people to read and write. That includes deciding where config is discovered, whether there's a default location in the home directory, and where session files should live so we don't clutter project directories.
+Curated exports could let a model select parts of a session for a Quarto document. Artifact handoff also needs a design: an image or other output should persist where another authorized tool can retrieve it, without widening the worker's permissions.
 
-The tool descriptions also need work. They should convey the capabilities clearly without spending unnecessary tokens. We need evals to see whether the descriptions actually help models discover and use those capabilities.
+These priorities come from the September 23 work list. They are not a release checklist or a commitment to particular APIs.
 
-For session exports, I'd like an R or Python function the model can call to turn selected parts of the session into a curated Quarto document. Together with the note idea, that's a workflow we still need to design beyond the automatic transcripts shown here.
-
-Finally, we need to think through artifact handoff. The model might create a graphic inside Console, then use another tool to copy it to its destination. We need to expose the write-only output locations and make the files persist so that handoff works. Console can keep its restrictive permissions while another tool uses the permissions it already has.
-
-**Reference (not spoken):** Platform and R-independent runtime support were checked against Console source ea5c1e737f329a86d957b12d7d1f15690824e398 on October 2, 2026. The remaining bullets preserve the author's September 23 design priorities; they are not a release checklist or delivery commitment. No function names, configuration paths, or APIs are promised here.
-
-**Sources:** [Supported platforms](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/README.md) · [Python sessions without R](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/docs/BUILTIN_RUNTIME.md#python-sessions-without-r)
+[Supported platforms](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/README.md) · [Python sessions without R](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/docs/BUILTIN_RUNTIME.md#python-sessions-without-r)
 
 :::
 ## Launch or install Console {#install-python .deck-slide .integration .code-dense}
@@ -2724,17 +2634,15 @@ Let `uvx` manage resolution and automatically pick up updates.
 
 ::: {.notes}
 
-**Say:** If you'd like to try it, the most common way to launch Console will be uvx mcp-console serve. uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
+`uvx mcp-console serve` resolves and launches the executable. Registry caching means it does not check for a new release on every launch; a version pin or compatible installed tool can retain an older version.
 
-If you want a persistent installation in your Python environment, use uv pip install. The base package gives you the executable, and the optional extras add the Python integrations. This command lists all the supported extras; pick the ones you need.
+For a persistent installation in an existing Python environment, use `uv pip install`. The base package supplies the executable, and optional extras add the client integrations. Select the extras the application needs.
 
-For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub. The R package provides the interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI.
+The R package is available from source with `pak::pak("github::t-kalinowski/mcp-console/r")`; CRAN installation is planned. The wrapper checks `PATH` unless a path or version is specified. When resolution is needed, it uses reticulate's uv integration to obtain the executable from PyPI rather than bundling it in the R package.
 
-To use Console with Codex or Claude Code, register that launch command with the client. When the client needs Console, it starts the server through uvx.
+MCP clients register the server launch command and start it when needed. Client deadlines are separate from the wait duration supplied to Console.
 
-**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. uv pip install targets an existing Python environment. The current R source command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal. Client-side deadlines remain separate from Console evaluation waits.
-
-**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
+[uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
 
 :::
 ## Connect Console to your agent harness {#interfaces .deck-slide .integration}
@@ -2802,15 +2710,13 @@ Your chat and provider. A separate persistent Console worker.
 
 ::: {.notes}
 
-**Say:** You can also register Console as a tool with a chat library. In ellmer, create your chat object as usual and register console_tool as another tool. For chatlas, import mcp_console and register its chatlas tool with the chat.
+In ellmer, register `console_tool()` with the chat. In chatlas, register the adapter returned by `mcp_console.chatlas.tool(console)`. Other adapters cover the Anthropic SDK, OpenAI Responses, the Agents SDK, and the Codex thread SDK, alongside SDK-independent synchronous and asynchronous clients.
 
-There are also adapters for the Anthropic SDK, the Codex thread SDK, OpenAI Responses, and the Agents SDK, plus SDK-agnostic synchronous and asynchronous clients. You can use those from another harness or just drive the session manually.
+The application owns the conversation. Evaluated code runs in a separate persistent Console worker.
 
-In every case, the application keeps control of the conversation, and the model's code runs in the Console worker, separate from the process running the chat.
+Adapter availability and image support depend on the installed release; the older wheel used for some captures lacks newer integrations. The chatlas registration example was checked with version 0.23.0 through a direct tool call, without a model API call. In that version, `register_tool()` reconstructs the schema from Python annotations. The seven arguments remain available; `set_tools()` preserves the server-provided schema when that is required.
 
-**Reference (not spoken):** The adapters are documented in the source checkout; the older PyPI wheel used for some captures lacks newer clients and extras. Verify the release and image support of the chosen adapter before a live demo. Registration and a direct call through the registered tool were checked with chatlas 0.23.0, without a model API call. In this version, register_tool() rebuilds the schema from Console's Python send annotations; it does not preserve the server-provided schema verbatim. The seven send arguments remain available. Use set_tools() when exact schema preservation is required.
-
-**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [chatlas registration](https://posit-dev.github.io/chatlas/reference/Chat.html#chatlas.Chat.register_tool)
+[Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [chatlas registration](https://posit-dev.github.io/chatlas/reference/Chat.html#chatlas.Chat.register_tool)
 
 :::
 ## R, Python, and SQL, available for the work {#closing .deck-slide .hero .story-slide}
@@ -2840,13 +2746,11 @@ Full language capabilities, with a sandbox that enforces the access you allow.
 
 ::: {.notes}
 
-**Say:** So those are the core ideas behind Console. Let the model choose the language. Users configure the execution host and the permissions for the work. It's all in service of giving the agent an interactive workbench, with full capabilities and a sandbox.
+Console brings R, Python, and SQL into one persistent workbench. The model can choose a language for each step, reuse session state, and use the same input, output, and control operations across languages.
 
-My hope is that we can share this execution system and keep solving the difficult parts in one place. If you're building an agent that needs to run code, I'd like to hear whether Console would work for it. And if you're interested in one of the open items, like the Docker sandbox integration, I'd welcome the help.
+The user configures the execution host and permissions. Session management, package preparation, output handling, and recordings provide the shared foundation around the language runtimes. The appendix gives more detail on configuration, development history, and testing.
 
-I have some appendix material on the internals and testing if you're curious, but I'll stop here for now.
-
-**Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Appendix {#appendix .deck-slide .hero .story-slide}
@@ -2870,9 +2774,7 @@ How the capabilities evolved, and how their behavior is checked.
 
 ::: {.notes}
 
-**Say:** The main talk ends here. These slides are available for questions about package configuration, how the project evolved, and how its behavior is checked. The development history leads into the instructions given to coding agents and some examples from the test suite.
-
-**Show:** Pause at this divider before entering the development material.
+The appendix covers package configuration, the project's development history, and how its behavior is tested. The historical charts and workflow examples describe the dated snapshots cited in their notes.
 
 :::
 ## Example: use approved package repositories {#package-sources .deck-slide .config-slide .code-dense}
@@ -2929,19 +2831,15 @@ Choose which packages are available for resolution.
 
 ::: {.notes}
 
-**Say:** Making packages available doesn't mean we have to expose all of CRAN or PyPI. We can point the resolvers at a corporate mirror or a Posit Package Manager instance. Those repositories can contain an approved set of packages and versions.
+The resolvers can use a corporate mirror or Posit Package Manager repositories containing an approved set of packages. `PKG_CRAN_MIRROR` selects the R source used by ir's pak resolver; `UV_DEFAULT_INDEX` replaces uv's default Python index.
 
-Here the user sets the R repository and Python index in the environment used to launch Console. The organization manages the approved set, and the model can still request a package when the task needs it.
+These settings belong in the Console server's launch environment, not `sandbox.environment`. For SSH, configure the remote preparation environment. The slide uses YAML for readability; clients that expect JSON need the equivalent JSON configuration.
 
-These are client launch settings. The config.yaml examples in the main talk control the worker sandbox. The resolver runs outside that sandbox, so exclusive access to approved sources also needs network policy on the resolver host. A preinstalled, administrator-managed environment is another option when dynamic additions aren't wanted.
+Repository selection alone is not a package allowlist. Exclusive sourcing also depends on resolver-host network policy, additional repositories, explicit R remotes, bootstrap tools, preinstalled packages, and caches. The resolver runs outside the worker sandbox. A preinstalled environment is another option; Docker uses that approach, and an explicit `RETICULATE_PYTHON` selection disables managed Python additions.
 
-**Reference (not spoken):** This is the common mcpServers client configuration shown as YAML for readability; use JSON for clients that require it. Replace the illustrative PPM URLs with the repository's setup URLs. PKG_CRAN_MIRROR configures the pak resolver used by ir; UV_DEFAULT_INDEX replaces uv's default PyPI index. Supply these in the Console server's launch environment, not sandbox.environment in .agents/console/config.yaml. On SSH, configure the trusted remote preparation environment.
+The URLs are placeholders. Repository selection was checked with pak and uv, but no corporate PPM connection or end-to-end network restriction was tested.
 
-Repository selection is not a complete package allowlist. Remove unapproved additional indexes and sources, account for Bioconductor and explicit R remote references, and restrict the resolver host's egress as needed. Preinstalled packages and reused caches also belong to the approved environment. ir tooling bootstrap can use its public PPM endpoint, and uvx needs the Console distribution and any resolver tooling; provision these through the approved environment before restricting access. Current Console config.yaml has no package-allowlist field. A selected RETICULATE_PYTHON disables managed Python additions; current Docker targets use preinstalled environments for all languages.
-
-**Author / validation:** Repository selection was checked with pak and uv. The example does not represent a connection to a live corporate PPM instance or an end-to-end network-enforcement test.
-
-**Sources:** [Resolver configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration) · [Worker environment scope](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [pak configuration](https://pak.r-lib.org/reference/pak-config.html) · [uv package indexes](https://docs.astral.sh/uv/concepts/indexes/) · [PPM curated CRAN](https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html) · [PPM curated PyPI](https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html)
+[Resolver configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration) · [Worker environment scope](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [pak configuration](https://pak.r-lib.org/reference/pak-config.html) · [uv package indexes](https://docs.astral.sh/uv/concepts/indexes/) · [PPM curated CRAN](https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html) · [PPM curated PyPI](https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html)
 
 :::
 ## Proposed: declare requirements in config.yaml {#config-requirements .deck-slide .literal-slide}
@@ -3003,15 +2901,13 @@ Name packages or pin versions for the session.
 
 ::: {.notes}
 
-**Say:** The model can declare session dependencies through send, as we saw in the main talk. On the right is a proposed way for the user to supply the same requirements in config.yaml.
+The left-hand request uses the existing `send` interface to prepare dependencies. The YAML on the right proposes declaring those same requirements in `config.yaml`.
 
-It uses YAML sequences of package names or version specifications, matching the requirements supplied through send. This configuration form is not implemented yet.
+That configuration field is not implemented. The inspected schema accepts `extends`, `sandbox`, and `target` and rejects unknown fields. The proposal would declare dependencies, not limit which other packages a session could request.
 
-**Reference (not spoken):** The proposed requirements field would supply session dependencies, not restrict which other packages can be requested. The inspected config schema accepts only extends, sandbox, and target and rejects unknown fields. Do not use this YAML with the current implementation.
+The request is illustrative, without a captured preparation response. Managed requirements need a supporting target. The earlier failed `data.table==1.17.8` rehearsal is preserved in the validation records, not presented here as a successful run.
 
-**Author / capture:** This is an illustrative preparation request; no response is presented as a capture. scikit-learn 1.9.1 is the version in the existing Python reference capture. The earlier data.table==1.17.8 rehearsal failed on the installed R toolchains and remains documented in VALIDATION.md. That older request is retained in the reference files, not represented as a successful run here. Requirements are available only on targets that support managed preparation.
-
-**Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+[Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 ## The complete proxy configuration {#proxy-options .deck-slide .config-slide .code-dense}
@@ -3073,13 +2969,13 @@ sandbox:
 
 ::: {.notes}
 
-**Say:** Here is the complete proxy configuration behind the warehouse and Shiny examples. Enabling the proxy is an explicit choice; it isn't part of the default read-only policy.
+This is the complete proxy object behind the warehouse and Shiny excerpts. Enabling it is explicit; it is not part of the default read-only policy.
 
-These are all the fields on the proxy object. We can set destination rules, choose whether to allow local binding, and control SOCKS, UDP, upstream proxies, and Unix sockets. The empty maps here grant no destinations. Add the warehouse rule or change the local-binding flag for the examples we just saw.
+The fields control destination rules, local binding, SOCKS, UDP, upstream proxies, and Unix sockets. The empty destination maps grant no destinations. `mode: full` permits the supported HTTP methods while retaining the destination policy.
 
-**Reference (not spoken):** The seven scalar fields are required when a proxy object is supplied; Console forwards it without filling in missing values. domains and unixSockets may be omitted, null, or empty. The shown values are an explicit enabled-proxy baseline, not automatically materialized defaults. mode: full permits the supported HTTP methods; destination policy still applies. The two preceding excerpts omit required surrounding fields for readability; their full runnable alternatives remain in examples/configs. This slide expands the proxy settings, not every platform-specific sandbox option.
+All seven scalar fields are required when a proxy object is supplied. Console forwards them without filling in missing values. `domains` and `unixSockets` can be omitted, null, or empty. The shown values are an explicit baseline, not defaults applied automatically. The earlier excerpts omit surrounding fields; complete configurations are retained in `examples/configs/`.
 
-**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+[Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
 ## Follow a package-resolution request {#resolver-boundary .deck-slide .story-slide .literal-slide}
@@ -3162,13 +3058,13 @@ Trusted preparation can use the network while the worker remains restricted.
 
 ::: {.notes}
 
-**Say:** The request comes from the runtime inside the worker, through the relay to the server. The server validates it and uses a trusted resolver outside the sandbox to prepare the library. The result is a library path, which the worker adds to its live library search path. It acknowledges activation before continuing the package load. The server commits the retained environment only for a matching activation from the current worker generation.
+The worker sends a package request through the relay to the server. The server validates it and asks a trusted resolver outside the sandbox to prepare the library. The worker adds the returned path to its live library search path and acknowledges activation before continuing the load. Only a matching activation from the current worker generation commits the retained environment.
 
-These are private worker-protocol messages, not MCP tool calls the model has to make. The field names match the documented protocol; /cache/r/library is an illustrative path. Python follows the analogous resolve_python exchange and activates a prepared interpreter environment.
+These are private worker-protocol messages; the model does not send them as MCP tool calls. The field names follow the documented protocol, with `/cache/r/library` used as an illustrative path. Python uses the analogous `resolve_python` exchange to activate its prepared environment.
 
-Installation and build code run with the preparation account’s permissions, so requirements and resolver configuration must be trusted. Caches can persist. The worker’s filesystem and network policy continues to apply. On SSH, preparation runs on the remote execution host.
+Installation and build code run with the preparation account's permissions. Caches can persist, and the worker keeps its own filesystem and network policy. On SSH, preparation happens on the remote host.
 
-**Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
+[Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
 ## Capabilities arriving on main {#development-timeline .deck-slide .history-chart}
@@ -3196,13 +3092,13 @@ Language support came first; package management and execution targets followed.
 
 ::: {.notes}
 
-**Say:** This is a little under eight weeks of development. Each dot is a PR merged directly into main. The vertical axis is logarithmic so that small and large changes are both visible. Python cells arrived on August 3 and SQL on August 4. On-demand R and Python packages landed on August 24, sandboxed Linux on September 9, and Docker targets on September 12.
+Each dot is a PR merged directly into `main` over a little under eight weeks. The logarithmic vertical axis shows additions plus deletions, so both small and large diffs remain visible.
 
-**Show:** Follow the dates across the top, then point out the range of PR sizes underneath. A feature can span several PRs; these annotations mark specific capability merges rather than the whole development effort. Linux without the sandbox preceded the sandboxed Linux milestone.
+Python cells arrived on August 3 and SQL on August 4. On-demand R and Python packages landed on August 24, sandboxed Linux on September 9, and Docker targets on September 12. These annotations mark specific merges; a feature can span several PRs. Unsandboxed Linux support preceded the marked milestone.
 
-**Data:** GitHub snapshot at September 18, 19:08 UTC. Of 298 merged PRs, 279 targeted main; 19 targeting intermediate branches are excluded. The dot heights count additions plus deletions, including moves and generated snapshots. The chart is not a measure of effort or complexity.
+The September 18 snapshot contains 298 merged PRs, of which 279 targeted `main`. The 19 intermediate-branch merges are excluded. Diff size includes moves and generated snapshots and does not measure effort or complexity.
 
-**Sources:** [Python #24](https://github.com/t-kalinowski/mcp-console/pull/24) · [SQL #36](https://github.com/t-kalinowski/mcp-console/pull/36) · [R packages #123](https://github.com/t-kalinowski/mcp-console/pull/123) · [Python packages #124](https://github.com/t-kalinowski/mcp-console/pull/124) · [Sandboxed Linux #262](https://github.com/t-kalinowski/mcp-console/pull/262) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302)
+[Python #24](https://github.com/t-kalinowski/mcp-console/pull/24) · [SQL #36](https://github.com/t-kalinowski/mcp-console/pull/36) · [R packages #123](https://github.com/t-kalinowski/mcp-console/pull/123) · [Python packages #124](https://github.com/t-kalinowski/mcp-console/pull/124) · [Sandboxed Linux #262](https://github.com/t-kalinowski/mcp-console/pull/262) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302)
 
 :::
 ## How much is in the repository? {#repository-total .deck-slide .history-chart}
@@ -3230,13 +3126,13 @@ Complete file contents at 307 commits on main · includes comments, blank lines,
 
 ::: {.notes}
 
-**Say:** This counts the files actually present in the repository at each point in time. Deleted lines come out of the total. It starts with a 21-line initial commit and reaches about 143,000 lines across 1,086 tracked text files. This includes comments, blank lines, tests, transcripts, documentation, and build files.
+This counts the text files present at each commit, including comments, blank lines, tests, transcripts, documentation, and build files. The repository starts at 21 lines and reaches about 143,000 lines across 1,086 tracked text files.
 
-**Show:** Point out that the total can fall as code and tests are simplified. This is a count of repository contents, not cumulative PR activity. Adding PR sizes together would double-count work that is later changed or removed.
+Deletions reduce the total. Adding PR sizes together would give a different quantity because it counts lines again when they are changed or removed.
 
-**Data:** Every first-parent commit through main commit 657a5981, September 18 at 19:43 UTC. Each snapshot is counted from the full Git tree. Binary and untracked files are excluded. UTC commit times determine the horizontal position.
+The series covers every first-parent commit through `657a5981` on September 18, 2026, at 19:43 UTC. Each count uses the complete Git tree and excludes binary and untracked files. The horizontal axis uses UTC commit times.
 
-**Sources:** [Pinned main snapshot](https://github.com/t-kalinowski/mcp-console/tree/657a5981983768967deed83c070973848ec800fb) · [Analysis definitions and data](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md)
+[Pinned main snapshot](https://github.com/t-kalinowski/mcp-console/tree/657a5981983768967deed83c070973848ec800fb) · [Analysis definitions and data](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md)
 
 :::
 ## What grew alongside the core code? {#repository-categories .deck-slide .history-chart}
@@ -3264,13 +3160,13 @@ About 32k lines of core code, 60k of test code and fixtures, and 34k of test tra
 
 ::: {.notes}
 
-**Say:** The blue area is core code. The darker orange is test code, harnesses, and other fixtures. The lighter orange is YAML test transcripts: the requests and expected responses that a reviewer can read. Documentation and examples are yellow, and build tooling is gray.
+Blue is core code. Dark orange is test code, harnesses, and fixtures; light orange is YAML test transcripts. Documentation and examples are yellow, and build tooling is gray. Much of the repository describes how the system should behave and how to exercise it.
 
-**Show:** Compare the orange areas with the blue one. Much of the repository records how the system should behave and how to exercise it. The testing slides that follow show what those transcripts look like.
+These categories classify files, not individual lines. A core file can contain inline tests or documentation. YAML files under `tests/`, `r/tests/`, or `python/tests/` count as transcripts regardless of their historical subdirectory; CI YAML remains tooling.
 
-**Data:** These are file categories, not line-by-line semantic classifications: core files can contain inline tests and documentation comments. Transcript detection uses .yaml or .yml under tests/, r/tests/, or python/tests/, regardless of historical subdirectory. CI YAML remains tooling. The #197 reorganization has 17,224 transcript lines on both sides, so moving transcripts does not create artificial growth in this category.
+The #197 reorganization has 17,224 transcript lines on both sides. Moving those files does not create artificial growth in this category.
 
-**Sources:** [Analysis definitions and checks](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md) · [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197)
+[Analysis definitions and checks](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md) · [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197)
 
 :::
 ## How the proportions changed {#repository-proportions .deck-slide .history-chart}
@@ -3298,13 +3194,11 @@ Test code and transcripts grow to about 65% of the repository’s text.
 
 ::: {.notes}
 
-**Say:** Here the total height is always 100 percent. Early on, documentation occupies most of a small repository. As implementation and tests accumulate, that mix changes. At the latest snapshot, test code and fixtures account for about 42 percent, and YAML transcripts another 24 percent. Together they are about 65 percent of the tracked lines.
+The total height is 100 percent at every commit. Documentation initially occupies much of a small repository; implementation and tests change that mix as they accumulate. At the final snapshot, test code and fixtures account for about 42 percent and transcripts another 24 percent, or about 65 percent combined before rounding.
 
-**Show:** Use the preceding slide to keep absolute size in mind. A category can shrink as a proportion while still growing in lines. The first snapshot contains only 21 lines, so the earliest shares are particularly sensitive to small changes.
+A category can shrink proportionally while still gaining lines. The first snapshot has only 21 lines, making early shares particularly sensitive to small changes. All 307 snapshots sum to 100 percent before rounding, using the same categories as the absolute-size chart. These shares describe repository contents, not effort, coverage, or quality.
 
-**Data:** Each category's line count is divided by the total at the same commit. All 307 snapshots sum to 100 percent before rounding. The colors and classification match the absolute-size chart. Shares describe repository contents, not developer time, test coverage, or software quality.
-
-**Sources:** [Analysis definitions and data](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md)
+[Analysis definitions and data](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md)
 
 :::
 ## Why some PRs look so large {#development-large-prs .deck-slide .history-chart}
@@ -3332,13 +3226,13 @@ The largest PR reorganized tests: 37,183 lines changed, but only 1,705 net lines
 
 ::: {.notes}
 
-**Say:** The largest diffs deserve a closer look. The three largest PRs here changed no core-code files under this classification. They reorganized tests or simplified test support. The largest changed about 37,000 lines but added only about 1,700 net lines. File moves and rewritten snapshots can create substantial review volume without adding the same amount of repository content.
+The three largest PRs changed no core-code files under this classification. They reorganized tests or simplified test support. The largest changed about 37,000 lines while adding about 1,700 net lines. Moves and rewritten snapshots can produce a large review diff without comparable repository growth.
 
-**Show:** Compare the top bar with the Docker feature farther down. The categories help explain what a PR contains; line count alone cannot tell us how difficult it was or how much new capability it introduced.
+The Docker feature farther down has a different mix of files. The categories help explain the changes, but line count alone cannot establish their difficulty or the capability added.
 
-**Data:** The same GitHub snapshot as the timeline. Per-file additions and deletions reconcile with every PR total. YAML transcript files use the suffix-based classification in the repository charts. Labels shorten PR titles for readability.
+These figures use the same GitHub snapshot as the timeline. Per-file additions and deletions reconcile with each PR total, and transcript classification matches the repository charts. PR titles are shortened in the labels.
 
-**Sources:** [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197) · [Test contracts #258](https://github.com/t-kalinowski/mcp-console/pull/258) · [Transcript support #202](https://github.com/t-kalinowski/mcp-console/pull/202) · [Sandbox supervision #266](https://github.com/t-kalinowski/mcp-console/pull/266) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302) · [CLI tests #205](https://github.com/t-kalinowski/mcp-console/pull/205)
+[Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197) · [Test contracts #258](https://github.com/t-kalinowski/mcp-console/pull/258) · [Transcript support #202](https://github.com/t-kalinowski/mcp-console/pull/202) · [Sandbox supervision #266](https://github.com/t-kalinowski/mcp-console/pull/266) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302) · [CLI tests #205](https://github.com/t-kalinowski/mcp-console/pull/205)
 
 :::
 ## AGENTS.md gives the model project context {#development-agent-guidance .deck-slide .story-slide}
@@ -3386,13 +3280,11 @@ The instructions connect a requested change to the project’s contracts and che
 
 ::: {.notes}
 
-**Say:** AGENTS.md is a checked-in Markdown file that gives a coding agent context about the repository. In this project it provides a map to the architecture, the public contracts, and the development guide, along with rules for making changes. The detailed behavior lives in source, protocol documents, and public tests.
+`AGENTS.md` gives a coding agent context about the repository: where to find the architecture and public contracts, which responsibilities belong to each process, and how to make and validate changes.
 
-The instructions ask for coherent PRs, readable code, tests through public interfaces, and deliberate review of generated snapshots. They also explain which process owns which responsibility, so a change does not accidentally move behavior across a boundary.
+The instructions ask for coherent PRs, readable code, public-interface tests, and review of generated snapshots. Detailed behavior is specified by source, protocol documents, and tests. The instructions describe the intended process; checks and review provide evidence about a particular change.
 
-**Show:** Read these as three kinds of guidance: where to look, what to preserve, and how to make a change. The file supplies instructions; the checks and review provide evidence that a particular change follows them.
-
-**Sources:** [AGENTS.md at the analysis snapshot](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Development guide](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
+[AGENTS.md at the analysis snapshot](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Development guide](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
 
 :::
 ## The development loop starts with behavior {#development-loop .deck-slide .story-slide}
@@ -3441,13 +3333,13 @@ The test suite gives the agent and the reviewer a shared description of expected
 
 ::: {.notes}
 
-**Say:** For a behavior change, the project instructions start with a public acceptance or regression test and ask the agent to confirm that it fails. Then comes the implementation, a focused rerun, and review of any changed snapshots. After that, formatting and the full check suite precede the PR, and passing CI and approval from the configured reviewer are required on the current revision before merging.
+For a behavior change, the project instructions call for a failing public regression or acceptance test before implementation. A focused rerun and snapshot review follow the change, then formatting and the full check suite. Passing CI and approval from the configured reviewer are required on the current revision before merging.
 
-For an internal refactor, the existing public suite is the contract; the instructions do not ask for a new test of a private helper. Tests should use observable checkpoints instead of timing guesses. Generated transcripts should preserve the behavior a user sees, with only incidental noise normalized.
+For an internal refactor, existing public tests provide the contract. Tests use observable checkpoints rather than timing guesses, and generated transcripts preserve behavior while normalizing incidental details.
 
-**Show:** This describes the written workflow at the snapshot date, not an audit that every historical PR followed it. The following slides show the kinds of tests and review artifacts those instructions refer to.
+This describes the written workflow at the snapshot date, not an audit of every historical PR.
 
-**Sources:** [Working rules in AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Validation ladder](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
+[Working rules in AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Validation ladder](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
 
 :::
 ## Rust implementation. Python integration tests. {#tests-python .deck-slide}
@@ -3485,11 +3377,11 @@ Exercise from Python
 
 ::: {.notes}
 
-**Say:** The main integration suite is Python even though the application is Rust. It drives the built executable and observes the real process boundary. Small unit tests can still own pure parsing or validation policy; the claim is not that absolutely no Rust tests exist.
+The main integration suite is Python, while the application is Rust. It drives the built executable across real process boundaries, testing the interface that users and clients observe.
 
-**Show:** Use two simple implementation/test boxes. Lead with why this matters: the test language can stay independent of implementation refactors while validating the product contract users and clients actually see.
+That allows implementation changes without tying the integration tests to Rust internals. Smaller unit tests can still cover parsing and validation policy; the project is not exclusively tested through Python.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
 
 :::
 ## Test the boundaries you intend to preserve {#test-boundaries .deck-slide}
@@ -3578,11 +3470,11 @@ One primary owner per behavior; lower layers test their own contracts.
 
 ::: {.notes}
 
-**Say:** The tests mirror architectural boundaries: client_server, server_relay, relay_worker, and cli. Public behavior belongs at the outermost boundary that can usefully observe it. Private-boundary cases cover their own protocol seams rather than replicating every public message at every layer.
+The test layout follows the architectural boundaries: `client_server`, `server_relay`, `relay_worker`, and `cli`.
 
-**Show:** Reuse the process topology with test-boundary names on the arrows. This ties the development method to the earlier architecture rather than presenting a directory tree with no explanation.
+Public behavior is tested at the outermost boundary that can usefully observe it. Tests at private boundaries cover their own protocol exchanges without repeating every public message at every layer. The diagram connects those test boundaries to the processes introduced earlier.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
 ## YAML is what the reviewer reads {#yaml-transcripts .deck-slide .snapshot-slide}
@@ -3659,11 +3551,11 @@ Source excerpt: `detects_cpu_cores.yaml` · initialization document omitted.
 
 ::: {.notes}
 
-**Say:** The wire protocols are JSON-based, but the reviewable test transcripts are YAML. This is an actual checked-in snapshot excerpt: the test executes R, asserts that CPU detection returns a valid result, and prints a stable message. Humans can review the code and result without reading escaped JSON strings or snapshotting a machine-specific core count. YAML is the human review surface, not the production transport.
+The production wire protocols use JSON, while the reviewable test transcripts use YAML. This saved snapshot shows R code checking CPU detection and printing a stable message. A reviewer can read the request and result without escaped JSON strings or a machine-specific expected core count.
 
-**Show:** Display the request and result from `tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml` side by side. The initial shared-handshake document is omitted, but the displayed request and result content come from the fetched source. This fixture was not rerun in the slide-build environment; do not present it as a new test execution.
+The excerpt comes from `tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml`. Its initial shared-handshake document is omitted. The fixture was not rerun when building these slides.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Checked-in CPU detection snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Checked-in CPU detection snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml)
 
 :::
 ## Normalize noise, not behavior {#test-normalization .deck-slide}
@@ -3725,11 +3617,11 @@ Keep meaningful wording, ordering, and failure distinctions visible.
 
 ::: {.notes}
 
-**Say:** Temporary paths, process identities, and similar unstable details should not obscure behavioral review. Normalize explicitly and narrowly. Preserve the fields, output, ordering, and failure distinctions the contract is meant to protect. The actual project normalizers and snapshot metadata are more specific than this schematic example.
+Normalization removes incidental differences such as temporary paths and process IDs so a reviewer can see changes in behavior. It should preserve meaningful fields, output, ordering, and failure distinctions.
 
-**Show:** Use before/after panels with only incidental details changed. Call out that normalization is not a license to delete inconvenient evidence from a test.
+The before-and-after panels are schematic. The project's actual normalizers and snapshot metadata define which details can change without affecting the tested contract.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
 ## Synchronize; do not sleep and hope {#test-determinism .deck-slide}
@@ -3753,11 +3645,11 @@ Explicit gates for output, cancellation, restart, and cleanup.
 
 ::: {.notes}
 
-**Say:** Concurrency and liveness tests need causal synchronization. Fixtures use gates and checkpoints so the test knows when the relevant state has actually been reached. Arbitrary sleeps are not proof that output was drained, an interrupt was delivered, or an owned resource was retired.
+Concurrency and liveness tests use gates and checkpoints to establish that the relevant state has been reached. A sleep alone cannot show that output was drained, an interrupt delivered, or a resource retired.
 
-**Show:** Show one deterministic sequence and connect it to the timing and shutdown contracts from the talk. This is a development-practice slide, not an implementation recipe for every fixture.
+The sequence illustrates that testing approach. Individual fixtures need synchronization tied to the behavior they observe.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
 ## Portable behavior; real capability checks {#test-capabilities .deck-slide}
@@ -3799,11 +3691,11 @@ Fake peers establish protocol contracts; real targets establish target behavior.
 
 ::: {.notes}
 
-**Say:** Reuse portable cases across execution modes and centralize capability discovery. A skipped target fixture is not target validation. Deterministic peers can establish orchestration behavior, but they cannot establish real container or microVM cleanup. Keep real-target evidence distinct from simulated protocol coverage.
+Portable cases can run across execution modes, with capability discovery determining which fixtures apply. A skipped fixture provides no validation of that target.
 
-**Show:** Use the two testing levels rather than an all-green platform matrix. Include lifecycle and security assertions where a textual snapshot alone cannot represent the guarantee.
+Deterministic peers test orchestration, while real containers and microVMs are needed to test their cleanup behavior. Lifecycle and security assertions cover properties that textual snapshots alone cannot establish.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
 ## Snapshots are generated evidence {#snapshot-review .deck-slide}
@@ -3833,11 +3725,11 @@ git diff -- tests/snapshots/
 
 ::: {.notes}
 
-**Say:** Generate transcripts from running tests, then review the resulting diff. Do not hand-edit the expectation to make a test pass. The value of readable YAML is that review can focus on the actual changed behavior, while assertions still enforce facts that a snapshot cannot show.
+Transcripts are generated by running tests, then reviewed as diffs. Expected output is not hand-edited to make a test pass. Readable YAML helps reviewers inspect changed behavior; separate assertions cover facts a transcript cannot show.
 
-**Show:** Show the update command and a diff review, not a large wall of green tests. The selector is schematic; replace BOUNDARY/SUITE::CASE with a real selected fixture for a live development demonstration.
+`BOUNDARY/SUITE::CASE` in the command is a placeholder for an actual test selector.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
 ## Test the installed product {#installed-product-tests .deck-slide}
@@ -3879,10 +3771,10 @@ Packaging, launch, schemas, images, shutdown, and cleanup are part of the contra
 
 ::: {.notes}
 
-**Say:** The delivered product includes the executable, companion binaries, Python interfaces, the R wrapper, and launch/lifetime behavior. Running a development binary alone does not establish that the installed bundle or each adapter works. Integration examples and packaging checks should be part of the release evidence, with actual target validation reported separately.
+The installed product includes the executable, native companions, Python interfaces, the R wrapper, and their launch and shutdown behavior. Running a development binary alone does not establish that the installed bundle or every adapter works.
 
-**Show:** Finish the addendum by connecting the install story to the test strategy. Avoid claiming every proposed integration test already exists: distinguish observed project coverage from the release checklist in the companion author notes.
+Release evidence should include packaging and integration checks, with real-target validation reported separately. This slide describes the scope to check, rather than claiming every proposed integration test already exists.
 
-**Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Release and installed bundle](https://github.com/t-kalinowski/mcp-console/blob/main/RELEASE.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
+[Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Release and installed bundle](https://github.com/t-kalinowski/mcp-console/blob/main/RELEASE.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
 
 :::
