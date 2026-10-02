@@ -141,8 +141,6 @@ render_development <- function(data_dir, output_dir) {
   for (name in names(plots)) {
     ggsave(file.path(output_dir, paste0(name, ".svg")), plots[[name]],
            width = 14.8, height = 5.6, device = svglite::svglite, bg = paper)
-    ggsave(file.path(output_dir, paste0(name, ".png")), plots[[name]],
-           width = 14.8, height = 5.6, dpi = 160, bg = paper)
   }
   write.csv(data.frame(category = categories, lines = as.numeric(last[1, categories]), share = latest_share),
             file.path(output_dir, "latest-shares.csv"), row.names = FALSE)

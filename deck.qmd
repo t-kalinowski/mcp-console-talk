@@ -1,5 +1,5 @@
 ---
-# Canonical source. Notes use Quarto/reveal.js Speaker View (S).
+# Canonical presentation. Notes use Quarto/reveal.js Speaker View (S).
 # No automatic title slide: the first explicit ## heading is slide 1.
 # Default: native R output/plots. Optional: captured MCP output via output_source:mcp.
 title: ""
@@ -10,7 +10,7 @@ params:
 format:
   revealjs:
     slide-level: 2
-    output-file: mcp-console.html
+    output-file: index.html
     show-notes: false
     width: 1600
     height: 900
@@ -37,7 +37,6 @@ execute:
 #| include: false
 source("examples/render-helpers.R", local = knitr::knit_global())
 ```
-
 ## MCP Console {#interactive-work .deck-slide .hero .story-slide}
 ::: {.kicker}
 
@@ -59,16 +58,13 @@ A shared workbench for the AI systems we build.
 
 ::: {.notes}
 
-**Say:** Hello everyone. I'd like to take a few minutes to talk about a project I've been working on called MCP Console. It's a ground-up rewrite of MCP REPL. There were a couple of problems with MCP REPL, and I reached the point where starting from scratch looked like less work than trying to repair it. I'll get to some of those problems throughout the talk.
-
-One was conceptual. MCP REPL is really two products: an R REPL and a Python REPL. When you get into the weeds, they take substantially different code paths and expose different semantics to the model. That kind of doubled the workload. It also forces the user to choose R or Python, and I don't think that's where the choice belongs. It should be R and Python.
+**Say:** Hello everyone. I'd like to talk about a project I've been working on called MCP Console. It's a ground-up rewrite of MCP REPL. MCP REPL is really two products: an R REPL and a Python REPL, with different code paths and different semantics for the model. It also forces the user to choose R or Python, and I don't think that's where the choice belongs. It should be R and Python.
 
 That was the original seed for MCP Console: a single product, a single binary, that handles R, Python, and SQL. My hope is that we can share the effort of building one execution tool to equip agents with, instead of each building an ad hoc implementation for the needs at hand.
 
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Equip the model with R, Python, and SQL {#small-surface .deck-slide .story-slide}
 ::: {.kicker}
 
@@ -120,7 +116,6 @@ For that to work, we need to give it the full capabilities of those runtimes, wi
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Full capabilities and full safety {#sandbox-motivation .deck-slide .story-slide .capabilities-safety}
 ::: {.kicker}
 
@@ -158,7 +153,7 @@ Filesystem and network policy.<br>Subprocesses covered.<br>Shutdown and cleanup.
 
 ::: {.takeaway}
 
-Managed packages, bounded output, session records, and local or remote execution.
+Later: where the session runs, what it records, and what’s still pending.
 
 :::
 
@@ -172,67 +167,17 @@ We run the languages embedded, so the runtime reports when it is evaluating, wai
 
 Around that session, we handle plots as images, compact progress updates, oversized responses with files the model can inspect, and logs with readable transcripts and Quarto source. Package resolution and environment management are built in too.
 
-And the sandbox is central: filesystem permissions, network restrictions, and a configurable proxy, applying to the worker and its subprocesses. The session can run locally, over SSH, or in Docker. That's the breadth of the shared solution; the rest of the talk goes through the details.
+And the sandbox is central: filesystem permissions, network restrictions, and a configurable proxy, applying to the worker and its subprocesses. The session can run locally, over SSH, or in Docker. The rest of the talk goes through these three columns in order. After that, I'll cover where the session can run, what it records, and what's still pending.
 
 **Reference (not spoken):** “Full safety” is the design goal, not a claim that arbitrary code is risk-free. Trusted package preparation runs outside the worker sandbox. Broad host reads need explicit denials for confidential files. Managed runtime reads emit input_requested/input_received events; arbitrary native reads are not all observable as managed input. Worker readiness and evaluation completion use explicit protocol frames, while raw and background output are separate streams. Console tracks requested controls and lifecycle operations; this is not introspection into every background thread. Target capabilities and enforcement differ, as explained later.
 
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
-## Connect Console to your agent harness {#interfaces .deck-slide .story-slide}
-::: {.kicker}
-
-Where the calls come from
-
-:::
-
-:::: {.three-col}
-
-::: {.story-card}
-
-**MCP clients**
-
-Compatible MCP stdio clients, including Codex and Claude Code.
-
-:::
-
-::: {.story-card}
-
-**R harnesses**
-
-ellmer through mcp.console.
-
-:::
-
-::: {.story-card}
-
-**Python harnesses**
-
-Sync and async clients.<br>chatlas.<br>OpenAI Responses and Agents SDK.<br>Anthropic.<br>Codex thread SDK.
-
-:::
-
-::::
-
-::: {.notes}
-
-**Say:** Those are the capabilities we expose to the model, and the execution choices the user can configure. On the client side, there are several ways to equip an agent with Console.
-
-It works with compatible MCP harnesses, including Codex and Claude. In R, it works with ellmer as a tool you register with the chat. There are also integrations for the Python SDKs: Anthropic, Codex, OpenAI Responses, the Agents SDK, and chatlas.
-
-And there are SDK-agnostic synchronous and asynchronous clients. You can use those from another harness or just drive the session manually.
-
-**Reference (not spoken):** The adapters are documented in the source checkout; the older PyPI wheel used for some captures lacks newer clients and extras. Verify the release and image support of the chosen adapter before a live demo.
-
-**Sources:** [Python integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
-
-:::
-
 ## Send a cell of code {#send-r .deck-slide .literal-slide}
 ::: {.kicker}
 
-The common case · one simple call
+Use full runtimes · one simple call
 
 :::
 
@@ -302,87 +247,10 @@ This is the only tool exposed: a single send tool. Here the code defines d, a da
 **Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
-
-## Return plots {#r-plots .deck-slide .literal-slide}
-::: {.kicker}
-
-Evaluate code and see the result
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-LLM client → Console
-
-:::
-
-<!-- cells:r-plot -->
-```python
-console.send(r="""
-  plot(d$temperature, d$response,
-       xlab = "Temperature",
-       ylab = "Response")
-""")
-```
-
-::::
-
-:::::
-
-::::: {.right}
-
-:::: {.result-panel}
-
-::: {.panel-label}
-
-R graphics output
-
-:::
-
-```{r}
-#| label: r-plot-output
-#| eval: true
-#| echo: false
-#| comment: ""
-#| fig-width: 7
-#| fig-height: 5.2
-#| dpi: 144
-#| dev: png
-#| out-width: "100%"
-console_plot("r-plot")
-```
-
-::::
-
-:::::
-
-::::::
-::: {.takeaway}
-
-R graphics return an image.
-
-:::
-
-::: {.notes}
-
-**Say:** On the next turn, maybe the model wants to generate a graphic. It sends plotting code using the objects already in the session, and the graphic comes back as an image. It works as you'd expect.
-
-**Author / capture:** Default uses the displayed base-R cell through knitr; plot capture mode reads captures/r-plot-01.png. Neither a stock image nor the previous illustrative SVG is used.
-
-**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
-
-:::
-
 ## Python uses the same call {#python-simple .deck-slide .literal-slide}
 ::: {.kicker}
 
-Send a Python cell
+Use full runtimes · Python
 
 :::
 
@@ -438,16 +306,55 @@ Now the string is evaluated as a Python cell, and the model gets its printed out
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
-## Python plots return images too {#python-plots .deck-slide .literal-slide}
+## Plots return as images {#plots .deck-slide .literal-slide}
 ::: {.kicker}
 
-Evaluate code and see the result
+Use full runtimes · plots
 
 :::
 
 :::::: {.two-col}
 ::::: {.left}
+:::: {.code-panel}
+::: {.panel-label}
+
+R cell
+
+:::
+
+<!-- cells:r-plot -->
+```python
+console.send(r="""
+  plot(d$temperature, d$response,
+       xlab = "Temperature",
+       ylab = "Response")
+""")
+```
+
+::::
+:::: {.result-panel}
+::: {.panel-label}
+
+R graphics output
+
+:::
+
+```{r}
+#| label: r-plot-output
+#| eval: true
+#| echo: false
+#| comment: ""
+#| fig-width: 7
+#| fig-height: 5.2
+#| dpi: 144
+#| dev: png
+#| out-width: "100%"
+console_plot("r-plot")
+```
+
+::::
+:::::
+::::: {.right}
 :::: {.code-panel}
 ::: {.panel-label}
 
@@ -467,8 +374,6 @@ plt.ylabel("Value")
 ```
 
 ::::
-:::::
-::::: {.right}
 :::: {.result-panel}
 ::: {.panel-label}
 
@@ -494,16 +399,19 @@ The response carries the image produced by the cell.
 
 ::: {.notes}
 
-**Say:** Plots work in Python as you'd expect too. Here the model uses Matplotlib to plot the values from the preceding cell, and the image comes back in the response.
+**Say:** On the next turn, maybe the model wants to generate a graphic. It sends plotting code using the objects already in the session, and the graphic comes back as an image.
+
+On the left, base R plots the data frame from the first cell. On the right, Matplotlib plots the values from the preceding Python cell. It works as you'd expect in both languages.
+
+**Author / capture:** Default uses the displayed base-R cell through knitr; plot capture mode reads captures/r-plot-01.png. Neither a stock image nor the previous illustrative SVG is used.
 
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## R and Python share the same process {#python-first .deck-slide .literal-slide}
 ::: {.kicker}
 
-Use objects from either language
+Use full runtimes · shared objects
 
 :::
 
@@ -585,11 +493,10 @@ On the left, Python accesses d, the data frame in R's global environment. On the
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Query the same data with SQL {#sql .deck-slide .literal-slide}
 ::: {.kicker}
 
-SQL in the same session
+Use full runtimes · SQL in the same session
 
 :::
 
@@ -655,11 +562,10 @@ It's one runtime, with different ways for the model to interact with it.
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## SQL uses the connection you choose {#sql-connections .deck-slide .literal-slide}
 ::: {.kicker}
 
-One analysis · choose the database connection in R or Python
+Use full runtimes · choose the database connection
 
 :::
 
@@ -744,11 +650,10 @@ After selecting the connection, the model keeps sending SQL through the same too
 **Sources:** [SQL connection selection](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#sql)
 
 :::
-
 ## Make CRAN and PyPI available to the session {#package-opportunity .deck-slide .story-slide}
 ::: {.kicker}
 
-Use the package ecosystem
+Use full runtimes · packages
 
 :::
 
@@ -795,16 +700,17 @@ Ordinary package use can request the dependency it needs.
 
 **Say:** In my experience, models often hesitate to install packages because installation sounds like a change to the user’s global setup. They may settle for a simpler approach using only what is already there. I want using the right library to be an ordinary part of the analysis.
 
-Here the requirement belongs to the Console session and is resolved into a managed environment. That puts the breadth of trusted CRAN and PyPI packages in reach. The session’s retained requirement configuration is temporary; resolver caches and prepared environments may be reused on disk. This does not mean every package installs successfully or that all its installation code is sandboxed.
+Here the requirement belongs to the Console session and is resolved into a managed environment. That puts the breadth of trusted CRAN and PyPI packages in reach.
+
+**Reference (not spoken):** The session’s retained requirement configuration is temporary; resolver caches and prepared environments may be reused on disk. This does not mean every package installs successfully or that all its installation code is sandboxed.
 
 **Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
 ## Use the package; let the runtime prepare it {#r-resolution .deck-slide .story-slide .literal-slide}
 ::: {.kicker}
 
-Use the package ecosystem
+Use full runtimes · packages
 
 :::
 
@@ -870,7 +776,6 @@ For R this uses ir; managed Python uses uv. We react to package use during execu
 **Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
 ## Separate session control from code execution {#process-topology .deck-slide .story-slide}
 ::: {.kicker}
 
@@ -934,11 +839,10 @@ That separation is what lets us prepare dependencies without giving the evaluate
 **Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
 ## Declare package requirements explicitly {#requirements .deck-slide .literal-slide}
 ::: {.kicker}
 
-Use the package ecosystem
+Use full runtimes · packages
 
 :::
 
@@ -996,11 +900,10 @@ This is useful when the model wants a specific version or when a distribution na
 **Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
 ## Use a Python library on the same data {#python .deck-slide .code-dense}
 ::: {.kicker}
 
-One analysis · R and Python together
+Use full runtimes · R and Python together
 
 :::
 
@@ -1050,7 +953,7 @@ console_protocol("python-ml")
 
 ::: {.notes}
 
-**Say:** We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.
+**Say:** Now the model can use the scikit-learn it just prepared. We already have the data in R. Python reads it through r.d and uses scikit-learn for cross-validation. This shows why both languages belong in one session: the choice follows the library we want to use. The numerical result is a real capture; comparing the statistical merits of the two models is outside this example.
 
 **Transition:** We have seen the ordinary analysis loop: write code, inspect the result, and continue. A session also has to handle work that takes time, asks for input, or produces more output than the model can use at once. The next examples show how the same tool handles those situations.
 
@@ -1059,11 +962,10 @@ console_protocol("python-ml")
 **Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [requirements](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
 ## Collect progress while the code keeps running {#wait-timeout .deck-slide .literal-slide .code-dense}
 ::: {.kicker}
 
-Detail 1 · Waiting preserves the computation
+Drive a real session · waits and polls
 
 :::
 
@@ -1094,60 +996,6 @@ console.send(r="""
 
 ::::
 
-:::::
-
-::::: {.right}
-
-:::: {.result-panel}
-
-::: {.panel-label}
-
-Console → text · captured response
-
-:::
-
-```{r}
-#| label: progress-first
-#| eval: true
-#| echo: false
-#| comment: ""
-console_protocol("progress")
-```
-
-::::
-::: {.small-note}
-
-The percentage depends on when the wait expires.
-
-:::
-
-:::::
-
-::::::
-
-::: {.notes}
-
-**Say:** This uses R’s built-in txtProgressBar and setTxtProgressBar; no extra package is needed. Sys.sleep stands in for each unit of work. A calculation can take longer than a tool call should hold the client. Here the client waits 450 milliseconds and receives the progress so far. The computation is still running in the same worker. The timeout describes how long to wait for output. We can poll for more without submitting the calculation again.
-
-**Show:** Read both the compact progress line and the exact running notice. The panel reads the captured response; call boundaries remain timing-dependent.
-
-**Author / capture:** Warm up the session before capturing this example. Do not promise a particular percentage at 450 ms. The local capture script retains actual responses rather than asserting fixed percentages.
-
-**Sources:** [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
-
-:::
-
-## Pick up the next output from the same run {#poll .deck-slide .literal-slide}
-::: {.kicker}
-
-Detail 1 · Waiting and readable progress
-
-:::
-
-:::::: {.two-col}
-
-::::: {.left}
-
 :::: {.code-panel}
 
 ::: {.panel-label}
@@ -1168,6 +1016,24 @@ console.send(timeout_ms=5000)
 :::::
 
 ::::: {.right}
+
+:::: {.result-panel}
+
+::: {.panel-label}
+
+Console → text · after 450 ms
+
+:::
+
+```{r}
+#| label: progress-first
+#| eval: true
+#| echo: false
+#| comment: ""
+console_protocol("progress")
+```
+
+::::
 
 :::: {.result-panel}
 
@@ -1204,31 +1070,42 @@ console_protocol("poll-final")
 ```
 
 ::::
+
+::: {.small-note}
+
+The percentages depend on when each wait expires.
+
+:::
+
 :::::
 
 ::::::
+
 ::: {.takeaway}
 
-Poll the same run. Redrawn progress stays one current line per response.
+The computation keeps running. An empty `send()` collects new output.
 
 :::
 
 ::: {.notes}
 
-**Say:** These are separate responses to later polls, not a transcript dumped into one response. Each poll contains newly collected output. Carriage-return redraws within one response interval collapse to its current line; a later interval can return the next current line.
+**Say:** A calculation can take longer than a tool call should hold the client. This uses R’s built-in txtProgressBar, and Sys.sleep stands in for each unit of work. Here the client waits 450 milliseconds and receives the progress so far. The computation is still running in the same worker. The timeout describes how long to wait for output.
 
-**Show:** Point to the two poll calls and their corresponding results. The last response has real output and no invented [done] appended. Emphasize that empty send() is also a poll.
+We can poll for more without submitting the calculation again. An empty send is a poll. These are separate responses to later polls, not a transcript dumped into one response, and the redrawn progress bar comes back as one current line.
 
-**Author / capture:** Both rendering modes read the two literal captured responses. The wire exchange records the 600 ms poll followed by the 5000 ms poll. Exact progress fractions are not a public API guarantee.
+**Show:** Read the compact progress line and the exact running notice in the first response, then point to the two poll calls and their results. The last response has real output and no invented [done] appended.
 
-**Sources:** [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
+**Reference (not spoken):** Each poll contains newly collected output. Carriage-return redraws within one response interval collapse to its current line; a later interval can return the next current line.
+
+**Author / capture:** Warm up the session before capturing this example. Do not promise a particular percentage at 450 ms. The local capture script retains actual responses rather than asserting fixed percentages. Both rendering modes read the literal captured poll responses. The wire exchange records the 600 ms poll followed by the 5000 ms poll. Exact progress fractions are not a public API guarantee.
+
+**Sources:** [send](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Protect the model’s context from oversized output {#bounded-output .deck-slide .literal-slide .code-dense}
 ::: {.kicker}
 
-Detail 2 · Bound the response and retain the full output
+Drive a real session · bounded output
 
 :::
 
@@ -1301,11 +1178,10 @@ For an oversized response, we keep the beginning and the end, cut out the middle
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Capture output below the language hooks {#retained-output .deck-slide .literal-slide}
 ::: {.kicker}
 
-Detail 2 · Native output belongs in the result
+Drive a real session · native output
 
 :::
 
@@ -1412,11 +1288,10 @@ On the left, an R child process sends text through a pipe to the native cat comm
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Interrupt or restart the session {#session-controls .deck-slide .literal-slide}
 ::: {.kicker}
 
-Work with the session
+Drive a real session · interrupt and restart
 
 :::
 
@@ -1492,9 +1367,11 @@ Restart keeps prepared dependencies and starts the supplied cell in the new sess
 
 ::: {.notes}
 
-**Say:** Interrupt a long-running computation while keeping the workspace, like pressing Escape in the RStudio console. It requests SIGINT; code can catch or delay it. Changes already made by the computation remain. Restart retires the worker and starts a replacement. R objects, Python state, the managed DuckDB catalog, debugger state, and unread input are discarded; successfully prepared dependencies remain available.
+**Say:** Interrupt a long-running computation while keeping the workspace, like pressing Escape in the RStudio console. Restart retires the worker and starts a replacement with fresh in-memory state. Prepared dependencies remain available.
 
-A control and a code cell can be combined in one send call. A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session. Launch from the package directory for these examples. The two calls are alternatives. The ellipsis after load_all is a placeholder for the package code the model wants to evaluate next, not literal R code to run.
+A control and a code cell can be combined in one send call. A common package-development pattern is to restart and then call devtools::load_all() or devtools::test() in the same send. The package files remain on disk, while the operation runs in a fresh R session.
+
+**Reference (not spoken):** Interrupt requests SIGINT; code can catch or delay it. Changes already made by the computation remain. Restart discards R objects, Python state, the managed DuckDB catalog, debugger state, and unread input; successfully prepared dependencies remain available. Launch from the package directory for these examples. The two calls are alternatives. The ellipsis after load_all is a placeholder for the package code the model wants to evaluate next, not literal R code to run.
 
 **Show:** There are exactly two accepted control values. A control-only interrupt can overlap a pending send. If interrupt includes a new cell, that cell runs only after the previous evaluation has stopped; an uncooperative evaluation prevents it from running. Use the simpler restart example here to make ordering visible.
 
@@ -1503,11 +1380,10 @@ A control and a code cell can be combined in one send call. A common package-dev
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Interruption and restart](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md#interruption)
 
 :::
-
 ## Send input to an R prompt {#stdin .deck-slide .literal-slide}
 ::: {.kicker}
 
-Work with the session
+Drive a real session · standard input
 
 :::
 
@@ -1604,11 +1480,10 @@ That is the input mechanism for an ordinary interactive prompt. It also lets the
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
-
 ## Send input to a paused debugger {#debugger .deck-slide .literal-slide}
 ::: {.kicker}
 
-Work with the session
+Drive a real session · debugger
 
 :::
 
@@ -1734,11 +1609,10 @@ This uses the same input mechanism as readline. The session stays alive while th
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md)
 
 :::
-
 ## Run an interactive script in a fresh session {#restart-input .deck-slide .literal-slide}
 ::: {.kicker}
 
-Work with the session
+Drive a real session · combined operations
 
 :::
 
@@ -1829,11 +1703,10 @@ Console prepares the declared dependency first, then replaces the worker. Once t
 **Sources:** [Send operation order](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md#operations)
 
 :::
-
 ## The current send() interface {#full-signature .deck-slide .signature-slide}
 ::: {.kicker}
 
-The model-facing API today
+Drive a real session · the model-facing API today
 
 :::
 
@@ -1868,125 +1741,10 @@ And we can leave out the code: poll for more output, answer a prompt, interrupt 
 **Sources:** [Send operation contract](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SEND_OPERATIONS.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
-## Possible extension: multiple sessions {#future-sessions .deck-slide .signature-slide .api-proposal}
-::: {.kicker}
-
-API ideas · not implemented
-
-:::
-
-::: {.full-contract}
-
-<pre class="signature-display">console.send(
-  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
-  <span class="proposed-arg">session=…</span>,               <span class="syntax-comment"># which session to address</span>
-  control=…,               <span class="syntax-comment"># interrupt or restart</span>
-  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
-  requirements={r: …, python: …, duckdb: …},
-  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
-)</pre>
-
-:::
-
-::: {.takeaway}
-
-Let the model manage several sessions and keep work running concurrently.
-
-:::
-
-::: {.notes}
-
-**Say:** There are also a couple of possible extensions I'm thinking about. These are ideas, rather than part of the current API.
-
-One would be a session argument. That would let the model manage multiple sessions concurrently through the same send tool. It could keep separate workspaces for different parts of a task and return to one session while work continues in another.
-
-The argument would identify which session a call belongs to. I still need to work through how the model creates and manages those sessions, but this is the shape of the interface I have in mind.
-
-:::
-
-## Possible extension: a session notebook {#future-notes .deck-slide .signature-slide .api-proposal}
-::: {.kicker}
-
-API ideas · not implemented
-
-:::
-
-::: {.full-contract}
-
-<pre class="signature-display">console.send(
-  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
-  session=…,               <span class="syntax-comment"># which session to address</span>
-  <span class="proposed-arg">note=…</span>,                  <span class="syntax-comment"># append prose to the record</span>
-  control=…,               <span class="syntax-comment"># interrupt or restart</span>
-  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
-  requirements={r: …, python: …, duckdb: …},
-  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
-)</pre>
-
-:::
-
-::: {.small-note}
-
-`note` is a working name; it could also be `comment`.
-
-:::
-
-::: {.takeaway}
-
-Append intentions, observations, and conclusions alongside the code and results.
-
-:::
-
-::: {.notes}
-
-**Say:** Another idea is a note argument, or perhaps comment. The name isn't settled. The model could send prose and use the transcript as an append-only lab notebook.
-
-Before running code, it might record what it wants to check: for example, whether the residual pattern differs between groups. After seeing the result, it could add an observation or conclusion, including a note on its own without another code cell.
-
-That would leave a record of the purpose of the analysis and what the model learned, alongside the code and its output. Someone coming back later could follow how the work developed. And when we export a curated document, we'd already have prose to draw on.
-
-The session and note arguments are both still ideas. The current API is the one on the preceding overview slide. Now let's look at the permissions around the runtime it exposes.
-
-:::
-
-## Default policy: read-only {#default-sandbox .deck-slide .policy-slide}
-::: {.kicker}
-
-Choose the worker’s permissions
-
-:::
-
-- Read all host files your account can access.
-- Write only in private temporary storage.
-- Restrict direct network access.
-- Apply the same policy to subprocesses.
-- On restart or shutdown, stop the worker and children; remove temporary storage.
-
-::: {.takeaway}
-
-Host reads are allowed. Deny sensitive paths explicitly.
-
-:::
-
-::: {.notes}
-
-**Say:** Now let's look more closely at the sandbox. The default policy is called read-only. The model has read access to the host files available to the account, but it can write only in its own private temporary storage. Direct network access is restricted.
-
-Those restrictions apply to the worker and its subprocesses. On an explicit restart or server shutdown, Console stops the worker and cleans up its child processes and temporary storage. There is a grace period, followed by forceful termination if needed.
-
-That's the default. If there are sensitive files the model shouldn't read, the user can deny those paths explicitly.
-
-**Reference (not spoken):** Cleanup runs on restart and server shutdown. Console allows a worker grace period before escalation. On Linux the runner waits for PID namespace retirement; on macOS it covers the owned process group and observed descendants, with an orphaning race limitation. Runner death has no independent cleanup guarantee. Prepared dependencies, records, and project files persist. Inherited environment variables and broad host reads may expose secrets; configuration can restrict them.
-
-**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
-
-:::
-
 ## Choose between two built-in sandbox policies {#builtin-policies .deck-slide .literal-slide .policy-comparison}
 ::: {.kicker}
 
-Choose the worker’s permissions
+Enforce permissions · built-in policies
 
 :::
 
@@ -1994,9 +1752,9 @@ Choose the worker’s permissions
 
 ::::: {.left}
 
-<h3>:read-only</h3>
+<h3>:read-only · default</h3>
 
-- Read host files.
+- Read all host files your account can access.
 - Write only in private temporary storage.
 - Project files stay protected from writes.
 
@@ -2034,26 +1792,27 @@ mcp-console serve \
 
 ::: {.takeaway}
 
-Both restrict networking and provide private storage and process cleanup.
+Both restrict networking, cover subprocesses, and clean up on restart. Deny sensitive paths explicitly.
 
 :::
 
 ::: {.notes}
 
-**Say:** There are two built-in policies. Read-only is the default. Workspace adds write access under the working directory where Console is launched.
+**Say:** Now let's look more closely at the sandbox. There are two built-in policies. The default is called read-only. The model has read access to the host files available to the account, but it can write only in its own private temporary storage. Direct network access is restricted. If there are sensitive files the model shouldn't read, the user can deny those paths explicitly.
 
-It still protects the .git, .agents, .codex, and .claude directories from writes. The network restrictions and private temporary storage are the same. The user can select either policy at the command line.
+Workspace adds write access under the working directory where Console is launched. It still protects the .git, .agents, .codex, and .claude directories from writes.
 
-**Reference (not spoken):** The leading colon is part of the built-in name. -c overrides extends while retaining other project configuration. external-sandbox and unrestricted are enforcement modes, not additional named presets.
+Both policies apply to the worker and its subprocesses. On an explicit restart or server shutdown, Console stops the worker and cleans up its child processes and temporary storage. The user can select either policy at the command line.
 
-**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Configuration layering](https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md)
+**Reference (not spoken):** Cleanup runs on restart and server shutdown. Console allows a worker grace period before escalation. On Linux the runner waits for PID namespace retirement; on macOS it covers the owned process group and observed descendants, with an orphaning race limitation. Runner death has no independent cleanup guarantee. Prepared dependencies, records, and project files persist. Inherited environment variables and broad host reads may expose secrets; configuration can restrict them. There is a grace period, followed by forceful termination if needed. The leading colon is part of the built-in name. -c overrides extends while retaining other project configuration. external-sandbox and unrestricted are enforcement modes, not additional named presets.
+
+**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [Configuration layering](https://github.com/t-kalinowski/mcp-console/blob/main/docs/CONFIGURATION.md) · [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md)
 
 :::
-
 ## Extend a built-in policy for the project {#private-inputs .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
-Choose the worker’s permissions
+Enforce permissions · project configuration
 
 :::
 
@@ -2118,11 +1877,10 @@ Here we start with workspace and adjust the filesystem permissions: keep the dat
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
 ## Example: connect to a corporate data warehouse {#network-proxy .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
-Choose the worker’s permissions
+Enforce permissions · network exceptions
 
 :::
 
@@ -2177,7 +1935,7 @@ The client still supplies its usual database credentials.
 
 We enable the managed proxy and allow that warehouse host. The model still needs the usual database credentials, but we can give it that connection without opening general network access.
 
-This excerpt shows the part of the policy that selects the destination. I'll show the complete proxy configuration after the next example.
+This excerpt shows the part of the policy that selects the destination. The complete proxy configuration is in the appendix.
 
 **Reference (not spoken):** This is a focused YAML excerpt, not a standalone config. examples/configs/network-proxy.yaml contains the full version. Arbitrary database TCP protocols need a SOCKS-aware client or tunnel. Private-IP destinations need the appropriate literal-IP rule or local-network exception; a hostname rule alone does not grant private-address access. Placeholder domains were not contacted.
 
@@ -2186,11 +1944,10 @@ This excerpt shows the part of the policy that selects the destination. I'll sho
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
 ## Example: develop a local Shiny app {#network-listener .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
-Choose the worker’s permissions
+Enforce permissions · network exceptions
 
 :::
 
@@ -2251,80 +2008,10 @@ The app can keep running while the model polls for output, and the model can int
 **Sources:** [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
-## The complete proxy configuration {#proxy-options .deck-slide .config-slide .code-dense}
-::: {.kicker}
-
-Choose the worker’s permissions
-
-:::
-
-:::::: {.two-col}
-::::: {.left}
-
-::: {.ownership-card}
-
-Enable the proxy explicitly.
-
-Set allowed destinations in `domains`.
-
-Opt into local binding for Shiny.
-
-Keep UDP, upstream proxies, and broad Unix-socket access off unless needed.
-
-:::
-
-::: {.small-note}
-
-Empty rule maps grant no destinations. The default policy has no proxy.
-
-:::
-
-:::::
-::::: {.right}
-:::: {.code-panel}
-::: {.panel-label .path-label}
-
-.agents/console/config.yaml
-
-:::
-
-```yaml
-extends: ":workspace"
-sandbox:
-  network: restricted
-  proxy:
-    enabled: true
-    enableSocks5: true
-    enableSocks5Udp: false
-    allowUpstreamProxy: false
-    dangerouslyAllowAllUnixSockets: false
-    allowLocalBinding: false
-    mode: full
-    domains: {}
-    unixSockets: {}
-```
-
-::::
-:::::
-::::::
-
-::: {.notes}
-
-**Say:** Here is the complete proxy configuration behind those two examples. Enabling the proxy is an explicit choice; it isn't part of the default read-only policy.
-
-These are all the fields on the proxy object. We can set destination rules, choose whether to allow local binding, and control SOCKS, UDP, upstream proxies, and Unix sockets. The empty maps here grant no destinations. Add the warehouse rule or change the local-binding flag for the examples we just saw.
-
-**Reference (not spoken):** The seven scalar fields are required when a proxy object is supplied; Console forwards it without filling in missing values. domains and unixSockets may be omitted, null, or empty. The shown values are an explicit enabled-proxy baseline, not automatically materialized defaults. mode: full permits the supported HTTP methods; destination policy still applies. The two preceding excerpts omit required surrounding fields for readability; their full runnable alternatives remain in examples/configs. This slide expands the proxy settings, not every platform-specific sandbox option.
-
-**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
-
-:::
-
 ## Run any command through the sandbox {#sandbox-command .deck-slide .story-slide .literal-slide}
 ::: {.kicker}
 
-Reuse the sandbox in your own application
+Enforce permissions · reuse the sandbox in your own application
 
 :::
 
@@ -2386,11 +2073,10 @@ Your application launches this as a subprocess and uses ordinary standard input,
 **Sources:** [Sandbox integration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
 ## Configure where the session runs {#execution-choice .deck-slide .story-slide}
 ::: {.kicker}
 
-Choose the execution host
+Where it runs · choose the execution host
 
 :::
 
@@ -2430,7 +2116,7 @@ Execution targets plug into the same session interface.
 
 ::: {.notes}
 
-**Say:** Finally, the session doesn't have to run locally. Local is the default: the worker runs on the same host as the Console server.
+**Say:** The session also doesn't have to run locally. Local is the default: the worker runs on the same host as the Console server.
 
 We can also configure an SSH host or a Docker container. The architecture separates the session interface from the execution environment, so where the worker runs is a user choice.
 
@@ -2439,11 +2125,10 @@ We can also configure an SSH host or a Docker container. The architecture separa
 **Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
 
 :::
-
 ## Move execution to the remote host {#remote-topology .deck-slide .story-slide}
 ::: {.kicker}
 
-The same architecture over SSH
+Where it runs · SSH
 
 :::
 
@@ -2502,60 +2187,15 @@ Code runs beside the remote data. The client and session records stay local.
 
 The trusted package resolvers run on that host too, outside the worker sandbox. The sandbox policy can still apply to the worker and its subprocesses. The placement has changed, but the relationship between the parts is the same.
 
-**Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md)
-
-:::
-
-## Send code to the remote host; receive results {#ssh-workflow .deck-slide .story-slide}
-::: {.kicker}
-
-SSH · Keep computation beside the existing data
-
-:::
-
-:::: {.two-col}
-
-::: {.story-card}
-
-**Your machine**
-
-MCP client and Console server.
-
-Send cells and controls.<br>Receive text and plots.<br>Keep session records.
-
-:::
-
-::: {.story-card}
-
-**Remote host**
-
-Sandboxed session worker.
-
-Use the files already there.<br>Run R, Python, and SQL.<br>Prepare packages there.
-
-:::
-
-::::
-::: {.takeaway}
-
-The source data stays on the remote host. Results return over SSH.
-
-:::
-
-::: {.notes}
-
-**Say:** With that separation, the Console server keeps the session records local, while the computation and sandbox live on the remote host. The worker uses the files available there, and sends results back.
-
-So if the project and data already live on that machine, we can work with them there without first staging the dataset locally.
+So if the project and data already live on that machine, we can work with them there without first staging the dataset locally. Results come back over SSH, and the session records stay on your machine.
 
 **Sources:** [SSH execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md)
 
 :::
-
 ## Point Console at the remote workspace {#ssh .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
-SSH · Use an existing analysis host
+Where it runs · SSH
 
 :::
 
@@ -2617,35 +2257,29 @@ Then we can layer sandbox permissions on top. Here, the workspace policy and the
 **Sources:** [ssh](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SSH.md) · [sandbox](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
-## Build the session's Docker image at launch {#docker .deck-slide .config-slide .code-dense}
+## Run a prepared Docker image {#docker .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
-Docker · Choose the session environment
+Where it runs · Docker
 
 :::
 
 :::::: {.two-col}
 ::::: {.left}
 
-Start with Rocker. Add uv, rig, and ir.
+Install Console, its runtimes, and analysis packages in the image.
 
 :::: {.code-panel}
 ::: {.panel-label .path-label}
 
-examples/Dockerfile
+From the mcp-console repository
 
 :::
 
-```dockerfile
-FROM rocker/tidyverse
-ENV UV_INSTALL_DIR=/usr/local/bin
-ENV UV_TOOL_BIN_DIR=/usr/local/bin
-ENV RIG_PREFIX=/usr/local
-RUN curl -LsSf https://astral.sh/uv/install.sh | sh
-RUN curl -LsSf https://r-lib.github.io/rig/install.sh | sh
-RUN uv tool install r-lib-ir
-WORKDIR /workspace
+```sh
+docker build \
+  -f examples/docker/Dockerfile \
+  -t my-console:analysis .
 ```
 
 ::::
@@ -2662,12 +2296,10 @@ WORKDIR /workspace
 ```yaml
 target:
   workspace: /workspace
-  command: [uvx, mcp-console]
   compute:
     kind: docker
-    build:
-      context: .
-      dockerfile: ./examples/Dockerfile
+    image: my-console:analysis
+    pull: if_missing
     mounts:
       - source: .
         target: /workspace
@@ -2681,22 +2313,27 @@ sandbox:
 :::::
 ::::::
 
-::: {.notes}
+::: {.takeaway}
 
-**Say:** Besides SSH hosts, users can configure a Docker container. Here we start from rocker/tidyverse and add uv, rig, and ir. We give Console the Dockerfile path, specify the project mount, and launch it with uvx inside the container.
-
-The interaction between the native sandbox and Docker's networking controls isn't fully fleshed out. In this example, enforcement is delegated to Docker, and the launch uses its bridge network. That does not give us the destination restrictions from the earlier proxy example. If someone is interested in helping with that integration, I'd welcome the help.
-
-**Author / target-day assumption:** This is the requested minimal setup for on-demand resolution. The inspected Console checkout at 6cd4cfd4f61ec5df723cc0e25b8f35a90ba8377e still disables managed package preparation for Docker, even when uv and ir are installed. Installing these tools alone does not enable that capability in the current implementation. This example assumes Docker preparation support by presentation day; it is not a validated current-release launch recipe. No image build or container session was run. Confirm this support before a live demo. The installer commands and r-lib-ir distribution name were checked against their official documentation.
-
-**Sources:** [Rocker analysis images](https://rocker-project.org/images/versioned/rstudio.html) · [Install uv](https://docs.astral.sh/uv/getting-started/installation/) · [Install rig](https://rig.r-lib.org/install.html) · [Install ir](https://github.com/r-lib/ir#install) · [Current Docker behavior](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
+Docker sessions use preinstalled packages. Build the dependencies into the image.
 
 :::
 
+::: {.notes}
+
+**Say:** Besides SSH hosts, users can configure a Docker container. The Console repository includes a Dockerfile that builds the Linux executable and its native companion, and installs R, Python, and analysis dependencies. We build that image, then give Console its name and the project mount.
+
+Package preparation happens when we build the image. Console does not resolve new dependencies inside a running Docker session. In this example, enforcement is delegated to Docker, and the launch uses its bridge network. That does not give us the destination restrictions from the earlier proxy example.
+
+**Author / validation:** Checked against Console source ea5c1e737f329a86d957b12d7d1f15690824e398 on October 2, 2026. Run the build command from that repository, not the presentation directory. The image must contain the runtimes and packages the session needs. No image build or container session was run for this presentation. External-sandbox delegates enforcement to Docker; the writable bind includes project metadata and recordings, without native .git or .agents write protection.
+
+**Sources:** [Docker image recipe](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/examples/docker/Dockerfile) · [Docker execution](https://github.com/t-kalinowski/mcp-console/blob/main/docs/DOCKER.md)
+
+:::
 ## The agent uses the same interface on every host {#target-invariance .deck-slide}
 ::: {.kicker}
 
-Local · SSH · Docker
+Where it runs · local, SSH, Docker
 
 :::
 
@@ -2731,222 +2368,10 @@ The user configures the execution environment, and the model can keep working th
 **Sources:** [Implemented architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md) · [Canonical tool schema snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/server/test_tools/initializes_and_lists_tools.yaml) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md)
 
 :::
-
-## Launch or install Console {#install-python .deck-slide .integration .code-dense}
-::: {.kicker}
-
-Installation
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Recommended · launch an MCP server
-
-:::
-
-
-```bash
-uv tool install mcp-console
-```
-
-```bash
-uvx mcp-console
-```
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Persistent Python installation · choose the integrations you need
-
-:::
-
-```bash
-uv pip install "mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]"
-```
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-R package · planned CRAN installation
-
-:::
-
-```r
-install.packages("mcp.console")
-```
-
-:::
-
-::: {.takeaway}
-
-Let `uvx` manage resolution and automatically pick up updates.
-
-:::
-
-::: {.notes}
-
-**Say:** The most common way to launch Console will be uvx mcp-console serve. uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
-
-If you want a persistent installation in your Python environment, use uv pip install. The base package gives you the executable, and the optional extras add the Python integrations. This command lists all the supported extras; pick the ones you need.
-
-For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub. The R package provides the interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI.
-
-**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. uv pip install targets an existing Python environment. The current R source command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal.
-
-**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md)
-
-:::
-
-## Register Console with your CLI client {#codex .deck-slide .integration}
-::: {.kicker}
-
-Use the client you already work in
-
-:::
-
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Codex CLI
-
-:::
-
-```bash
-codex mcp add console -- uvx mcp-console serve
-```
-
-::::
-:::: {.code-panel}
-
-::: {.panel-label}
-
-Claude Code CLI
-
-:::
-
-```bash
-claude mcp add console -- uvx mcp-console serve
-```
-
-::::
-
-::: {.takeaway}
-
-Register the launch command; your client starts Console.
-
-:::
-
-::: {.notes}
-
-**Say:** To use Console with Codex or Claude, register that launch command with the client. When the client needs Console, it starts the server through uvx.
-
-**Reference (not spoken):** Client-side deadlines remain separate from Console evaluation waits.
-
-**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
-
-:::
-
-## ellmer {#ellmer .deck-slide .integration}
-::: {.kicker}
-
-Use the client you already work in
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-R · register one tool
-
-:::
-
-```r
-library(ellmer)
-library(mcp.console)
-
-chat <- chat_openai()
-chat$register_tool(console_tool())
-chat$chat("Analyze measurements.csv with Console.")
-```
-
-:::
-
-::: {.takeaway}
-
-Your chat and provider. A separate persistent Console worker.
-
-:::
-
-::: {.notes}
-
-**Say:** Once the package is installed, create your ellmer chat object as usual and register console_tool as another tool. Then the model can use the same persistent session through that chat.
-
-The R package handles the connection and the tool interface. The model's code still runs in the Console worker, separate from the R process running ellmer.
-
-**Sources:** [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [R tool wrapper implementation](https://github.com/t-kalinowski/mcp-console/blob/main/r/R/console-tool.R)
-
-:::
-
-## chatlas {#chatlas .deck-slide .integration}
-::: {.kicker}
-
-Use the client you already work in
-
-:::
-
-::: {.code-panel}
-
-::: {.panel-label}
-
-Python · register one tool
-
-:::
-
-```{.python code-line-numbers="2,5-6"}
-from chatlas import ChatOpenAI
-import mcp_console
-
-chat = ChatOpenAI()
-with mcp_console.MCPConsole() as console:
-    chat.register_tool(mcp_console.chatlas.tool(console))
-    chat.chat("Analyze measurements.csv with Console.")
-```
-
-:::
-
-::: {.takeaway}
-
-The same registration pattern in Python.
-
-:::
-
-::: {.notes}
-
-**Say:** The Python integrations are straightforward too. For chatlas, import mcp_console and register its chatlas tool with the chat.
-
-The other supported clients have similar adapters. The application keeps control of the conversation, and Console provides the execution session.
-
-**Reference (not spoken):** Registration and a direct call through the registered tool were checked with chatlas 0.23.0, without a model API call. In this version, register_tool() rebuilds the schema from Console's Python send annotations; it does not preserve the server-provided schema verbatim. The seven send arguments remain available. Use set_tools() when exact schema preservation is required.
-
-**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [chatlas registration](https://posit-dev.github.io/chatlas/reference/Chat.html#chatlas.Chat.register_tool)
-
-:::
-
 ## Keep session logs and readable transcripts {#recording .deck-slide .literal-slide}
 ::: {.kicker}
 
-Keep the work useful after the session
+After the session · records
 
 :::
 
@@ -2979,7 +2404,7 @@ Full logs and a readable presentation of the session.
 
 ::: {.notes}
 
-**Say:** Each recorded session gets a directory under .agents/console/sessions, relative to the Console server's working directory. Recording starts on the first send call.
+**Say:** Wherever the worker runs, the Console server keeps the session records. Each recorded session gets a directory under .agents/console/sessions, relative to the Console server's working directory. Recording starts on the first send call.
 
 The events.jsonl file records the tool calls and responses, including metadata attached by the client. For example, a client can attach a thread ID and other information that helps reconstruct the session.
 
@@ -2992,11 +2417,10 @@ Then we maintain human-readable transcripts. You can think of these as projectio
 **Sources:** [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
-
 ## Read the session as Markdown {#markdown-transcript .deck-slide .literal-slide .code-dense}
 ::: {.kicker}
 
-Keep the work useful after the session
+After the session · records
 
 :::
 
@@ -3033,11 +2457,10 @@ It's a readable presentation of the session. A reader can follow the calls and r
 **Sources:** [Session records](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
-
 ## Turn the session into an editable starting point {#quarto-transcript .deck-slide .literal-slide .code-dense}
 ::: {.kicker}
 
-Keep the work useful after the session
+After the session · records
 
 :::
 
@@ -3106,16 +2529,94 @@ On this slide, I've copied the generated transcript into report.qmd, shortened t
 **Sources:** [ir Quarto integration](https://r-lib.github.io/ir/quarto.html) · [Architecture](https://github.com/t-kalinowski/mcp-console/blob/main/docs/ARCHITECTURE.md)
 
 :::
-
-## Before an official release {#before-release .deck-slide .policy-slide}
+## Possible extension: multiple sessions {#future-sessions .deck-slide .signature-slide .api-proposal}
 ::: {.kicker}
 
-Pending work
+What’s next · API ideas, not implemented
 
 :::
 
-- **Windows support:** mostly stubbed out; open PRs still need to land.
-- **Sans-R mode:** running without R; in flight.
+::: {.full-contract}
+
+<pre class="signature-display">console.send(
+  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
+  <span class="proposed-arg">session=…</span>,               <span class="syntax-comment"># which session to address</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+
+:::
+
+::: {.takeaway}
+
+Let the model manage several sessions and keep work running concurrently.
+
+:::
+
+::: {.notes}
+
+**Say:** There are also a couple of possible extensions I'm thinking about. These are ideas, rather than part of the current API.
+
+One would be a session argument. That would let the model manage multiple sessions concurrently through the same send tool. It could keep separate workspaces for different parts of a task and return to one session while work continues in another.
+
+The argument would identify which session a call belongs to. I still need to work through how the model creates and manages those sessions, but this is the shape of the interface I have in mind.
+
+:::
+## Possible extension: a session notebook {#future-notes .deck-slide .signature-slide .api-proposal}
+::: {.kicker}
+
+What’s next · API ideas, not implemented
+
+:::
+
+::: {.full-contract}
+
+<pre class="signature-display">console.send(
+  r=…, python=…, sql=…,    <span class="syntax-comment"># at most one language</span>
+  session=…,               <span class="syntax-comment"># which session to address</span>
+  <span class="proposed-arg">note=…</span>,                  <span class="syntax-comment"># append prose to the record</span>
+  control=…,               <span class="syntax-comment"># interrupt or restart</span>
+  stdin=…,                 <span class="syntax-comment"># input for a read or prompt</span>
+  requirements={r: …, python: …, duckdb: …},
+  timeout_ms=…,            <span class="syntax-comment"># how long this call waits</span>
+)</pre>
+
+:::
+
+::: {.small-note}
+
+`note` is a working name; it could also be `comment`.
+
+:::
+
+::: {.takeaway}
+
+Append intentions, observations, and conclusions alongside the code and results.
+
+:::
+
+::: {.notes}
+
+**Say:** Another idea is a note argument, or perhaps comment. The name isn't settled. The model could send prose and use the transcript as an append-only lab notebook.
+
+Before running code, it might record what it wants to check: for example, whether the residual pattern differs between groups. After seeing the result, it could add an observation or conclusion, including a note on its own without another code cell.
+
+That would leave a record of the purpose of the analysis and what the model learned, alongside the code and its output. Someone coming back later could follow how the work developed. And when we export a curated document, we'd already have prose to draw on.
+
+The session and note arguments are both still ideas. The current API is the one we saw earlier. Beyond the API, there are a few things I want to finish before a release.
+
+:::
+## Before an official release {#before-release .deck-slide .policy-slide}
+::: {.kicker}
+
+What’s next · platform status checked October 2, 2026
+
+:::
+
+- **Platforms:** macOS and Linux supported; Windows unsupported.
+- **Python and SQL without R:** available.
 - **Human-facing configuration:** readable YAML, discovery, and storage defaults.
 - **Tool descriptions and evals:** convey capabilities clearly and use fewer tokens.
 - **Curated session exports:** Quarto documents and timestamped lab notebooks.
@@ -3129,22 +2630,189 @@ The agent-facing API is largely complete. The human-facing experience needs anot
 
 ::: {.notes}
 
-**Say:** Before an official release, there are a few things I still want to work through. The agent-facing API has had a lot of thought put into it, and I think it's largely feature complete. The human-facing experience needs another solid pass.
+**Say:** The agent-facing API has had a lot of thought put into it, and I think it's largely feature complete. The human-facing experience needs another solid pass.
 
-Windows support is mostly stubbed out already in open PRs; those still need to land. Sans-R mode, so running Console without R, is also in flight.
+As of October 2, macOS and Linux are supported, and Windows is not. Python and SQL can already run without R.
 
 The configuration format is currently a fairly raw pass-through of the Rust structs that drive the sandbox. I'd like it to be an API designed for people to read and write. That includes deciding where config is discovered, whether there's a default location in the home directory, and where session files should live so we don't clutter project directories.
 
 The tool descriptions also need work. They should convey the capabilities clearly without spending unnecessary tokens. We need evals to see whether the descriptions actually help models discover and use those capabilities.
 
-For session exports, I'd like an R or Python function the model can call to turn selected parts of the session into a curated Quarto document. Another possibility is building a document incrementally, appending prose alongside the work, like a timestamped lab notebook. Those are workflows we still need to design beyond the automatic transcripts shown here.
+For session exports, I'd like an R or Python function the model can call to turn selected parts of the session into a curated Quarto document. Together with the note idea, that's a workflow we still need to design beyond the automatic transcripts shown here.
 
 Finally, we need to think through artifact handoff. The model might create a graphic inside Console, then use another tool to copy it to its destination. We need to expose the write-only output locations and make the files persist so that handoff works. Console can keep its restrictive permissions while another tool uses the permissions it already has.
 
-**Reference (not spoken):** This is the author's pre-release work list as of 2026-09-23. Windows and sans-R status reflect the author's update, not a verified release or PR audit. The proposed configuration, curated-export, notebook, and general artifact-handoff workflows are pending design work. No function names, configuration paths, or APIs are promised here.
+**Reference (not spoken):** Platform and R-independent runtime support were checked against Console source ea5c1e737f329a86d957b12d7d1f15690824e398 on October 2, 2026. The remaining bullets preserve the author's September 23 design priorities; they are not a release checklist or delivery commitment. No function names, configuration paths, or APIs are promised here.
+
+**Sources:** [Supported platforms](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/README.md) · [Python sessions without R](https://github.com/t-kalinowski/mcp-console/blob/ea5c1e737f329a86d957b12d7d1f15690824e398/docs/BUILTIN_RUNTIME.md#python-sessions-without-r)
+
+:::
+## Launch or install Console {#install-python .deck-slide .integration .code-dense}
+::: {.kicker}
+
+Get started · installation
 
 :::
 
+::: {.code-panel}
+
+::: {.panel-label}
+
+Recommended · launch an MCP server
+
+:::
+
+
+```bash
+uv tool install mcp-console
+```
+
+```bash
+uvx mcp-console
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Persistent Python installation · choose the integrations you need
+
+:::
+
+```bash
+uv pip install "mcp-console[client,chatlas,openai,openai-agents,anthropic,codex]"
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+R package · planned CRAN installation
+
+:::
+
+```r
+install.packages("mcp.console")
+```
+
+:::
+
+::: {.code-panel}
+
+::: {.panel-label}
+
+Register with Codex or Claude Code
+
+:::
+
+```bash
+codex mcp add console -- uvx mcp-console serve
+claude mcp add console -- uvx mcp-console serve
+```
+
+:::
+
+::: {.takeaway}
+
+Let `uvx` manage resolution and automatically pick up updates.
+
+:::
+
+::: {.notes}
+
+**Say:** If you'd like to try it, the most common way to launch Console will be uvx mcp-console serve. uvx manages resolution and installation for you, and picks up updates as its cache refreshes. You don't have to manage a separate installation and remember to update it yourself.
+
+If you want a persistent installation in your Python environment, use uv pip install. The base package gives you the executable, and the optional extras add the Python integrations. This command lists all the supported extras; pick the ones you need.
+
+For R, the intended installation is install.packages("mcp.console"). It isn't on CRAN yet, but that's the plan. The current source installation is available from GitHub. The R package provides the interface and connects it to the core executable. It doesn't ship the Rust binary itself: when a download is needed, it uses reticulate's uv integration to resolve the binary from PyPI.
+
+To use Console with Codex or Claude Code, register that launch command with the client. When the client needs Console, it starts the server through uvx.
+
+**Reference (not spoken):** uvx uses registry caching, so this is not a fresh lookup on every launch. An explicitly installed compatible tool or a version pin can retain an older version. uv pip install targets an existing Python environment. The current R source command is pak::pak("github::t-kalinowski/mcp-console/r"). console_tool() first checks PATH unless path or version is supplied; when resolution is needed it uses reticulate::uv_run_tool(). The inspected wrapper does not yet provide the richer S7 configuration surface mentioned in the rehearsal. Client-side deadlines remain separate from Console evaluation waits.
+
+**Sources:** [uv tools](https://docs.astral.sh/uv/concepts/tools/) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md) · [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [Codex MCP](https://developers.openai.com/codex/mcp/) · [Claude Code MCP](https://code.claude.com/docs/en/mcp)
+
+:::
+## Connect Console to your agent harness {#interfaces .deck-slide .integration}
+::: {.kicker}
+
+Get started · clients
+
+:::
+
+:::::: {.two-col}
+::::: {.left}
+:::: {.code-panel}
+
+::: {.panel-label}
+
+R · ellmer
+
+:::
+
+```r
+library(ellmer)
+library(mcp.console)
+
+chat <- chat_openai()
+chat$register_tool(console_tool())
+chat$chat("Analyze measurements.csv with Console.")
+```
+
+::::
+:::::
+::::: {.right}
+:::: {.code-panel}
+
+::: {.panel-label}
+
+Python · chatlas
+
+:::
+
+```{.python code-line-numbers="2,5-6"}
+from chatlas import ChatOpenAI
+import mcp_console
+
+chat = ChatOpenAI()
+with mcp_console.MCPConsole() as console:
+    chat.register_tool(mcp_console.chatlas.tool(console))
+    chat.chat("Analyze measurements.csv with Console.")
+```
+
+::::
+:::::
+::::::
+
+::: {.story-lead}
+
+Also: OpenAI Responses and Agents SDK · Anthropic · Codex thread SDK · sync and async clients.
+
+:::
+
+::: {.takeaway}
+
+Your chat and provider. A separate persistent Console worker.
+
+:::
+
+::: {.notes}
+
+**Say:** You can also register Console as a tool with a chat library. In ellmer, create your chat object as usual and register console_tool as another tool. For chatlas, import mcp_console and register its chatlas tool with the chat.
+
+There are also adapters for the Anthropic SDK, the Codex thread SDK, OpenAI Responses, and the Agents SDK, plus SDK-agnostic synchronous and asynchronous clients. You can use those from another harness or just drive the session manually.
+
+In every case, the application keeps control of the conversation, and the model's code runs in the Console worker, separate from the process running the chat.
+
+**Reference (not spoken):** The adapters are documented in the source checkout; the older PyPI wheel used for some captures lacks newer clients and extras. Verify the release and image support of the chosen adapter before a live demo. Registration and a direct call through the registered tool were checked with chatlas 0.23.0, without a model API call. In this version, register_tool() rebuilds the schema from Console's Python send annotations; it does not preserve the server-provided schema verbatim. The seven send arguments remain available. Use set_tools() when exact schema preservation is required.
+
+**Sources:** [Python clients and integrations](https://github.com/t-kalinowski/mcp-console/blob/main/docs/PYTHON.md) · [R package interface](https://github.com/t-kalinowski/mcp-console/blob/main/r/README.md) · [chatlas registration](https://posit-dev.github.io/chatlas/reference/Chat.html#chatlas.Chat.register_tool)
+
+:::
 ## R, Python, and SQL, available for the work {#closing .deck-slide .hero .story-slide}
 ::: {.kicker}
 
@@ -3164,16 +2832,23 @@ Full language capabilities, with a sandbox that enforces the access you allow.
 
 :::
 
+::: {.closing-links}
+
+`uvx mcp-console serve` · [github.com/t-kalinowski/mcp-console](https://github.com/t-kalinowski/mcp-console)
+
+:::
+
 ::: {.notes}
 
 **Say:** So those are the core ideas behind Console. Let the model choose the language. Users configure the execution host and the permissions for the work. It's all in service of giving the agent an interactive workbench, with full capabilities and a sandbox.
 
-My hope is that we can share this execution system and keep solving the difficult parts in one place. I have some appendix material on the internals and testing if you're curious, but I'll stop here for now.
+My hope is that we can share this execution system and keep solving the difficult parts in one place. If you're building an agent that needs to run code, I'd like to hear whether Console would work for it. And if you're interested in one of the open items, like the Docker sandbox integration, I'd welcome the help.
+
+I have some appendix material on the internals and testing if you're curious, but I'll stop here for now.
 
 **Sources:** [Built-in runtime](https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md) · [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
 
 :::
-
 ## Appendix {#appendix .deck-slide .hero .story-slide}
 ::: {.kicker}
 
@@ -3200,7 +2875,6 @@ How the capabilities evolved, and how their behavior is checked.
 **Show:** Pause at this divider before entering the development material.
 
 :::
-
 ## Example: use approved package repositories {#package-sources .deck-slide .config-slide .code-dense}
 ::: {.kicker}
 
@@ -3270,7 +2944,6 @@ Repository selection is not a complete package allowlist. Remove unapproved addi
 **Sources:** [Resolver configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md#server-owned-uv-configuration) · [Worker environment scope](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md) · [pak configuration](https://pak.r-lib.org/reference/pak-config.html) · [uv package indexes](https://docs.astral.sh/uv/concepts/indexes/) · [PPM curated CRAN](https://docs.posit.co/rspm/admin/r-packaging/curated-cran.html) · [PPM curated PyPI](https://docs.posit.co/rspm/admin/python-packaging/curated-pypi.html)
 
 :::
-
 ## Proposed: declare requirements in config.yaml {#config-requirements .deck-slide .literal-slide}
 ::: {.kicker}
 
@@ -3341,7 +3014,74 @@ It uses YAML sequences of package names or version specifications, matching the 
 **Sources:** [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
+## The complete proxy configuration {#proxy-options .deck-slide .config-slide .code-dense}
+::: {.kicker}
 
+Appendix · network proxy
+
+:::
+
+:::::: {.two-col}
+::::: {.left}
+
+::: {.ownership-card}
+
+Enable the proxy explicitly.
+
+Set allowed destinations in `domains`.
+
+Opt into local binding for Shiny.
+
+Keep UDP, upstream proxies, and broad Unix-socket access off unless needed.
+
+:::
+
+::: {.small-note}
+
+Empty rule maps grant no destinations. The default policy has no proxy.
+
+:::
+
+:::::
+::::: {.right}
+:::: {.code-panel}
+::: {.panel-label .path-label}
+
+.agents/console/config.yaml
+
+:::
+
+```yaml
+extends: ":workspace"
+sandbox:
+  network: restricted
+  proxy:
+    enabled: true
+    enableSocks5: true
+    enableSocks5Udp: false
+    allowUpstreamProxy: false
+    dangerouslyAllowAllUnixSockets: false
+    allowLocalBinding: false
+    mode: full
+    domains: {}
+    unixSockets: {}
+```
+
+::::
+:::::
+::::::
+
+::: {.notes}
+
+**Say:** Here is the complete proxy configuration behind the warehouse and Shiny examples. Enabling the proxy is an explicit choice; it isn't part of the default read-only policy.
+
+These are all the fields on the proxy object. We can set destination rules, choose whether to allow local binding, and control SOCKS, UDP, upstream proxies, and Unix sockets. The empty maps here grant no destinations. Add the warehouse rule or change the local-binding flag for the examples we just saw.
+
+**Reference (not spoken):** The seven scalar fields are required when a proxy object is supplied; Console forwards it without filling in missing values. domains and unixSockets may be omitted, null, or empty. The shown values are an explicit enabled-proxy baseline, not automatically materialized defaults. mode: full permits the supported HTTP methods; destination policy still applies. The two preceding excerpts omit required surrounding fields for readability; their full runnable alternatives remain in examples/configs. This slide expands the proxy settings, not every platform-specific sandbox option.
+
+**Sources:** [Sandbox configuration](https://github.com/t-kalinowski/mcp-console/blob/main/docs/SANDBOX_CONFIGURATION.md)
+
+:::
 ## Follow a package-resolution request {#resolver-boundary .deck-slide .story-slide .literal-slide}
 ::: {.kicker}
 
@@ -3431,7 +3171,6 @@ Installation and build code run with the preparation account’s permissions, so
 **Sources:** [Worker protocol](https://github.com/t-kalinowski/mcp-console/blob/main/docs/WORKER_PROTOCOL.md#nested-managed-r-resolution) · [Requirements and trust](https://github.com/t-kalinowski/mcp-console/blob/main/docs/REQUIREMENTS.md)
 
 :::
-
 ## Capabilities arriving on main {#development-timeline .deck-slide .history-chart}
 ::: {.kicker}
 
@@ -3466,7 +3205,6 @@ Language support came first; package management and execution targets followed.
 **Sources:** [Python #24](https://github.com/t-kalinowski/mcp-console/pull/24) · [SQL #36](https://github.com/t-kalinowski/mcp-console/pull/36) · [R packages #123](https://github.com/t-kalinowski/mcp-console/pull/123) · [Python packages #124](https://github.com/t-kalinowski/mcp-console/pull/124) · [Sandboxed Linux #262](https://github.com/t-kalinowski/mcp-console/pull/262) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302)
 
 :::
-
 ## How much is in the repository? {#repository-total .deck-slide .history-chart}
 ::: {.kicker}
 
@@ -3498,10 +3236,9 @@ Complete file contents at 307 commits on main · includes comments, blank lines,
 
 **Data:** Every first-parent commit through main commit 657a5981, September 18 at 19:43 UTC. Each snapshot is counted from the full Git tree. Binary and untracked files are excluded. UTC commit times determine the horizontal position.
 
-**Sources:** [Pinned main snapshot](https://github.com/t-kalinowski/mcp-console/tree/657a5981983768967deed83c070973848ec800fb) · [Analysis definitions and data](examples/repository-development/README.md)
+**Sources:** [Pinned main snapshot](https://github.com/t-kalinowski/mcp-console/tree/657a5981983768967deed83c070973848ec800fb) · [Analysis definitions and data](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md)
 
 :::
-
 ## What grew alongside the core code? {#repository-categories .deck-slide .history-chart}
 ::: {.kicker}
 
@@ -3533,10 +3270,9 @@ About 32k lines of core code, 60k of test code and fixtures, and 34k of test tra
 
 **Data:** These are file categories, not line-by-line semantic classifications: core files can contain inline tests and documentation comments. Transcript detection uses .yaml or .yml under tests/, r/tests/, or python/tests/, regardless of historical subdirectory. CI YAML remains tooling. The #197 reorganization has 17,224 transcript lines on both sides, so moving transcripts does not create artificial growth in this category.
 
-**Sources:** [Analysis definitions and checks](examples/repository-development/README.md) · [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197)
+**Sources:** [Analysis definitions and checks](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md) · [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197)
 
 :::
-
 ## How the proportions changed {#repository-proportions .deck-slide .history-chart}
 ::: {.kicker}
 
@@ -3568,10 +3304,9 @@ Test code and transcripts grow to about 65% of the repository’s text.
 
 **Data:** Each category's line count is divided by the total at the same commit. All 307 snapshots sum to 100 percent before rounding. The colors and classification match the absolute-size chart. Shares describe repository contents, not developer time, test coverage, or software quality.
 
-**Sources:** [Analysis definitions and data](examples/repository-development/README.md)
+**Sources:** [Analysis definitions and data](https://github.com/t-kalinowski/mcp-console-talk/blob/main/examples/repository-development/README.md)
 
 :::
-
 ## Why some PRs look so large {#development-large-prs .deck-slide .history-chart}
 ::: {.kicker}
 
@@ -3606,7 +3341,6 @@ The largest PR reorganized tests: 37,183 lines changed, but only 1,705 net lines
 **Sources:** [Test reorganization #197](https://github.com/t-kalinowski/mcp-console/pull/197) · [Test contracts #258](https://github.com/t-kalinowski/mcp-console/pull/258) · [Transcript support #202](https://github.com/t-kalinowski/mcp-console/pull/202) · [Sandbox supervision #266](https://github.com/t-kalinowski/mcp-console/pull/266) · [Docker targets #302](https://github.com/t-kalinowski/mcp-console/pull/302) · [CLI tests #205](https://github.com/t-kalinowski/mcp-console/pull/205)
 
 :::
-
 ## AGENTS.md gives the model project context {#development-agent-guidance .deck-slide .story-slide}
 ::: {.kicker}
 
@@ -3661,7 +3395,6 @@ The instructions ask for coherent PRs, readable code, tests through public inter
 **Sources:** [AGENTS.md at the analysis snapshot](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Development guide](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
 
 :::
-
 ## The development loop starts with behavior {#development-loop .deck-slide .story-slide}
 ::: {.kicker}
 
@@ -3717,7 +3450,6 @@ For an internal refactor, the existing public suite is the contract; the instruc
 **Sources:** [Working rules in AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) · [Validation ladder](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md)
 
 :::
-
 ## Rust implementation. Python integration tests. {#tests-python .deck-slide}
 ::: {.kicker}
 
@@ -3760,7 +3492,6 @@ Exercise from Python
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Project README](https://github.com/t-kalinowski/mcp-console/blob/main/README.md)
 
 :::
-
 ## Test the boundaries you intend to preserve {#test-boundaries .deck-slide}
 ::: {.kicker}
 
@@ -3854,7 +3585,6 @@ One primary owner per behavior; lower layers test their own contracts.
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
-
 ## YAML is what the reviewer reads {#yaml-transcripts .deck-slide .snapshot-slide}
 ::: {.kicker}
 
@@ -3936,7 +3666,6 @@ Source excerpt: `detects_cpu_cores.yaml` · initialization document omitted.
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md) · [Checked-in CPU detection snapshot](https://github.com/t-kalinowski/mcp-console/blob/main/tests/snapshots/client_server/r/test_runtime/detects_cpu_cores.yaml)
 
 :::
-
 ## Normalize noise, not behavior {#test-normalization .deck-slide}
 ::: {.kicker}
 
@@ -4003,7 +3732,6 @@ Keep meaningful wording, ordering, and failure distinctions visible.
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
-
 ## Synchronize; do not sleep and hope {#test-determinism .deck-slide}
 ::: {.kicker}
 
@@ -4032,7 +3760,6 @@ Explicit gates for output, cancellation, restart, and cleanup.
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
-
 ## Portable behavior; real capability checks {#test-capabilities .deck-slide}
 ::: {.kicker}
 
@@ -4079,7 +3806,6 @@ Fake peers establish protocol contracts; real targets establish target behavior.
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
-
 ## Snapshots are generated evidence {#snapshot-review .deck-slide}
 ::: {.kicker}
 
@@ -4114,7 +3840,6 @@ git diff -- tests/snapshots/
 **Sources:** [Boundary test guide](https://github.com/t-kalinowski/mcp-console/blob/main/tests/boundaries/README.md)
 
 :::
-
 ## Test the installed product {#installed-product-tests .deck-slide}
 ::: {.kicker}
 

@@ -10,6 +10,7 @@ import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+import yaml
 
 ROOT = Path(__file__).resolve().parent
 
@@ -87,9 +88,8 @@ def main() -> None:
     journal = [json.loads(line) for line in
                (ROOT / 'captures/session-records/internal/events.jsonl').read_text().splitlines()]
     event = next(item for item in journal if item.get('request', {}).get('_meta'))
-    yaml_event = subprocess.check_output(
-        ['yq', '-o=json', '.', str(ROOT / 'captures/excerpts/event-yaml.txt')], text=True)
-    assert json.loads(yaml_event) == event
+    yaml_event = yaml.safe_load((ROOT / 'captures/excerpts/event-yaml.txt').read_text())
+    assert yaml_event == event
     assert (ROOT / 'captures/r-fork.txt').read_text() == 'native output\n'
     assert (ROOT / 'captures/r-fork-cat.txt').read_text() == 'hello from fork\n'
     assert (ROOT / 'captures/python-fd.txt').read_text() == 'hello directly on fd 1\n23\n'
@@ -168,7 +168,7 @@ def main() -> None:
         assert (ROOT / 'examples/configs' / name).read_text().rstrip() in re.findall(
             r'```yaml\n(.*?)\n```', part, re.S), name
     html = Slides()
-    html.feed((ROOT / 'mcp-console.html').read_text())
+    html.feed((ROOT / '_site/index.html').read_text())
     assert [s['id'] for s in html.slides] == ids
     assert all(s['notes']==1 for s in html.slides)
     print(f'Validated {len(ids)} native slides, matching notes, displayed calls, SVG IDs, and MCP records.')

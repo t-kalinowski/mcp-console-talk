@@ -1,11 +1,9 @@
 target:
   workspace: /workspace
-  command: [uvx, mcp-console]
   compute:
     kind: docker
-    build:
-      context: .
-      dockerfile: ./examples/Dockerfile
+    image: my-console:analysis
+    pull: if_missing
     mounts:
       - source: .
         target: /workspace

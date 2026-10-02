@@ -5,3 +5,9 @@ output/
 deck_files/
 __pycache__/
 .mcp-console/sessions
+/_site/
+speaker-notes.md
+slide-index.json
+
+/.quarto/
+**/*.quarto_ipynb

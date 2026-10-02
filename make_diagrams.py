@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Render edited diagrams/*.dot to assets/*.svg; requires Graphviz dot.
-Edit diagrams/timeout.svg directly for the manually laid-out timing diagram.
+Edit diagrams/*.svg directly for the manually laid-out diagrams.
 """
 from pathlib import Path
 import re
