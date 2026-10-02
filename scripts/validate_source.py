@@ -12,7 +12,7 @@ import sys
 import xml.etree.ElementTree as ET
 import yaml
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class Slides(HTMLParser):
@@ -37,7 +37,7 @@ class Slides(HTMLParser):
 
 
 def main() -> None:
-    subprocess.run([sys.executable, str(ROOT / 'sync_cells.py'), '--check'], check=True)
+    subprocess.run([sys.executable, str(ROOT / 'scripts/sync_cells.py'), '--check'], check=True)
     source = (ROOT / 'deck.qmd').read_text()
     parts = re.split(r'(?m)(?=^## )', source)[1:]
     assert parts, 'No authored slides'

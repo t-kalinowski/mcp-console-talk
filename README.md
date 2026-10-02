@@ -19,28 +19,28 @@ The default render evaluates the small base-R analysis and plot through knitr. O
 quarto render -P output_source:mcp
 ```
 
-The [opening demo plan](recording-plan.md) describes an optional live penguins preamble and its saved plot.
+The [opening demo plan](docs/recording-plan.md) describes an optional live penguins preamble and its saved plot.
 
 ## Edit and check
 
 Use Python 3.10 or newer for the source tools:
 
 ```sh
-python -m pip install -r requirements-dev.txt
-python -m unittest discover -s tests
-python sync_cells.py --check
+python -m pip install -r scripts/requirements-dev.txt
+python -m unittest discover -s scripts/tests
+python scripts/sync_cells.py --check
 quarto render
-python validate_source.py
-python validate_site.py
+python scripts/validate_source.py
+python scripts/validate_site.py
 ```
 
-Keep each slide's notes with its `##` section. `examples/cells.json` owns the marked example calls; run `python sync_cells.py` after changing them. Recapture changed calls before presenting their results as observations.
+Keep each slide's notes with its `##` section. `examples/cells.json` owns the marked example calls; run `python scripts/sync_cells.py` after changing them. Recapture changed calls before presenting their results as observations.
 
-Editable diagrams live in `diagrams/`. `python make_diagrams.py` refreshes the SVG assets and their embedded copies. The repository-development charts have [frozen data and a separate generator](examples/repository-development/README.md).
+Editable diagrams live in `assets/diagrams/`. `python scripts/make_diagrams.py` refreshes the SVG assets and their embedded copies. The repository-development charts have [frozen data and a separate generator](examples/repository-development/README.md).
 
-`python export_notes.py` creates optional local reading notes and a slide index. `python build_preview.py` exports those copies and renders the deck. Generated HTML, notes, and indexes are ignored by Git; edits belong in the source.
+`python scripts/export_notes.py` creates optional reading notes and a slide index in `output/`. `python scripts/build_preview.py` exports those copies and renders the deck. Generated HTML, notes, and indexes are ignored by Git; edits belong in the source.
 
-See [capture instructions](examples/README.md), [validation and known limits](VALIDATION.md), and [source references](sources.md).
+See [capture instructions](examples/README.md), [validation and known limits](docs/validation.md), and [source references](docs/sources.md).
 
 ## Publishing
 

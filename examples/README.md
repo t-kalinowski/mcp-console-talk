@@ -1,6 +1,6 @@
 # Integration and capture examples
 
-These examples follow the project interfaces cited in `../sources.md`. The provider integration examples were syntax-checked, not executed against provider APIs. The non-model capture script was executed against the installed Console; see `../VALIDATION.md`. Running a provider example performs real API calls and can incur usage charges.
+These examples follow the project interfaces cited in `../docs/sources.md`. The provider integration examples were syntax-checked, not executed against provider APIs. The non-model capture script was executed against the installed Console; see `../docs/validation.md`. Running a provider example performs real API calls and can incur usage charges.
 
 Use the corresponding extra from `mcp-console[client]`, `[chatlas]`, `[openai]`, `[openai-agents]`, `[anthropic]`, or `[codex]`. Configure the provider’s normal credentials. The Python provider examples read `MODEL_ID`; no particular current model ID is hard-coded.
 
@@ -14,7 +14,7 @@ The Responses slide displays a registration excerpt; `openai_responses.py` inclu
 
 ## Capture and refresh
 
-`cells.json` is the source for captured calls, the marked send calls in the deck, and `cells.R`. Run `python sync_cells.py` from the project directory after editing it. `capture_console.py` uses the MCP stdio protocol and saves text, PNGs, complete responses, the wire exchange, and generated session files. It never calls a model. Options precede `--command`; choose an empty output directory for each run.
+`cells.json` is the source for captured calls, the marked send calls in the deck, and `cells.R`. Run `python scripts/sync_cells.py` from the project directory after editing it. `capture_console.py` uses the MCP stdio protocol and saves text, PNGs, complete responses, the wire exchange, and generated session files. It never calls a model. Options precede `--command`; choose an empty output directory for each run.
 
 The native-output example prepares `inline`, compiles a C function, and writes to stdout from a forked R child. It requires a C/C++ compiler and a Unix R runtime. Its output and Python's `os.write()` output are asserted during capture. `refresh_capture_excerpts.py` also requires Mike Farah's `yq`; the metadata event is converted to YAML and checked by converting it back to JSON.
 

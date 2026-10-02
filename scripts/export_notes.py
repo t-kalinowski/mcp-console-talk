@@ -8,7 +8,7 @@ from pathlib import Path
 import json
 import re
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def export_notes() -> int:
@@ -38,8 +38,10 @@ def export_notes() -> int:
             "number": number, "title": title, "id": id_match.group(1),
             "section": kicker.group(1).strip() if kicker else "",
         })
-    (ROOT / "speaker-notes.md").write_text("\n".join(notes), encoding="utf-8")
-    (ROOT / "slide-index.json").write_text(
+    output = ROOT / "output"
+    output.mkdir(exist_ok=True)
+    (output / "speaker-notes.md").write_text("\n".join(notes), encoding="utf-8")
+    (output / "slide-index.json").write_text(
         json.dumps(index, indent=2) + "\n", encoding="utf-8"
     )
     return len(sections)

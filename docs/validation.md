@@ -2,9 +2,9 @@
 
 ## Presentation checks
 
-`quarto render` builds the 61-slide presentation from `deck.qmd` into `_site/index.html`. `validate_source.py` checks the slide order, one speaker-note block per slide, displayed calls, configuration snippets, SVG identifiers, source hashes, and literal capture text and images. `validate_site.py` rejects local links and resources that would be missing from the hosted HTML.
+`quarto render` builds the 61-slide presentation from `deck.qmd` into `_site/index.html`. `scripts/validate_source.py` checks the slide order, one speaker-note block per slide, displayed calls, configuration snippets, SVG identifiers, source hashes, and literal capture text and images. `scripts/validate_site.py` rejects local links and resources that would be missing from the hosted HTML.
 
-Run the commands in [README.md](README.md) after editing. The GitHub Actions workflow runs the same checks. Rendering validates the presentation, not the current behavior of every Console feature illustrated in it.
+Run the commands in [README.md](../README.md) after editing. The GitHub Actions workflow runs the same checks. Rendering validates the presentation, not the current behavior of every Console feature illustrated in it.
 
 ## Retained runtime evidence
 
@@ -39,6 +39,6 @@ The Docker slide follows the prepared-image contract at Console revision `ea5c1e
 
 The platform slide was checked at the same revision: macOS and Linux are supported, Windows is not, and Python and SQL work without R. Other roadmap bullets preserve the author's design priorities rather than promise delivery. Proposed API and configuration slides remain labeled as ideas.
 
-The repository-development figures are a September 18, 2026 snapshot. Their [data definitions and checks](examples/repository-development/README.md) explain the date range and classification. They are not current repository metrics.
+The repository-development figures are a September 18, 2026 snapshot. Their [data definitions and checks](../examples/repository-development/README.md) explain the date range and classification. They are not current repository metrics.
 
 Transcript excerpts and the editable report illustrate recording and curation. A transcript is not a complete environment lock; replay needs its packages, data, and connections. The package cutoff date in the report is author-added. The live demo and talk still need a timed rehearsal together.

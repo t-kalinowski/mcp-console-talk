@@ -10,13 +10,13 @@ The public CLI and runner handoff were checked against the installed Console 0.0
 
 ## Repository development appendix — September 18, 2026
 
-The development-history figures use a GitHub PR extraction at 19:08 UTC and complete Git trees through main revision `657a5981983768967deed83c070973848ec800fb` at 19:43 UTC. The PR charts include 279 merges directly into main; the size charts include 307 first-parent snapshots, including direct commits. See [the supplied data and methodology](examples/repository-development/README.md).
+The development-history figures use a GitHub PR extraction at 19:08 UTC and complete Git trees through main revision `657a5981983768967deed83c070973848ec800fb` at 19:43 UTC. The PR charts include 279 merges directly into main; the size charts include 307 first-parent snapshots, including direct commits. See [the supplied data and methodology](../examples/repository-development/README.md).
 
 The high-level agent instructions and development loop were checked against [AGENTS.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/AGENTS.md) and [docs/DEVELOPMENT.md](https://github.com/t-kalinowski/mcp-console/blob/657a5981983768967deed83c070973848ec800fb/docs/DEVELOPMENT.md) at that revision. The slides describe the prescribed workflow, without claiming historical compliance. The five feature annotations link to their merged PRs in the speaker notes.
 
 ## Main talk and existing technical appendix
 
-Repository documentation and wrapper/schema source were checked on 2026-09-16. Sources in slide notes support the described behavior; capture limits are recorded in VALIDATION.md. The diagrams are authored technical schematics, not screenshots.
+Repository documentation and wrapper/schema source were checked on 2026-09-16. Sources in slide notes support the described behavior; capture limits are recorded in validation.md. The diagrams are authored technical schematics, not screenshots.
 
 - **Project README:** https://github.com/t-kalinowski/mcp-console/blob/main/README.md
 - **Built-in runtime:** https://github.com/t-kalinowski/mcp-console/blob/main/docs/BUILTIN_RUNTIME.md
@@ -45,7 +45,7 @@ Repository documentation and wrapper/schema source were checked on 2026-09-16. S
 - r/README.md blob SHA: `6cc36cdf62f7e8d55e7e39064343e82d10b3073b`
 - canonical tool schema snapshot blob SHA: `241b86f63b74e2383b796884f2a16e8be847c54a`
 
-Runtime recordings and their execution limits are documented in [VALIDATION.md](VALIDATION.md). Provider integrations were reviewed against documented interfaces; static validation is not an end-to-end integration test.
+Runtime recordings and their execution limits are documented in [validation.md](validation.md). Provider integrations were reviewed against documented interfaces; static validation is not an end-to-end integration test.
 
 ## Actual YAML snapshot example
 

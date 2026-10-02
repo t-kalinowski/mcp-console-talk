@@ -23,7 +23,7 @@ format:
     code-line-numbers: false
     controls: true
     progress: true
-    css: styles.css
+    css: assets/styles.css
 execute:
   eval: false
   echo: false

@@ -5,7 +5,7 @@ import sys
 import tempfile
 import unittest
 
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 
 
 class PublishedSite(unittest.TestCase):
@@ -15,7 +15,7 @@ class PublishedSite(unittest.TestCase):
             path = Path(directory) / "index.html"
             path.write_text(html)
             result = subprocess.run(
-                [sys.executable, str(ROOT / "validate_site.py"), str(path)],
+                [sys.executable, str(ROOT / "scripts/validate_site.py"), str(path)],
                 capture_output=True, text=True,
             )
         self.assertEqual(result.returncode, 0, result.stderr)
@@ -28,7 +28,7 @@ class PublishedSite(unittest.TestCase):
                 path = Path(directory) / "index.html"
                 path.write_text(html)
                 result = subprocess.run(
-                    [sys.executable, str(ROOT / "validate_site.py"), str(path)],
+                    [sys.executable, str(ROOT / "scripts/validate_site.py"), str(path)],
                     capture_output=True, text=True,
                 )
                 self.assertNotEqual(result.returncode, 0)

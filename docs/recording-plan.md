@@ -27,6 +27,6 @@ There is no need to narrate every call or wait for a specific call sequence. The
 
 Use a client that shows images. In Codex desktop, ask the agent to embed the saved PNG in its reply. The inspected Codex TUI represents MCP image results with a text placeholder; switching terminal emulators alone does not change that.
 
-Keep the [saved penguins plot](captures/opening-demo/artifacts/call-000013-image-000001.png) available in an image viewer. It is the actual returned image from the rehearsal. If the live interaction takes too long or the client does not show it, open that saved result, identify it as the earlier run, and continue into the deck.
+Keep the [saved penguins plot](../captures/opening-demo/artifacts/call-000013-image-000001.png) available in an image viewer. It is the actual returned image from the rehearsal. If the live interaction takes too long or the client does not show it, open that saved result, identify it as the earlier run, and continue into the deck.
 
-The evidence is in [captures/opening-demo](captures/opening-demo/README.md). The older synthetic measurements examples remain available for the API detail slides; they are not the opening demo.
+The evidence is in [captures/opening-demo](../captures/opening-demo/README.md). The older synthetic measurements examples remain available for the API detail slides; they are not the opening demo.

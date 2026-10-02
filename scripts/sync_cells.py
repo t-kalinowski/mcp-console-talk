@@ -5,7 +5,7 @@ import argparse
 import json
 import re
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 
 
 def display_call(arguments: dict) -> str:
@@ -36,7 +36,7 @@ def main() -> None:
                   deck, flags=re.S)
     for path, content in [(ROOT / 'examples/cells.R', r_source), (ROOT / 'deck.qmd', deck)]:
         if args.check:
-            assert path.read_text() == content, f'{path.name} is stale; run python sync_cells.py'
+            assert path.read_text() == content, f'{path.name} is stale; run python scripts/sync_cells.py'
         else:
             path.write_text(content)
     print('Cell source and displayed calls are synchronized.')

@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
-"""Render edited diagrams/*.dot to assets/*.svg; requires Graphviz dot.
-Edit diagrams/*.svg directly for the manually laid-out diagrams.
+"""Render edited assets/diagrams/*.dot to assets/*.svg; requires Graphviz dot.
+Edit assets/diagrams/*.svg directly for the manually laid-out diagrams.
 """
 from pathlib import Path
 import re
 import shutil
 import subprocess
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[1]
 
 def main() -> None:
     if not shutil.which("dot"):
         raise SystemExit("Graphviz dot is required to rebuild diagram SVGs.")
-    for source in sorted((ROOT / "diagrams").glob("*.dot")):
+    for source in sorted((ROOT / "assets/diagrams").glob("*.dot")):
         target = ROOT / "assets" / (source.stem + ".svg")
         subprocess.run(["dot", "-Tsvg", str(source), "-o", str(target)], check=True)
-    for source in sorted((ROOT / "diagrams").glob("*.svg")):
+    for source in sorted((ROOT / "assets/diagrams").glob("*.svg")):
         shutil.copyfile(source, ROOT / "assets" / source.name)
     deck = ROOT / "deck.qmd"
     pattern = r'<!-- inline-svg:([^\n]+) -->\n```\{=html\}\n(.*?)\n```\n<!-- /inline-svg -->'
