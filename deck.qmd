@@ -62,6 +62,10 @@ Hello everyone. I'd like to talk about a project I've been working on called MCP
 
 That was the original seed for MCP Console: a single product, a single binary, that handles R, Python, and SQL.
 
+Console is designed primarily for agents, especially long-running autonomous agents. The console session is private to the agent, and the interactive features and workflows are there for the agent to use.
+
+We have lots of hooks for humans to observe what's going on, including the logs and transcripts I'll show later. It's not meant to be a console where a human and an agent work together in the same session yet, although we could go in that direction later.
+
 :::
 
 ## Equip the model with R, Python, and SQL {#small-surface .deck-slide .story-slide}
